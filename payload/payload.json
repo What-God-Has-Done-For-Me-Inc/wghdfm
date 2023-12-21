@@ -1,0 +1,11 @@
+{
+  "aps":{
+    "alert":"one test tst test",
+    "badge":1,
+   "sound":"default",
+    "category":"CustomSamplePush",
+    "mutable-content": 1,
+    "image": "https://res.cloudinary.com/demo/image/upload/sample.jpg"
+  },
+  "urlImageString":"https://res.cloudinary.com/demo/image/upload/sample.jpg"
+}
