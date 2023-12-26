@@ -4,7 +4,9 @@ import 'package:camera/camera.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wghdfm_java/common/video_compressor.dart';
 import 'package:wghdfm_java/common/video_player.dart';
@@ -803,6 +805,11 @@ class _AddPostState extends State<AddPost> {
                                                                     .path
                                                                     .contains(
                                                                         "heic") ==
+                                                                true ||
+                                                            pickedFiles?[index]
+                                                                    .path
+                                                                    .contains(
+                                                                        "pvt") ==
                                                                 true
                                                         ? Image.file(
                                                             File(pickedFiles?[
@@ -1117,13 +1124,36 @@ class _AddPostState extends State<AddPost> {
     //     pickedFiles?.add(tempImage);
     //   });
     // });
+    Future<void> convartIosImage({required String filePath}) async {
+      if (!filePath.contains('.pvt')) {
+        final tmpDir = (await getTemporaryDirectory()).path;
+        //final imagePath = filePath.replaceAll('.pvt', '.heic');
+        final target = '$tmpDir/${DateTime.now().microsecondsSinceEpoch}.jpg';
+        final result = await FlutterImageCompress.compressAndGetFile(
+          filePath,
+          target,
+          format: CompressFormat.jpeg,
+          quality: 90,
+        );
+
+        print(result!.path);
+        setState(() {
+          pickedFiles?.add(File(result.path));
+          hideProgressDialog();
+        });
+      }
+      // error handling here
+    }
 
     final image = await FilePicker.platform.pickFiles(
         allowCompression: false,
+        withReadStream: true,
         allowMultiple: true,
-        withData: false,
+        withData: true,
         dialogTitle: "Pick Photo or Video",
-        type: FileType.media);
+        type: FileType.media
+        // type: FileType.custom , allowedExtensions: ['jpg','jpeg','png','heif','heic','bmp','gif','mp4','mkv','mov','avi','hevc'],
+        );
     if (image == null) return;
     showProgressDialog();
     image.files.forEach((element) {
@@ -1137,7 +1167,9 @@ class _AddPostState extends State<AddPost> {
           hideProgressDialog();
         });
       } else {
-        if (tempImage != null) {
+        if (isIosPhoto(filePath: tempImage.path)) {
+          convartIosImage(filePath: tempImage.path);
+        } else {
           setState(() {
             // pickedImage = tempImage;
             pickedFiles?.add(tempImage);
