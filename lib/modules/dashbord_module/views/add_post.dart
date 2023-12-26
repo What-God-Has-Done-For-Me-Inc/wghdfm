@@ -37,6 +37,7 @@ class _AddPostState extends State<AddPost> {
   TextEditingController urlYTController = TextEditingController();
   VideoCompressor videoCompressor = VideoCompressor();
   RxBool isPost = false.obs;
+  RxBool isLoading = false.obs;
   File? pickedImage;
   final formKey = GlobalKey<FormState>();
   RxList<File>? pickedFiles = <File>[].obs;
@@ -340,7 +341,6 @@ class _AddPostState extends State<AddPost> {
           return ListView(
             shrinkWrap: true,
             physics: const ClampingScrollPhysics(),
-            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                 height: Get.mediaQuery.size.height * 0.02,
@@ -350,120 +350,9 @@ class _AddPostState extends State<AddPost> {
                   TextEditingController searchController =
                       TextEditingController();
 
-                  // taggedUsers.forEach((element) {
-                  //   if(element['id'])
-                  // });
-
-                  // kDashboardController.friendsModel.value.data?.forEach((element) {
-                  //   if (taggedUsers.every((elements) => elements['id'] == element?.userId)) {
-                  //     element?.isSelected.value = true;
-                  //   }
-                  // });
-
                   Get.to(() => const TagUserScreen())?.then((value) {
                     setState(() {});
                   });
-
-                  ///Add Post Dialogue
-                  /*Get.dialog(Dialog(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                    elevation: 10,
-                    child: StatefulBuilder(
-                      builder: (context, StateSetter setStateSearch) {
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(height: 15),
-                            Text(
-                              "Tag Friends",
-                              style: GoogleFonts.poppins(color: Colors.black, fontSize: 20),
-                            ),
-                            SizedBox(height: 15),
-                            // Container(
-                            //   color: Colors.white,
-                            //   child: commonTextField(
-                            //       baseColor: Colors.black,
-                            //       borderColor: Colors.black,
-                            //       controller: searchController,
-                            //       errorColor: Colors.white,
-                            //       hint: "Search Friends",
-                            //       onChanged: (String? value) {
-                            //         setStateSearch(() {});
-                            //       }),
-                            // ),
-                            SizedBox(
-                              height: Get.height * 0.35,
-                              width: Get.width * 0.8,
-                              child: Container(
-                                height: Get.height * 0.30,
-                                child: ListView.builder(
-                                  itemCount: kDashboardController.friendsModel.value.data?.length,
-                                  itemBuilder: (context, index) {
-                                    return StreamBuilder(
-                                        stream: kDashboardController.friendsModel.value.data?[index]?.isSelected.stream,
-                                        builder: (context, snapshot) {
-                                          return CheckboxListTile(
-                                            contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                                            tileColor: Colors.white,
-                                            activeColor: Colors.white,
-                                            checkColor: Colors.black,
-                                            value: kDashboardController.friendsModel.value.data?[index]?.isSelected.value,
-                                            onChanged: (value) {
-                                              kDashboardController.friendsModel.value.data?[index]?.isSelected.toggle();
-                                              if (value == true) {
-                                                taggedUsers.add({
-                                                  'id': "${kDashboardController.friendsModel.value.data?[index]?.userId}",
-                                                  "name":
-                                                      "${kDashboardController.friendsModel.value.data?[index]?.firstname} ${kDashboardController.friendsModel.value.data?[index]?.lastname}"
-                                                });
-                                              } else {
-                                                Map usr = {
-                                                  "id": "${kDashboardController.friendsModel.value.data?[index]?.userId}",
-                                                  "name":
-                                                      "${kDashboardController.friendsModel.value.data?[index]?.firstname} ${kDashboardController.friendsModel.value.data?[index]?.lastname}"
-                                                };
-                                                taggedUsers.remove(usr);
-                                              }
-                                              setState(() {});
-                                            },
-                                            title: Text(
-                                                "${kDashboardController.friendsModel.value.data?[index]?.firstname} ${kDashboardController.friendsModel.value.data?[index]?.lastname}",
-                                                style: TextStyle(color: Colors.black)),
-                                          ).paddingOnly(bottom: 3);
-                                        });
-                                  },
-                                ),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    // kDashboardController.friendsModel.value.data?.forEach((element) {
-                                    //   element?.isSelected.value = false;
-                                    // });
-                                    setState(() {});
-                                    Get.back();
-                                  },
-                                  child: Text("Cancel"),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      Get.back();
-                                    });
-                                  },
-                                  child: Text("Done"),
-                                ),
-                              ],
-                            )
-                          ],
-                        );
-                      },
-                    ),
-                  ));*/
                 },
                 child: const Row(
                   children: const [
@@ -482,16 +371,6 @@ class _AddPostState extends State<AddPost> {
                   builder: (context, snapshot) {
                     return Wrap(
                       spacing: 5,
-                      // children: taggedUsers
-                      //     .map((element) => Chip(
-                      //           label: Text("${element['name']}"),
-                      //           deleteIcon: Icon(Icons.close_sharp, size: 18),
-                      //           onDeleted: () {
-                      //             taggedUsers.remove(element);
-                      //           },
-                      //         ))
-                      //     .toList(),
-
                       children: kDashboardController.friendsModel.value.data
                               ?.map(
                                   (element) => element?.isSelected.value == true
@@ -509,33 +388,6 @@ class _AddPostState extends State<AddPost> {
                                       : SizedBox())
                               .toList() ??
                           [],
-                      // children: [
-                      //   Chip(
-                      //     label: Text("Romil Mavani "),
-                      //     deleteIcon: Icon(Icons.close_sharp, size: 18),
-                      //     onDeleted: () {},
-                      //   ),
-                      //   Chip(
-                      //     label: Text("Romil "),
-                      //     deleteIcon: Icon(Icons.close_sharp, size: 18),
-                      //     onDeleted: () {},
-                      //   ),
-                      //   Chip(
-                      //     label: Text(" Mavani "),
-                      //     deleteIcon: Icon(Icons.close_sharp, size: 18),
-                      //     onDeleted: () {},
-                      //   ),
-                      //   Chip(
-                      //     label: Text("Romil"),
-                      //     deleteIcon: Icon(Icons.close_sharp, size: 18),
-                      //     onDeleted: () {},
-                      //   ),
-                      //   Chip(
-                      //     label: Text("Romil Mavani "),
-                      //     deleteIcon: Icon(Icons.close_sharp, size: 18),
-                      //     onDeleted: () {},
-                      //   ),
-                      // ],
                     );
                   }),
               const SizedBox(height: 10),
@@ -710,7 +562,11 @@ class _AddPostState extends State<AddPost> {
                         stream: pickedFiles?.stream,
                         builder: (context, snapshot) {
                           if (pickedFiles?.isEmpty == true) {
-                            return const SizedBox();
+                            return const SizedBox(
+                                child: Text(
+                              'Loading..',
+                              style: TextStyle(color: Colors.grey),
+                            ));
                           }
                           return const Text(
                             'Swipe to see images..',
@@ -720,6 +576,20 @@ class _AddPostState extends State<AddPost> {
                   ],
                 ),
               if (isPost.value) const SizedBox(height: 8),
+
+                StreamBuilder(
+                    stream: isLoading.stream,
+                    builder: (context, snapshot) {
+                      if (isLoading.value == false ) {
+                        return const SizedBox();
+                      }
+                      return Center(
+                        child: const Text(
+                          'Loading..',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      );
+                    }),
               if (isPost.value)
                 StreamBuilder(
                     stream: pickedFiles?.stream,
@@ -849,7 +719,6 @@ class _AddPostState extends State<AddPost> {
                                                 ),
                                               ],
                                             );
-                                            return Container();
                                           },
                                         ),
                                       ),
@@ -1094,6 +963,7 @@ class _AddPostState extends State<AddPost> {
     // Check camera and microphone permissions
     bool per = await getPermission();
     if (per == true) {
+      isLoading.value = true;
       cameras = await availableCameras();
 
       // Navigate to TakeVideoScreen with first camera
@@ -1103,12 +973,16 @@ class _AddPostState extends State<AddPost> {
         // ... (your existing logic for processing captured video)
 
         // Update picked files (adapt based on your implementation)
-        setState(() => pickedFiles?.add(value));
+        setState((){
+          pickedFiles?.add(value);
+          isLoading.value = false;
+        });
       });
     }
   }
 
   Future getImage() async {
+    isLoading.value = true;
     // ImagePicker imagePicker = ImagePicker();
     // imagePicker.pickMedia().then((value) => null);
     // final imageFiles = await imagePicker.pickMultipleMedia(
@@ -1125,9 +999,15 @@ class _AddPostState extends State<AddPost> {
     //   });
     // });
     Future<void> convartIosImage({required String filePath}) async {
+      if (filePath.contains('.pvt')) {
+        snack(
+            title: "Failed",
+            msg: "Some file format not supported",
+            iconColor: Colors.red,
+            icon: Icons.close);
+      }
       if (!filePath.contains('.pvt')) {
         final tmpDir = (await getTemporaryDirectory()).path;
-        //final imagePath = filePath.replaceAll('.pvt', '.heic');
         final target = '$tmpDir/${DateTime.now().microsecondsSinceEpoch}.jpg';
         final result = await FlutterImageCompress.compressAndGetFile(
           filePath,
@@ -1138,8 +1018,11 @@ class _AddPostState extends State<AddPost> {
 
         print(result!.path);
         setState(() {
+          isLoading.value = false;
+          print('Loaded');
           pickedFiles?.add(File(result.path));
           hideProgressDialog();
+
         });
       }
       // error handling here
@@ -1151,9 +1034,7 @@ class _AddPostState extends State<AddPost> {
         allowMultiple: true,
         withData: true,
         dialogTitle: "Pick Photo or Video",
-        type: FileType.media
-        // type: FileType.custom , allowedExtensions: ['jpg','jpeg','png','heif','heic','bmp','gif','mp4','mkv','mov','avi','hevc'],
-        );
+        type: FileType.media);
     if (image == null) return;
     showProgressDialog();
     image.files.forEach((element) {
@@ -1164,6 +1045,7 @@ class _AddPostState extends State<AddPost> {
           // pickedImage = tempImage;
           pickedFiles?.add(tempImage);
           VideoCompressor.percentage.value = 0.0;
+          isLoading.value = false;
           hideProgressDialog();
         });
       } else {
@@ -1173,6 +1055,7 @@ class _AddPostState extends State<AddPost> {
           setState(() {
             // pickedImage = tempImage;
             pickedFiles?.add(tempImage);
+            isLoading.value = false;
             hideProgressDialog();
           });
         }

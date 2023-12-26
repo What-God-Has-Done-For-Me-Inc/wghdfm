@@ -38,23 +38,23 @@ class _CommonVideoPlayer extends State<CommonVideoPlayer> {
     _videoPlayerController =  VideoPlayerController.networkUrl(
       Uri.parse(widget.videoLink),
     );
-    _videoPlayerController.initialize();
-    _videoPlayerController.addListener(() {
-      if (_videoPlayerController.value.isBuffering) {
-        // Video is buffering
-        setState(() {
-          thumbnail.value = true;
-          print('Video is Buffring');
-        });
-      } else {
-        // Video is not buffering
-        setState(() {
-          thumbnail.value = false;
-          print('Video Not Buffring');
-        });
-      }
-
-    });
+    //_videoPlayerController.initialize();
+    // _videoPlayerController.addListener(() {
+    //   if (_videoPlayerController.value.isBuffering) {
+    //     // Video is buffering
+    //     setState(() {
+    //       thumbnail.value = true;
+    //       print('Video is Buffring');
+    //     });
+    //   } else {
+    //     // Video is not buffering
+    //     setState(() {
+    //       thumbnail.value = false;
+    //       print('Video Not Buffring');
+    //     });
+    //   }
+    //
+    // });
 
     if (widget.isFile == true) {
       flickManager = FlickManager(
@@ -138,25 +138,30 @@ class _CommonVideoPlayer extends State<CommonVideoPlayer> {
               ],
             );
           }
-          return FlickVideoPlayer(
-            flickManager: flickManager,
-            flickVideoWithControls: const FlickVideoWithControls(
-              closedCaptionTextStyle: TextStyle(fontSize: 8),
-              controls: FlickPortraitControls(),
-            ),
-            flickVideoWithControlsFullscreen: const FlickVideoWithControls(
-              controls: FlickLandscapeControls(),
-            ),
-            preferredDeviceOrientationFullscreen: const [
-              DeviceOrientation.portraitUp,
-              DeviceOrientation.landscapeLeft
-            ],
-            preferredDeviceOrientation: const [
-              DeviceOrientation.portraitUp,
-              DeviceOrientation.landscapeLeft
-            ],
-            systemUIOverlayFullscreen: [SystemUiOverlay.bottom],
-            systemUIOverlay: [SystemUiOverlay.top],
+          return Builder(
+            builder: (context) {
+              RxBool loading = true.obs;
+              return FlickVideoPlayer(
+                flickManager: flickManager,
+                flickVideoWithControls: const FlickVideoWithControls(
+                  closedCaptionTextStyle: TextStyle(fontSize: 8),
+                  controls: FlickPortraitControls(),
+                ),
+                flickVideoWithControlsFullscreen: const FlickVideoWithControls(
+                  controls: FlickLandscapeControls(),
+                ),
+                preferredDeviceOrientationFullscreen: const [
+                  DeviceOrientation.portraitUp,
+                  DeviceOrientation.landscapeLeft
+                ],
+                preferredDeviceOrientation: const [
+                  DeviceOrientation.portraitUp,
+                  DeviceOrientation.landscapeLeft
+                ],
+                systemUIOverlayFullscreen: [SystemUiOverlay.bottom],
+                systemUIOverlay: [SystemUiOverlay.top],
+              );
+            }
           );
         });
   }
