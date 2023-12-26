@@ -636,9 +636,10 @@ class DashBoardController extends GetxController {
           dio.MultipartFile file =
               await dio.MultipartFile.fromFile(element?.path ?? "");
           fileList.add(file);
+          print('image file added');
         }
       }
-      print(fileList.length);
+
     } catch (e) {
       print("====== Error => ${e.toString()}");
       postUploading.value = false;
@@ -651,6 +652,7 @@ class DashBoardController extends GetxController {
           icon: Icons.close);
       // snack(title: " Catch Error => for (var element in imageFilePaths)", msg: "Code:- 001", icon: Icons.close, textColor: Colors.red.withOpacity(0.5));
     }
+    print(fileList.length);
 
     try {
       callNodeJSUploadAPI(

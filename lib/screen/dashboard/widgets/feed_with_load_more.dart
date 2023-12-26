@@ -521,6 +521,7 @@ Widget customImageView(PostModelFeed? feed) {
                                             "png",
                                             "gif",
                                             'heic',
+                                      'pvt',
                                             'heif'
                                           ].contains(listOfMedia?[index]
                                                 .split(".")

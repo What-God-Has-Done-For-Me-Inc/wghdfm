@@ -1148,6 +1148,12 @@ bool isPhoto({required String filePath}) {
   return extension == '.jpg' || extension == '.jpeg' || extension == '.png' || extension == '.gif' || extension == '.bmp';
 }
 
+bool isIosPhoto({required String filePath}) {
+  String extension = path.extension(filePath).toLowerCase();
+  // Check for common photo extensions (you can add more as needed)
+  return extension == '.heif' || extension == '.heic' || extension == '.pvt';
+}
+
 bool isVideo({required String filePath}) {
   String extension = path.extension(filePath).toLowerCase();
   // Check for common video extensions (you can add more as needed)
