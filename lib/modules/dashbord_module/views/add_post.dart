@@ -37,7 +37,7 @@ class _AddPostState extends State<AddPost> {
   TextEditingController urlYTController = TextEditingController();
   VideoCompressor videoCompressor = VideoCompressor();
   RxBool isPost = false.obs;
-  RxBool isLoading = false.obs;
+   RxBool isLoading = false.obs;
   File? pickedImage;
   final formKey = GlobalKey<FormState>();
   RxList<File>? pickedFiles = <File>[].obs;

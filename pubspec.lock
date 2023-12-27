@@ -357,10 +357,10 @@ packages:
     dependency: "direct main"
     description:
       name: flick_video_player
-      sha256: "51b5378921b509549e7e810d74b717e80e5eb03ef549e8efb7ce59593443e333"
+      sha256: beed51cf1e132b58367c2f7bc175f921d3bd6d443c367f5d5ad820b61be98e6d
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.0"
+    version: "0.6.0"
   flutter:
     dependency: "direct main"
     description: flutter

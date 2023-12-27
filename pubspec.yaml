@@ -81,7 +81,7 @@ dependencies:
   #  better_player: ^0.0.79
   #  better_player:
   #    git: https://github.com/tintran-dev/betterplayer.git
-  flick_video_player: ^0.7.0
+  flick_video_player: ^0.6.0
   universal_html:
   youtube_player_flutter: ^8.1.1
   youtube_player_iframe: ^4.0.4
