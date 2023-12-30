@@ -49,7 +49,7 @@ class RecoverPasswordController extends GetxController {
           showDailogBox(
               context: Get.context!,
               title: 'Recovery email sent!',
-              subTitle: 'Please check your Email or Spam for further details');
+              subTitle: 'Please check your Email or Spam\nFor further details');
         },
         error: (dio.Response response) {
           final decoded = jsonDecode(response.data);

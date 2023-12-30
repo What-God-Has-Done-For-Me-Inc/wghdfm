@@ -86,7 +86,7 @@ class AuthController extends GetxController {
                 context: Get.context!,
                 title: 'Signup successful!',
                 subTitle:
-                    'Please check your Email or Spam to activate your account.');
+                    'Please check your Email or Spam\nTo activate your account.');
 
             // Future.delayed(const Duration(seconds: 4), () {
             //   Get.back();

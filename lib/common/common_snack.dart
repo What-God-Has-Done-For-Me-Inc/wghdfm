@@ -60,7 +60,7 @@ void showDailogBox({
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: context.theme.scaffoldBackgroundColor,
+          backgroundColor: Colors.white,
           insetPadding: const EdgeInsets.all(12),
           actionsPadding: const EdgeInsets.only(right: 14, bottom: 16),
           contentPadding:
@@ -84,6 +84,7 @@ void showDailogBox({
                 SizedBox(height: Get.height * 0.01),
                 Text(
                   subTitle,
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
                       fontSize: 14,
                       // color: blackColor.withOpacity(.56),
