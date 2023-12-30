@@ -29,7 +29,8 @@ class AuthController extends GetxController {
           ///{"status":"Success","id":"69","email":"kumarsaloni@yahoo.com","church":"","user_type":null,"fname":"Kumar","lname":"Kishor","img":"1607948619.jpg"}
           LoginModel resObj = LoginModel.fromJson(jsonDecoded);
           if (resObj.status?.toLowerCase() == 'success') {
-            storeStringToSF(SessionManagement.ACTIVE_USER_DETAILS, response.data);
+            storeStringToSF(
+                SessionManagement.ACTIVE_USER_DETAILS, response.data);
             SessionManagement.createLoginSession(resObj.email!, resObj.id!);
             Future.delayed(const Duration(seconds: 0), () {
               SessionManagement.checkLoginRedirect();
@@ -61,7 +62,12 @@ class AuthController extends GetxController {
         showProcess: true);
   }
 
-  signUp({String? firstName, String? lastName, String? email, String? passWord, String? gender}) {
+  signUp(
+      {String? firstName,
+      String? lastName,
+      String? email,
+      String? passWord,
+      String? gender}) {
     APIService().callAPI(
         params: {},
         headers: {},
@@ -76,16 +82,15 @@ class AuthController extends GetxController {
         method: APIService.postMethod,
         success: (dio.Response response) {
           if (response.data.contains('success')) {
-            snack(
-              title: 'Signup successful!',
-              msg: 'Please check your email to activate your account.',
-              icon: Icons.check,
-              iconColor: Colors.green,
-            );
+            showDailogBox(
+                context: Get.context!,
+                title: 'Signup successful!',
+                subTitle:
+                    'Please check your Email or Spam to activate your account.');
 
-            Future.delayed(const Duration(seconds: 4), () {
-              Get.back();
-            });
+            // Future.delayed(const Duration(seconds: 4), () {
+            //   Get.back();
+            // });
           } else {
             snack(
               title: 'Signup failed!',

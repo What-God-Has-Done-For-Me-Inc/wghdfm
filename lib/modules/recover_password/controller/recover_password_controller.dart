@@ -45,12 +45,11 @@ class RecoverPasswordController extends GetxController {
         method: APIService.postMethod,
         success: (dio.Response response) {
           debugPrint("recovery Password responseBody: ${response.data}");
-          snack(
-            title: 'Recovery email sent!',
-            msg: 'Please check your email for further details',
-            icon: Icons.check,
-            iconColor: Colors.green,
-          );
+
+          showDailogBox(
+              context: Get.context!,
+              title: 'Recovery email sent!',
+              subTitle: 'Please check your Email or Spam for further details');
         },
         error: (dio.Response response) {
           final decoded = jsonDecode(response.data);

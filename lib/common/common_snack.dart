@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +15,7 @@ void snack({
   SnackPosition position = SnackPosition.TOP,
   VoidCallback? onActionTap,
 }) {
-  if(Get.isSnackbarOpen){
+  if (Get.isSnackbarOpen) {
     Get.closeCurrentSnackbar();
   }
   Get.snackbar(
@@ -47,4 +48,60 @@ void snack({
             })
         : null,
   );
+}
+
+void showDailogBox({
+  required BuildContext context,
+  required String title,
+  required String subTitle,
+}) {
+  showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: context.theme.scaffoldBackgroundColor,
+          insetPadding: const EdgeInsets.all(12),
+          actionsPadding: const EdgeInsets.only(right: 14, bottom: 16),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          elevation: 0,
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height: Get.height * 0.01),
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      fontSize: 16,
+                      //color: blackColor,
+                      fontWeight: FontWeight.w600),
+                ),
+                SizedBox(height: Get.height * 0.01),
+                Text(
+                  subTitle,
+                  style: const TextStyle(
+                      fontSize: 14,
+                      // color: blackColor.withOpacity(.56),
+                      fontWeight: FontWeight.w400),
+                ),
+                SizedBox(height: Get.height * 0.02),
+                Text.rich(TextSpan(
+                    text: 'Cancel',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xff080808).withOpacity(.56)),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () => Get.back())),
+                SizedBox(height: Get.height * 0.01),
+              ],
+            ),
+          ),
+        );
+      });
 }
