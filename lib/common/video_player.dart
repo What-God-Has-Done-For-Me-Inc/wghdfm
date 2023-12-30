@@ -20,8 +20,8 @@ class CommonVideoPlayer extends StatefulWidget {
 }
 
 class _CommonVideoPlayer extends State<CommonVideoPlayer> {
-   late FlickManager flickManager;
-   late VideoPlayerController _videoPlayerController;
+  late FlickManager flickManager;
+  late VideoPlayerController _videoPlayerController;
 
   int? bufferDelay;
 
@@ -59,7 +59,7 @@ class _CommonVideoPlayer extends State<CommonVideoPlayer> {
     if (widget.isFile == true) {
       flickManager = FlickManager(
           videoPlayerController:
-              VideoPlayerController.file(File(widget.videoLink)),
+          VideoPlayerController.file(File(widget.videoLink)),
           autoInitialize: true,
           onVideoEnd: () {
             // thumbnail.value = true;
@@ -93,7 +93,7 @@ class _CommonVideoPlayer extends State<CommonVideoPlayer> {
   @override
   void dispose() {
     flickManager.dispose();
-     _videoPlayerController.dispose();
+    _videoPlayerController.dispose();
     // _chewieController?.dispose();
     super.dispose();
   }
@@ -118,7 +118,7 @@ class _CommonVideoPlayer extends State<CommonVideoPlayer> {
               children: [
                 CachedNetworkImage(
                   imageUrl:
-                      '${widget.videoLink.replaceAll("videowires", 'videothumbnails').replaceAll('mp4', 'jpg')}',
+                  '${widget.videoLink.replaceAll("videowires", 'videothumbnails').replaceAll('mp4', 'jpg')}',
                   fit: BoxFit.cover,
                   errorWidget: (context, url, error) {
                     return Center(child: Icon(Icons.error));
@@ -132,36 +132,36 @@ class _CommonVideoPlayer extends State<CommonVideoPlayer> {
                   child: Align(
                     alignment: Alignment.center,
                     child:
-                        Icon(Icons.play_circle, color: Colors.white, size: 50),
+                    Icon(Icons.play_circle, color: Colors.white, size: 50),
                   ),
                 ),
               ],
             );
           }
           return Builder(
-            builder: (context) {
-              RxBool loading = true.obs;
-              return FlickVideoPlayer(
-                flickManager: flickManager,
-                flickVideoWithControls: const FlickVideoWithControls(
-                  closedCaptionTextStyle: TextStyle(fontSize: 8),
-                  controls: FlickPortraitControls(),
-                ),
-                flickVideoWithControlsFullscreen: const FlickVideoWithControls(
-                  controls: FlickLandscapeControls(),
-                ),
-                preferredDeviceOrientationFullscreen: const [
-                  DeviceOrientation.portraitUp,
-                  DeviceOrientation.landscapeLeft
-                ],
-                preferredDeviceOrientation: const [
-                  DeviceOrientation.portraitUp,
-                  DeviceOrientation.landscapeLeft
-                ],
-                systemUIOverlayFullscreen: [SystemUiOverlay.bottom],
-                systemUIOverlay: [SystemUiOverlay.top],
-              );
-            }
+              builder: (context) {
+                RxBool loading = true.obs;
+                return FlickVideoPlayer(
+                  flickManager: flickManager,
+                  flickVideoWithControls: const FlickVideoWithControls(
+                    closedCaptionTextStyle: TextStyle(fontSize: 8),
+                    controls: FlickPortraitControls(),
+                  ),
+                  flickVideoWithControlsFullscreen: const FlickVideoWithControls(
+                    controls: FlickLandscapeControls(),
+                  ),
+                  preferredDeviceOrientationFullscreen: const [
+                    DeviceOrientation.portraitUp,
+                    DeviceOrientation.landscapeLeft
+                  ],
+                  preferredDeviceOrientation: const [
+                    DeviceOrientation.portraitUp,
+                    DeviceOrientation.landscapeLeft
+                  ],
+                  systemUIOverlayFullscreen: [SystemUiOverlay.bottom],
+                  systemUIOverlay: [SystemUiOverlay.top],
+                );
+              }
           );
         });
   }

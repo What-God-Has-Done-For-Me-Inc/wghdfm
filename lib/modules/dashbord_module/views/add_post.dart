@@ -232,7 +232,7 @@ class _AddPostState extends State<AddPost> {
                     } catch (e) {
                       snack(
                           title:
-                              " Catch Error => kDashboardController.friendsModel.value.data",
+                          " Catch Error => kDashboardController.friendsModel.value.data",
                           msg: "Code:- 001",
                           icon: Icons.close,
                           textColor: Colors.red.withOpacity(0.5));
@@ -307,8 +307,8 @@ class _AddPostState extends State<AddPost> {
                     postStatus(
                         desImgController.text, urlYTController.text, taggedUser,
                         callBack: () {
-                      Get.offAll(() => const DashBoardScreen());
-                    });
+                          Get.offAll(() => const DashBoardScreen());
+                        });
                   } else {
                     snack(
                         title: "Ohh",
@@ -323,15 +323,15 @@ class _AddPostState extends State<AddPost> {
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 // width: MediaQuery.of(context).size.width,
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                 decoration: BoxDecoration(
                     color: Colors.blue,
                     borderRadius: BorderRadius.circular(30)),
                 child: const Center(
                     child: Text(
-                  "Post",
-                  style: TextStyle(color: Colors.white),
-                )),
+                      "Post",
+                      style: TextStyle(color: Colors.white),
+                    )),
               ),
             )
           ],
@@ -888,7 +888,7 @@ class _AddPostState extends State<AddPost> {
                       context: context,
                       shape: const RoundedRectangleBorder(
                           borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(15))),
+                          BorderRadius.vertical(top: Radius.circular(15))),
                       builder: (context) {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1082,8 +1082,8 @@ class _AddPostState extends State<AddPost> {
       final cameras = await availableCameras();
       final firstCamera = cameras.first;
       Get.to(() => TakePictureScreen(
-            camera: firstCamera,
-          ))?.then((value) {
+        camera: firstCamera,
+      ))?.then((value) {
         pickedFiles?.add(value);
       });
     }
