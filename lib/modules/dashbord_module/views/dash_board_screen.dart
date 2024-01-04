@@ -126,7 +126,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   final profileController = Get.put(ProfileController());
 
   getTutorial() {
-    targets.add(TargetFocus(identify: "Target 1", keyTarget: addButtonKey, contents: [
+    targets.add(
+        TargetFocus(identify: "Target 1", keyTarget: addButtonKey, contents: [
       TargetContent(
           align: ContentAlign.top,
           child: Column(
@@ -136,7 +137,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               const SizedBox(height: 50),
               const Text(
                 "Add New Post",
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22.0),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 22.0),
               ),
               const Padding(
                 padding: EdgeInsets.only(top: 10.0),
@@ -158,7 +162,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
             ],
           ))
     ]));
-    targets.add(TargetFocus(identify: "Target 2", keyTarget: menuButtonKey, contents: [
+    targets.add(
+        TargetFocus(identify: "Target 2", keyTarget: menuButtonKey, contents: [
       TargetContent(
           align: ContentAlign.bottom,
           child: Column(
@@ -168,7 +173,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               const SizedBox(height: 50),
               const Text(
                 "Messages",
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22.0),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 22.0),
               ),
               const Padding(
                 padding: EdgeInsets.only(top: 10.0),
@@ -180,7 +188,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               const SizedBox(height: 50),
               const Text(
                 "Groups",
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22.0),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 22.0),
               ),
               const Padding(
                 padding: EdgeInsets.only(top: 10.0),
@@ -192,7 +203,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               const SizedBox(height: 50),
               const Text(
                 "Log out",
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22.0),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 22.0),
               ),
               const Padding(
                 padding: EdgeInsets.only(top: 10.0),
@@ -214,73 +228,86 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
             ],
           ))
     ]));
-    targets.add(TargetFocus(identify: "Target 3", keyTarget: notificationButtonKey, contents: [
-      TargetContent(
-          align: ContentAlign.bottom,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(height: 50),
-              const Text(
-                "Notifications",
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22.0),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 10.0),
-                child: Text(
-                  "Stay connected with your Christian community through real-time notifications that bring you closer to God's love and guidance",
-                  style: TextStyle(color: Colors.white, fontSize: 15.0),
-                ),
-              ),
-              const SizedBox(height: 50),
-              ElevatedButton(
-                onPressed: () {
-                  dashBoardController.zoomDrawerController.toggle?.call();
-                  tutorialCoachMark?.next();
-                },
-                child: const Text(
-                  "Next",
-                  style: TextStyle(color: Colors.white, fontSize: 15.0),
-                ),
-              ),
-            ],
-          ))
-    ]));
+    targets.add(TargetFocus(
+        identify: "Target 3",
+        keyTarget: notificationButtonKey,
+        contents: [
+          TargetContent(
+              align: ContentAlign.bottom,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const SizedBox(height: 50),
+                  const Text(
+                    "Notifications",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 22.0),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      "Stay connected with your Christian community through real-time notifications that bring you closer to God's love and guidance",
+                      style: TextStyle(color: Colors.white, fontSize: 15.0),
+                    ),
+                  ),
+                  const SizedBox(height: 50),
+                  ElevatedButton(
+                    onPressed: () {
+                      dashBoardController.zoomDrawerController.toggle?.call();
+                      tutorialCoachMark?.next();
+                    },
+                    child: const Text(
+                      "Next",
+                      style: TextStyle(color: Colors.white, fontSize: 15.0),
+                    ),
+                  ),
+                ],
+              ))
+        ]));
 
-    targets.add(TargetFocus(identify: "Target 4", shape: ShapeLightFocus.RRect, keyTarget: itemsDrawerKey, contents: [
-      TargetContent(
-          align: ContentAlign.top,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(height: 50),
-              Text(
-                "Menu",
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22.0),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 10.0),
-                child: Text(
-                  "Explore the spiritual journey with our Christian Social Network: Connect with Home, Favorites, Profile, Bible, and Partner with us for a faith-filled experience",
-                  style: TextStyle(color: Colors.white, fontSize: 15.0),
-                ),
-              ),
-              const SizedBox(height: 50),
-              ElevatedButton(
-                onPressed: () {
-                  dashBoardController.zoomDrawerController.toggle?.call();
-                  tutorialCoachMark?.next();
-                },
-                child: const Text(
-                  "Next",
-                  style: TextStyle(color: Colors.white, fontSize: 15.0),
-                ),
-              ),
-            ],
-          ))
-    ]));
+    targets.add(TargetFocus(
+        identify: "Target 4",
+        shape: ShapeLightFocus.RRect,
+        keyTarget: itemsDrawerKey,
+        contents: [
+          TargetContent(
+              align: ContentAlign.top,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const SizedBox(height: 50),
+                  Text(
+                    "Menu",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 22.0),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      "Explore the spiritual journey with our Christian Social Network: Connect with Home, Favorites, Profile, Bible, and Partner with us for a faith-filled experience",
+                      style: TextStyle(color: Colors.white, fontSize: 15.0),
+                    ),
+                  ),
+                  const SizedBox(height: 50),
+                  ElevatedButton(
+                    onPressed: () {
+                      dashBoardController.zoomDrawerController.toggle?.call();
+                      tutorialCoachMark?.next();
+                    },
+                    child: const Text(
+                      "Next",
+                      style: TextStyle(color: Colors.white, fontSize: 15.0),
+                    ),
+                  ),
+                ],
+              ))
+        ]));
 
     showTutorial();
   }
@@ -314,13 +341,16 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                             alignment: Alignment.topCenter,
                             child: const Text(
                               'You have not set your profile yet..!!',
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                           ),
                           const SizedBox(height: 30),
                           Container(
                             alignment: Alignment.topCenter,
-                            child: const Text('Do you want to set it now.? ', textAlign: TextAlign.center, style: TextStyle(fontSize: 14)),
+                            child: const Text('Do you want to set it now.? ',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 14)),
                           ),
                           const SizedBox(height: 30),
                           Align(
@@ -336,8 +366,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                 ),
                                 const SizedBox(width: 20),
                                 MaterialButton(
-                                  color: Theme.of(context).colorScheme.secondary,
-                                  child: const Text('Yes', style: TextStyle(color: Colors.white)),
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  child: const Text('Yes',
+                                      style: TextStyle(color: Colors.white)),
                                   onPressed: () {
                                     Get.to(() => const ProfileScreen());
                                   },
@@ -399,7 +431,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         if (target.identify == 'Target 3') {
           dashBoardController.zoomDrawerController.toggle?.call();
         }
-        print("clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
+        print(
+            "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
       },
       onClickOverlay: (target) {
         print(target);
@@ -412,7 +445,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         print("finish");
       },
     );
-    Future.delayed(Duration(milliseconds: 200), () => tutorialCoachMark?.show(context: context));
+    Future.delayed(Duration(milliseconds: 200),
+        () => tutorialCoachMark?.show(context: context));
   }
 
   @override
@@ -442,7 +476,9 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
     Future.delayed(Duration(seconds: 5), () {
       print("================ ${profilePic.value}");
-      if (profilePic.value == null || profilePic.value == 'https://wghdfm.s3.amazonaws.com/thumb/default_profile.jpg') {
+      if (profilePic.value == null ||
+          profilePic.value ==
+              'https://wghdfm.s3.amazonaws.com/thumb/default_profile.jpg') {
         AppMethods.tutorialDialog();
       }
     });
@@ -452,11 +488,14 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
-    if (currentBackPressTime == null || now.difference(currentBackPressTime ?? DateTime.now()) > const Duration(seconds: 2)) {
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime ?? DateTime.now()) >
+            const Duration(seconds: 2)) {
       currentBackPressTime = now;
       // Fluttertoast.showToast(msg: exit_warning);
 
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Double Tap to exit')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Double Tap to exit')));
       return Future.value(false);
     }
     return Future.value(true);
@@ -484,12 +523,18 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   pagination() {
     feedScrollController.addListener(() async {
-      if (feedScrollController.position.pixels >= feedScrollController.position.maxScrollExtent * 0.70 && dashBoardController.isLoading.value == false) {
+      if (feedScrollController.position.pixels >=
+              feedScrollController.position.maxScrollExtent * 0.70 &&
+          dashBoardController.isLoading.value == false) {
         dashBoardController.isLoading.value = true;
-        dashBoardController.previousPosition = feedScrollController.position.maxScrollExtent;
+        dashBoardController.previousPosition =
+            feedScrollController.position.maxScrollExtent;
         dashBoardController.isFirstTime = false;
         dashBoardController.currentPage = dashBoardController.currentPage + 12;
-        await dashBoardController.dashBoardLoadFeeds(isFirstTimeLoading: dashBoardController.isFirstTime, page: dashBoardController.currentPage, isShowProcess: false);
+        await dashBoardController.dashBoardLoadFeeds(
+            isFirstTimeLoading: dashBoardController.isFirstTime,
+            page: dashBoardController.currentPage,
+            isShowProcess: false);
       }
     });
   }
@@ -497,7 +542,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   String formatTime(String utcStringTime) {
     DateTime utcTime = DateTime.parse(utcStringTime);
     DateTime localTime = utcTime.toLocal();
-    print("====${localTime.minute}-${localTime.hour}-${localTime.day}--${localTime.month}-${localTime.year}=====");
+    print(
+        "====${localTime.minute}-${localTime.hour}-${localTime.day}--${localTime.month}-${localTime.year}=====");
 
     String formattedTime = DateFormat('mm-HH dd-MM-yyyy').format(localTime);
     return formattedTime;
@@ -517,7 +563,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     ));
 
     // Format the local DateTime object to "03:46 PM 29 June 2023" format
-    String formattedTime = DateFormat('hh:mm a dd MMMM yyyy').format(localDateTime);
+    String formattedTime =
+        DateFormat('hh:mm a dd MMMM yyyy').format(localDateTime);
 
     return formattedTime;
   }
@@ -537,7 +584,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     ));
 
     // Format the local DateTime object to your desired format
-    String formattedTime = DateFormat('yyyy-MMWhat-dd hh:mm:ss a').format(localDateTime);
+    String formattedTime =
+        DateFormat('yyyy-MMWhat-dd hh:mm:ss a').format(localDateTime);
 
     return formattedTime;
   }
@@ -593,7 +641,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                 key: notificationButtonKey,
                 onPressed: () {
                   Get.to(() => const MessageScreens())?.then((value) {
-                    dashBoardController.getNotificationCount(showProcess: false);
+                    dashBoardController.getNotificationCount(
+                        showProcess: false);
                   });
                 },
                 icon: StreamBuilder(
@@ -606,7 +655,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                             right: 0,
                             child: Container(
                               padding: const EdgeInsets.all(3),
-                              decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle, color: Colors.red),
                               child: Text(
                                 "${dashBoardController.notificationCount.value}",
                                 overflow: TextOverflow.ellipsis,
@@ -626,7 +676,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                 Icons.more_vert,
               ),
               padding: EdgeInsets.all(10),
-              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
               itemBuilder: (BuildContext context) {
                 return PopUpOptions.homeMoreOptions.map((String choice) {
                   return PopupMenuItem<String>(
@@ -667,7 +718,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                               SizedBox(
                                 height: 20,
                               ),
-                              const Text('Write a Email address of your friend that you want to Invite. '),
+                              const Text(
+                                  'Write a Email address of your friend that you want to Invite. '),
                               SizedBox(
                                 height: 5,
                               ),
@@ -680,14 +732,20 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                   errorColor: Colors.white,
                                   hint: "Email of your friend",
                                   validator: (String? value) {
-                                    return (value == null || value.isEmpty || !value.isEmail) ? "Please enter valid email" : null;
+                                    return (value == null ||
+                                            value.isEmpty ||
+                                            !value.isEmail)
+                                        ? "Please enter valid email"
+                                        : null;
                                   },
                                 ),
                               ),
                               ElevatedButton(
                                 onPressed: () async {
                                   if (formKey.currentState!.validate()) {
-                                    await profileController.inviteFriend(email: emailController.text, callBack: () {});
+                                    await profileController.inviteFriend(
+                                        email: emailController.text,
+                                        callBack: () {});
                                   }
                                 },
                                 child: Text(
@@ -700,7 +758,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                 ),
                               ),
                               SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.01,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.01,
                               ),
                             ],
                           ),
@@ -713,7 +772,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                     Get.dialog(
                       CupertinoAlertDialog(
                         title: const Text("Confirm Logout"),
-                        content: const Text("Are you sure you want to logout.? "),
+                        content:
+                            const Text("Are you sure you want to logout.? "),
                         actions: [
                           MaterialButton(
                               onPressed: () {
@@ -751,19 +811,27 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         resizeToAvoidBottomInset: false,
         // resizeToAvoidBottomInset: false,
         floatingActionButton: StreamBuilder(
-           stream: DashBoardController.uploadingProcess.stream,
+          stream: DashBoardController.uploadingProcess.stream,
           builder: (context, snapshot) => StreamBuilder(
               stream: dashBoardController.postUploading.stream,
               builder: (context, snapshot) {
                 if (dashBoardController.postUploading.value == false) {
-                  return FloatingActionButton(
+                  return FloatingActionButton.extended(
                     key: addButtonKey,
                     backgroundColor: Colors.black,
                     onPressed: () {
-                      // Get.to(() => const AddNewPost());
                       Get.to(() => const AddPost());
                     },
-                    child: const Icon(Icons.add),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    label: const Text(
+                      'Post',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    icon: const Icon(Icons.add_circle_outline),
                   );
                 } else {
                   return Container(
@@ -772,14 +840,24 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                     width: Get.width,
                     padding: const EdgeInsets.all(10),
                     margin: EdgeInsets.only(left: 30),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Colors.white, boxShadow: [
-                      BoxShadow(color: Colors.black.withOpacity(0.5), spreadRadius: -1, blurRadius: 15),
-                    ]),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black.withOpacity(0.5),
+                              spreadRadius: -1,
+                              blurRadius: 15),
+                        ]),
                     child: StreamBuilder(
                       stream: DashBoardController.uploadingProcess.stream,
                       builder: (context, snapshot) {
-                        print("------ PERCENTAGES ${DashBoardController.uploadingProcess.value}");
-                        double value = (double.tryParse(DashBoardController.uploadingProcess.value) ?? 0.0) / 100;
+                        print(
+                            "------ PERCENTAGES ${DashBoardController.uploadingProcess.value}");
+                        double value = (double.tryParse(DashBoardController
+                                    .uploadingProcess.value) ??
+                                0.0) /
+                            100;
                         print(" -- value is ${value}");
 
                         return Column(
@@ -788,12 +866,14 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                           children: [
                             Text(
                               "${(value > 0 && value <= 0.9) ? 'Your post is Uploading Now' : 'Your post is Under Progress, you  will be notified soon'}",
-                              style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w600),
+                              style: GoogleFonts.inter(
+                                  fontSize: 13, fontWeight: FontWeight.w600),
                             ),
                             SizedBox(height: 5),
                             if (value > 0 && value <= 0.9)
                               ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
                                 child: LinearPercentIndicator(
                                   lineHeight: 13.0,
                                   percent: value,
@@ -804,11 +884,13 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                               )
                             else
                               ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
                                 child: LinearProgressIndicator(
                                   backgroundColor: Colors.blue,
                                   minHeight: 13,
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+                                  valueColor:
+                                      AlwaysStoppedAnimation<Color>(Colors.red),
                                 ),
                               ),
                           ],
@@ -951,7 +1033,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
             // ),
             stream: dashBoardController.dashboardFeeds.stream,
             builder: (context, snapshot) {
-              if (dashBoardController.dashboardFeeds == null || (dashBoardController.dashboardFeeds.isEmpty == true)) {
+              if (dashBoardController.dashboardFeeds == null ||
+                  (dashBoardController.dashboardFeeds.isEmpty == true)) {
                 return shimmerFeedLoading();
               }
 
@@ -966,7 +1049,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                 );
               }
 
-              if ((dashBoardController.dashboardFeeds != null && dashBoardController.dashboardFeeds.isNotEmpty == true)) {
+              if ((dashBoardController.dashboardFeeds != null &&
+                  dashBoardController.dashboardFeeds.isNotEmpty == true)) {
                 return Column(
                   children: [
                     // StreamBuilder(
@@ -1035,13 +1119,20 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                 controller: feedScrollController,
                                 shrinkWrap: true,
                                 physics: const ClampingScrollPhysics(),
-                                itemCount: dashBoardController.dashboardFeeds.length ?? 0,
+                                itemCount:
+                                    dashBoardController.dashboardFeeds.length ??
+                                        0,
                                 itemBuilder: (BuildContext context, int index) {
-                                  bool isOwn = isOwnPost("${dashBoardController.dashboardFeeds[index].ownerId}");
+                                  bool isOwn = isOwnPost(
+                                      "${dashBoardController.dashboardFeeds[index].ownerId}");
                                   // bool isLoved = dashBoardController.dashboardFeeds[index].getFav!.contains("S") == true;
-                                  bool isLoved = dashBoardController.dashboardFeeds[index].isFav == 1;
+                                  bool isLoved = dashBoardController
+                                          .dashboardFeeds[index].isFav ==
+                                      1;
                                   // bool isLiked = false;
-                                  bool isLiked = dashBoardController.dashboardFeeds[index].isLike == 1;
+                                  bool isLiked = dashBoardController
+                                          .dashboardFeeds[index].isLike ==
+                                      1;
                                   // TextEditingController commentTextController = TextEditingController();
                                   RxBool emojiShowing = false.obs;
                                   FocusNode focusNode = FocusNode();
@@ -1106,7 +1197,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                             builder: (context, snapshot) {
                                               return Container(
                                                 width: Get.width,
-                                                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12)),
                                                 padding: EdgeInsets.all(20),
                                                 margin: EdgeInsets.all(5),
                                                 alignment: Alignment.center,
@@ -1114,23 +1209,27 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                   children: [
                                                     Text(
                                                       "Hello ${userName},",
-                                                      style: GoogleFonts.itim(fontSize: 17),
+                                                      style: GoogleFonts.itim(
+                                                          fontSize: 17),
                                                     ),
                                                     Text(
                                                       "${getGreeting()}..!",
-                                                      style: GoogleFonts.itim(fontSize: 25),
+                                                      style: GoogleFonts.itim(
+                                                          fontSize: 25),
                                                     ),
                                                   ],
                                                 ),
                                               );
                                             }),
 
-                                      if (index % 10 == 0 && index != 0) const AdsScreen(),
+                                      if (index % 10 == 0 && index != 0)
+                                        const AdsScreen(),
                                       // if (index % 2 == 0 && index != 0)  NativeAdWidget(),
                                       Card(
                                         color: Colors.white,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10.0),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
                                         ),
                                         //margin: EdgeInsets.all(10),
                                         child: Column(
@@ -1139,46 +1238,79 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                             Container(
                                               margin: const EdgeInsets.all(10),
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
                                                 children: <Widget>[
                                                   ClipOval(
                                                     child: Container(
                                                       height: 50,
                                                       width: 50,
                                                       decoration: BoxDecoration(
-                                                        color: Theme.of(Get.context!).iconTheme.color,
-                                                        borderRadius: BorderRadius.circular(100),
+                                                        color: Theme.of(
+                                                                Get.context!)
+                                                            .iconTheme
+                                                            .color,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(100),
                                                         border: Border.all(
-                                                          color: Theme.of(Get.context!).iconTheme.color!,
+                                                          color: Theme.of(
+                                                                  Get.context!)
+                                                              .iconTheme
+                                                              .color!,
                                                           width: 1,
                                                         ),
                                                       ),
-                                                      margin: const EdgeInsets.all(5),
+                                                      margin:
+                                                          const EdgeInsets.all(
+                                                              5),
                                                       padding: EdgeInsets.zero,
                                                       child: InkWell(
                                                         onTap: () {
-                                                          if (dashBoardController.dashboardFeeds[index].ownerId != userId) {
-                                                            Get.to(() => SomeoneProfileScreen(profileID: "${dashBoardController.dashboardFeeds[index].ownerId}"));
+                                                          if (dashBoardController
+                                                                  .dashboardFeeds[
+                                                                      index]
+                                                                  .ownerId !=
+                                                              userId) {
+                                                            Get.to(() =>
+                                                                SomeoneProfileScreen(
+                                                                    profileID:
+                                                                        "${dashBoardController.dashboardFeeds[index].ownerId}"));
                                                           } else {
-                                                            Get.to(() => const ProfileScreen());
+                                                            Get.to(() =>
+                                                                const ProfileScreen());
                                                           }
                                                           // Get.toNamed(PageRes.profileScreen, arguments: {"profileId": kDashboardController.dashboardFeeds?[index].ownerId!, "isSelf": isOwn});
                                                         },
                                                         child: ClipOval(
-                                                          child: CachedNetworkImage(
-                                                            alignment: Alignment.center,
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            alignment: Alignment
+                                                                .center,
                                                             fit: BoxFit.fill,
-                                                            imageUrl: "${dashBoardController.dashboardFeeds[index].profilePic}",
+                                                            imageUrl:
+                                                                "${dashBoardController.dashboardFeeds[index].profilePic}",
                                                             // placeholder: (context, url) {
                                                             //   return Image.asset(
                                                             //     "assets/logo.png",
                                                             //     scale: 5.0,
                                                             //   );
                                                             // },
-                                                            progressIndicatorBuilder: (BuildContext, String, DownloadProgress) {
-                                                              return const Center(child: CupertinoActivityIndicator());
+                                                            progressIndicatorBuilder:
+                                                                (BuildContext,
+                                                                    String,
+                                                                    DownloadProgress) {
+                                                              return const Center(
+                                                                  child:
+                                                                      CupertinoActivityIndicator());
                                                             },
-                                                            errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.white),
+                                                            errorWidget: (context,
+                                                                    url,
+                                                                    error) =>
+                                                                const Icon(
+                                                                    Icons.error,
+                                                                    color: Colors
+                                                                        .white),
                                                           ),
                                                         ),
                                                       ),
@@ -1191,54 +1323,99 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                     flex: 8,
                                                     child: RichText(
                                                       text: TextSpan(
-                                                        text: dashBoardController.dashboardFeeds[index].name,
+                                                        text:
+                                                            dashBoardController
+                                                                .dashboardFeeds[
+                                                                    index]
+                                                                .name,
                                                         style: const TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 15.0,
                                                           height: 1.8,
-                                                          fontWeight: FontWeight.bold,
-                                                          decoration: TextDecoration.none,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
                                                         ),
                                                         children: [
                                                           TextSpan(
-                                                            text: dashBoardController.dashboardFeeds[index].toUserIdDetails != null
+                                                            text: dashBoardController
+                                                                        .dashboardFeeds[
+                                                                            index]
+                                                                        .toUserIdDetails !=
+                                                                    null
                                                                 ? " shared to ${dashBoardController.dashboardFeeds[index].toUserIdDetails?.firstname ?? "Guest"} ${dashBoardController.dashboardFeeds[index].toUserIdDetails?.lastname ?? ""} "
                                                                 : " ",
                                                             style: TextStyle(
-                                                              color: Colors.black45,
+                                                              color: Colors
+                                                                  .black45,
                                                               fontSize: 15.0,
                                                               height: 1.8,
-                                                              fontWeight: FontWeight.normal,
-                                                              decoration: TextDecoration.none,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
                                                             ),
                                                           ),
-                                                          if (dashBoardController.dashboardFeeds[index].allTagUserList?.isNotEmpty == true)
+                                                          if (dashBoardController
+                                                                  .dashboardFeeds[
+                                                                      index]
+                                                                  .allTagUserList
+                                                                  ?.isNotEmpty ==
+                                                              true)
                                                             const TextSpan(
                                                               text: "is with ",
                                                               style: TextStyle(
-                                                                color: Colors.black45,
+                                                                color: Colors
+                                                                    .black45,
                                                                 fontSize: 15.0,
                                                                 height: 1.8,
-                                                                fontWeight: FontWeight.normal,
-                                                                decoration: TextDecoration.none,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
                                                               ),
                                                             ),
-                                                          ...dashBoardController.dashboardFeeds[index].allTagUserList?.map(
+                                                          ...dashBoardController
+                                                                  .dashboardFeeds[
+                                                                      index]
+                                                                  .allTagUserList
+                                                                  ?.map(
                                                                 (e) {
-                                                                  int indexs = dashBoardController.dashboardFeeds[index].allTagUserList?.indexOf(e) ?? 0;
+                                                                  int indexs = dashBoardController
+                                                                          .dashboardFeeds[
+                                                                              index]
+                                                                          .allTagUserList
+                                                                          ?.indexOf(
+                                                                              e) ??
+                                                                      0;
 
-                                                                  if (indexs > 0) {
-                                                                    if (indexs > 1) {
+                                                                  if (indexs >
+                                                                      0) {
+                                                                    if (indexs >
+                                                                        1) {
                                                                       return const TextSpan();
                                                                     }
                                                                     return TextSpan(
-                                                                        text: "${(dashBoardController.dashboardFeeds[index].allTagUserList?.length ?? 0) - indexs} Others",
-                                                                        style: const TextStyle(
-                                                                          color: Colors.black,
-                                                                          fontSize: 15.0,
-                                                                          height: 1.8,
-                                                                          fontWeight: FontWeight.normal,
-                                                                          decoration: TextDecoration.none,
+                                                                        text:
+                                                                            "${(dashBoardController.dashboardFeeds[index].allTagUserList?.length ?? 0) - indexs} Others",
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          color:
+                                                                              Colors.black,
+                                                                          fontSize:
+                                                                              15.0,
+                                                                          height:
+                                                                              1.8,
+                                                                          fontWeight:
+                                                                              FontWeight.normal,
+                                                                          decoration:
+                                                                              TextDecoration.none,
                                                                         ),
                                                                         recognizer: TapGestureRecognizer()
                                                                           ..onTap = () {
@@ -1250,8 +1427,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                                               builder: (context) {
                                                                                 return Container(
                                                                                   width: Get.width,
-                                                                                  decoration: const BoxDecoration(
-                                                                                      color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(12))),
+                                                                                  decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(12))),
                                                                                   child: ListView.builder(
                                                                                     itemCount: dashBoardController.dashboardFeeds[index].allTagUserList?.length ?? 0,
                                                                                     shrinkWrap: true,
@@ -1278,8 +1454,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                                                               child: CachedNetworkImage(
                                                                                                 alignment: Alignment.center,
                                                                                                 fit: BoxFit.fill,
-                                                                                                imageUrl:
-                                                                                                    "${dashBoardController.dashboardFeeds[index].allTagUserList?[listIndex].profileImg}",
+                                                                                                imageUrl: "${dashBoardController.dashboardFeeds[index].allTagUserList?[listIndex].profileImg}",
                                                                                                 // placeholder: (context, url) {
                                                                                                 //   return Image.asset(
                                                                                                 //     "assets/logo.png",
@@ -1294,19 +1469,12 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                                                             ),
                                                                                           ),
                                                                                         ),
-                                                                                        title: Text(
-                                                                                            "${dashBoardController.dashboardFeeds[index].allTagUserList?[listIndex].profileName}"),
+                                                                                        title: Text("${dashBoardController.dashboardFeeds[index].allTagUserList?[listIndex].profileName}"),
                                                                                         onTap: () {
-                                                                                          if (dashBoardController
-                                                                                                  .dashboardFeeds[index].allTagUserList?[listIndex].profileId?.isNotEmpty ==
-                                                                                              true) {
+                                                                                          if (dashBoardController.dashboardFeeds[index].allTagUserList?[listIndex].profileId?.isNotEmpty == true) {
                                                                                             Get.back();
-                                                                                            if (dashBoardController.dashboardFeeds[index].allTagUserList?[listIndex].profileId !=
-                                                                                                userId) {
-                                                                                              Get.to(() => SomeoneProfileScreen(
-                                                                                                  profileID: dashBoardController
-                                                                                                          .dashboardFeeds[index].allTagUserList?[listIndex].profileId ??
-                                                                                                      ""));
+                                                                                            if (dashBoardController.dashboardFeeds[index].allTagUserList?[listIndex].profileId != userId) {
+                                                                                              Get.to(() => SomeoneProfileScreen(profileID: dashBoardController.dashboardFeeds[index].allTagUserList?[listIndex].profileId ?? ""));
                                                                                             } else {
                                                                                               Get.to(() => const ProfileScreen());
                                                                                             }
@@ -1327,23 +1495,31 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                                   return TextSpan(
                                                                       text:
                                                                           "${e.profileName} ${(indexs < (dashBoardController.dashboardFeeds[index].allTagUserList?.length ?? 0) && indexs > 1) ? ' & ' : ''}",
-                                                                      style: const TextStyle(
-                                                                        color: Colors.black,
-                                                                        fontSize: 15.0,
-                                                                        height: 1.8,
-                                                                        fontWeight: FontWeight.normal,
-                                                                        decoration: TextDecoration.none,
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontSize:
+                                                                            15.0,
+                                                                        height:
+                                                                            1.8,
+                                                                        fontWeight:
+                                                                            FontWeight.normal,
+                                                                        decoration:
+                                                                            TextDecoration.none,
                                                                       ),
-                                                                      recognizer: TapGestureRecognizer()
-                                                                        ..onTap = () {
-                                                                          if (e.profileId?.isNotEmpty == true) {
-                                                                            if (e.profileId != userId) {
-                                                                              Get.to(() => SomeoneProfileScreen(profileID: e.profileId ?? ""));
-                                                                            } else {
-                                                                              Get.to(() => const ProfileScreen());
-                                                                            }
-                                                                          }
-                                                                        });
+                                                                      recognizer:
+                                                                          TapGestureRecognizer()
+                                                                            ..onTap =
+                                                                                () {
+                                                                              if (e.profileId?.isNotEmpty == true) {
+                                                                                if (e.profileId != userId) {
+                                                                                  Get.to(() => SomeoneProfileScreen(profileID: e.profileId ?? ""));
+                                                                                } else {
+                                                                                  Get.to(() => const ProfileScreen());
+                                                                                }
+                                                                              }
+                                                                            });
                                                                 },
                                                               ).toList() ??
                                                               [],
@@ -1356,22 +1532,39 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                     icon: const Icon(
                                                       Icons.more_horiz,
                                                     ),
-                                                    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
-                                                    itemBuilder: (BuildContext context) {
+                                                    shape: const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    15.0))),
+                                                    itemBuilder:
+                                                        (BuildContext context) {
                                                       return [
-                                                        const PopupMenuItem<String>(
-                                                          value: PopUpOptions.report,
-                                                          child: Text(PopUpOptions.report),
+                                                        const PopupMenuItem<
+                                                            String>(
+                                                          value: PopUpOptions
+                                                              .report,
+                                                          child: Text(
+                                                              PopUpOptions
+                                                                  .report),
                                                         ),
                                                         if (isOwn)
-                                                          const PopupMenuItem<String>(
-                                                            value: PopUpOptions.edit,
-                                                            child: Text(PopUpOptions.edit),
+                                                          const PopupMenuItem<
+                                                              String>(
+                                                            value: PopUpOptions
+                                                                .edit,
+                                                            child: Text(
+                                                                PopUpOptions
+                                                                    .edit),
                                                           ),
                                                         if (isOwn)
-                                                          const PopupMenuItem<String>(
-                                                            value: PopUpOptions.delete,
-                                                            child: Text(PopUpOptions.delete),
+                                                          const PopupMenuItem<
+                                                              String>(
+                                                            value: PopUpOptions
+                                                                .delete,
+                                                            child: Text(
+                                                                PopUpOptions
+                                                                    .delete),
                                                           ),
                                                       ];
                                                       // return PopUpOptions.feedPostMoreOptions.map((String choice) {
@@ -1383,15 +1576,23 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                     },
                                                     onSelected: (value) {
                                                       switch (value) {
-                                                        case PopUpOptions.report:
-                                                          reportPost("${dashBoardController.dashboardFeeds[index].id}");
+                                                        case PopUpOptions
+                                                              .report:
+                                                          reportPost(
+                                                              "${dashBoardController.dashboardFeeds[index].id}");
                                                           break;
                                                         case PopUpOptions.edit:
-                                                          editStatusBottomSheet(dashBoardController.dashboardFeeds[index], onEdit: () {
-                                                            setStateCustom(() {});
+                                                          editStatusBottomSheet(
+                                                              dashBoardController
+                                                                      .dashboardFeeds[
+                                                                  index],
+                                                              onEdit: () {
+                                                            setStateCustom(
+                                                                () {});
                                                           });
                                                           break;
-                                                        case PopUpOptions.delete:
+                                                        case PopUpOptions
+                                                              .delete:
                                                           // AppMethods.deleteDialog(
                                                           //     headingText: 'Are you sure you want to delete this post?',
                                                           //     descriptionText: "" ?? "This will delete the permanently delete your post and you can't undo it after delete.'",
@@ -1399,12 +1600,19 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                           //
                                                           //     });
                                                           deletePost(
-                                                              postId: "${dashBoardController.dashboardFeeds[index].id}",
+                                                              postId:
+                                                                  "${dashBoardController.dashboardFeeds[index].id}",
                                                               callBack: () {
-                                                                dashBoardController.dashboardFeeds.removeAt(index);
-                                                                dashBoardController.dashboardFeeds.refresh();
+                                                                dashBoardController
+                                                                    .dashboardFeeds
+                                                                    .removeAt(
+                                                                        index);
+                                                                dashBoardController
+                                                                    .dashboardFeeds
+                                                                    .refresh();
                                                               }).then((value) {
-                                                            setStateCustom(() {});
+                                                            setStateCustom(
+                                                                () {});
                                                           });
                                                           break;
                                                       }
@@ -1413,18 +1621,31 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                 ],
                                               ),
                                             ),
-                                            if (dashBoardController.dashboardFeeds[index].status != null && dashBoardController.dashboardFeeds[index].status != '')
+                                            if (dashBoardController
+                                                        .dashboardFeeds[index]
+                                                        .status !=
+                                                    null &&
+                                                dashBoardController
+                                                        .dashboardFeeds[index]
+                                                        .status !=
+                                                    '')
                                               Container(
                                                 margin: const EdgeInsets.only(
                                                   left: 10,
                                                   right: 10,
                                                 ),
                                                 child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
                                                   children: <Widget>[
                                                     Expanded(
                                                       flex: 8,
-                                                      child: getLinkText(text: dashBoardController.dashboardFeeds[index].status ?? ""),
+                                                      child: getLinkText(
+                                                          text: dashBoardController
+                                                                  .dashboardFeeds[
+                                                                      index]
+                                                                  .status ??
+                                                              ""),
                                                       // child: RichText(
                                                       //   text: TextSpan(
                                                       //     text: dashBoardController
@@ -1450,10 +1671,26 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                   ],
                                                 ),
                                               ),
-                                            if (dashBoardController.dashboardFeeds[index].promoteGroupDetails?.groupId != null &&
-                                                dashBoardController.dashboardFeeds[index].promoteGroupDetails?.groupId != '' &&
-                                                dashBoardController.dashboardFeeds[index].promoteGroupDetails?.groupTitle != null &&
-                                                dashBoardController.dashboardFeeds[index].promoteGroupDetails?.groupTitle != '')
+                                            if (dashBoardController
+                                                        .dashboardFeeds[index]
+                                                        .promoteGroupDetails
+                                                        ?.groupId !=
+                                                    null &&
+                                                dashBoardController
+                                                        .dashboardFeeds[index]
+                                                        .promoteGroupDetails
+                                                        ?.groupId !=
+                                                    '' &&
+                                                dashBoardController
+                                                        .dashboardFeeds[index]
+                                                        .promoteGroupDetails
+                                                        ?.groupTitle !=
+                                                    null &&
+                                                dashBoardController
+                                                        .dashboardFeeds[index]
+                                                        .promoteGroupDetails
+                                                        ?.groupTitle !=
+                                                    '')
                                               Container(
                                                 margin: const EdgeInsets.only(
                                                   left: 10,
@@ -1462,38 +1699,63 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                 child: Column(
                                                   children: [
                                                     Row(
-                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
                                                       children: <Widget>[
                                                         Expanded(
                                                           flex: 8,
                                                           child: RichText(
                                                             text: TextSpan(
-                                                                text: "Please join this group ",
-                                                                style: const TextStyle(
-                                                                  color: Colors.black,
-                                                                  fontSize: 15.0,
+                                                                text:
+                                                                    "Please join this group ",
+                                                                style:
+                                                                    const TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize:
+                                                                      15.0,
                                                                   height: 1.8,
-                                                                  fontWeight: FontWeight.normal,
-                                                                  decoration: TextDecoration.none,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .none,
                                                                 ),
                                                                 children: [
                                                                   TextSpan(
-                                                                    text: dashBoardController.dashboardFeeds[index].promoteGroupDetails?.groupTitle ?? "",
-                                                                    style: const TextStyle(
-                                                                      color: Colors.blue,
-                                                                      fontSize: 15.0,
-                                                                      height: 1.8,
-                                                                      fontWeight: FontWeight.normal,
-                                                                      decoration: TextDecoration.none,
+                                                                    text: dashBoardController
+                                                                            .dashboardFeeds[index]
+                                                                            .promoteGroupDetails
+                                                                            ?.groupTitle ??
+                                                                        "",
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      color: Colors
+                                                                          .blue,
+                                                                      fontSize:
+                                                                          15.0,
+                                                                      height:
+                                                                          1.8,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
                                                                     ),
-                                                                    recognizer: TapGestureRecognizer()
-                                                                      ..onTap = () {
-                                                                        Get.to(() => GroupDetailsScreen(
-                                                                              groupId: dashBoardController.dashboardFeeds[index].promoteGroupDetails?.groupId,
-                                                                            ));
-                                                                        // openInWeb(linkText);
-                                                                        // Handle link tap here
-                                                                      },
+                                                                    recognizer:
+                                                                        TapGestureRecognizer()
+                                                                          ..onTap =
+                                                                              () {
+                                                                            Get.to(() =>
+                                                                                GroupDetailsScreen(
+                                                                                  groupId: dashBoardController.dashboardFeeds[index].promoteGroupDetails?.groupId,
+                                                                                ));
+                                                                            // openInWeb(linkText);
+                                                                            // Handle link tap here
+                                                                          },
                                                                   ),
                                                                 ]),
                                                           ),
@@ -1502,26 +1764,42 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                     ),
 
                                                     ///Promote Group Description.
-                                                    if (dashBoardController.dashboardFeeds[index].promoteGroupDetails?.groupDescription != null)
+                                                    if (dashBoardController
+                                                            .dashboardFeeds[
+                                                                index]
+                                                            .promoteGroupDetails
+                                                            ?.groupDescription !=
+                                                        null)
                                                       Container(
-                                                        alignment: Alignment.centerLeft,
+                                                        alignment: Alignment
+                                                            .centerLeft,
                                                         width: Get.width,
-                                                        padding: const EdgeInsets.symmetric(vertical: 5),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                vertical: 5),
                                                         child: Text(
                                                           "Description: ${dashBoardController.dashboardFeeds[index].promoteGroupDetails?.groupDescription}",
                                                           maxLines: 2,
-                                                          style: const TextStyle(
-                                                            overflow: TextOverflow.ellipsis,
+                                                          style:
+                                                              const TextStyle(
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
                                                             fontSize: 15.0,
                                                           ),
                                                         ),
                                                       ),
                                                     Container(
-                                                      padding: const EdgeInsets.only(top: 10),
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 10),
                                                       // height: 200,
                                                       // width: 400,
                                                       decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(12),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12),
                                                         // image: DecorationImage(image:),
                                                       ),
                                                       child: CachedNetworkImage(
@@ -1530,28 +1808,40 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                         fit: BoxFit.contain,
                                                         imageUrl:
                                                             "https://wghdfm.s3.amazonaws.com/medium/${dashBoardController.dashboardFeeds[index].promoteGroupDetails?.coverPic}",
-                                                        progressIndicatorBuilder: (BuildContext, String, DownloadProgress) {
+                                                        progressIndicatorBuilder:
+                                                            (BuildContext,
+                                                                String,
+                                                                DownloadProgress) {
                                                           return const SizedBox(
                                                             height: 50,
                                                             width: 50,
-                                                            child: Center(child: CupertinoActivityIndicator()),
+                                                            child: Center(
+                                                                child:
+                                                                    CupertinoActivityIndicator()),
                                                           );
                                                         },
-                                                        errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.white),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            const Icon(
+                                                                Icons.error,
+                                                                color: Colors
+                                                                    .white),
                                                       ),
                                                     ),
                                                   ],
                                                 ),
                                               ),
                                             // Text(feeds![index].status.toString()),
-                                            customImageView(dashBoardController.dashboardFeeds[index]),
+                                            customImageView(dashBoardController
+                                                .dashboardFeeds[index]),
                                             Container(
                                               margin: const EdgeInsets.only(
                                                 left: 10,
                                                 right: 10,
                                               ),
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
                                                 children: <Widget>[
                                                   Expanded(
                                                     flex: 1,
@@ -1559,29 +1849,62 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                         onPressed: () {
                                                           if (!isLoved) {
                                                             setAsFav(
-                                                              postId: "${dashBoardController.dashboardFeeds[index].id}",
+                                                              postId:
+                                                                  "${dashBoardController.dashboardFeeds[index].id}",
                                                             ).then((value) {
-                                                              if (dashBoardController.dashboardFeeds[index].isFav == 0) {
-                                                                dashBoardController.dashboardFeeds[index].isFav = 1;
+                                                              if (dashBoardController
+                                                                      .dashboardFeeds[
+                                                                          index]
+                                                                      .isFav ==
+                                                                  0) {
+                                                                dashBoardController
+                                                                    .dashboardFeeds[
+                                                                        index]
+                                                                    .isFav = 1;
                                                               } else {
-                                                                dashBoardController.dashboardFeeds[index].isFav = 0;
+                                                                dashBoardController
+                                                                    .dashboardFeeds[
+                                                                        index]
+                                                                    .isFav = 0;
                                                               }
-                                                              setStateCustom(() {});
+                                                              setStateCustom(
+                                                                  () {});
                                                             });
                                                           } else {
-                                                            setAsUnFav("${dashBoardController.dashboardFeeds[index].id}").then((value) {
-                                                              if (dashBoardController.dashboardFeeds[index].isFav == 0) {
-                                                                dashBoardController.dashboardFeeds[index].isFav = 1;
+                                                            setAsUnFav(
+                                                                    "${dashBoardController.dashboardFeeds[index].id}")
+                                                                .then((value) {
+                                                              if (dashBoardController
+                                                                      .dashboardFeeds[
+                                                                          index]
+                                                                      .isFav ==
+                                                                  0) {
+                                                                dashBoardController
+                                                                    .dashboardFeeds[
+                                                                        index]
+                                                                    .isFav = 1;
                                                               } else {
-                                                                dashBoardController.dashboardFeeds[index].isFav = 0;
+                                                                dashBoardController
+                                                                    .dashboardFeeds[
+                                                                        index]
+                                                                    .isFav = 0;
                                                               }
-                                                              setStateCustom(() {});
+                                                              setStateCustom(
+                                                                  () {});
                                                             });
                                                           }
                                                         },
                                                         icon: Icon(
-                                                          isLoved ? Icons.favorite : Icons.favorite_border,
-                                                          color: isLoved ? Colors.red : Theme.of(Get.context!).iconTheme.color,
+                                                          isLoved
+                                                              ? Icons.favorite
+                                                              : Icons
+                                                                  .favorite_border,
+                                                          color: isLoved
+                                                              ? Colors.red
+                                                              : Theme.of(Get
+                                                                      .context!)
+                                                                  .iconTheme
+                                                                  .color,
                                                         )),
                                                   ),
                                                   Expanded(
@@ -1599,30 +1922,68 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                         // });
 
                                                         await setAsLiked(
-                                                            postId: "${dashBoardController.dashboardFeeds[index].id}",
-                                                            postOwnerId: "${dashBoardController.dashboardFeeds[index].ownerId}",
-                                                            isInsertLike: dashBoardController.dashboardFeeds[index].isLike == 0,
-                                                            callBack: (commentCount) {
-                                                              if (dashBoardController.dashboardFeeds[index].isLike == 0) {
-                                                                dashBoardController.dashboardFeeds[index].isLike = 1;
+                                                            postId:
+                                                                "${dashBoardController.dashboardFeeds[index].id}",
+                                                            postOwnerId:
+                                                                "${dashBoardController.dashboardFeeds[index].ownerId}",
+                                                            isInsertLike:
+                                                                dashBoardController
+                                                                        .dashboardFeeds[
+                                                                            index]
+                                                                        .isLike ==
+                                                                    0,
+                                                            callBack:
+                                                                (commentCount) {
+                                                              if (dashBoardController
+                                                                      .dashboardFeeds[
+                                                                          index]
+                                                                      .isLike ==
+                                                                  0) {
+                                                                dashBoardController
+                                                                    .dashboardFeeds[
+                                                                        index]
+                                                                    .isLike = 1;
                                                               } else {
-                                                                dashBoardController.dashboardFeeds[index].isLike = 0;
+                                                                dashBoardController
+                                                                    .dashboardFeeds[
+                                                                        index]
+                                                                    .isLike = 0;
                                                               }
-                                                              dashBoardController.dashboardFeeds[index].countLike = "${commentCount}";
-                                                              setStateCustom(() {});
+                                                              dashBoardController
+                                                                      .dashboardFeeds[
+                                                                          index]
+                                                                      .countLike =
+                                                                  "${commentCount}";
+                                                              setStateCustom(
+                                                                  () {});
                                                             });
                                                       },
                                                       child: Container(
-                                                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 5),
                                                         height: 20,
                                                         child: Row(
-                                                          mainAxisSize: MainAxisSize.min,
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
                                                           children: [
                                                             Image.asset(
-                                                              isLiked ? "assets/icon/liked_image.png" : "assets/icon/like_img.png",
-                                                              color: isLiked ? Colors.blue : Theme.of(Get.context!).iconTheme.color,
+                                                              isLiked
+                                                                  ? "assets/icon/liked_image.png"
+                                                                  : "assets/icon/like_img.png",
+                                                              color: isLiked
+                                                                  ? Colors.blue
+                                                                  : Theme.of(Get
+                                                                          .context!)
+                                                                      .iconTheme
+                                                                      .color,
                                                             ),
                                                             const SizedBox(
                                                               width: 3,
@@ -1639,35 +2000,60 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                     flex: 1,
                                                     child: InkWell(
                                                       onTap: () async {
-                                                        LoginModel userDetails = await SessionManagement.getUserDetails();
+                                                        LoginModel userDetails =
+                                                            await SessionManagement
+                                                                .getUserDetails();
                                                         if (kDebugMode) {
-                                                          print("user id: ${userDetails.id}");
-                                                          print("post id: ${dashBoardController.dashboardFeeds[index].id}");
-                                                          print(">> > Before Comment Count ${dashBoardController.dashboardFeeds[index].countComment}");
-                                                          print(":: CURRENT INDEX IS ${index}");
-                                                          print("Before: ${dashBoardController.dashboardFeeds[index].id!}");
+                                                          print(
+                                                              "user id: ${userDetails.id}");
+                                                          print(
+                                                              "post id: ${dashBoardController.dashboardFeeds[index].id}");
+                                                          print(
+                                                              ">> > Before Comment Count ${dashBoardController.dashboardFeeds[index].countComment}");
+                                                          print(
+                                                              ":: CURRENT INDEX IS ${index}");
+                                                          print(
+                                                              "Before: ${dashBoardController.dashboardFeeds[index].id!}");
                                                         }
-                                                        EndPoints.selectedPostId = "${dashBoardController.dashboardFeeds[index].id}";
-                                                        Get.to(() => CommentScreen(
+                                                        EndPoints
+                                                                .selectedPostId =
+                                                            "${dashBoardController.dashboardFeeds[index].id}";
+                                                        Get.to(() =>
+                                                            CommentScreen(
                                                               index: index,
-                                                              isFrom: AppTexts.dashBoard,
-                                                              postId: EndPoints.selectedPostId,
-                                                              postOwnerId: "${dashBoardController.dashboardFeeds[index].ownerId}",
+                                                              isFrom: AppTexts
+                                                                  .dashBoard,
+                                                              postId: EndPoints
+                                                                  .selectedPostId,
+                                                              postOwnerId:
+                                                                  "${dashBoardController.dashboardFeeds[index].ownerId}",
                                                             ))?.then((value) {
-                                                          dashBoardController.dashboardFeeds.refresh();
-                                                          print(">> >> > After Comment Count ${dashBoardController.dashboardFeeds[index].countComment}");
+                                                          dashBoardController
+                                                              .dashboardFeeds
+                                                              .refresh();
+                                                          print(
+                                                              ">> >> > After Comment Count ${dashBoardController.dashboardFeeds[index].countComment}");
                                                         });
                                                       },
                                                       child: Container(
-                                                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 5),
                                                         height: 20,
                                                         child: Row(
-                                                          mainAxisSize: MainAxisSize.min,
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
                                                           children: [
                                                             const Icon(
-                                                              Icons.chat_bubble_outline,
+                                                              Icons
+                                                                  .chat_bubble_outline,
                                                               // color: isLiked ? Colors.blue : Theme.of(Get.context!).iconTheme.color,
                                                             ),
                                                             const SizedBox(
@@ -1712,43 +2098,74 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                     flex: 1,
                                                     child: PopupMenuButton(
                                                       onSelected: (value) {
-                                                        if (value == "Timeline") {
-                                                          addToTimeline("${dashBoardController.dashboardFeeds[index].id}");
+                                                        if (value ==
+                                                            "Timeline") {
+                                                          addToTimeline(
+                                                              "${dashBoardController.dashboardFeeds[index].id}");
                                                         }
                                                         if (value == "Groups") {
-                                                          dashBoardController.sharePostToGroup(postId: "${dashBoardController.dashboardFeeds[index].id}", ownerID: userId);
+                                                          dashBoardController
+                                                              .sharePostToGroup(
+                                                                  postId:
+                                                                      "${dashBoardController.dashboardFeeds[index].id}",
+                                                                  ownerID:
+                                                                      userId);
                                                         }
                                                         if (value == "Other") {
-                                                          AppMethods().share("${EndPoints.socialSharePostUrl}${dashBoardController.dashboardFeeds[index].id}");
+                                                          AppMethods().share(
+                                                              "${EndPoints.socialSharePostUrl}${dashBoardController.dashboardFeeds[index].id}");
                                                         }
                                                       },
-                                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                                                      position: PopupMenuPosition.under,
-                                                      icon: const Icon(Icons.share),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15)),
+                                                      position:
+                                                          PopupMenuPosition
+                                                              .under,
+                                                      icon: const Icon(
+                                                          Icons.share),
                                                       itemBuilder: (context) {
                                                         return [
                                                           PopupMenuItem(
                                                               value: "Timeline",
                                                               child: Row(
                                                                 children: [
-                                                                  const Icon(Icons.add_box).paddingOnly(right: 7),
-                                                                  const Text("Timeline"),
+                                                                  const Icon(Icons
+                                                                          .add_box)
+                                                                      .paddingOnly(
+                                                                          right:
+                                                                              7),
+                                                                  const Text(
+                                                                      "Timeline"),
                                                                 ],
                                                               )),
                                                           PopupMenuItem(
                                                               value: "Groups",
                                                               child: Row(
                                                                 children: [
-                                                                  const Icon(Icons.group).paddingOnly(right: 7),
-                                                                  const Text("Groups"),
+                                                                  const Icon(Icons
+                                                                          .group)
+                                                                      .paddingOnly(
+                                                                          right:
+                                                                              7),
+                                                                  const Text(
+                                                                      "Groups"),
                                                                 ],
                                                               )),
                                                           PopupMenuItem(
                                                               value: "Other",
                                                               child: Row(
                                                                 children: [
-                                                                  const Icon(Icons.ios_share).paddingOnly(right: 7),
-                                                                  const Text("Share"),
+                                                                  const Icon(Icons
+                                                                          .ios_share)
+                                                                      .paddingOnly(
+                                                                          right:
+                                                                              7),
+                                                                  const Text(
+                                                                      "Share"),
                                                                 ],
                                                               )),
                                                         ];
@@ -1785,77 +2202,152 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                               ),
                                             ),
                                             Align(
-                                                alignment: Alignment.bottomRight,
+                                                alignment:
+                                                    Alignment.bottomRight,
                                                 child: Container(
-                                                  margin: const EdgeInsets.all(10),
-                                                  child: customText(title: "${dashBoardController.dashboardFeeds[index].timeStamp}", fs: 10),
+                                                  margin:
+                                                      const EdgeInsets.all(10),
+                                                  child: customText(
+                                                      title:
+                                                          "${dashBoardController.dashboardFeeds[index].timeStamp}",
+                                                      fs: 10),
                                                 )),
-                                            if (dashBoardController.dashboardFeeds[index].latestComments?.isNotEmpty == true)
+                                            if (dashBoardController
+                                                    .dashboardFeeds[index]
+                                                    .latestComments
+                                                    ?.isNotEmpty ==
+                                                true)
                                               Column(
                                                 children: [
                                                   Align(
-                                                    alignment: Alignment.centerLeft,
+                                                    alignment:
+                                                        Alignment.centerLeft,
                                                     child: Text(
                                                       "Comments",
-                                                      style: GoogleFonts.montserrat(
+                                                      style: GoogleFonts
+                                                          .montserrat(
                                                         fontSize: 14,
-                                                        fontWeight: FontWeight.w500,
+                                                        fontWeight:
+                                                            FontWeight.w500,
                                                       ),
                                                     ),
                                                   ).paddingOnly(left: 10),
                                                   ListView.builder(
                                                     shrinkWrap: true,
                                                     // reverse: true,
-                                                    physics: const NeverScrollableScrollPhysics(),
-                                                    itemCount: (dashBoardController.dashboardFeeds[index].latestComments?.length ?? 0) > 3
+                                                    physics:
+                                                        const NeverScrollableScrollPhysics(),
+                                                    itemCount: (dashBoardController
+                                                                    .dashboardFeeds[
+                                                                        index]
+                                                                    .latestComments
+                                                                    ?.length ??
+                                                                0) >
+                                                            3
                                                         ? 3
-                                                        : dashBoardController.dashboardFeeds[index].latestComments?.length ?? 0,
-                                                    itemBuilder: (context, indexOfComment) {
-                                                      int listLength = dashBoardController.dashboardFeeds[index].latestComments?.length ?? 0;
+                                                        : dashBoardController
+                                                                .dashboardFeeds[
+                                                                    index]
+                                                                .latestComments
+                                                                ?.length ??
+                                                            0,
+                                                    itemBuilder: (context,
+                                                        indexOfComment) {
+                                                      int listLength =
+                                                          dashBoardController
+                                                                  .dashboardFeeds[
+                                                                      index]
+                                                                  .latestComments
+                                                                  ?.length ??
+                                                              0;
                                                       return Row(
                                                         children: [
                                                           Container(
                                                             height: 40,
                                                             width: 40,
-                                                            decoration: BoxDecoration(
-                                                              color: Theme.of(Get.context!).iconTheme.color,
-                                                              borderRadius: BorderRadius.circular(100),
-                                                              border: Border.all(
-                                                                color: Theme.of(Get.context!).iconTheme.color!,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Theme.of(Get
+                                                                      .context!)
+                                                                  .iconTheme
+                                                                  .color,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          100),
+                                                              border:
+                                                                  Border.all(
+                                                                color: Theme.of(
+                                                                        Get.context!)
+                                                                    .iconTheme
+                                                                    .color!,
                                                                 width: 1,
                                                               ),
                                                             ),
-                                                            margin: const EdgeInsets.all(5),
-                                                            padding: EdgeInsets.zero,
+                                                            margin:
+                                                                const EdgeInsets
+                                                                    .all(5),
+                                                            padding:
+                                                                EdgeInsets.zero,
                                                             child: ClipOval(
-                                                              child: CachedNetworkImage(
-                                                                alignment: Alignment.center,
-                                                                fit: BoxFit.fill,
+                                                              child:
+                                                                  CachedNetworkImage(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                fit:
+                                                                    BoxFit.fill,
                                                                 imageUrl:
                                                                     "https://wghdfm.s3.amazonaws.com/thumb/${dashBoardController.dashboardFeeds[index].latestComments?[listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 1) + indexOfComment]?.img}",
                                                                 // "https://wghdfm.s3.amazonaws.com/thumb/${dashBoardController.dashboardFeeds[index].latestComments?.last.img}",
-                                                                progressIndicatorBuilder: (BuildContext, String, DownloadProgress) {
-                                                                  return const Center(child: CupertinoActivityIndicator());
+                                                                progressIndicatorBuilder:
+                                                                    (BuildContext,
+                                                                        String,
+                                                                        DownloadProgress) {
+                                                                  return const Center(
+                                                                      child:
+                                                                          CupertinoActivityIndicator());
                                                                 },
-                                                                errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.white),
+                                                                errorWidget: (context,
+                                                                        url,
+                                                                        error) =>
+                                                                    const Icon(
+                                                                        Icons
+                                                                            .error,
+                                                                        color: Colors
+                                                                            .white),
                                                               ),
                                                             ),
                                                           ),
                                                           Expanded(
                                                             child: Column(
-                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              mainAxisSize: MainAxisSize.min,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
                                                               children: [
                                                                 Text(
                                                                     "${dashBoardController.dashboardFeeds[index].latestComments?[listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 1) + indexOfComment]?.firstname} ${dashBoardController.dashboardFeeds[index].latestComments?[listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 1) + indexOfComment]?.lastname}",
-                                                                    style: GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w500)),
+                                                                    style: GoogleFonts.montserrat(
+                                                                        fontSize:
+                                                                            13,
+                                                                        fontWeight:
+                                                                            FontWeight.w500)),
                                                                 Text(
                                                                     "${dashBoardController.dashboardFeeds[index].latestComments?[listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 1) + indexOfComment]?.comment}",
-                                                                    style: GoogleFonts.montserrat(
-                                                                      fontSize: 12,
+                                                                    style: GoogleFonts
+                                                                        .montserrat(
+                                                                      fontSize:
+                                                                          12,
                                                                     ),
-                                                                    overflow: TextOverflow.ellipsis),
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis),
                                                               ],
                                                             ),
                                                           ),
@@ -1881,10 +2373,14 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                       readOnly: false,
                                                       focusNode: focusNode,
                                                       leading: IconButton(
-                                                        icon: const Icon(Icons.emoji_emotions_outlined, size: 25),
+                                                        icon: const Icon(
+                                                            Icons
+                                                                .emoji_emotions_outlined,
+                                                            size: 25),
                                                         onPressed: () async {
                                                           emojiShowing.toggle();
-                                                          if (emojiShowing.isFalse) {
+                                                          if (emojiShowing
+                                                              .isFalse) {
                                                             print(" ooo");
                                                             // FocusScope.of(context).requestFocus(focusNode);
                                                           }
@@ -1893,70 +2389,170 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                       ),
                                                       hint: 'Write Comment',
                                                       isLabelFloating: false,
-                                                      controller: dashBoardController.dashboardFeeds[index].commentTextController,
-                                                      borderColor: Theme.of(Get.context!).primaryColor,
-                                                      baseColor: Theme.of(Get.context!).colorScheme.secondary,
+                                                      controller:
+                                                          dashBoardController
+                                                              .dashboardFeeds[
+                                                                  index]
+                                                              .commentTextController,
+                                                      borderColor:
+                                                          Theme.of(Get.context!)
+                                                              .primaryColor,
+                                                      baseColor:
+                                                          Theme.of(Get.context!)
+                                                              .colorScheme
+                                                              .secondary,
                                                       isLastField: true,
                                                       obscureText: false,
                                                     ),
                                                   ),
                                                   IconButton(
-                                                    icon: const Icon(Icons.send),
+                                                    icon:
+                                                        const Icon(Icons.send),
                                                     onPressed: () async {
-                                                      print(":: ${dashBoardController.dashboardFeeds[index].latestComments?.length}");
-                                                      FocusManager.instance.primaryFocus?.unfocus();
-                                                      EndPoints.selectedPostId = "${dashBoardController.dashboardFeeds[index].id}";
+                                                      print(
+                                                          ":: ${dashBoardController.dashboardFeeds[index].latestComments?.length}");
+                                                      FocusManager
+                                                          .instance.primaryFocus
+                                                          ?.unfocus();
+                                                      EndPoints.selectedPostId =
+                                                          "${dashBoardController.dashboardFeeds[index].id}";
 
-                                                      if (dashBoardController.dashboardFeeds[index].commentTextController?.text.trim().isNotEmpty == true) {
-                                                        LoginModel userDetails = await SessionManagement.getUserDetails();
+                                                      if (dashBoardController
+                                                              .dashboardFeeds[
+                                                                  index]
+                                                              .commentTextController
+                                                              ?.text
+                                                              .trim()
+                                                              .isNotEmpty ==
+                                                          true) {
+                                                        LoginModel userDetails =
+                                                            await SessionManagement
+                                                                .getUserDetails();
 
-                                                        Map<String, String> bodyData = {
-                                                          "post_id": EndPoints.selectedPostId,
-                                                          "user_id": userDetails.id!,
-                                                          "comment": dashBoardController.dashboardFeeds[index].commentTextController?.text ?? ""
+                                                        Map<String, String>
+                                                            bodyData = {
+                                                          "post_id": EndPoints
+                                                              .selectedPostId,
+                                                          "user_id":
+                                                              userDetails.id!,
+                                                          "comment": dashBoardController
+                                                                  .dashboardFeeds[
+                                                                      index]
+                                                                  .commentTextController
+                                                                  ?.text ??
+                                                              ""
                                                         };
 
-                                                        await APIService().callAPI(
-                                                            params: {},
-                                                            serviceUrl: EndPoints.baseUrl + EndPoints.insertCommentUrl,
-                                                            method: APIService.postMethod,
-                                                            formDatas: dio.FormData.fromMap(bodyData),
-                                                            success: (dio.Response response) async {
-                                                              // Get.back();
-                                                              print(":: RESPONSE : ${response.data}");
-                                                              print(":: RESPONSE Comment Id  : ${jsonDecode(response.data)["comment_id"]}");
-                                                              print(":: INDEX IS ${index}");
-                                                              setStateCustom(() {
-                                                                // print(":: commentController.commentList?.length IS ${commentController.commentList?.length}");
-                                                                dashBoardController.dashboardFeeds[index].latestComments?.add(PostModelFeedLatestComments(
-                                                                  comment: dashBoardController.dashboardFeeds[index].commentTextController?.text,
-                                                                  commentId: "${jsonDecode(response.data)["comment_id"]}",
-                                                                  firstname: userDetails.fname ?? "",
-                                                                  lastname: userDetails.lname ?? "",
-                                                                  img: userDetails.img ?? "",
-                                                                  date: DateTime.now().toString(),
-                                                                  userId: userDetails.id ?? "",
-                                                                ));
-                                                                dashBoardController.dashboardFeeds[index].countComment =
-                                                                    (dashBoardController.dashboardFeeds[index].countComment ?? 0) + 1;
-                                                                dashBoardController.dashboardFeeds[index].commentTextController?.clear();
-                                                                dashBoardController.dashboardFeeds.refresh();
-                                                              });
-                                                              if (dashBoardController.dashboardFeeds[index].ownerId != userDetails.id &&
-                                                                  dashBoardController.dashboardFeeds[index].ownerId != null) {
-                                                                NotificationHandler.to.sendNotificationToUserID(
-                                                                    postId: dashBoardController.dashboardFeeds[index].id ?? "0",
-                                                                    userId: dashBoardController.dashboardFeeds[index].ownerId ?? "0",
-                                                                    title: "New Comments on Your Post",
-                                                                    body: "${userDetails.fname} ${userDetails.lname} Commented your post");
-                                                              }
-                                                              print(">> < COMMENT COUNT ? ${dashBoardController.dashboardFeeds[index].countComment}");
-                                                              print(">> ::  COMMENT COUNT ? ${dashBoardController.dashboardFeeds[index].latestComments?.length}");
-                                                            },
-                                                            error: (dio.Response response) {
-                                                              snack(icon: Icons.report_problem, iconColor: Colors.yellow, msg: "Type something first...", title: "Alert!");
-                                                            },
-                                                            showProcess: true);
+                                                        await APIService()
+                                                            .callAPI(
+                                                                params: {},
+                                                                serviceUrl: EndPoints
+                                                                        .baseUrl +
+                                                                    EndPoints
+                                                                        .insertCommentUrl,
+                                                                method: APIService
+                                                                    .postMethod,
+                                                                formDatas:
+                                                                    dio.FormData.fromMap(
+                                                                        bodyData),
+                                                                success: (dio
+                                                                    .Response
+                                                                    response) async {
+                                                                  // Get.back();
+                                                                  print(
+                                                                      ":: RESPONSE : ${response.data}");
+                                                                  print(
+                                                                      ":: RESPONSE Comment Id  : ${jsonDecode(response.data)["comment_id"]}");
+                                                                  print(
+                                                                      ":: INDEX IS ${index}");
+                                                                  setStateCustom(
+                                                                      () {
+                                                                    // print(":: commentController.commentList?.length IS ${commentController.commentList?.length}");
+                                                                    dashBoardController
+                                                                        .dashboardFeeds[
+                                                                            index]
+                                                                        .latestComments
+                                                                        ?.add(
+                                                                            PostModelFeedLatestComments(
+                                                                      comment: dashBoardController
+                                                                          .dashboardFeeds[
+                                                                              index]
+                                                                          .commentTextController
+                                                                          ?.text,
+                                                                      commentId:
+                                                                          "${jsonDecode(response.data)["comment_id"]}",
+                                                                      firstname:
+                                                                          userDetails.fname ??
+                                                                              "",
+                                                                      lastname:
+                                                                          userDetails.lname ??
+                                                                              "",
+                                                                      img: userDetails
+                                                                              .img ??
+                                                                          "",
+                                                                      date: DateTime
+                                                                              .now()
+                                                                          .toString(),
+                                                                      userId:
+                                                                          userDetails.id ??
+                                                                              "",
+                                                                    ));
+                                                                    dashBoardController
+                                                                        .dashboardFeeds[
+                                                                            index]
+                                                                        .countComment = (dashBoardController.dashboardFeeds[index].countComment ??
+                                                                            0) +
+                                                                        1;
+                                                                    dashBoardController
+                                                                        .dashboardFeeds[
+                                                                            index]
+                                                                        .commentTextController
+                                                                        ?.clear();
+                                                                    dashBoardController
+                                                                        .dashboardFeeds
+                                                                        .refresh();
+                                                                  });
+                                                                  if (dashBoardController
+                                                                              .dashboardFeeds[
+                                                                                  index]
+                                                                              .ownerId !=
+                                                                          userDetails
+                                                                              .id &&
+                                                                      dashBoardController
+                                                                              .dashboardFeeds[index]
+                                                                              .ownerId !=
+                                                                          null) {
+                                                                    NotificationHandler.to.sendNotificationToUserID(
+                                                                        postId: dashBoardController.dashboardFeeds[index].id ??
+                                                                            "0",
+                                                                        userId: dashBoardController.dashboardFeeds[index].ownerId ??
+                                                                            "0",
+                                                                        title:
+                                                                            "New Comments on Your Post",
+                                                                        body:
+                                                                            "${userDetails.fname} ${userDetails.lname} Commented your post");
+                                                                  }
+                                                                  print(
+                                                                      ">> < COMMENT COUNT ? ${dashBoardController.dashboardFeeds[index].countComment}");
+                                                                  print(
+                                                                      ">> ::  COMMENT COUNT ? ${dashBoardController.dashboardFeeds[index].latestComments?.length}");
+                                                                },
+                                                                error: (dio
+                                                                    .Response
+                                                                    response) {
+                                                                  snack(
+                                                                      icon: Icons
+                                                                          .report_problem,
+                                                                      iconColor:
+                                                                          Colors
+                                                                              .yellow,
+                                                                      msg:
+                                                                          "Type something first...",
+                                                                      title:
+                                                                          "Alert!");
+                                                                },
+                                                                showProcess:
+                                                                    true);
                                                       }
                                                     },
                                                   ),
@@ -1967,11 +2563,16 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                 stream: emojiShowing.stream,
                                                 builder: (context, snapshot) {
                                                   return Offstage(
-                                                    offstage: emojiShowing.isFalse,
+                                                    offstage:
+                                                        emojiShowing.isFalse,
                                                     child: SizedBox(
                                                       height: Get.height * 0.4,
                                                       child: EmojiKeybord(
-                                                        textController: dashBoardController.dashboardFeeds[index].commentTextController,
+                                                        textController:
+                                                            dashBoardController
+                                                                .dashboardFeeds[
+                                                                    index]
+                                                                .commentTextController,
                                                       ),
                                                     ),
                                                   );
