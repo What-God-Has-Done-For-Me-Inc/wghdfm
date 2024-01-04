@@ -44,7 +44,7 @@ Widget commonTextField({
   return Container(
     alignment: Alignment.center,
     //height: maxLines == null ? h : h * maxLines,
-    margin: const EdgeInsets.all(5),
+    margin: const EdgeInsets.all(4),
     child: TextFormField(
       maxLines: maxLines ?? null,
       validator: (String? value) {
@@ -80,7 +80,7 @@ Widget commonTextField({
         ),
 
         // border: InputBorder.none,
-        focusedErrorBorder: OutlineInputBorder(
+        focusedErrorBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.red[700]!, width: 1),
         ),
         //focusedBorder: InputBorder.none,
@@ -96,7 +96,7 @@ Widget commonTextField({
           bottom: 10,
           right: 10,
         ),
-        errorBorder: OutlineInputBorder(
+        errorBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.red[700]!, width: 1),
         ),
         enabled: true,
