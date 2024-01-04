@@ -93,7 +93,7 @@ class AuthController extends GetxController {
           } else {
             snack(
               title: 'Signup failed!',
-              msg: '${response.data}',
+              msg: '${response.data['text']}',
               icon: Icons.close,
               iconColor: Colors.red,
             );
