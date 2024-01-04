@@ -5,12 +5,12 @@ Widget backGroundWidget({required Widget widget}) {
   return Stack(
     children: [
       Container(
-        color: Colors.black,
+        color: Colors.white,
         width: Get.width,
         height: Get.height,
         child: Image.asset(
           // 'assets/drawable/splash_bg.jpeg',
-          'assets/drawable/newSplashBg.jpg',
+          'assets/drawable/background.jpg',
           fit: BoxFit.cover,
           width: Get.width,
           height: Get.height,
@@ -38,7 +38,7 @@ Widget backGroundWidget({required Widget widget}) {
         ),*/
       ),
       Container(
-        color: Colors.black.withOpacity(0.5),
+        color: Colors.white.withOpacity(0.3),
         constraints: BoxConstraints(
           maxWidth: Get.width,
           maxHeight: Get.height,

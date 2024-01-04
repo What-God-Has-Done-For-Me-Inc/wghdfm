@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart' as path;
+import 'package:wghdfm_java/utils/app_colors.dart';
 
 Widget commonTextField({
   String hint = '',
@@ -57,19 +58,12 @@ Widget commonTextField({
         if (onChanged != null) {
           onChanged(text);
         }
-        //widget.onChanged(text);
-        // if (validator != null) {
-        //   if (!validator(text) || text.length == 0) {
-        //     currentBorderColor = errorColor;
-        //   } else {
-        //     currentBorderColor = borderColor;
-        //   }
-        // }
       },
       readOnly: readOnly,
       keyboardType: inputType,
       focusNode: focusNode ?? FocusNode(),
-      style: TextStyle(color: baseColor),
+      style: const TextStyle(
+          color: AppColors.black, fontSize: 16, fontWeight: FontWeight.w600),
       textInputAction: isLastField
           ? TextInputAction.done
           : (maxLines == null)
@@ -78,7 +72,14 @@ Widget commonTextField({
       controller: controller,
       decoration: InputDecoration(
         prefixIcon: leading,
-        border: InputBorder.none,
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: AppColors.blackColor, width: 0.5),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: AppColors.blackColor, width: 1),
+        ),
+
+        // border: InputBorder.none,
         focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red[700]!, width: 1),
         ),
@@ -86,44 +87,42 @@ Widget commonTextField({
         //enabledBorder: InputBorder.none,
         //errorBorder: InputBorder.none,
         //disabledBorder: InputBorder.none,
-        floatingLabelBehavior: isLabelFloating ? FloatingLabelBehavior.always : FloatingLabelBehavior.auto,
+        floatingLabelBehavior: isLabelFloating
+            ? FloatingLabelBehavior.always
+            : FloatingLabelBehavior.auto,
         contentPadding: EdgeInsets.only(
-          left: 10,
+          // left: 10,
           top: maxLines == null ? h / 2 : h / 2,
-          bottom: 0,
+          bottom: 10,
           right: 10,
         ),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red[700]!, width: 1),
         ),
         enabled: true,
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: currentBorderColor != null ? currentBorderColor : Colors.white, width: 1),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: currentBorderColor != null ? currentBorderColor : Colors.white, width: 1),
-        ),
+        // enabledBorder: OutlineInputBorder(
+        //   borderSide: BorderSide(
+        //       color: currentBorderColor != null
+        //           ? currentBorderColor
+        //           : Colors.white,
+        //       width: 1),
+        // ),
+        // focusedBorder: OutlineInputBorder(
+        //   borderSide: BorderSide(
+        //       color: currentBorderColor != null
+        //           ? currentBorderColor
+        //           : Colors.white,
+        //       width: 1),
+        // ),
         labelText: hint,
         labelStyle: TextStyle(
           color: baseColor,
-          fontWeight: FontWeight.w300,
+          fontWeight: FontWeight.w600,
           fontSize: 16,
         ),
         isCollapsed: false,
         isDense: true,
         alignLabelWithHint: true,
-        /*helperText: hint,
-        helperStyle: TextStyle(
-          color: baseColor,
-          fontWeight: FontWeight.w300,
-          fontSize: 14,
-        ),*/
-        /*hintText: hint,
-          hintStyle: TextStyle(
-            color: baseColor,
-            fontWeight: FontWeight.w300,
-            fontSize: 14,
-          ),*/
       ),
     ),
   );
@@ -161,7 +160,8 @@ Widget buildIconLessInputField({
     elevation: 0.0,
     color: Colors.white,
     shape: RoundedRectangleBorder(
-      side: BorderSide(color: isBordered ? currentColor : Colors.transparent, width: 1.0),
+      side: BorderSide(
+          color: isBordered ? currentColor : Colors.transparent, width: 1.0),
       borderRadius: BorderRadius.circular(5.0),
     ),
     child: Container(
@@ -170,7 +170,8 @@ Widget buildIconLessInputField({
       child: TextFormField(
         controller: controller,
         //focusNode: fn,
-        textInputAction: isLastField ? TextInputAction.done : TextInputAction.next,
+        textInputAction:
+            isLastField ? TextInputAction.done : TextInputAction.next,
         maxLines: maxLines,
         validator: (String? value) {
           if (validator != null && value != null) {
@@ -261,7 +262,8 @@ Widget buildIconInputField({
     child: TextField(
       controller: controller,
       //focusNode: fn,
-      textInputAction: isLastField ? TextInputAction.done : TextInputAction.next,
+      textInputAction:
+          isLastField ? TextInputAction.done : TextInputAction.next,
       maxLines: maxLines == null ? null : maxLines,
       inputFormatters: [
         LengthLimitingTextInputFormatter(charLimit),
@@ -471,7 +473,10 @@ Widget buildRoundedOutlinedButton({
   );
 }
 
-Widget buildGridListItem({required String itemImg, required String itemTitle, VoidCallback? onClick}) {
+Widget buildGridListItem(
+    {required String itemImg,
+    required String itemTitle,
+    VoidCallback? onClick}) {
   return InkWell(
     child: Card(
       elevation: 5.0,
@@ -497,7 +502,8 @@ Widget buildGridListItem({required String itemImg, required String itemTitle, Vo
                 itemTitle,
                 textAlign: TextAlign.center,
                 maxLines: 2,
-                style: new TextStyle(fontSize: 13.0, fontWeight: FontWeight.bold),
+                style:
+                    new TextStyle(fontSize: 13.0, fontWeight: FontWeight.bold),
               ),
             )
           ],
@@ -510,7 +516,11 @@ Widget buildGridListItem({required String itemImg, required String itemTitle, Vo
   );
 }
 
-Widget buildGridListItem2({required String title, required String value, required Color color, VoidCallback? onClick}) {
+Widget buildGridListItem2(
+    {required String title,
+    required String value,
+    required Color color,
+    VoidCallback? onClick}) {
   return InkWell(
     child: Card(
       elevation: 5.0,
@@ -537,7 +547,11 @@ Widget buildGridListItem2({required String title, required String value, require
                       const TextSpan(text: "\n"),
                       TextSpan(
                         text: value,
-                        style: const TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold, color: Colors.white, height: 1.5),
+                        style: const TextStyle(
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            height: 1.5),
                       ),
                     ]),
               ),
@@ -587,7 +601,8 @@ loader({
   );
 }
 
-Widget emptyView({String title = "No records found yet...", bool isLoading = true}) {
+Widget emptyView(
+    {String title = "No records found yet...", bool isLoading = true}) {
   return Scaffold(
     body: !isLoading
         ? Container(
@@ -669,7 +684,13 @@ Widget buildListItem1({
   );
 }
 
-Widget buildListItem2({int lp = 1, int rp = 1, double elevation = 0, required Widget lWidget, required Widget rWidget, VoidCallback? onClick}) {
+Widget buildListItem2(
+    {int lp = 1,
+    int rp = 1,
+    double elevation = 0,
+    required Widget lWidget,
+    required Widget rWidget,
+    VoidCallback? onClick}) {
   return InkWell(
     child: Card(
       elevation: elevation,
@@ -734,7 +755,8 @@ Widget buildFieldHeader({
           ),
           decoration: BoxDecoration(
             color: Colors.blue.withOpacity(0.3),
-            border: new Border.all(color: Colors.blue, width: 1.0, style: BorderStyle.solid),
+            border: new Border.all(
+                color: Colors.blue, width: 1.0, style: BorderStyle.solid),
             borderRadius: new BorderRadius.only(
               bottomRight: new Radius.circular(30.0),
               topLeft: new Radius.circular(30.0),
@@ -745,9 +767,13 @@ Widget buildFieldHeader({
           child: RichText(
             text: TextSpan(
               text: title,
-              style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.blue),
               children: <TextSpan>[
-                TextSpan(text: isMandatory ? ' *' : '', style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
+                TextSpan(
+                    text: isMandatory ? ' *' : '',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.red)),
               ],
             ),
           ),
@@ -840,7 +866,11 @@ Widget circularNetworkImageView(
   );
 }
 
-Widget circularInitialsView({Color borderColor = Colors.white, double w = 40, double h = 40, String name = 'Guest'}) {
+Widget circularInitialsView(
+    {Color borderColor = Colors.white,
+    double w = 40,
+    double h = 40,
+    String name = 'Guest'}) {
   return Center(
     child: Column(
       mainAxisSize: MainAxisSize.min,
@@ -885,7 +915,10 @@ Widget buildDrawerHeaderRow({
           child: Row(children: [
             Text(
               title!,
-              style: const TextStyle(color: Color(0xff000000), fontSize: 16.0, fontWeight: FontWeight.normal),
+              style: const TextStyle(
+                  color: Color(0xff000000),
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.normal),
             ),
           ]),
         ),
@@ -954,7 +987,10 @@ Widget buildDrawerTile({IconData? icon, String? title, VoidCallback? onClick}) {
   );
 }
 
-Future<bool?> exitAppAlertDialog({required BuildContext context, VoidCallback? onExit, VoidCallback? onCancel}) {
+Future<bool?> exitAppAlertDialog(
+    {required BuildContext context,
+    VoidCallback? onExit,
+    VoidCallback? onCancel}) {
   return showDialog<bool?>(
     context: context,
     builder: (BuildContext context) {
@@ -1082,7 +1118,8 @@ Widget buildSelectionTile({
               alignment: Alignment.centerLeft,
               child: Text(
                 optionName,
-                style: TextStyle(color: isSelected ? Colors.blue : Colors.white),
+                style:
+                    TextStyle(color: isSelected ? Colors.blue : Colors.white),
               ),
             ),
           ),
@@ -1145,7 +1182,11 @@ void confirmDialog(BuildContext context, {VoidCallback? onYes}) {
 bool isPhoto({required String filePath}) {
   String extension = path.extension(filePath).toLowerCase();
   // Check for common photo extensions (you can add more as needed)
-  return extension == '.jpg' || extension == '.jpeg' || extension == '.png' || extension == '.gif' || extension == '.bmp';
+  return extension == '.jpg' ||
+      extension == '.jpeg' ||
+      extension == '.png' ||
+      extension == '.gif' ||
+      extension == '.bmp';
 }
 
 bool isIosPhoto({required String filePath}) {
@@ -1157,5 +1198,8 @@ bool isIosPhoto({required String filePath}) {
 bool isVideo({required String filePath}) {
   String extension = path.extension(filePath).toLowerCase();
   // Check for common video extensions (you can add more as needed)
-  return extension == '.mp4' || extension == '.avi' || extension == '.mov' || extension == '.mkv';
+  return extension == '.mp4' ||
+      extension == '.avi' ||
+      extension == '.mov' ||
+      extension == '.mkv';
 }

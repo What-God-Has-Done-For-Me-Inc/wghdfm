@@ -54,6 +54,7 @@ class _MyAppState extends State<MyApp> {
               primary: const Color(0xff1742cb).withOpacity(0.7),
             ),
           ),
+          fontFamily: 'Gilroy',
           visualDensity: VisualDensity.adaptivePlatformDensity,
           colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
               .copyWith(secondary: const Color(0xff1742cb).withOpacity(0.7))),

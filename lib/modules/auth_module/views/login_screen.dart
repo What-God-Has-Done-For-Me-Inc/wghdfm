@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,7 +6,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:wghdfm_java/common/background_widget.dart';
 import 'package:wghdfm_java/modules/auth_module/controller/auth_controller.dart';
 import 'package:wghdfm_java/modules/auth_module/views/sign_up_screen.dart';
+import 'package:wghdfm_java/utils/app_colors.dart';
 import 'package:wghdfm_java/utils/app_methods.dart';
+import 'package:wghdfm_java/utils/button.dart';
 import 'package:wghdfm_java/utils/page_res.dart';
 import 'package:wghdfm_java/utils/scale_ui_utils.dart';
 
@@ -33,6 +36,8 @@ class LoginScreen extends StatelessWidget {
               key: formKey,
               child: Column(
                 children: [
+                  Image.asset("assets/drawable/logo.png", scale: 1.5),
+                  SizedBox(height: Get.height * 0.04),
                   Container(
                     constraints: BoxConstraints(maxWidth: Get.width),
                     margin: const EdgeInsets.only(bottom: 20),
@@ -44,145 +49,122 @@ class LoginScreen extends StatelessWidget {
                           Text(
                             "What ",
                             style: GoogleFonts.montserrat(
-                                color: Colors.blue, fontSize: 16.0.sf),
+                                color: Colors.blue,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600),
                           ),
                           Text(
                             "God ",
                             style: GoogleFonts.montserrat(
-                                color: Colors.red, fontSize: 16.0.sf),
+                                color: Colors.red,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
                           ),
                           Text(
                             "Has ",
                             style: GoogleFonts.montserrat(
-                                color: Colors.blue, fontSize: 16.0.sf),
+                                color: Colors.blue,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600),
                           ),
                           Text(
                             "Done ",
                             style: GoogleFonts.montserrat(
-                                color: Colors.blue, fontSize: 16.0.sf),
+                                color: Colors.blue,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600),
                           ),
                           Text(
                             "For ",
                             style: GoogleFonts.montserrat(
-                                color: Colors.blue, fontSize: 16.0.sf),
+                                color: Colors.blue,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600),
                           ),
                           Text(
                             "Me",
                             style: GoogleFonts.montserrat(
-                                color: Colors.blue, fontSize: 16.0.sf),
+                                color: Colors.blue,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(
-                      bottom: 10,
-                    ),
-                    child: commonTextField(
-                      readOnly: false,
-                      hint: 'Email',
-                      validator: (String? value) {
-                        return (value != null && !value.isEmail)
-                            ? "Please enter valid email"
-                            : null;
-                      },
-                      onChanged: (String? value) {
-                        if (value != null) {
-                          AppMethods.showLog("?>>> VALUE $value");
-                          value.removeAllWhitespace;
-                          AppMethods.showLog("?>>> VALUE $value");
-                        }
-                      },
-                      isLabelFloating: false,
-                      controller: emailTEC,
-                      borderColor: Colors.white,
-                      baseColor: Colors.white,
-                      maxLines: 1,
-                    ),
+                  commonTextField(
+                    readOnly: false,
+                    hint: 'Email',
+                    validator: (String? value) {
+                      return (value != null && !value.isEmail)
+                          ? "Please enter valid email"
+                          : null;
+                    },
+                    onChanged: (String? value) {
+                      if (value != null) {
+                        AppMethods.showLog("?>>> VALUE $value");
+                        value.removeAllWhitespace;
+                        AppMethods.showLog("?>>> VALUE $value");
+                      }
+                    },
+                    isLabelFloating: false,
+                    controller: emailTEC,
+                    borderColor: Colors.white,
+                    baseColor: AppColors.blackColor,
+                    maxLines: 1,
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(
-                      bottom: 10,
-                    ),
-                    child: commonTextField(
-                      readOnly: false,
-                      hint: 'Password',
-                      isLabelFloating: false,
-                      validator: (String? value) {
-                        return (value != null &&
-                                (!validateIsFieldFilled(value)))
-                            ? "Please enter valid password"
-                            : null;
-                      },
-                      controller: passwordTEC,
-                      borderColor: Colors.white,
-                      baseColor: Colors.white,
-                      isLastField: true,
-                      obscureText: true,
-                    ),
+                  commonTextField(
+                    readOnly: false,
+                    hint: 'Password',
+                    isLabelFloating: false,
+                    validator: (String? value) {
+                      return (value != null && (!validateIsFieldFilled(value)))
+                          ? "Please enter valid password"
+                          : null;
+                    },
+                    controller: passwordTEC,
+                    borderColor: Colors.white,
+                    baseColor: AppColors.blackColor,
+                    isLastField: true,
+                    obscureText: true,
                   ),
-                  Container(
-                    width: Get.width,
-                    height: 50,
-                    padding: const EdgeInsets.all(5),
-                    child: ElevatedButton(
-                      onPressed: () {
+                  SizedBox(height: Get.height * 0.04),
+                  customButton(
+                      title: "Log In",
+                      onTap: () {
                         emailTEC.text.trim();
                         passwordTEC.text.trim();
-                     
+
                         if (formKey.currentState!.validate()) {
                           authController.signIn(
                             email: emailTEC.text.trim(),
                             password: passwordTEC.text.trim(),
                           );
                         }
-                      },
-                      child: Text(
-                        "Login".toUpperCase(),
-                        style: GoogleFonts.openSans(
-                            color: Colors.white, fontSize: 16.0.sf),
-                      ),
-                    ),
+                      }),
+                  SizedBox(height: Get.height * 0.02),
+                  Row(
+                    children: [
+                      Text.rich(TextSpan(
+                          text: 'Forgot Password?',
+                          style: const TextStyle(
+                            fontSize: 15,
+                            color: AppColors.primery,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Get.toNamed(PageRes.recoverPassword);
+                            })),
+                    ],
                   ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    width: Get.width,
-                    height: 50,
-                    padding: EdgeInsets.zero,
-                    child: TextButton(
-                      onPressed: () {
-                        Get.toNamed(PageRes.recoverPassword);
-                      },
-                      child: Text(
-                        "Forgot Password? Click Here",
-                        style: GoogleFonts.openSans(
-                          color: Colors.white,
-                          fontSize: 13.0.sf,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: Get.width,
-                    height: 50,
-                    padding: const EdgeInsets.all(5),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Get.to(() => SignUpScreen());
-                        // pushTransitionedOnlyTo(widget: SignUpScreen());
-                      },
-                      child: Text(
-                        "Signup".toUpperCase(),
-                        style: GoogleFonts.openSans(
-                            color: Colors.white, fontSize: 16.0.sf),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  SizedBox(height: Get.height * 0.04),
+                  customButton(
+                      title: "Sign Up",
+                      onTap: () {
+                        Get.to(() => const SignUpScreen());
+                      }),
+                  SizedBox(height: Get.height * 0.02),
                   // FittedBox(
                   //   child: Row(
                   //     mainAxisAlignment: MainAxisAlignment.center,

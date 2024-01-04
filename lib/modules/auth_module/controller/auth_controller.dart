@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wghdfm_java/common/common_snack.dart';
 import 'package:wghdfm_java/modules/auth_module/model/login_model.dart';
+import 'package:wghdfm_java/modules/auth_module/views/otp_screen.dart';
 import 'package:wghdfm_java/networking/api_service_class.dart';
 import 'package:wghdfm_java/services/prefrence_services.dart';
 import 'package:wghdfm_java/services/sesssion.dart';
@@ -59,6 +60,92 @@ class AuthController extends GetxController {
 
           ///Display snackbar here..
         },
+        showProcess: true);
+  }
+
+  submitOpt(
+      {required String opt,
+      required String firstName,
+      required String lastName,
+      required String email,
+      required String passWord,
+      required String cPassWord,
+      required String gender}) async {
+    APIService().callAPI(
+        params: {},
+        headers: {},
+        formDatas: dio.FormData.fromMap({
+          "user_type": "Y",
+          "church": "",
+          "firstname": firstName,
+          "lastname": lastName,
+          "email": email,
+          "otp": opt,
+          "gender": gender,
+          "password": passWord,
+          "cpassword": cPassWord
+        }),
+        serviceUrl: EndPoints.baseUrl + EndPoints.completeRegisterUserApi,
+        method: APIService.postMethod,
+        success: (dio.Response response) {
+          if (response.data.contains('success')) {
+            signIn(email: email, password: passWord);
+          } else {
+            snack(
+              title: 'Signup failed!',
+              msg: '${response.data}',
+              icon: Icons.close,
+              iconColor: Colors.red,
+            );
+          }
+        },
+        error: (dio.Response response) {},
+        showProcess: true);
+  }
+
+  sendOpt(
+      {required String firstName,
+      required String lastName,
+      required String email,
+      required String password,
+      required String cPassword,
+      required String gender}) async {
+    APIService().callAPI(
+        params: {},
+        headers: {},
+        formDatas: dio.FormData.fromMap({
+          "user_type": "Y",
+          "church": "",
+          "firstname": firstName,
+          "lastname": lastName,
+          "email": email,
+        }),
+        serviceUrl: EndPoints.baseUrl + EndPoints.registrationApi,
+        method: APIService.postMethod,
+        success: (dio.Response response) {
+          if (response.data.contains('success')) {
+            snack(
+              title: 'Signup successful!',
+              msg: 'Please check your Email or Spam\nTo activate your account.',
+              icon: Icons.check,
+              iconColor: Colors.green,
+            );
+            Get.to(OTPScreen(
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: password,
+                cPasssword: cPassword));
+          } else {
+            snack(
+              title: 'Signup failed!',
+              msg: '${response.data}',
+              icon: Icons.close,
+              iconColor: Colors.red,
+            );
+          }
+        },
+        error: (dio.Response response) {},
         showProcess: true);
   }
 
