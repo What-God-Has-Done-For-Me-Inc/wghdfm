@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:youtube_player_flutter_plus/youtube_player_flutter_plus.dart';
 
 import 'app_colors.dart';
 
 class YoutubeVideoScereen extends StatefulWidget {
   String? videoLink;
   String? videoId;
-  YoutubeVideoScereen({Key? key, this.videoLink, this.videoId}) : super(key: key);
+  YoutubeVideoScereen({Key? key, this.videoLink, this.videoId})
+      : super(key: key);
 
   @override
   _YoutubeVideoScereenState createState() => _YoutubeVideoScereenState();
@@ -37,7 +38,8 @@ class _YoutubeVideoScereenState extends State<YoutubeVideoScereen> {
 
   @override
   Widget build(BuildContext context) {
-    print(" YOUTUBE VIDEO Player running with this link.. >${youtubePlayerController?.initialVideoId}");
+    print(
+        " YOUTUBE VIDEO Player running with this link.. >${youtubePlayerController?.initialVideoId}");
     return Center(
       child: YoutubePlayer(
         controller: youtubePlayerController!,

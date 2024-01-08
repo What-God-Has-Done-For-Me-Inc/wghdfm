@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wghdfm_java/common/background_widget.dart';
 import 'package:wghdfm_java/common/commons.dart';
 import 'package:wghdfm_java/modules/recover_password/controller/recover_password_controller.dart';
+import 'package:wghdfm_java/utils/app_colors.dart';
+import 'package:wghdfm_java/utils/button.dart';
 
 class RecoverPasswordScreen extends StatelessWidget {
   RecoverPasswordScreen({Key? key}) : super(key: key);
@@ -28,6 +30,8 @@ class RecoverPasswordScreen extends StatelessWidget {
               child: ListView(
                 shrinkWrap: true,
                 children: [
+                  Image.asset("assets/drawable/logo.png", scale: 1.5),
+                  SizedBox(height: Get.height * 0.04),
                   Container(
                     constraints: BoxConstraints(maxWidth: Get.width),
                     margin: const EdgeInsets.only(bottom: 20),
@@ -39,72 +43,68 @@ class RecoverPasswordScreen extends StatelessWidget {
                           Text(
                             "What ",
                             style: GoogleFonts.montserrat(
-                                color: Colors.blue, fontSize: 16),
+                                color: Colors.blue,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600),
                           ),
                           Text(
                             "God ",
                             style: GoogleFonts.montserrat(
-                                color: Colors.red, fontSize: 16),
+                                color: Colors.red,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
                           ),
                           Text(
                             "Has ",
                             style: GoogleFonts.montserrat(
-                                color: Colors.blue, fontSize: 16),
+                                color: Colors.blue,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600),
                           ),
                           Text(
                             "Done ",
                             style: GoogleFonts.montserrat(
-                                color: Colors.blue, fontSize: 16),
+                                color: Colors.blue,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600),
                           ),
                           Text(
                             "For ",
                             style: GoogleFonts.montserrat(
-                                color: Colors.blue, fontSize: 16),
+                                color: Colors.blue,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600),
                           ),
                           Text(
                             "Me",
                             style: GoogleFonts.montserrat(
-                                color: Colors.blue, fontSize: 16),
+                                color: Colors.blue,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(
-                      bottom: 10,
-                    ),
-                    child: commonTextField(
-                      readOnly: false,
-                      hint: 'Email',
-                      isLabelFloating: false,
-                      controller: r.emailTEC,
-                      borderColor: Colors.white,
-                      baseColor: Colors.white,
-                      isLastField: true,
-                      maxLines: 1,
-                    ),
+                  commonTextField(
+                    readOnly: false,
+                    hint: 'Email',
+                    isLabelFloating: false,
+                    controller: r.emailTEC,
+                    borderColor: Colors.white,
+                    baseColor: AppColors.blackColor,
+                    isLastField: true,
+                    maxLines: 1,
                   ),
-                  Container(
-                    width: Get.width,
-                    height: 50,
-                    padding: const EdgeInsets.all(5),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        //Get.to(DraftLoginUI());
+                  customButton(
+                      title: "RECOVER PASSWORD",
+                      onTap: () {
                         if (r.areRecoveryFieldValid()) {
                           r.recovery(
                             userEmail: r.emailTEC.text.trim(),
                           );
                         }
-                      },
-                      child: Text(
-                        "Recover Password".toUpperCase(),
-                        style: GoogleFonts.openSans(
-                            color: Colors.white, fontSize: 16),
-                      ),
-                    ),
-                  ),
+                      }),
                 ],
               ),
             ),
@@ -117,7 +117,8 @@ class RecoverPasswordScreen extends StatelessWidget {
             padding: const EdgeInsets.all(5),
             child: Text(
               "whatgodhasdoneforme@yahoo.com",
-              style: GoogleFonts.montserrat(color: Colors.white, fontSize: 12),
+              style:
+                  GoogleFonts.montserrat(color: AppColors.black, fontSize: 12),
             ),
           ),
         ),

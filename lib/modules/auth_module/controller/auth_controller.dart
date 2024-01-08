@@ -25,13 +25,15 @@ class AuthController extends GetxController {
           /// set on success here
 
           debugPrint("login responseBody: ${response.data}");
-          var jsonDecoded = jsonDecode(response.data);
+          Map<String, dynamic> jsonDecoded = jsonDecode(response.data);
+          jsonDecoded.addAll({"pass": password});
 
           ///{"status":"Success","id":"69","email":"kumarsaloni@yahoo.com","church":"","user_type":null,"fname":"Kumar","lname":"Kishor","img":"1607948619.jpg"}
+
           LoginModel resObj = LoginModel.fromJson(jsonDecoded);
           if (resObj.status?.toLowerCase() == 'success') {
             storeStringToSF(
-                SessionManagement.ACTIVE_USER_DETAILS, response.data);
+                SessionManagement.ACTIVE_USER_DETAILS, jsonEncode(jsonDecoded));
             SessionManagement.createLoginSession(resObj.email!, resObj.id!);
             Future.delayed(const Duration(seconds: 0), () {
               SessionManagement.checkLoginRedirect();

@@ -8,6 +8,8 @@ import 'package:wghdfm_java/screen/donate/donate_controller.dart';
 import 'package:wghdfm_java/screen/donate/paypal_payment_.dart';
 import 'package:wghdfm_java/screen/donate/paypal_sdk_screen.dart';
 import 'package:wghdfm_java/screen/donate/paypal_web_recurring_screen.dart';
+import 'package:wghdfm_java/utils/app_colors.dart';
+import 'package:wghdfm_java/utils/button.dart';
 import 'package:wghdfm_java/utils/scale_ui_utils.dart';
 
 class DonateUI extends StatelessWidget {
@@ -95,13 +97,16 @@ class DonateUI extends StatelessWidget {
                         text: TextSpan(
                             text: c.whyNWhat,
                             style: GoogleFonts.montserrat(
-                                color: Colors.white, fontSize: 18.0.sf),
+                                color: AppColors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600),
                             children: [
                               const TextSpan(text: "\n\n"),
                               TextSpan(
                                 text: c.ourMission,
                                 style: GoogleFonts.montserrat(
-                                    color: Colors.white, fontSize: 15.0.sf),
+                                    color: AppColors.blackColor,
+                                    fontSize: 15.0.sf),
                               ),
                             ]),
                         textAlign: TextAlign.justify,
@@ -115,13 +120,16 @@ class DonateUI extends StatelessWidget {
                         text: TextSpan(
                             text: "Our Objective",
                             style: GoogleFonts.montserrat(
-                                color: Colors.white, fontSize: 18.0.sf),
+                                color: AppColors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600),
                             children: [
                               const TextSpan(text: "\n\n"),
                               TextSpan(
                                 text: c.ourObjective,
                                 style: GoogleFonts.montserrat(
-                                    color: Colors.white, fontSize: 15.0.sf),
+                                    color: AppColors.blackColor,
+                                    fontSize: 15.0.sf),
                               ),
                             ]),
                         textAlign: TextAlign.justify,
@@ -129,11 +137,11 @@ class DonateUI extends StatelessWidget {
                   Text(
                     "Please Partner With Us",
                     style: GoogleFonts.openSans(
-                        color: Colors.white, fontSize: 18.0.sf),
+                        color: AppColors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600),
                   ),
-                  SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   // StreamBuilder(
                   //   stream: selectedRecurring.stream,
                   //   builder: (context, snapshot) {
@@ -237,22 +245,11 @@ class DonateUI extends StatelessWidget {
                   //   style: GoogleFonts.openSans(
                   //       color: Colors.white, fontSize: 16.0.sf),
                   // ),
-
-                  Container(
-                    width: Get.width,
-                    height: 50,
-                    padding: const EdgeInsets.all(5),
-                    child: ElevatedButton(
-                      onPressed: () {
+                  customButton(
+                      title: 'DONATE',
+                      onTap: () {
                         Get.to(const PaypalPayment());
-                      },
-                      child: Text(
-                        "Donate".toUpperCase(),
-                        style: GoogleFonts.openSans(
-                            color: Colors.white, fontSize: 16.0.sf),
-                      ),
-                    ),
-                  ),
+                      }),
                 ],
               ),
             ),
@@ -265,7 +262,8 @@ class DonateUI extends StatelessWidget {
             padding: const EdgeInsets.all(5),
             child: Text(
               "whatgodhasdoneforme@yahoo.com",
-              style: GoogleFonts.montserrat(color: Colors.white, fontSize: 12),
+              style:
+                  GoogleFonts.montserrat(color: AppColors.black, fontSize: 12),
             ),
           ),
         ),

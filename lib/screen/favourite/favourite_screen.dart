@@ -58,11 +58,15 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
 
   pagination() {
     scrollController.addListener(() async {
-      print(">> SCROLL POSITION ${scrollController.position.pixels >= scrollController.position.maxScrollExtent * 0.70}");
-      if (scrollController.position.pixels >= scrollController.position.maxScrollExtent * 0.70 && favouriteController.isLoading.value == false) {
+      print(
+          ">> SCROLL POSITION ${scrollController.position.pixels >= scrollController.position.maxScrollExtent * 0.70}");
+      if (scrollController.position.pixels >=
+              scrollController.position.maxScrollExtent * 0.70 &&
+          favouriteController.isLoading.value == false) {
         favouriteController.isLoading.value = true;
         favouriteController.currentPage.value++;
-        await favouriteController.getFavPost(searchTxt: searchController.text, showLoading: false);
+        await favouriteController.getFavPost(
+            searchTxt: searchController.text, showLoading: false);
       }
     });
   }
@@ -74,16 +78,6 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         backgroundColor: Colors.black,
         appBar: AppBar(
           elevation: 0,
-          // leading: IconButton(
-          //     onPressed: () {
-          //       print(">> >> HEY ");
-          //       Get.to(() => DrawerScreen());
-          //       DrawerScreen.zoomDrawerController.open?.call();
-          //     },
-          //     icon: Icon(
-          //       Icons.menu,
-          //       color: Colors.black,
-          //     )),
           title: Text(
             'Favorite Feed(s)',
             style: GoogleFonts.montserrat(
@@ -122,7 +116,9 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           return Column(
             children: [
               Container(
-                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12)),
                 padding: const EdgeInsets.all(5),
                 child: TextField(
                   controller: searchController,
@@ -137,15 +133,18 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.black, width: 1),
+                      borderSide:
+                          const BorderSide(color: Colors.black, width: 1),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.black, width: 1),
+                      borderSide:
+                          const BorderSide(color: Colors.black, width: 1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.black, width: 1),
+                      borderSide:
+                          const BorderSide(color: Colors.black, width: 1),
                     ),
                     enabled: true,
                   ),
@@ -172,10 +171,14 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                 height: 10,
               ),
               Expanded(
-                child: (favouriteController.favFeeds != null && favouriteController.favFeeds?.isNotEmpty == true)
+                child: (favouriteController.favFeeds != null &&
+                        favouriteController.favFeeds?.isNotEmpty == true)
                     ? RefreshIndicator(
                         onRefresh: () async {
-                          favouriteController.getFavPost(searchTxt: searchController.text, isFirstTime: true, showLoading: true);
+                          favouriteController.getFavPost(
+                              searchTxt: searchController.text,
+                              isFirstTime: true,
+                              showLoading: true);
                         },
                         child: StreamBuilder(
                             stream: favouriteController.favFeeds?.stream,
@@ -184,20 +187,28 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                 shrinkWrap: true,
                                 controller: scrollController,
                                 physics: const ClampingScrollPhysics(),
-                                itemCount: favouriteController.favFeeds?.length ?? 0,
+                                itemCount:
+                                    favouriteController.favFeeds?.length ?? 0,
                                 itemBuilder: (BuildContext context, int index) {
-                                  bool isLoved = favouriteController.favFeeds?[index].isFav == 1;
-                                  bool isLiked = favouriteController.favFeeds?[index].isLike == 1;
-                                  bool isOwn = isOwnPost("${favouriteController.favFeeds?[index].ownerId}");
+                                  bool isLoved = favouriteController
+                                          .favFeeds?[index].isFav ==
+                                      1;
+                                  bool isLiked = favouriteController
+                                          .favFeeds?[index].isLike ==
+                                      1;
+                                  bool isOwn = isOwnPost(
+                                      "${favouriteController.favFeeds?[index].ownerId}");
 
                                   return Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      if (index % 10 == 0 && index != 0) const AdsScreen(),
+                                      if (index % 10 == 0 && index != 0)
+                                        const AdsScreen(),
                                       Card(
                                         color: Colors.white,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10.0),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
                                         ),
                                         //margin: EdgeInsets.all(10),
                                         child: Column(
@@ -206,46 +217,79 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                             Container(
                                               margin: const EdgeInsets.all(10),
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
                                                 children: <Widget>[
                                                   ClipOval(
                                                     child: Container(
                                                       height: 50,
                                                       width: 50,
                                                       decoration: BoxDecoration(
-                                                        color: Theme.of(Get.context!).iconTheme.color,
-                                                        borderRadius: BorderRadius.circular(100),
+                                                        color: Theme.of(
+                                                                Get.context!)
+                                                            .iconTheme
+                                                            .color,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(100),
                                                         border: Border.all(
-                                                          color: Theme.of(Get.context!).iconTheme.color!,
+                                                          color: Theme.of(
+                                                                  Get.context!)
+                                                              .iconTheme
+                                                              .color!,
                                                           width: 1,
                                                         ),
                                                       ),
-                                                      margin: const EdgeInsets.all(5),
+                                                      margin:
+                                                          const EdgeInsets.all(
+                                                              5),
                                                       padding: EdgeInsets.zero,
                                                       child: InkWell(
                                                         onTap: () {
-                                                          if (favouriteController.favFeeds?[index].ownerId != userId) {
-                                                            Get.off(() => SomeoneProfileScreen(profileID: "${favouriteController.favFeeds?[index].ownerId}"));
+                                                          if (favouriteController
+                                                                  .favFeeds?[
+                                                                      index]
+                                                                  .ownerId !=
+                                                              userId) {
+                                                            Get.off(() =>
+                                                                SomeoneProfileScreen(
+                                                                    profileID:
+                                                                        "${favouriteController.favFeeds?[index].ownerId}"));
                                                           } else {
-                                                            Get.off(() => const ProfileScreen());
+                                                            Get.off(() =>
+                                                                const ProfileScreen());
                                                           }
                                                           // Get.toNamed(PageRes.profileScreen, arguments: {"profileId": favouriteController.favFeeds?[index].ownerId!, "isSelf": isOwn});
                                                         },
                                                         child: ClipOval(
-                                                          child: CachedNetworkImage(
-                                                            alignment: Alignment.center,
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            alignment: Alignment
+                                                                .center,
                                                             fit: BoxFit.fill,
-                                                            imageUrl: "${favouriteController.favFeeds?[index].profilePic}",
+                                                            imageUrl:
+                                                                "${favouriteController.favFeeds?[index].profilePic}",
                                                             // placeholder: (context, url) {
                                                             //   return Image.asset(
                                                             //     "assets/logo.png",
                                                             //     scale: 5.0,
                                                             //   );
                                                             // },
-                                                            progressIndicatorBuilder: (BuildContext, String, DownloadProgress) {
-                                                              return const Center(child: CupertinoActivityIndicator());
+                                                            progressIndicatorBuilder:
+                                                                (BuildContext,
+                                                                    String,
+                                                                    DownloadProgress) {
+                                                              return const Center(
+                                                                  child:
+                                                                      CupertinoActivityIndicator());
                                                             },
-                                                            errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.white),
+                                                            errorWidget: (context,
+                                                                    url,
+                                                                    error) =>
+                                                                const Icon(
+                                                                    Icons.error,
+                                                                    color: Colors
+                                                                        .white),
                                                           ),
                                                         ),
                                                       ),
@@ -258,26 +302,42 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                     flex: 8,
                                                     child: RichText(
                                                       text: TextSpan(
-                                                        text: favouriteController.favFeeds?[index].name,
+                                                        text:
+                                                            favouriteController
+                                                                .favFeeds?[
+                                                                    index]
+                                                                .name,
                                                         style: const TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 15.0,
                                                           height: 1.8,
-                                                          fontWeight: FontWeight.bold,
-                                                          decoration: TextDecoration.none,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
                                                         ),
                                                         children: <TextSpan>[
                                                           TextSpan(
-                                                            text: favouriteController.favFeeds?[index].toUserIdDetails != null
+                                                            text: favouriteController
+                                                                        .favFeeds?[
+                                                                            index]
+                                                                        .toUserIdDetails !=
+                                                                    null
                                                                 ? " shared to ${favouriteController.favFeeds?[index].toUserIdDetails?.firstname ?? "Guest"} ${favouriteController.favFeeds?[index].toUserIdDetails?.lastname ?? ""} "
                                                                 : "",
                                                             // text: "",
                                                             style: TextStyle(
-                                                              color: Colors.black45,
+                                                              color: Colors
+                                                                  .black45,
                                                               fontSize: 15.0,
                                                               height: 1.8,
-                                                              fontWeight: FontWeight.normal,
-                                                              decoration: TextDecoration.none,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
                                                             ),
                                                           ),
                                                         ],
@@ -286,13 +346,19 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                   ),
                                                   if (isOwn)
                                                     PopupMenuButton<String>(
-                                                      offset: const Offset(0, 40),
+                                                      offset:
+                                                          const Offset(0, 40),
                                                       icon: const Icon(
                                                         Icons.more_horiz,
                                                       ),
-                                                      itemBuilder: (BuildContext context) {
-                                                        return PopUpOptions.feedPostMoreOptions.map((String choice) {
-                                                          return PopupMenuItem<String>(
+                                                      itemBuilder: (BuildContext
+                                                          context) {
+                                                        return PopUpOptions
+                                                            .feedPostMoreOptions
+                                                            .map((String
+                                                                choice) {
+                                                          return PopupMenuItem<
+                                                              String>(
                                                             value: choice,
                                                             child: Text(choice),
                                                           );
@@ -300,27 +366,42 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                       },
                                                       onSelected: (value) {
                                                         switch (value) {
-                                                          case PopUpOptions.edit:
-                                                            editStatusBottomSheet(favouriteController.favFeeds?[index] ?? PostModelFeed(), onEdit: () {
+                                                          case PopUpOptions
+                                                                .edit:
+                                                            editStatusBottomSheet(
+                                                                favouriteController
+                                                                            .favFeeds?[
+                                                                        index] ??
+                                                                    PostModelFeed(),
+                                                                onEdit: () {
                                                               setState(() {});
                                                             });
                                                             break;
-                                                          case PopUpOptions.delete:
+                                                          case PopUpOptions
+                                                                .delete:
                                                             showDialog(
-                                                                context: context,
-                                                                builder: (context) {
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
                                                                   return CupertinoAlertDialog(
-                                                                    title: Text('Are you sure you want to delete this post?'),
-                                                                    content: Text('This will delete this post permanently'),
+                                                                    title: Text(
+                                                                        'Are you sure you want to delete this post?'),
+                                                                    content: Text(
+                                                                        'This will delete this post permanently'),
                                                                     actions: <Widget>[
                                                                       TextButton(
-                                                                        onPressed: () {
-                                                                          Navigator.pop(context); //close Dialog
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.pop(
+                                                                              context); //close Dialog
                                                                         },
-                                                                        child: Text('Cancel'),
+                                                                        child: Text(
+                                                                            'Cancel'),
                                                                       ),
                                                                       TextButton(
-                                                                          onPressed: () {
+                                                                          onPressed:
+                                                                              () {
                                                                             Navigator.pop(context);
                                                                             deletePost(
                                                                                 postId: "${favouriteController.favFeeds?[index].id}",
@@ -332,9 +413,11 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                                             });
                                                                             //action code for "Yes" button
                                                                           },
-                                                                          child: Text(
+                                                                          child:
+                                                                              Text(
                                                                             'Delete',
-                                                                            style: TextStyle(color: Colors.red),
+                                                                            style:
+                                                                                TextStyle(color: Colors.red),
                                                                           )),
                                                                     ],
                                                                   );
@@ -347,16 +430,31 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                 ],
                                               ),
                                             ),
-                                            if (favouriteController.favFeeds?[index].status != null && favouriteController.favFeeds?[index].status != '')
+                                            if (favouriteController
+                                                        .favFeeds?[index]
+                                                        .status !=
+                                                    null &&
+                                                favouriteController
+                                                        .favFeeds?[index]
+                                                        .status !=
+                                                    '')
                                               Container(
                                                 margin: const EdgeInsets.only(
                                                   left: 10,
                                                   right: 10,
                                                 ),
                                                 child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
                                                   children: <Widget>[
-                                                    Expanded(flex: 8, child: getLinkText(text: favouriteController.favFeeds?[index].status ?? "")
+                                                    Expanded(
+                                                        flex: 8,
+                                                        child: getLinkText(
+                                                            text: favouriteController
+                                                                    .favFeeds?[
+                                                                        index]
+                                                                    .status ??
+                                                                "")
                                                         /*RichText(
                                                         text: TextSpan(
                                                           text: favouriteController.favFeeds?[index].status!,
@@ -374,14 +472,17 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                 ),
                                               ),
                                             // Text(feeds![index].status.toString()),
-                                            commonImageView(favouriteController.favFeeds?[index]),
+                                            //commonImageView(favouriteController.favFeeds?[index]),
+                                            customImageView(favouriteController
+                                                .favFeeds?[index]),
                                             Container(
                                               margin: const EdgeInsets.only(
                                                 left: 10,
                                                 right: 10,
                                               ),
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
                                                 children: <Widget>[
                                                   Expanded(
                                                     flex: 1,
@@ -389,29 +490,60 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                         onPressed: () {
                                                           if (!isLoved) {
                                                             setAsFav(
-                                                              postId: "${favouriteController.favFeeds?[index].id}",
+                                                              postId:
+                                                                  "${favouriteController.favFeeds?[index].id}",
                                                             ).then((value) {
-                                                              if (favouriteController.favFeeds?[index].isFav == 0) {
-                                                                favouriteController.favFeeds?[index].isFav = 1;
+                                                              if (favouriteController
+                                                                      .favFeeds?[
+                                                                          index]
+                                                                      .isFav ==
+                                                                  0) {
+                                                                favouriteController
+                                                                    .favFeeds?[
+                                                                        index]
+                                                                    .isFav = 1;
                                                               } else {
-                                                                favouriteController.favFeeds?[index].isFav = 0;
+                                                                favouriteController
+                                                                    .favFeeds?[
+                                                                        index]
+                                                                    .isFav = 0;
                                                               }
                                                               setState(() {});
                                                             });
                                                           } else {
-                                                            setAsUnFav("${favouriteController.favFeeds?[index].id}").then((value) {
-                                                              if (favouriteController.favFeeds?[index].isFav == 0) {
-                                                                favouriteController.favFeeds?[index].isFav = 1;
+                                                            setAsUnFav(
+                                                                    "${favouriteController.favFeeds?[index].id}")
+                                                                .then((value) {
+                                                              if (favouriteController
+                                                                      .favFeeds?[
+                                                                          index]
+                                                                      .isFav ==
+                                                                  0) {
+                                                                favouriteController
+                                                                    .favFeeds?[
+                                                                        index]
+                                                                    .isFav = 1;
                                                               } else {
-                                                                favouriteController.favFeeds?[index].isFav = 0;
+                                                                favouriteController
+                                                                    .favFeeds?[
+                                                                        index]
+                                                                    .isFav = 0;
                                                               }
                                                               setState(() {});
                                                             });
                                                           }
                                                         },
                                                         icon: Icon(
-                                                          isLoved ? Icons.favorite : Icons.favorite_border,
-                                                          color: isLoved ? Colors.red : Theme.of(Get.context!).iconTheme.color,
+                                                          isLoved
+                                                              ? Icons.favorite
+                                                              : Icons
+                                                                  .favorite_border,
+                                                          color: isLoved
+                                                              ? Colors.red
+                                                              : Theme.of(Get
+                                                                      .context!)
+                                                                  .iconTheme
+                                                                  .color,
                                                         )),
                                                   ),
                                                   /*Expanded(
@@ -452,30 +584,70 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                         //   }
                                                         // });
                                                         await setAsLiked(
-                                                            postId: "${favouriteController.favFeeds?[index].id}",
-                                                            isInsertLike: favouriteController.favFeeds?[index].isLike == 0,
-                                                            postOwnerId: favouriteController.favFeeds?[index].ownerId,
-                                                            callBack: (commentCount) {
-                                                              if (favouriteController.favFeeds?[index].isLike == 0) {
-                                                                favouriteController.favFeeds?[index].isLike = 1;
+                                                            postId:
+                                                                "${favouriteController.favFeeds?[index].id}",
+                                                            isInsertLike:
+                                                                favouriteController
+                                                                        .favFeeds?[
+                                                                            index]
+                                                                        .isLike ==
+                                                                    0,
+                                                            postOwnerId:
+                                                                favouriteController
+                                                                    .favFeeds?[
+                                                                        index]
+                                                                    .ownerId,
+                                                            callBack:
+                                                                (commentCount) {
+                                                              if (favouriteController
+                                                                      .favFeeds?[
+                                                                          index]
+                                                                      .isLike ==
+                                                                  0) {
+                                                                favouriteController
+                                                                    .favFeeds?[
+                                                                        index]
+                                                                    .isLike = 1;
                                                               } else {
-                                                                favouriteController.favFeeds?[index].isLike = 0;
+                                                                favouriteController
+                                                                    .favFeeds?[
+                                                                        index]
+                                                                    .isLike = 0;
                                                               }
-                                                              favouriteController.favFeeds?[index].countLike = "$commentCount";
+                                                              favouriteController
+                                                                      .favFeeds?[
+                                                                          index]
+                                                                      .countLike =
+                                                                  "$commentCount";
                                                               setState(() {});
                                                             });
                                                       },
                                                       child: Container(
-                                                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 5),
                                                         height: 20,
                                                         child: Row(
-                                                          mainAxisSize: MainAxisSize.min,
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
                                                           children: [
                                                             Image.asset(
-                                                              isLiked ? "assets/icon/liked_image.png" : "assets/icon/like_img.png",
-                                                              color: isLiked ? Colors.blue : Theme.of(Get.context!).iconTheme.color,
+                                                              isLiked
+                                                                  ? "assets/icon/liked_image.png"
+                                                                  : "assets/icon/like_img.png",
+                                                              color: isLiked
+                                                                  ? Colors.blue
+                                                                  : Theme.of(Get
+                                                                          .context!)
+                                                                      .iconTheme
+                                                                      .color,
                                                             ),
                                                             const SizedBox(
                                                               width: 3,
@@ -513,31 +685,54 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                     flex: 1,
                                                     child: InkWell(
                                                       onTap: () async {
-                                                        LoginModel userDetails = await SessionManagement.getUserDetails();
+                                                        LoginModel userDetails =
+                                                            await SessionManagement
+                                                                .getUserDetails();
                                                         if (kDebugMode) {
-                                                          print("user id: ${userDetails.id}");
-                                                          print("post id: ${favouriteController.favFeeds?[index].id!}");
+                                                          print(
+                                                              "user id: ${userDetails.id}");
+                                                          print(
+                                                              "post id: ${favouriteController.favFeeds?[index].id!}");
                                                         }
 
-                                                        debugPrint("Before: ${favouriteController.favFeeds?[index].id!}");
-                                                        EndPoints.selectedPostId = "${favouriteController.favFeeds?[index].id}";
-                                                        Get.to(() => CommentScreen(
-                                                              index: index,
-                                                              isFrom: AppTexts.favorite,
-                                                              postId: EndPoints.selectedPostId,
-                                                              postOwnerId: "${favouriteController.favFeeds?[index].ownerId}",
-                                                            ))?.then((value) => favouriteController.favFeeds?.refresh());
+                                                        debugPrint(
+                                                            "Before: ${favouriteController.favFeeds?[index].id!}");
+                                                        EndPoints
+                                                                .selectedPostId =
+                                                            "${favouriteController.favFeeds?[index].id}";
+                                                        Get.to(
+                                                            () => CommentScreen(
+                                                                  index: index,
+                                                                  isFrom: AppTexts
+                                                                      .favorite,
+                                                                  postId: EndPoints
+                                                                      .selectedPostId,
+                                                                  postOwnerId:
+                                                                      "${favouriteController.favFeeds?[index].ownerId}",
+                                                                ))?.then((value) =>
+                                                            favouriteController
+                                                                .favFeeds
+                                                                ?.refresh());
                                                       },
                                                       child: Container(
-                                                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 5),
                                                         height: 20,
                                                         child: Row(
-                                                          mainAxisSize: MainAxisSize.min,
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
                                                           children: [
                                                             const Icon(
-                                                              Icons.chat_bubble_outline,
+                                                              Icons
+                                                                  .chat_bubble_outline,
                                                               // color: isLiked ? Colors.blue : Theme.of(Get.context!).iconTheme.color,
                                                             ),
                                                             const SizedBox(
@@ -555,83 +750,142 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                     flex: 1,
                                                     child: IconButton(
                                                         onPressed: () {
-                                                          addToTimeline("${favouriteController.favFeeds?[index].id}");
+                                                          addToTimeline(
+                                                              "${favouriteController.favFeeds?[index].id}");
                                                         },
-                                                        icon: const Icon(Icons.add_box)),
+                                                        icon: const Icon(
+                                                            Icons.add_box)),
                                                   ),
                                                   Expanded(
                                                     flex: 1,
                                                     child: IconButton(
                                                         onPressed: () {
-                                                          AppMethods().share("${EndPoints.socialSharePostUrl}${favouriteController.favFeeds?[index].id}");
+                                                          AppMethods().share(
+                                                              "${EndPoints.socialSharePostUrl}${favouriteController.favFeeds?[index].id}");
                                                         },
-                                                        icon: const Icon(Icons.share)),
+                                                        icon: const Icon(
+                                                            Icons.share)),
                                                   ),
                                                   // const Spacer(),
                                                   Expanded(
                                                     flex: 1,
                                                     child: IconButton(
                                                         onPressed: () {
-                                                          reportPost("${favouriteController.favFeeds?[index].id}");
+                                                          reportPost(
+                                                              "${favouriteController.favFeeds?[index].id}");
                                                         },
-                                                        icon: const Icon(Icons.report_problem)),
+                                                        icon: const Icon(Icons
+                                                            .report_problem)),
                                                   ),
                                                 ],
                                               ),
                                             ),
                                             Align(
-                                                alignment: Alignment.bottomRight,
+                                                alignment:
+                                                    Alignment.bottomRight,
                                                 child: Container(
-                                                  margin: const EdgeInsets.all(10),
-                                                  child: customText(title: "${favouriteController.favFeeds?[index].timeStamp}", fs: 10),
+                                                  margin:
+                                                      const EdgeInsets.all(10),
+                                                  child: customText(
+                                                      title:
+                                                          "${favouriteController.favFeeds?[index].timeStamp}",
+                                                      fs: 10),
                                                 )),
-                                            if (favouriteController.favFeeds?[index].latestComments?.isNotEmpty == true)
+                                            if (favouriteController
+                                                    .favFeeds?[index]
+                                                    .latestComments
+                                                    ?.isNotEmpty ==
+                                                true)
                                               Column(
                                                 children: [
                                                   const Align(
-                                                    alignment: Alignment.centerLeft,
+                                                    alignment:
+                                                        Alignment.centerLeft,
                                                     child: Text("Comments"),
                                                   ).paddingOnly(left: 10),
                                                   ListView.builder(
                                                     shrinkWrap: true,
-                                                    physics: const NeverScrollableScrollPhysics(),
-                                                    itemCount: favouriteController.favFeeds?[index].latestComments?.length ?? 0,
-                                                    itemBuilder: (context, indexOfComment) => Row(
+                                                    physics:
+                                                        const NeverScrollableScrollPhysics(),
+                                                    itemCount:
+                                                        favouriteController
+                                                                .favFeeds?[
+                                                                    index]
+                                                                .latestComments
+                                                                ?.length ??
+                                                            0,
+                                                    itemBuilder: (context,
+                                                            indexOfComment) =>
+                                                        Row(
                                                       children: [
                                                         Container(
                                                           height: 40,
                                                           width: 40,
-                                                          decoration: BoxDecoration(
-                                                            color: Theme.of(Get.context!).iconTheme.color,
-                                                            borderRadius: BorderRadius.circular(100),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Theme.of(Get
+                                                                    .context!)
+                                                                .iconTheme
+                                                                .color,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        100),
                                                             border: Border.all(
-                                                              color: Theme.of(Get.context!).iconTheme.color!,
+                                                              color: Theme.of(Get
+                                                                      .context!)
+                                                                  .iconTheme
+                                                                  .color!,
                                                               width: 1,
                                                             ),
                                                           ),
-                                                          margin: const EdgeInsets.all(5),
-                                                          padding: EdgeInsets.zero,
+                                                          margin:
+                                                              const EdgeInsets
+                                                                  .all(5),
+                                                          padding:
+                                                              EdgeInsets.zero,
                                                           child: ClipOval(
-                                                            child: CachedNetworkImage(
-                                                              alignment: Alignment.center,
+                                                            child:
+                                                                CachedNetworkImage(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
                                                               fit: BoxFit.fill,
                                                               imageUrl:
                                                                   "https://wghdfm.s3.amazonaws.com/thumb/${favouriteController.favFeeds?[index].latestComments?[indexOfComment]?.img}",
-                                                              progressIndicatorBuilder: (BuildContext, String, DownloadProgress) {
-                                                                return const Center(child: CupertinoActivityIndicator());
+                                                              progressIndicatorBuilder:
+                                                                  (BuildContext,
+                                                                      String,
+                                                                      DownloadProgress) {
+                                                                return const Center(
+                                                                    child:
+                                                                        CupertinoActivityIndicator());
                                                               },
-                                                              errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.white),
+                                                              errorWidget: (context,
+                                                                      url,
+                                                                      error) =>
+                                                                  const Icon(
+                                                                      Icons
+                                                                          .error,
+                                                                      color: Colors
+                                                                          .white),
                                                             ),
                                                           ),
                                                         ),
                                                         Column(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          mainAxisSize: MainAxisSize.min,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
                                                           children: [
                                                             Text(
                                                                 "${favouriteController.favFeeds?[index].latestComments?[indexOfComment]?.firstname} ${favouriteController.favFeeds?[index].latestComments?[indexOfComment]?.lastname}"),
-                                                            Text("${favouriteController.favFeeds?[index].latestComments?[indexOfComment]?.comment}"),
+                                                            Text(
+                                                                "${favouriteController.favFeeds?[index].latestComments?[indexOfComment]?.comment}"),
                                                           ],
                                                         )
                                                       ],
@@ -667,7 +921,10 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                             }),
                       )
                     : Center(
-                        child: customText(title: 'No Feeds for your search \n try another keyword', txtColor: Colors.white),
+                        child: customText(
+                            title:
+                                'No Feeds for your search \n try another keyword',
+                            txtColor: Colors.white),
                       ),
               ),
               StreamBuilder(
@@ -707,7 +964,9 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
     });
     return InkWell(
       onTap: () {
-        feed?.media == "" ? const Offstage() : Get.toNamed(PageRes.postDetailScreen, arguments: listOfMedia);
+        feed?.media == ""
+            ? const Offstage()
+            : Get.toNamed(PageRes.postDetailScreen, arguments: listOfMedia);
         print("more");
       },
       child: Column(
@@ -723,10 +982,12 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                     print("=== == = = =${feed?.url}");
                     print("=== 121 2 12${listOfMedia?[index]}");
                     print("=== indexxx ${index}");
-                    return ["mp4", "3gp"].contains(listOfMedia?[index].split(".").last)
+                    return ["mp4", "3gp"]
+                            .contains(listOfMedia?[index].split(".").last)
                         ? Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey, width: 0.5),
+                              border:
+                                  Border.all(color: Colors.grey, width: 0.5),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: ClipRRect(
@@ -735,9 +996,11 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                 fit: StackFit.expand,
                                 alignment: Alignment.center,
                                 children: [
-                                  CommonVideoPlayer(videoLink: listOfMedia?[index] ?? ""),
+                                  CommonVideoPlayer(
+                                      videoLink: listOfMedia?[index] ?? ""),
                                   Visibility(
-                                    visible: index == 3 && (listOfMedia?.length ?? 0) >= 5,
+                                    visible: index == 3 &&
+                                        (listOfMedia?.length ?? 0) >= 5,
                                     child: Container(
                                       height: 200,
                                       width: double.infinity,
@@ -746,10 +1009,13 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                   ),
                                   Center(
                                     child: Visibility(
-                                      visible: index == 3 && (listOfMedia?.length ?? 0) >= 5,
+                                      visible: index == 3 &&
+                                          (listOfMedia?.length ?? 0) >= 5,
                                       child: Text(
                                         "+${(listOfMedia?.length ?? 0) - 4} More",
-                                        style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
                                       ),
                                     ),
                                   )
@@ -762,14 +1028,16 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                               // )),
                             ),
                           )
-                        : ["jpg", "jpeg", "png", "gif"].contains(listOfMedia?[index].split(".").last)
+                        : ["jpg", "jpeg", "png", "gif"]
+                                .contains(listOfMedia?[index].split(".").last)
                             ? Stack(
                                 fit: StackFit.expand,
                                 alignment: Alignment.center,
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.grey, width: 0.5),
+                                      border: Border.all(
+                                          color: Colors.grey, width: 0.5),
                                       borderRadius: BorderRadius.circular(6),
                                     ),
                                     child: ClipRRect(
@@ -780,8 +1048,11 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                         // placeholder: (context, url) {
                                         //   return Image.asset("assets/logo.png");
                                         // },
-                                        progressIndicatorBuilder: (BuildContext, String, DownloadProgress) {
-                                          return const Center(child: CupertinoActivityIndicator());
+                                        progressIndicatorBuilder: (BuildContext,
+                                            String, DownloadProgress) {
+                                          return const Center(
+                                              child:
+                                                  CupertinoActivityIndicator());
                                         },
                                         // progressIndicatorBuilder: (BuildContext, String, DownloadProgress){
                                         //   return SizedBox(
@@ -789,7 +1060,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                         //     width: 35,
                                         //     child: Platform.isAndroid ? CircularProgressIndicator() : CupertinoActivityIndicator(),);
                                         // },
-                                        errorWidget: (BuildContext, String, dynamic) {
+                                        errorWidget:
+                                            (BuildContext, String, dynamic) {
                                           return Image.asset("assets/logo.png");
                                           // return Image.asset("assets/drawable/home.jpg");
                                         },
@@ -797,7 +1069,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                     ),
                                   ),
                                   Visibility(
-                                    visible: index == 3 && (listOfMedia?.length ?? 0) >= 5,
+                                    visible: index == 3 &&
+                                        (listOfMedia?.length ?? 0) >= 5,
                                     child: Container(
                                       height: 200,
                                       width: double.infinity,
@@ -805,11 +1078,14 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                     ),
                                   ),
                                   Visibility(
-                                    visible: index == 3 && (listOfMedia?.length ?? 0) >= 5,
+                                    visible: index == 3 &&
+                                        (listOfMedia?.length ?? 0) >= 5,
                                     child: Center(
                                       child: Text(
                                         "+${(listOfMedia?.length ?? 0) - 4} More",
-                                        style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
                                       ),
                                     ),
                                   ),
@@ -828,7 +1104,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                             : feed?.url?.contains("youtube.com/watch?v") == true
                                 ? Container(
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.grey, width: 0.5),
+                                      border: Border.all(
+                                          color: Colors.grey, width: 0.5),
                                       borderRadius: BorderRadius.circular(6),
                                     ),
                                     child: ClipRRect(
@@ -837,12 +1114,20 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                       //   videoId: feed.url!.split("=").last,
                                       // ),
                                       child: StreamBuilder(
-                                          stream: favouriteController.isRefreshing.stream,
+                                          stream: favouriteController
+                                              .isRefreshing.stream,
                                           builder: (context, snapshot) {
-                                            print("> kFavouriteController.isRefreshing => ${favouriteController.isRefreshing.value}");
-                                            return favouriteController.isRefreshing.value == true
+                                            print(
+                                                "> kFavouriteController.isRefreshing => ${favouriteController.isRefreshing.value}");
+                                            return favouriteController
+                                                        .isRefreshing.value ==
+                                                    true
                                                 ? const CupertinoActivityIndicator()
-                                                : CommonYTPlayer(videoId: feed?.url?.split("=").last ?? "");
+                                                : CommonYTPlayer(
+                                                    videoId: feed?.url
+                                                            ?.split("=")
+                                                            .last ??
+                                                        "");
                                           }),
 
                                       /*child: YoutubePlayer(
@@ -868,19 +1153,30 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                     ),*/
                                     ),
                                   )
-                                : (feed?.url?.contains("www.youtube.com/live/") == true)
+                                : (feed?.url?.contains(
+                                            "www.youtube.com/live/") ==
+                                        true)
                                     ? Container(
                                         decoration: BoxDecoration(
-                                          border: Border.all(color: Colors.grey, width: 0.5),
-                                          borderRadius: BorderRadius.circular(6),
+                                          border: Border.all(
+                                              color: Colors.grey, width: 0.5),
+                                          borderRadius:
+                                              BorderRadius.circular(6),
                                         ),
                                         child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(5),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
                                           // child: YoutubeVideoScereen(
                                           //   videoId: feed.url!.split("=").last,
                                           // ),
 
-                                          child: CommonYTPlayer(videoId: feed?.url?.split("/").last.split('?').first ?? ""),
+                                          child: CommonYTPlayer(
+                                              videoId: feed?.url
+                                                      ?.split("/")
+                                                      .last
+                                                      .split('?')
+                                                      .first ??
+                                                  ""),
 
                                           /*child: YoutubePlayer(
                                         controller: YoutubePlayerController(
@@ -908,22 +1204,35 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                     : feed?.url?.contains("youtu.be") == true
                                         ? Container(
                                             decoration: BoxDecoration(
-                                              border: Border.all(color: Colors.grey, width: 0.5),
-                                              borderRadius: BorderRadius.circular(6),
+                                              border: Border.all(
+                                                  color: Colors.grey,
+                                                  width: 0.5),
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
                                             ),
                                             child: ClipRRect(
-                                              borderRadius: BorderRadius.circular(5),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
                                               // child: YoutubeVideoScereen(
                                               //   videoId: feed.url!.split("/").last,
                                               // ),
                                               child: StreamBuilder(
-                                                  stream: favouriteController.isRefreshing.stream,
+                                                  stream: favouriteController
+                                                      .isRefreshing.stream,
                                                   builder: (context, snapshot) {
-                                                    print("> kFavouriteController.isRefreshing => 22 ${favouriteController.isRefreshing.value}");
+                                                    print(
+                                                        "> kFavouriteController.isRefreshing => 22 ${favouriteController.isRefreshing.value}");
 
-                                                    return favouriteController.isRefreshing.value == true
+                                                    return favouriteController
+                                                                .isRefreshing
+                                                                .value ==
+                                                            true
                                                         ? const CupertinoActivityIndicator()
-                                                        : CommonYTPlayer(videoId: feed?.url?.split("/").last ?? "");
+                                                        : CommonYTPlayer(
+                                                            videoId: feed?.url
+                                                                    ?.split("/")
+                                                                    .last ??
+                                                                "");
                                                   }),
 
                                               /*child: YoutubePlayer(
@@ -962,7 +1271,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                     // mainAxisExtent: 100,
                     crossAxisCount: listOfMedia?.length == 1 ? 1 : 2,
                   ),
-                  itemCount: (listOfMedia?.length ?? 0) <= 4 ? listOfMedia?.length : 4,
+                  itemCount:
+                      (listOfMedia?.length ?? 0) <= 4 ? listOfMedia?.length : 4,
                 )
               : const SizedBox(),
           const SizedBox(

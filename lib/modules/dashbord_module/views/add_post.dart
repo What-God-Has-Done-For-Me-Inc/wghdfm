@@ -37,7 +37,7 @@ class _AddPostState extends State<AddPost> {
   TextEditingController urlYTController = TextEditingController();
   VideoCompressor videoCompressor = VideoCompressor();
   RxBool isPost = false.obs;
-   RxBool isLoading = false.obs;
+  RxBool isLoading = false.obs;
   File? pickedImage;
   final formKey = GlobalKey<FormState>();
   RxList<File>? pickedFiles = <File>[].obs;
@@ -72,7 +72,9 @@ class _AddPostState extends State<AddPost> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Add Post'),
-          backgroundColor: Colors.black,
+          titleSpacing: 0.0,
+          elevation: 1,
+          //backgroundColor: Colors.black,
           actions: [
             /*  StreamBuilder(
               stream: VideoCompressor.percentage.stream,
@@ -210,128 +212,131 @@ class _AddPostState extends State<AddPost> {
                 );
               },
             ),*/
-            InkWell(
-              onTap: () async {
-                if (isPost.value) {
-                  if (pickedFiles?.isNotEmpty == true) {
-                    Get.back();
-                    snack(
-                        title: "Success",
-                        msg: "Your post is uploading in background..");
-
-                    ///----START--
-
-                    String taggedUser = "";
-                    try {
-                      kDashboardController.friendsModel.value.data
-                          ?.forEach((element) {
-                        if (element?.isSelected.value == true) {
-                          taggedUser = "${taggedUser}|${element?.userId}";
-                        }
-                      });
-                    } catch (e) {
+            Padding(
+              padding: const EdgeInsets.only(right: 15),
+              child: InkWell(
+                onTap: () async {
+                  if (isPost.value) {
+                    if (pickedFiles?.isNotEmpty == true) {
+                      Get.back();
                       snack(
-                          title:
-                          " Catch Error => kDashboardController.friendsModel.value.data",
-                          msg: "Code:- 001",
-                          icon: Icons.close,
-                          textColor: Colors.red.withOpacity(0.5));
-                    }
+                          title: "Success",
+                          msg: "Your post is uploading in background..");
 
-                    print("------ taggedUser ${taggedUser}");
-                    try {
-                      // final List<File> compressedFiles = [];
-                      //
-                      // ///Compressing Files.
-                      // pickedFiles?.forEach((element) async {
-                      //   ///Checking is Photo or Video.
-                      //   if (isVideo(filePath: element.path)) {
-                      //     final compressedFile = await videoCompressor.compressVideo(originalFile: element);
-                      //     if (compressedFile != null) {
-                      //       compressedFiles.add(compressedFile);
-                      //     }
-                      //   } else {
-                      //     compressedFiles.add(element);
-                      //   }
-                      //
-                      //   ///Compressing Videos..
-                      // });
+                      ///----START--
 
-                      await kDashboardController.uploadImage(
-                          imageFilePaths: pickedFiles?.value ?? [],
-                          description: desImgController.text,
-                          showProngress: false,
-                          taggedUsers: taggedUser,
-                          callBack: () {
-                            kDashboardController.currentPage = 0;
-                            // Get.offAll(
-                            //     () => const DashBoardScreen());
-                          });
-                    } catch (e) {
-                      snack(
-                          title: "Catch Error => Upload Image",
-                          msg: "Code:- 001",
-                          icon: Icons.close,
-                          textColor: Colors.red.withOpacity(0.5));
-                    }
-                    // await kDashboardController.uploadImage(
-                    //     imageFilePaths: pickedFiles?.value ?? [],
-                    //     description: desImgController.text,
-                    //     showProngress: false,
-                    //     taggedUsers: taggedUser,
-                    //     callBack: () {
-                    //       kDashboardController.currentPage = 0;
-                    //       // Get.offAll(
-                    //       //     () => const DashBoardScreen());
-                    //     });
-
-                    ///----END
-                  } else {
-                    snack(
-                        title: "Ohh No.",
-                        msg: "Please upload photo or video",
-                        icon: Icons.close,
-                        textColor: Colors.red.withOpacity(0.5));
-                  }
-                } else {
-                  String taggedUser = "";
-                  kDashboardController.friendsModel.value.data
-                      ?.forEach((element) {
-                    if (element?.isSelected.value == true) {
-                      taggedUser = "${taggedUser}|${element?.userId}";
-                    }
-                  });
-                  print("------ taggedUser ${taggedUser}");
-                  if (urlYTController.text.isNotEmpty ||
-                      desImgController.text.isNotEmpty) {
-                    postStatus(
-                        desImgController.text, urlYTController.text, taggedUser,
-                        callBack: () {
-                          Get.offAll(() => const DashBoardScreen());
+                      String taggedUser = "";
+                      try {
+                        kDashboardController.friendsModel.value.data
+                            ?.forEach((element) {
+                          if (element?.isSelected.value == true) {
+                            taggedUser = "${taggedUser}|${element?.userId}";
+                          }
                         });
+                      } catch (e) {
+                        snack(
+                            title:
+                                " Catch Error => kDashboardController.friendsModel.value.data",
+                            msg: "Code:- 001",
+                            icon: Icons.close,
+                            textColor: Colors.red.withOpacity(0.5));
+                      }
+
+                      print("------ taggedUser ${taggedUser}");
+                      try {
+                        // final List<File> compressedFiles = [];
+                        //
+                        // ///Compressing Files.
+                        // pickedFiles?.forEach((element) async {
+                        //   ///Checking is Photo or Video.
+                        //   if (isVideo(filePath: element.path)) {
+                        //     final compressedFile = await videoCompressor.compressVideo(originalFile: element);
+                        //     if (compressedFile != null) {
+                        //       compressedFiles.add(compressedFile);
+                        //     }
+                        //   } else {
+                        //     compressedFiles.add(element);
+                        //   }
+                        //
+                        //   ///Compressing Videos..
+                        // });
+
+                        await kDashboardController.uploadImage(
+                            imageFilePaths: pickedFiles?.value ?? [],
+                            description: desImgController.text,
+                            showProngress: false,
+                            taggedUsers: taggedUser,
+                            callBack: () {
+                              kDashboardController.currentPage = 0;
+                              // Get.offAll(
+                              //     () => const DashBoardScreen());
+                            });
+                      } catch (e) {
+                        snack(
+                            title: "Catch Error => Upload Image",
+                            msg: "Code:- 001",
+                            icon: Icons.close,
+                            textColor: Colors.red.withOpacity(0.5));
+                      }
+                      // await kDashboardController.uploadImage(
+                      //     imageFilePaths: pickedFiles?.value ?? [],
+                      //     description: desImgController.text,
+                      //     showProngress: false,
+                      //     taggedUsers: taggedUser,
+                      //     callBack: () {
+                      //       kDashboardController.currentPage = 0;
+                      //       // Get.offAll(
+                      //       //     () => const DashBoardScreen());
+                      //     });
+
+                      ///----END
+                    } else {
+                      snack(
+                          title: "Ohh No.",
+                          msg: "Please upload photo or video",
+                          icon: Icons.close,
+                          textColor: Colors.red.withOpacity(0.5));
+                    }
                   } else {
-                    snack(
-                        title: "Ohh",
-                        msg: "Please write description or YT Video Link.",
-                        iconColor: Colors.yellow,
-                        icon: Icons.warning);
+                    String taggedUser = "";
+                    kDashboardController.friendsModel.value.data
+                        ?.forEach((element) {
+                      if (element?.isSelected.value == true) {
+                        taggedUser = "${taggedUser}|${element?.userId}";
+                      }
+                    });
+                    print("------ taggedUser ${taggedUser}");
+                    if (urlYTController.text.isNotEmpty ||
+                        desImgController.text.isNotEmpty) {
+                      postStatus(desImgController.text, urlYTController.text,
+                          taggedUser, callBack: () {
+                        Get.offAll(() => const DashBoardScreen());
+                      });
+                    } else {
+                      snack(
+                          title: "Ohh",
+                          msg: "Please write description or YT Video Link.",
+                          iconColor: Colors.yellow,
+                          icon: Icons.warning);
+                    }
                   }
-                }
-              },
-              child: Container(
-                height: 25,
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                // width: MediaQuery.of(context).size.width,
-                padding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(30)),
-                child: const Center(
-                    child: Text(
-                      "Post",
-                      style: TextStyle(color: Colors.white),
-                    )),
+                },
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                  decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(30)),
+                  child: const Center(
+                      child: Text(
+                    "Post",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                  )),
+                ),
               ),
             )
           ],
@@ -341,7 +346,6 @@ class _AddPostState extends State<AddPost> {
           return ListView(
             shrinkWrap: true,
             physics: const ClampingScrollPhysics(),
-            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                 height: Get.mediaQuery.size.height * 0.02,
@@ -349,7 +353,7 @@ class _AddPostState extends State<AddPost> {
               InkWell(
                 onTap: () {
                   TextEditingController searchController =
-                  TextEditingController();
+                      TextEditingController();
 
                   // taggedUsers.forEach((element) {
                   //   if(element['id'])
@@ -494,21 +498,21 @@ class _AddPostState extends State<AddPost> {
                       //     .toList(),
 
                       children: kDashboardController.friendsModel.value.data
-                          ?.map(
-                              (element) => element?.isSelected.value == true
-                              ? Chip(
-                            label: Text(
-                                "${element?.firstname} ${element?.lastname}"),
-                            deleteIcon:
-                            Icon(Icons.close_sharp, size: 18),
-                            onDeleted: () {
-                              element?.isSelected.value = false;
-                              setState(() {});
-                              // taggedUsers.remove(element);
-                            },
-                          )
-                              : SizedBox())
-                          .toList() ??
+                              ?.map(
+                                  (element) => element?.isSelected.value == true
+                                      ? Chip(
+                                          label: Text(
+                                              "${element?.firstname} ${element?.lastname}"),
+                                          deleteIcon:
+                                              Icon(Icons.close_sharp, size: 18),
+                                          onDeleted: () {
+                                            element?.isSelected.value = false;
+                                            setState(() {});
+                                            // taggedUsers.remove(element);
+                                          },
+                                        )
+                                      : SizedBox())
+                              .toList() ??
                           [],
                       // children: [
                       //   Chip(
@@ -601,8 +605,8 @@ class _AddPostState extends State<AddPost> {
                             },
                             validator: (String? value) {
                               return value == null ||
-                                  value == "" ||
-                                  !value.isURL
+                                      value == "" ||
+                                      !value.isURL
                                   ? " Please enter valid link"
                                   : null;
                               // value.isEmail
@@ -635,21 +639,21 @@ class _AddPostState extends State<AddPost> {
                     if (urlYTController.text.contains("youtube.com/watch?v") ||
                         urlYTController.text.contains("youtu.be") ||
                         urlYTController.text
-                            .contains("www.youtube.com/live/") ==
+                                .contains("www.youtube.com/live/") ==
                             true) {
                       final String videoId = urlYTController.text
-                          .contains("youtube.com/watch?v") ==
-                          true
+                                  .contains("youtube.com/watch?v") ==
+                              true
                           ? urlYTController.text.split("=").last ?? ""
                           : urlYTController.text
-                          .contains("www.youtube.com/live/") ==
-                          true
-                          ? urlYTController.text
-                          .split("/")
-                          .last
-                          .split('?')
-                          .first
-                          : urlYTController.text.split("/").last ?? "";
+                                      .contains("www.youtube.com/live/") ==
+                                  true
+                              ? urlYTController.text
+                                  .split("/")
+                                  .last
+                                  .split('?')
+                                  .first
+                              : urlYTController.text.split("/").last ?? "";
                       RxBool reload = false.obs;
                       return StreamBuilder(
                           stream: reload.stream,
@@ -669,7 +673,7 @@ class _AddPostState extends State<AddPost> {
                             return Container(
                               decoration: BoxDecoration(
                                 border:
-                                Border.all(color: Colors.grey, width: 0.5),
+                                    Border.all(color: Colors.grey, width: 0.5),
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               child: ClipRRect(
@@ -724,7 +728,7 @@ class _AddPostState extends State<AddPost> {
               StreamBuilder(
                   stream: isLoading.stream,
                   builder: (context, snapshot) {
-                    if (isLoading.value == false ) {
+                    if (isLoading.value == false) {
                       return const SizedBox();
                     }
                     return Center(
@@ -751,111 +755,111 @@ class _AddPostState extends State<AddPost> {
                         // child: pickedImage?.path == null && _video?.path == null || pickedImage?.path.isEmpty == true && _video?.path.isEmpty == true
                         child: pickedFiles?.isEmpty == true
                             ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            // Image.asset(
-                            //   'assets/images/icons/cloud_upload.png',
-                            //   height: 70,
-                            // ),
-                            Icon(
-                              Icons.upload_file_outlined,
-                              size: 70,
-                            ),
-                            Text(
-                              'Preview of Media (Images and Videos)',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                          ],
-                        )
-                            : Stack(
-                          // overflow: Overflow.visible,
-                          clipBehavior: Clip.none,
-                          children: [
-                            Positioned.fill(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: SizedBox(
-                                  height: 350,
-                                  child: PageView.builder(
-                                    // shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    physics:
-                                    const ClampingScrollPhysics(),
-                                    itemCount: pickedFiles?.length ?? 0,
-                                    itemBuilder: (context, index) {
-                                      print(
-                                          "______ ITM ${pickedFiles?[index].path}");
-
-                                      return Stack(
-                                        children: [
-                                          SizedBox(
-                                              width: Get
-                                                  .mediaQuery.size.width,
-                                              height: 350,
-                                              child: pickedFiles?[index]
-                                                  .path
-                                                  .contains(
-                                                  "jpg") ==
-                                                  true ||
-                                                  pickedFiles?[index]
-                                                      .path
-                                                      .contains(
-                                                      "jpeg") ==
-                                                      true ||
-                                                  pickedFiles?[index]
-                                                      .path
-                                                      .contains(
-                                                      "png") ==
-                                                      true
-                                                  ? Image.file(
-                                                File(pickedFiles?[
-                                                index]
-                                                    .path ??
-                                                    ""),
-                                                fit: BoxFit.cover,
-                                              )
-                                                  : Center(
-                                                  child:
-                                                  CommonVideoPlayer(
-                                                    videoLink:
-                                                    "${pickedFiles?[index].path}",
-                                                    isFile: true,
-                                                  ))),
-                                          Positioned(
-                                            top: 5,
-                                            right: 5,
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  _video = File("");
-                                                  pickedImage = File('');
-                                                  pickedFiles
-                                                      ?.removeAt(index);
-                                                  pickedFiles?.refresh();
-                                                });
-                                              },
-                                              child: const CircleAvatar(
-                                                radius: 12,
-                                                backgroundColor:
-                                                Colors.black,
-                                                child: Icon(Icons.close,
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                      return Container();
-                                    },
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  // Image.asset(
+                                  //   'assets/images/icons/cloud_upload.png',
+                                  //   height: 70,
+                                  // ),
+                                  Icon(
+                                    Icons.upload_file_outlined,
+                                    size: 70,
                                   ),
-                                ),
+                                  Text(
+                                    'Preview of Media (Images and Videos)',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                ],
+                              )
+                            : Stack(
+                                // overflow: Overflow.visible,
+                                clipBehavior: Clip.none,
+                                children: [
+                                  Positioned.fill(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: SizedBox(
+                                        height: 350,
+                                        child: PageView.builder(
+                                          // shrinkWrap: true,
+                                          scrollDirection: Axis.horizontal,
+                                          physics:
+                                              const ClampingScrollPhysics(),
+                                          itemCount: pickedFiles?.length ?? 0,
+                                          itemBuilder: (context, index) {
+                                            print(
+                                                "______ ITM ${pickedFiles?[index].path}");
+
+                                            return Stack(
+                                              children: [
+                                                SizedBox(
+                                                    width: Get
+                                                        .mediaQuery.size.width,
+                                                    height: 350,
+                                                    child: pickedFiles?[index]
+                                                                    .path
+                                                                    .contains(
+                                                                        "jpg") ==
+                                                                true ||
+                                                            pickedFiles?[index]
+                                                                    .path
+                                                                    .contains(
+                                                                        "jpeg") ==
+                                                                true ||
+                                                            pickedFiles?[index]
+                                                                    .path
+                                                                    .contains(
+                                                                        "png") ==
+                                                                true
+                                                        ? Image.file(
+                                                            File(pickedFiles?[
+                                                                        index]
+                                                                    .path ??
+                                                                ""),
+                                                            fit: BoxFit.cover,
+                                                          )
+                                                        : Center(
+                                                            child:
+                                                                CommonVideoPlayer(
+                                                            videoLink:
+                                                                "${pickedFiles?[index].path}",
+                                                            isFile: true,
+                                                          ))),
+                                                Positioned(
+                                                  top: 5,
+                                                  right: 5,
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        _video = File("");
+                                                        pickedImage = File('');
+                                                        pickedFiles
+                                                            ?.removeAt(index);
+                                                        pickedFiles?.refresh();
+                                                      });
+                                                    },
+                                                    child: const CircleAvatar(
+                                                      radius: 12,
+                                                      backgroundColor:
+                                                          Colors.black,
+                                                      child: Icon(Icons.close,
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                            return Container();
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
                       );
                     }),
               const SizedBox(height: 30),
@@ -888,7 +892,7 @@ class _AddPostState extends State<AddPost> {
                       context: context,
                       shape: const RoundedRectangleBorder(
                           borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(15))),
+                              BorderRadius.vertical(top: Radius.circular(15))),
                       builder: (context) {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1082,8 +1086,8 @@ class _AddPostState extends State<AddPost> {
       final cameras = await availableCameras();
       final firstCamera = cameras.first;
       Get.to(() => TakePictureScreen(
-        camera: firstCamera,
-      ))?.then((value) {
+            camera: firstCamera,
+          ))?.then((value) {
         pickedFiles?.add(value);
       });
     }
@@ -1099,8 +1103,7 @@ class _AddPostState extends State<AddPost> {
       // Navigate to TakeVideoScreen with first camera
       final firstCamera = cameras.first;
       Get.to(() => TakeVideoScreen(camera: firstCamera))?.then((value) async {
-
-        setState((){
+        setState(() {
           pickedFiles?.add(value);
           isLoading.value = false;
         });
@@ -1131,7 +1134,6 @@ class _AddPostState extends State<AddPost> {
         print(result!.path);
         //isLoading.value = false;
         setState(() {
-
           print('Loaded');
           pickedFiles?.add(File(result.path));
           isLoading.value = false;

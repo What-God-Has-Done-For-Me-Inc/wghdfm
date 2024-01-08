@@ -83,8 +83,8 @@ class _PaypalWebRecurringScreenState extends State<PaypalWebRecurringScreen> {
           ? InAppWebView(
               key: webViewKey,
               initialUrlRequest: URLRequest(
-                  url: Uri.parse(
-                      'https://whatgodhasdoneforme.com/mobile/donate?user_id=$userId&amount=${widget.price}')),
+                  url: WebUri.uri(Uri.parse(
+                      'https://whatgodhasdoneforme.com/mobile/donate?user_id=$userId&amount=${widget.price}'))),
               initialUserScripts: UnmodifiableListView<UserScript>([]),
               initialOptions: settings,
               pullToRefreshController: pullToRefreshController,

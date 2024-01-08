@@ -50,15 +50,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     // TODO: implement initState
 
-    profileController.getProfileFeed(profileId: userId, isFirstTimeLoading: true);
+    profileController.getProfileFeed(
+        profileId: userId, isFirstTimeLoading: true);
     profileController.getProfileData(profileID: userId);
     feedScrollController.addListener(() async {
       print(">>>> pixels ${feedScrollController.position.pixels}");
-      print(">>>> maxScrollExtent ${feedScrollController.position.maxScrollExtent * 0.70}");
+      print(
+          ">>>> maxScrollExtent ${feedScrollController.position.maxScrollExtent * 0.70}");
       print(">>>> maxScrollExtent ${profileController.isProfileLoading.value}");
-      if (feedScrollController.position.pixels >= feedScrollController.position.maxScrollExtent * 0.70 && profileController.isProfileLoading.value == false) {
+      if (feedScrollController.position.pixels >=
+              feedScrollController.position.maxScrollExtent * 0.70 &&
+          profileController.isProfileLoading.value == false) {
         profileController.currentPage++;
-        await profileController.getProfileFeed(profileId: userId, isFirstTimeLoading: false, page: profileController.currentPage);
+        await profileController.getProfileFeed(
+            profileId: userId,
+            isFirstTimeLoading: false,
+            page: profileController.currentPage);
       }
     });
 
@@ -91,7 +98,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         if (target.identify == 'Target 3') {
           dashBoardController.zoomDrawerController.toggle?.call();
         }
-        print("clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
+        print(
+            "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
       },
       onClickOverlay: (target) {
         print(target);
@@ -104,11 +112,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         print("finish");
       },
     );
-    Future.delayed(Duration(milliseconds: 200), () => tutorialCoachMark?.show(context: context));
+    Future.delayed(Duration(milliseconds: 200),
+        () => tutorialCoachMark?.show(context: context));
   }
 
   getTutorial() {
-    targets.add(TargetFocus(identify: "Target 1", keyTarget: addProfileKey, contents: [
+    targets.add(
+        TargetFocus(identify: "Target 1", keyTarget: addProfileKey, contents: [
       TargetContent(
           align: ContentAlign.bottom,
           child: Column(
@@ -118,7 +128,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const SizedBox(height: 50),
               const Text(
                 "Set your profile",
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22.0),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 22.0),
               ),
               const Padding(
                 padding: EdgeInsets.only(top: 10.0),
@@ -140,71 +153,83 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ],
           ))
     ]));
-    targets.add(TargetFocus(identify: "Target 2", keyTarget: clickAddProfileButtonKey, contents: [
-      TargetContent(
-          align: ContentAlign.bottom,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(height: 50),
-              const Text(
-                "Add profile",
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22.0),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 10.0),
-                child: Text(
-                  "Click on the icon and select your profile which you want to set.",
-                  style: TextStyle(color: Colors.white, fontSize: 15.0),
-                ),
-              ),
-              const SizedBox(height: 50),
-              ElevatedButton(
-                onPressed: () {
-                  tutorialCoachMark?.next();
-                },
-                child: const Text(
-                  "Next",
-                  style: TextStyle(color: Colors.white, fontSize: 15.0),
-                ),
-              ),
-            ],
-          ))
-    ]));
-    targets.add(TargetFocus(identify: "Target 3", keyTarget: profileAddedKey, contents: [
-      TargetContent(
-          align: ContentAlign.bottom,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(height: 50),
-              const Text(
-                "Profile image set successfully.",
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22.0),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 10.0),
-                child: Text(
-                  "You can see your profile image here..",
-                  style: TextStyle(color: Colors.white, fontSize: 15.0),
-                ),
-              ),
-              const SizedBox(height: 50),
-              ElevatedButton(
-                onPressed: () {
-                  dashBoardController.zoomDrawerController.toggle?.call();
-                  tutorialCoachMark?.next();
-                },
-                child: const Text(
-                  "Next",
-                  style: TextStyle(color: Colors.white, fontSize: 15.0),
-                ),
-              ),
-            ],
-          ))
-    ]));
+    targets.add(TargetFocus(
+        identify: "Target 2",
+        keyTarget: clickAddProfileButtonKey,
+        contents: [
+          TargetContent(
+              align: ContentAlign.bottom,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const SizedBox(height: 50),
+                  const Text(
+                    "Add profile",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 22.0),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      "Click on the icon and select your profile which you want to set.",
+                      style: TextStyle(color: Colors.white, fontSize: 15.0),
+                    ),
+                  ),
+                  const SizedBox(height: 50),
+                  ElevatedButton(
+                    onPressed: () {
+                      tutorialCoachMark?.next();
+                    },
+                    child: const Text(
+                      "Next",
+                      style: TextStyle(color: Colors.white, fontSize: 15.0),
+                    ),
+                  ),
+                ],
+              ))
+        ]));
+    targets.add(TargetFocus(
+        identify: "Target 3",
+        keyTarget: profileAddedKey,
+        contents: [
+          TargetContent(
+              align: ContentAlign.bottom,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const SizedBox(height: 50),
+                  const Text(
+                    "Profile image set successfully.",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 22.0),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      "You can see your profile image here..",
+                      style: TextStyle(color: Colors.white, fontSize: 15.0),
+                    ),
+                  ),
+                  const SizedBox(height: 50),
+                  ElevatedButton(
+                    onPressed: () {
+                      dashBoardController.zoomDrawerController.toggle?.call();
+                      tutorialCoachMark?.next();
+                    },
+                    child: const Text(
+                      "Next",
+                      style: TextStyle(color: Colors.white, fontSize: 15.0),
+                    ),
+                  ),
+                ],
+              ))
+        ]));
     showTutorial();
   }
 
@@ -212,7 +237,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.black,
         extendBody: true,
         extendBodyBehindAppBar: false,
         appBar: AppBar(
@@ -228,14 +252,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     value: PopUpOptions.changePassword,
                     child: Text(
                       "Change Password",
-                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14),
                     ),
                   ),
                   const PopupMenuItem<String>(
                     value: PopUpOptions.delete,
                     child: Text(
                       "Delete Account",
-                      style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 14),
+                      style: TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14),
                     ),
                   ),
                 ];
@@ -296,7 +326,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             return profileController.profileFeeds?.isNotEmpty == true
                 ? RefreshIndicator(
                     onRefresh: () async {
-                      await profileController.getProfileFeed(profileId: userId, isFirstTimeLoading: true);
+                      await profileController.getProfileFeed(
+                          profileId: userId, isFirstTimeLoading: true);
                     },
                     child: ListView.builder(
                       controller: feedScrollController,
@@ -310,8 +341,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         return profileFeed(
                           index,
                           // isLoved: profileController.profileFeeds?[index].getFav!.contains("S") == true,
-                          isLoved: profileController.profileFeeds?[index].isFav == 1,
-                          isLiked: profileController.profileFeeds?[index].isLike == 1,
+                          isLoved:
+                              profileController.profileFeeds?[index].isFav == 1,
+                          isLiked:
+                              profileController.profileFeeds?[index].isLike ==
+                                  1,
                           onFavClick: () {
                             setState(() {});
                           },
@@ -330,7 +364,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   )
                 : Center(
-                    child: customText(title: 'No Feeds', txtColor: Colors.white),
+                    child:
+                        customText(title: 'No Feeds', txtColor: Colors.white),
                   );
           },
         ),
@@ -372,7 +407,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         if (index == 0)
           Card(
             color: Colors.white,
-            shape: RoundedRectangleBorder(side: const BorderSide(color: Colors.grey, width: 0.5), borderRadius: BorderRadius.circular(5)),
+            shape: RoundedRectangleBorder(
+                side: const BorderSide(color: Colors.grey, width: 0.5),
+                borderRadius: BorderRadius.circular(5)),
             child: AspectRatio(
               aspectRatio: 16 / 9,
               child: Builder(
@@ -408,12 +445,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       width: 30,
                                       height: 30,
                                       child: CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.secondary),
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary),
                                       ),
                                     ),
                                   ),
                                 ),
-                                errorWidget: (context, url, error) => const Icon(Icons.error),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
                               );
                             }),
                       ),
@@ -425,18 +467,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: TextButton.icon(
                               onPressed: () async {
                                 //todo:
-                                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                                FilePickerResult? result =
+                                    await FilePicker.platform.pickFiles(
                                   type: FileType.image,
                                   allowMultiple: false,
                                   allowCompression: true,
                                 );
 
                                 if (result != null) {
-                                  File file = File("${result.files.first.path}");
-                                  LoginModel userDetails = await SessionManagement.getUserDetails();
+                                  File file =
+                                      File("${result.files.first.path}");
+                                  LoginModel userDetails =
+                                      await SessionManagement.getUserDetails();
                                   userId = userDetails.id;
 
-                                  profileController.updateProfileImage(userIdCurrent: userId, image: file, isProfile: false);
+                                  profileController.updateProfileImage(
+                                      userIdCurrent: userId,
+                                      image: file,
+                                      isProfile: false);
                                 }
                                 // dashBoardController.openImageCaptureOptions(fromGallery: () {
                                 //   dashBoardController.uploadImageFromGallery().then((_) {
@@ -457,7 +505,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               label: const Text(
                                 "Edit Cover",
-                                style: TextStyle(color: Colors.black, fontSize: 13),
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 13),
                               )),
                         ),
                       ),
@@ -479,10 +528,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         height: 90,
                                         width: 90,
                                         decoration: BoxDecoration(
-                                          color: Theme.of(Get.context!).iconTheme.color,
-                                          borderRadius: BorderRadius.circular(100),
+                                          color: Theme.of(Get.context!)
+                                              .iconTheme
+                                              .color,
+                                          borderRadius:
+                                              BorderRadius.circular(100),
                                           border: Border.all(
-                                            color: Theme.of(Get.context!).iconTheme.color!,
+                                            color: Theme.of(Get.context!)
+                                                .iconTheme
+                                                .color!,
                                             width: 1,
                                           ),
                                         ),
@@ -496,13 +550,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   alignment: Alignment.center,
                                                   fit: BoxFit.fill,
                                                   imageUrl: profilePic.value,
-                                                  placeholder: (context, url) => Container(
-                                                    padding: const EdgeInsets.all(3),
-                                                    child: shimmerMeUp(CircularProgressIndicator(
-                                                      valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.secondary),
+                                                  placeholder: (context, url) =>
+                                                      Container(
+                                                    padding:
+                                                        const EdgeInsets.all(3),
+                                                    child: shimmerMeUp(
+                                                        CircularProgressIndicator(
+                                                      valueColor:
+                                                          AlwaysStoppedAnimation<
+                                                                  Color>(
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .secondary),
                                                     )),
                                                   ),
-                                                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                  errorWidget: (context, url,
+                                                          error) =>
+                                                      const Icon(Icons.error),
                                                 );
                                               }),
                                         )),
@@ -513,23 +577,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: InkWell(
                                       onTap: () async {
                                         ///Edit image here...
-                                        FilePickerResult? result = await FilePicker.platform.pickFiles(
+                                        FilePickerResult? result =
+                                            await FilePicker.platform.pickFiles(
                                           type: FileType.image,
                                           allowMultiple: false,
                                           allowCompression: true,
                                         );
 
                                         if (result != null) {
-                                          File file = File("${result.files.first.path}");
-                                          LoginModel userDetails = await SessionManagement.getUserDetails();
+                                          File file = File(
+                                              "${result.files.first.path}");
+                                          LoginModel userDetails =
+                                              await SessionManagement
+                                                  .getUserDetails();
                                           userId = userDetails.id;
-                                          profileController.updateProfileImage(userIdCurrent: userId, image: file, isProfile: true);
+                                          profileController.updateProfileImage(
+                                              userIdCurrent: userId,
+                                              image: file,
+                                              isProfile: true);
                                         }
                                       },
                                       child: Container(
                                         key: clickAddProfileButtonKey,
                                         padding: const EdgeInsets.all(5),
-                                        decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.black),
                                         child: const Icon(
                                           Icons.edit_outlined,
                                           color: Colors.white,
@@ -573,7 +646,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
           ),
-        if (index % 10 == 0 && index != 0) kDebugMode ? Container() : const AdsScreen(),
+        if (index % 10 == 0 && index != 0)
+          kDebugMode ? Container() : const AdsScreen(),
         Card(
           color: Colors.white,
           shape: RoundedRectangleBorder(
@@ -610,17 +684,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: CachedNetworkImage(
                               alignment: Alignment.center,
                               fit: BoxFit.fill,
-                              imageUrl: "${profileController.profileFeeds?[index].profilePic}",
+                              imageUrl:
+                                  "${profileController.profileFeeds?[index].profilePic}",
                               // placeholder: (context, url) {
                               //   return Image.asset(
                               //     "assets/logo.png",
                               //     scale: 5.0,
                               //   );
                               // },
-                              progressIndicatorBuilder: (BuildContext, String, DownloadProgress) {
-                                return const Center(child: CupertinoActivityIndicator());
+                              progressIndicatorBuilder:
+                                  (BuildContext, String, DownloadProgress) {
+                                return const Center(
+                                    child: CupertinoActivityIndicator());
                               },
-                              errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.white),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error, color: Colors.white),
                             ),
                           ),
                         ),
@@ -644,7 +722,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: <TextSpan>[
                             TextSpan(
                               // text: "",
-                              text: profileController.profileFeeds?[index].toUserIdDetails != null
+                              text: profileController.profileFeeds?[index]
+                                          .toUserIdDetails !=
+                                      null
                                   ? " shared to ${profileController.profileFeeds?[index].toUserIdDetails?.firstname ?? "Guest"} ${profileController.profileFeeds?[index].toUserIdDetails?.lastname ?? ""} "
                                   : "",
                               style: TextStyle(
@@ -666,7 +746,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Icons.more_horiz,
                         ),
                         itemBuilder: (BuildContext context) {
-                          return PopUpOptions.feedPostMoreOptions.map((String choice) {
+                          return PopUpOptions.feedPostMoreOptions
+                              .map((String choice) {
                             return PopupMenuItem<String>(
                               value: choice,
                               child: Text(choice),
@@ -676,7 +757,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onSelected: (value) {
                           switch (value) {
                             case PopUpOptions.edit:
-                              editStatusBottomSheet(profileController.profileFeeds?[index] ?? PostModelFeed(), onEdit: () {
+                              editStatusBottomSheet(
+                                  profileController.profileFeeds?[index] ??
+                                      PostModelFeed(), onEdit: () {
                                 onEditClick!();
                               });
                               break;
@@ -685,12 +768,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   context: context,
                                   builder: (context) {
                                     return CupertinoAlertDialog(
-                                      title: Text('Are you sure you want to delete this post?'),
-                                      content: Text('This will delete this post permanently'),
+                                      title: Text(
+                                          'Are you sure you want to delete this post?'),
+                                      content: Text(
+                                          'This will delete this post permanently'),
                                       actions: <Widget>[
                                         TextButton(
                                           onPressed: () {
-                                            Navigator.pop(context); //close Dialog
+                                            Navigator.pop(
+                                                context); //close Dialog
                                           },
                                           child: Text('Cancel'),
                                         ),
@@ -698,10 +784,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             onPressed: () {
                                               Navigator.pop(context);
                                               deletePost(
-                                                  postId: "${profileController.profileFeeds?[index].id}",
+                                                  postId:
+                                                      "${profileController.profileFeeds?[index].id}",
                                                   callBack: () {
-                                                    profileController.profileFeeds?.removeAt(index);
-                                                    profileController.profileFeeds?.refresh();
+                                                    profileController
+                                                        .profileFeeds
+                                                        ?.removeAt(index);
+                                                    profileController
+                                                        .profileFeeds
+                                                        ?.refresh();
                                                   }).then((value) {
                                                 onDeleteClick!();
                                               });
@@ -709,7 +800,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             },
                                             child: Text(
                                               'Delete',
-                                              style: TextStyle(color: Colors.red),
+                                              style:
+                                                  TextStyle(color: Colors.red),
                                             )),
                                       ],
                                     );
@@ -722,7 +814,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
               ),
-              if (profileController.profileFeeds?[index].status != null && profileController.profileFeeds?[index].status != '')
+              if (profileController.profileFeeds?[index].status != null &&
+                  profileController.profileFeeds?[index].status != '')
                 Container(
                   margin: const EdgeInsets.only(
                     left: 10,
@@ -733,7 +826,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: <Widget>[
                       Expanded(
                         flex: 8,
-                        child: getLinkText(text: profileController.profileFeeds?[index].status ?? ""),
+                        child: getLinkText(
+                            text:
+                                profileController.profileFeeds?[index].status ??
+                                    ""),
                         // child: RichText(
                         //   text: TextSpan(
                         //     text: profileController.profileFeeds?[index].status!,
@@ -766,21 +862,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           onPressed: () {
                             if (!isLoved) {
                               setAsFav(
-                                postId: "${profileController.profileFeeds?[index].id}",
+                                postId:
+                                    "${profileController.profileFeeds?[index].id}",
                               ).then((value) {
-                                if (profileController.profileFeeds?[index].isFav == 0) {
-                                  profileController.profileFeeds?[index].isFav = 1;
+                                if (profileController
+                                        .profileFeeds?[index].isFav ==
+                                    0) {
+                                  profileController.profileFeeds?[index].isFav =
+                                      1;
                                 } else {
-                                  profileController.profileFeeds?[index].isFav = 0;
+                                  profileController.profileFeeds?[index].isFav =
+                                      0;
                                 }
                                 setState(() {});
                               });
                             } else {
-                              setAsUnFav("${profileController.profileFeeds?[index].id}").then((value) {
-                                if (profileController.profileFeeds?[index].isFav == 0) {
-                                  profileController.profileFeeds?[index].isFav = 1;
+                              setAsUnFav(
+                                      "${profileController.profileFeeds?[index].id}")
+                                  .then((value) {
+                                if (profileController
+                                        .profileFeeds?[index].isFav ==
+                                    0) {
+                                  profileController.profileFeeds?[index].isFav =
+                                      1;
                                 } else {
-                                  profileController.profileFeeds?[index].isFav = 0;
+                                  profileController.profileFeeds?[index].isFav =
+                                      0;
                                 }
                                 setState(() {});
                               });
@@ -788,7 +895,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                           icon: Icon(
                             isLoved ? Icons.favorite : Icons.favorite_border,
-                            color: isLoved ? Colors.red : Theme.of(Get.context!).iconTheme.color,
+                            color: isLoved
+                                ? Colors.red
+                                : Theme.of(Get.context!).iconTheme.color,
                           )),
                     ),
                     /*Expanded(
@@ -829,14 +938,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           //   }
                           // });
                           await setAsLiked(
-                              postId: "${profileController.profileFeeds?[index].id}",
+                              postId:
+                                  "${profileController.profileFeeds?[index].id}",
                               callBack: (commentCount) {
-                                if (profileController.profileFeeds?[index].isLike == 0) {
-                                  profileController.profileFeeds?[index].isLike = 1;
+                                if (profileController
+                                        .profileFeeds?[index].isLike ==
+                                    0) {
+                                  profileController
+                                      .profileFeeds?[index].isLike = 1;
                                 } else {
-                                  profileController.profileFeeds?[index].isLike = 0;
+                                  profileController
+                                      .profileFeeds?[index].isLike = 0;
                                 }
-                                profileController.profileFeeds?[index].countLike = "$commentCount";
+                                profileController.profileFeeds?[index]
+                                    .countLike = "$commentCount";
                                 setState(() {});
                               });
                         },
@@ -849,8 +964,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Image.asset(
-                                isLiked ? "assets/icon/liked_image.png" : "assets/icon/like_img.png",
-                                color: isLiked ? Colors.blue : Theme.of(Get.context!).iconTheme.color,
+                                isLiked
+                                    ? "assets/icon/liked_image.png"
+                                    : "assets/icon/like_img.png",
+                                color: isLiked
+                                    ? Colors.blue
+                                    : Theme.of(Get.context!).iconTheme.color,
                               ),
                               const SizedBox(
                                 width: 3,
@@ -884,20 +1003,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       flex: 1,
                       child: InkWell(
                         onTap: () async {
-                          LoginModel userDetails = await SessionManagement.getUserDetails();
+                          LoginModel userDetails =
+                              await SessionManagement.getUserDetails();
                           if (kDebugMode) {
                             print("user id: ${userDetails.id}");
-                            print("post id: ${profileController.profileFeeds?[index].id}");
+                            print(
+                                "post id: ${profileController.profileFeeds?[index].id}");
                           }
 
-                          debugPrint("Before: ${profileController.profileFeeds?[index].id}");
-                          EndPoints.selectedPostId = "${profileController.profileFeeds?[index].id}";
+                          debugPrint(
+                              "Before: ${profileController.profileFeeds?[index].id}");
+                          EndPoints.selectedPostId =
+                              "${profileController.profileFeeds?[index].id}";
                           Get.to(() => CommentScreen(
-                                isFrom: AppTexts.profile,
-                                index: index,
-                                postId: EndPoints.selectedPostId,
-                                postOwnerId: "${profileController.profileFeeds?[index].ownerId}",
-                              ))?.then((value) => profileController.profileFeeds?.refresh());
+                                    isFrom: AppTexts.profile,
+                                    index: index,
+                                    postId: EndPoints.selectedPostId,
+                                    postOwnerId:
+                                        "${profileController.profileFeeds?[index].ownerId}",
+                                  ))
+                              ?.then((value) =>
+                                  profileController.profileFeeds?.refresh());
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -926,7 +1052,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       flex: 1,
                       child: IconButton(
                           onPressed: () {
-                            addToTimeline("${profileController.profileFeeds?[index].id}");
+                            addToTimeline(
+                                "${profileController.profileFeeds?[index].id}");
                           },
                           icon: const Icon(Icons.add_box)),
                     ),
@@ -934,7 +1061,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       flex: 1,
                       child: IconButton(
                           onPressed: () {
-                            AppMethods().share("${EndPoints.socialSharePostUrl}${profileController.profileFeeds?[index].id}");
+                            AppMethods().share(
+                                "${EndPoints.socialSharePostUrl}${profileController.profileFeeds?[index].id}");
                           },
                           icon: const Icon(Icons.share)),
                     ),
@@ -942,7 +1070,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       flex: 1,
                       child: IconButton(
                           onPressed: () {
-                            reportPost("${profileController.profileFeeds?[index].id}");
+                            reportPost(
+                                "${profileController.profileFeeds?[index].id}");
                           },
                           icon: const Icon(Icons.report_problem)),
                     ),
@@ -953,9 +1082,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   alignment: Alignment.bottomRight,
                   child: Container(
                     margin: const EdgeInsets.all(10),
-                    child: customText(title: "${profileController.profileFeeds?[index].timeStamp}", fs: 10),
+                    child: customText(
+                        title:
+                            "${profileController.profileFeeds?[index].timeStamp}",
+                        fs: 10),
                   )),
-              if (profileController.profileFeeds?[index].latestComments?.isNotEmpty == true)
+              if (profileController
+                      .profileFeeds?[index].latestComments?.isNotEmpty ==
+                  true)
                 Column(
                   children: [
                     const Align(
@@ -965,7 +1099,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: profileController.profileFeeds?[index].latestComments?.length ?? 0,
+                      itemCount: profileController
+                              .profileFeeds?[index].latestComments?.length ??
+                          0,
                       itemBuilder: (context, indexOfComment) => Row(
                         children: [
                           Container(
@@ -985,11 +1121,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               child: CachedNetworkImage(
                                 alignment: Alignment.center,
                                 fit: BoxFit.fill,
-                                imageUrl: "https://wghdfm.s3.amazonaws.com/thumb/${profileController.profileFeeds?[index].latestComments?[indexOfComment]?.img}",
-                                progressIndicatorBuilder: (BuildContext, String, DownloadProgress) {
-                                  return const Center(child: CupertinoActivityIndicator());
+                                imageUrl:
+                                    "https://wghdfm.s3.amazonaws.com/thumb/${profileController.profileFeeds?[index].latestComments?[indexOfComment]?.img}",
+                                progressIndicatorBuilder:
+                                    (BuildContext, String, DownloadProgress) {
+                                  return const Center(
+                                      child: CupertinoActivityIndicator());
                                 },
-                                errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.white),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error,
+                                        color: Colors.white),
                               ),
                             ),
                           ),
@@ -1000,7 +1141,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             children: [
                               Text(
                                   "${profileController.profileFeeds?[index].latestComments?[indexOfComment]?.firstname} ${profileController.profileFeeds?[index].latestComments?[indexOfComment]?.lastname}"),
-                              Text("${profileController.profileFeeds?[index].latestComments?[indexOfComment]?.comment}"),
+                              Text(
+                                  "${profileController.profileFeeds?[index].latestComments?[indexOfComment]?.comment}"),
                             ],
                           )
                         ],
@@ -1285,7 +1427,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Text(
                   "Change Password",
-                  style: GoogleFonts.montserrat(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.montserrat(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.02,
@@ -1299,7 +1444,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     errorColor: Colors.white,
                     hint: "Old password",
                     validator: (String? value) {
-                      return (value == null || value.isEmpty) ? "Please enter valid password" : null;
+                      return (value == null || value.isEmpty)
+                          ? "Please enter valid password"
+                          : null;
                     },
                     // onChanged: (String? value) {
                     //   setStateSearch(() {});
@@ -1315,7 +1462,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     errorColor: Colors.white,
                     hint: "New password",
                     validator: (String? value) {
-                      return (value == null || value.isEmpty) ? "Please enter valid password" : null;
+                      return (value == null || value.isEmpty)
+                          ? "Please enter valid password"
+                          : null;
                     },
                     // onChanged: (String? value) {
                     //   setStateSearch(() {});
@@ -1331,7 +1480,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     errorColor: Colors.white,
                     hint: "Confirm password",
                     validator: (String? value) {
-                      return (value == null || value.isEmpty || newPassContoller.text != value) ? "Please enter valid password" : null;
+                      return (value == null ||
+                              value.isEmpty ||
+                              newPassContoller.text != value)
+                          ? "Please enter valid password"
+                          : null;
                     },
                     // onChanged: (String? value) {
                     //   setStateSearch(() {});
@@ -1341,7 +1494,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ElevatedButton(
                   onPressed: () async {
                     if (formKey.currentState!.validate()) {
-                      await profileController.changePassword(oldPassword: oldPassContoller.text, newPassword: newPassContoller.text, callBack: () {});
+                      await profileController.changePassword(
+                          oldPassword: oldPassContoller.text,
+                          newPassword: newPassContoller.text,
+                          callBack: () {});
                     }
                   },
                   child: Text(
@@ -1382,12 +1538,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Text(
                   "Delete Password",
-                  style: GoogleFonts.inter(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.inter(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 15),
                 Text(
                   'Are you sure you want to delete your account?, you will lose all your data ',
-                  style: GoogleFonts.inter(color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.inter(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.02,
@@ -1401,7 +1563,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     errorColor: Colors.white,
                     hint: "Confirm password",
                     validator: (String? value) {
-                      return (value == null || value.isEmpty) ? "Please enter valid password" : null;
+                      return (value == null || value.isEmpty)
+                          ? "Please enter valid password"
+                          : null;
                     },
                     // onChanged: (String? value) {
                     //   setStateSearch(() {});

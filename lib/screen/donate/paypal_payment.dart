@@ -189,7 +189,8 @@ class PaypalPaymentState extends State<PaypalPayment> {
         ),
         body: InAppWebView(
           key: webViewKey,
-          initialUrlRequest: URLRequest(url: Uri.parse(checkoutUrl!)),
+          initialUrlRequest:
+              URLRequest(url: WebUri.uri(Uri.parse(checkoutUrl!))),
           initialUserScripts: UnmodifiableListView<UserScript>([]),
           initialOptions: settings,
           pullToRefreshController: pullToRefreshController,

@@ -1,5 +1,7 @@
 const String bibleUrl = "https://whatgodhasdoneforme.com/bible/audio.php";
-String chatUrl = "https://whatgodhasdoneforme.com/im-messenger/userview";
+// String chatUrl = "https://whatgodhasdoneforme.com/im-messenger/userview";
+String chatUrl = "https://whatgodhasdoneforme.com/im-messenger/";
 String christianNewsUrl = "https://christiannews.net/";
 String ourDailyBreadUrl = "https://odb.org/";
-String christianBooks = "https://www.christianbook.com/Christian/Books/home?event=AFF&p=1181428";
+String christianBooks =
+    "https://www.christianbook.com/Christian/Books/home?event=AFF&p=1181428";

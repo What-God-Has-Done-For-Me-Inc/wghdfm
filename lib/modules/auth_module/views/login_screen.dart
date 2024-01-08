@@ -200,7 +200,7 @@ class LoginScreen extends StatelessWidget {
         padding: const EdgeInsets.all(5),
         child: Text(
           "whatgodhasdoneforme@yahoo.com",
-          style: GoogleFonts.montserrat(color: Colors.white, fontSize: 12),
+          style: GoogleFonts.montserrat(color: AppColors.black, fontSize: 12),
         ),
       ),
     );

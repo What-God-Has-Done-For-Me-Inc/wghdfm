@@ -45,7 +45,6 @@ class _MyAppState extends State<MyApp> {
             },
           ),
           primaryColor: const Color(0xff132ba2),
-          backgroundColor: const Color(0xffF3FCFB),
           iconTheme: const IconThemeData(
             color: Color(0xff4b4b4b),
           ),
@@ -57,7 +56,8 @@ class _MyAppState extends State<MyApp> {
           fontFamily: 'Gilroy',
           visualDensity: VisualDensity.adaptivePlatformDensity,
           colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-              .copyWith(secondary: const Color(0xff1742cb).withOpacity(0.7))),
+              .copyWith(secondary: const Color(0xff1742cb).withOpacity(0.7))
+              .copyWith(background: const Color(0xffF3FCFB))),
       home: SplashScreen(),
       getPages: [
         GetPage(name: PageRes.loginScreen, page: () => LoginScreen()),

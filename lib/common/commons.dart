@@ -7,6 +7,7 @@ import 'package:wghdfm_java/utils/app_colors.dart';
 
 Widget commonTextField({
   String hint = '',
+  bool commentBox = false,
   TextEditingController? controller,
   Color? baseColor,
   Color? borderColor,
@@ -78,15 +79,9 @@ Widget commonTextField({
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.blackColor, width: 1),
         ),
-
-        // border: InputBorder.none,
         focusedErrorBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.red[700]!, width: 1),
         ),
-        //focusedBorder: InputBorder.none,
-        //enabledBorder: InputBorder.none,
-        //errorBorder: InputBorder.none,
-        //disabledBorder: InputBorder.none,
         floatingLabelBehavior: isLabelFloating
             ? FloatingLabelBehavior.always
             : FloatingLabelBehavior.auto,
@@ -100,21 +95,8 @@ Widget commonTextField({
           borderSide: BorderSide(color: Colors.red[700]!, width: 1),
         ),
         enabled: true,
-        // enabledBorder: OutlineInputBorder(
-        //   borderSide: BorderSide(
-        //       color: currentBorderColor != null
-        //           ? currentBorderColor
-        //           : Colors.white,
-        //       width: 1),
-        // ),
-        // focusedBorder: OutlineInputBorder(
-        //   borderSide: BorderSide(
-        //       color: currentBorderColor != null
-        //           ? currentBorderColor
-        //           : Colors.white,
-        //       width: 1),
-        // ),
-        labelText: hint,
+        labelText: commentBox == false ? hint : null,
+        hintText: commentBox == true ? hint : null,
         labelStyle: TextStyle(
           color: baseColor,
           fontWeight: FontWeight.w600,

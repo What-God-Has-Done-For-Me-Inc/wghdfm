@@ -386,25 +386,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
             },
           );
 
-          // Get.dialog(
-          //   CupertinoAlertDialog(
-          //     title: const Text("You have not set your profile yet..!!"),
-          //     content: const Text("Do you want to set now.? "),
-          //     actions: [
-          //       MaterialButton(
-          //           onPressed: () {
-          //             Get.back();
-          //           },
-          //           child: const Text("No")),
-          //       MaterialButton(
-          //         onPressed: () {
-          //           Get.to(() => const ProfileScreen());
-          //         },
-          //         child: const Text("Yes"),
-          //       ),
-          //     ],
-          //   ),
-          // );
+        
         }
       },
     );
@@ -923,85 +905,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   );
                 }
               }),
-        )
-        // floatingActionButton: ExpandableFab(
-        //   fabIcon: Icons.add,
-        //   initialOpen: dashBoardController.isFabOpen,
-        //   distance: 120.0,
-        //   children: [
-        //     // ActionButton(
-        //     //   onPressed: () {
-        //     //     Get.to(()=>AddNewPost());
-        //     //     // dashBoardController.friendsModel.value.data?.forEach((element) {
-        //     //     //   element?.isSelected.value = false;
-        //     //     // });
-        //     //     // dashBoardController.fabOnClicks(dashBoardController, 0, context).then((_) {
-        //     //     //   dashBoardController.update();
-        //     //     // });
-        //     //   },
-        //     //   icon: const Icon(
-        //     //     Icons.upload_file_outlined,
-        //     //     semanticLabel: "Post",
-        //     //   ),
-        //     // ),
-        //     // ActionButton(
-        //     //   onPressed: () async {
-        //     //     dashBoardController.fabOnClicks(dashBoardController, 1, context).then((_) {
-        //     //       dashBoardController.update();
-        //     //     });
-        //     //   },
-        //     //   icon: const Icon(
-        //     //     Icons.perm_media,
-        //     //     semanticLabel: "Photo",
-        //     //   ),
-        //     // ),
-        //     // ActionButton(
-        //     //   onPressed: () async {
-        //     //     if (await AppMethods().checkPermission()) {
-        //     //       // Get a specific camera from the list of available cameras.
-        //     //       final cameras = await availableCameras();
-        //     //       final firstCamera = cameras.first;
-        //     //       Get.to(() => TakePictureScreen(
-        //     //             camera: firstCamera,
-        //     //           ));
-        //     //       // init();
-        //     //     }
-        //     //   },
-        //     //   icon: const Icon(
-        //     //     Icons.camera_alt,
-        //     //     semanticLabel: "Photo",
-        //     //   ),
-        //     // ),
-        //     // ActionButton(
-        //     //   onPressed: () async {
-        //     //     if (await AppMethods().checkPermission()) {
-        //     //       // Get a specific camera from the list of available cameras.
-        //     //       final cameras = await availableCameras();
-        //     //       final firstCamera = cameras.first;
-        //     //       // Get.to(() => TakePictureScreen(
-        //     //       //       camera: firstCamera,
-        //     //       //     ));
-        //     //       Get.to(() => TakeVideoScreen(
-        //     //             camera: firstCamera,
-        //     //           ));
-        //     //     }
-        //     //   },
-        //     //   icon: const Icon(
-        //     //     Icons.videocam,
-        //     //     semanticLabel: "Video",
-        //     //   ),
-        //     // ),
-        //   ],
-        // )
-        /*SmartFAB(
-                margin: EdgeInsets.only(
-                  bottom: 60,
-                  right: 20,
-                ),
-                options: PopUpOptions.postOptions,
-                optionHandlers: postOptionOnClicks(),
-              )*/
-        ,
+        ),
       ),
     );
   }
@@ -1022,25 +926,15 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   Widget feedWithLoadMore() {
     return Container(
       alignment: Alignment.center,
-      // padding: const EdgeInsets.all(10),
       child: StatefulBuilder(
         builder: (context, StateSetter setStateCustom) {
           return StreamBuilder(
-            // ignore: invalid_use_of_protected_member
-            // future: loadFeeds(
-            //   isFirstTimeLoading: isFirstTime,
-            //   page: currentPage,
-            // ),
             stream: dashBoardController.dashboardFeeds.stream,
             builder: (context, snapshot) {
               if (dashBoardController.dashboardFeeds == null ||
                   (dashBoardController.dashboardFeeds.isEmpty == true)) {
                 return shimmerFeedLoading();
               }
-
-              // if (snapshot.hasData && dashBoardController.currentPage != 0) {
-              //   feedScrollController.animateTo(dashBoardController.previousPosition, duration: const Duration(seconds: 3), curve: Curves.fastOutSlowIn);
-              // }
 
               if (snapshot.hasError) {
                 return Container(
@@ -1053,50 +947,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   dashBoardController.dashboardFeeds.isNotEmpty == true)) {
                 return Column(
                   children: [
-                    // StreamBuilder(
-                    //   stream: dashBoardController.postUploading.stream,
-                    //   builder: (context, snapshot) {
-                    //     if (!dashBoardController.postUploading.isTrue) {
-                    //       return Container(
-                    //         margin: const EdgeInsets.all(5),
-                    //         decoration: BoxDecoration(
-                    //           borderRadius: BorderRadius.circular(12),
-                    //           color: Colors.white,
-                    //         ),
-                    //         child: Column(
-                    //           children: [
-                    //             Row(
-                    //               mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    //               children: [
-                    //                 const Text("Your Post is uploading.. \n Please don't close app."),
-                    //                 Container(
-                    //                   // width: Get.width,
-                    //                   decoration: const BoxDecoration(
-                    //                     shape: BoxShape.circle,
-                    //                     color: Colors.white,
-                    //                   ),
-                    //                   padding: const EdgeInsets.all(10),
-                    //                   child: const CupertinoActivityIndicator(radius: 10),
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //
-                    //             // LinearPercentIndicator(
-                    //             //   width: 140.0,
-                    //             //   lineHeight: 14.0,
-                    //             //   percent: 0.5,
-                    //             //   backgroundColor: Colors.grey,
-                    //             //   progressColor: Colors.blue,
-                    //             // ),
-                    //           ],
-                    //         ),
-                    //       );
-                    //     } else {
-                    //       return const SizedBox();
-                    //     }
-                    //   },
-                    // ),
-
                     Expanded(
                       child: RefreshIndicator(
                         triggerMode: RefreshIndicatorTriggerMode.anywhere,
@@ -1137,57 +987,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                   RxBool emojiShowing = false.obs;
                                   FocusNode focusNode = FocusNode();
 
-                                  // bool isLiked = await isLiked(feeds![index].id!)
-                                  /*(index == feeds!.length)
-                                        ?*/
-
-                                  ///CircularProgressIndicator
-                                  /*StreamBuilder(
-                                            stream: isLoading.stream,
-                                            builder: (context, snapshot) => Visibility(
-                                                visible: true,
-                                                child: CupertinoActivityIndicator(
-                                                  color: Colors.black,
-                                                )),
-                                          )*/
-
-                                  ///Load more button..
-                                  // loadMoreItem(onLoad: () {
-                                  //     snack(
-                                  //       title: "Syncing...",
-                                  //       msg: "Loading older post feeds...",
-                                  //       icon: Icons.sync,
-                                  //       seconds: 13,
-                                  //     );
-                                  //     setState(() {
-                                  //       previousPosition = feedScrollController.position.maxScrollExtent;
-                                  //       isFirstTime = false;
-                                  //       currentPage++;
-                                  //     });
-                                  //   })
-
-                                  ///Old Code
-                                  /*listItem(
-                                      index,
-                                      isLoved: dashBoardController.dashboardFeeds[index].getFav!.contains("S") == true,
-                                      onFavClick: () {
-                                        setState(() {});
-                                      },
-                                      onLikeClick: () {
-                                        setState(() {});
-                                      },
-                                      onEditClick: () {
-                                        setState(() {});
-                                      },
-                                      onDeleteClick: () {
-                                        setState(() {});
-                                      },
-                                      //isLiked: isLiked,
-                                    );*/
-
-                                  // if (index % 10 == 0 && index != 0) {
-                                  //   AdsScreen.loadInterstitialAd();
-                                  // }
                                   return Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -2398,9 +2197,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                           Theme.of(Get.context!)
                                                               .primaryColor,
                                                       baseColor:
-                                                          Theme.of(Get.context!)
-                                                              .colorScheme
-                                                              .secondary,
+                                                          AppColors.black,
+                                                      commentBox: true,
                                                       isLastField: true,
                                                       obscureText: false,
                                                     ),

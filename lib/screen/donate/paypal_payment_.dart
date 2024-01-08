@@ -270,8 +270,8 @@ class PaypalPaymentState extends State<PaypalPayment> {
         key: webViewKey,
         //initialUrlRequest: URLRequest(url: Uri.parse(checkoutUrl!)),
         initialUrlRequest: URLRequest(
-            url: Uri.parse(
-                'https://www.paypal.com/donate?hosted_button_id=XJXBT4WC95LKU')),
+            url: WebUri.uri(Uri.parse(
+                'https://www.paypal.com/donate?hosted_button_id=XJXBT4WC95LKU'))),
         initialUserScripts: UnmodifiableListView<UserScript>([]),
         initialOptions: settings,
         pullToRefreshController: pullToRefreshController,

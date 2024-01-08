@@ -65,7 +65,8 @@ dependencies:
   #    git: https://github.com/tintran-dev/betterplayer.git
   flick_video_player: ^0.6.0
   universal_html:
-  youtube_player_flutter: ^8.1.1
+  # youtube_player_flutter: ^8.1.1
+  youtube_player_flutter_plus: ^9.0.0
   youtube_player_iframe: ^4.0.4
   google_mobile_ads: ^4.0.0
   #  flutter_zoom_drawer: ^3.0.3
@@ -82,7 +83,7 @@ dependencies:
   #  video_compress_ds: ^3.1.6
   tutorial_coach_mark: ^1.2.11
   flutter_plugin_android_lifecycle: ^2.0.17
-  flutter_inappwebview: ^5.8.0
+  flutter_inappwebview: ^6.0.0
   pinput: ^3.0.1
  
   

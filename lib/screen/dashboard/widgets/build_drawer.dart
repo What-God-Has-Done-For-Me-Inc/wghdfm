@@ -41,7 +41,8 @@ Widget buildDrawer() {
                     ),
                     const Text(
                       "What God Has Done For Me",
-                      style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w800),
+                      style: TextStyle(
+                          color: Colors.blue, fontWeight: FontWeight.w800),
                     ),
                     SizedBox(
                       height: 5,
@@ -61,9 +62,9 @@ Widget buildDrawer() {
                       if (index == 3) {
                         return SizedBox();
                       }
-                      if (index == 4 && !appConfigController.chatPage) {
-                        return SizedBox();
-                      }
+                      // if (index == 4 && !appConfigController.chatPage) {
+                      //   return SizedBox();
+                      // }
                       if (index == 5 && !appConfigController.biblePage) {
                         return SizedBox();
                       }

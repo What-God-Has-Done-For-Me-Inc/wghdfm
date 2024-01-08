@@ -14,6 +14,7 @@ class LoginModel {
     this.status,
     this.id,
     this.email,
+    this.pass,
     this.church,
     this.userType,
     this.fname,
@@ -24,6 +25,7 @@ class LoginModel {
   String? status;
   String? id;
   String? email;
+  String? pass;
   String? church;
   String? userType;
   String? fname;
@@ -34,6 +36,7 @@ class LoginModel {
         status: json["status"],
         id: json["id"],
         email: json["email"],
+        pass: json["pass"],
         church: json["church"],
         userType: json["user_type"],
         fname: json["fname"],
@@ -45,6 +48,7 @@ class LoginModel {
         "status": status,
         "id": id,
         "email": email,
+        "pass": pass,
         "church": church,
         "user_type": userType,
         "fname": fname,

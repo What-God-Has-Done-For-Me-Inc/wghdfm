@@ -214,8 +214,17 @@ class DashBoardController extends GetxController {
       case 4: //Bible
         Get.back();
         // openInWeb(chatUrl);
+        LoginModel userDetails = await SessionManagement.getUserDetails();
+        Codec<String, String> stringToBase64Url = utf8.fuse(base64Url);
+        String encoded =
+            stringToBase64Url.encode(userDetails.pass.toString() + "|^{}^|");
+        var parsedData = Uri.encodeComponent(encoded);
+        String userToken =
+            "?F=${userDetails.fname}&L=${userDetails.lname}&E=${userDetails.email}&P=${parsedData}";
+
+        // print(userToken);
         Get.to(() => CommonWebScreen(
-              url: chatUrl,
+              url: chatUrl + userToken,
               title: "Chat",
             ));
         break;
