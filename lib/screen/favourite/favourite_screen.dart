@@ -472,9 +472,10 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                 ),
                                               ),
                                             // Text(feeds![index].status.toString()),
-                                            //commonImageView(favouriteController.favFeeds?[index]),
-                                            customImageView(favouriteController
+                                            commonImageView(favouriteController
                                                 .favFeeds?[index]),
+                                            // customImageView(favouriteController
+                                            //     .favFeeds?[index]),
                                             Container(
                                               margin: const EdgeInsets.only(
                                                 left: 10,

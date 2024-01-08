@@ -7,6 +7,7 @@ import 'package:wghdfm_java/modules/auth_module/model/login_model.dart';
 import 'package:wghdfm_java/modules/dashbord_module/controller/dash_board_controller.dart';
 import 'package:wghdfm_java/modules/profile_module/controller/profile_controller.dart';
 import 'package:wghdfm_java/services/sesssion.dart';
+import 'package:wghdfm_java/utils/button.dart';
 
 class ProfileSetupPage extends StatefulWidget {
   @override
@@ -14,7 +15,8 @@ class ProfileSetupPage extends StatefulWidget {
 }
 
 class _ProfileSetupPageState extends State<ProfileSetupPage> {
-  int step = 1; // Track the current step (1 for profile photo, 2 for cover photo, 3 for the first post).
+  int step =
+      1; // Track the current step (1 for profile photo, 2 for cover photo, 3 for the first post).
 
   final profileController = Get.put(ProfileController());
 
@@ -22,12 +24,14 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
     if (step == 1 && _profileImage != null) {
       LoginModel userDetails = await SessionManagement.getUserDetails();
       userId = userDetails.id;
-      profileController.updateProfileImage(userIdCurrent: userId, image: _profileImage!, isProfile: true);
+      profileController.updateProfileImage(
+          userIdCurrent: userId, image: _profileImage!, isProfile: true);
     }
     if (step == 2 && _coverImage != null) {
       LoginModel userDetails = await SessionManagement.getUserDetails();
       userId = userDetails.id;
-      profileController.updateProfileImage(userIdCurrent: userId, image: _coverImage!, isProfile: false);
+      profileController.updateProfileImage(
+          userIdCurrent: userId, image: _coverImage!, isProfile: false);
       Get.back();
     } else if (step == 2) {
       Get.back();
@@ -122,8 +126,11 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.add),
-                      Text('Select Profile Photo'),
+                      Icon(Icons.add, color: Colors.white),
+                      Text(
+                        'Select Profile Photo',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ],
                   ),
                 ),
@@ -186,8 +193,11 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.add),
-                      Text('Select Cover Photo'),
+                      Icon(Icons.add, color: Colors.white),
+                      Text(
+                        'Select Cover Photo',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ],
                   ),
                 ),
@@ -225,24 +235,37 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                     if (step != 1)
                       ElevatedButton(
                         onPressed: backStep,
-                        child: Text("Back"),
+                        child: Text(
+                          "Back",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
-                    if (step != 2)
+                    if (step != 2 && _profileImage != null)
                       ElevatedButton(
                         onPressed: nextStep,
-                        child: Text("Next"),
+                        style: ElevatedButton.styleFrom(),
+                        child: Text(
+                          "Next",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
-                    if (step != 1)
+
+                    if (step != 1 && _coverImage != null)
                       ElevatedButton(
                         onPressed: nextStep,
-                        child: Text("Complete"),
+                        style: ElevatedButton.styleFrom(),
+                        child: Text(
+                          "Complete",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
-                    ElevatedButton(
-                      onPressed: nextStep,
-                      child: Text("Skip"),
-                    ),
+                    // ElevatedButton(
+                    //   onPressed: nextStep,
+                    //   child: Text("Skip"),
+                    // ),
                   ],
                 ),
+              SizedBox(height: Get.height * 0.02)
             ],
           ),
         ),

@@ -1149,7 +1149,10 @@ class _AddPostState extends State<AddPost> {
         withData: false,
         dialogTitle: "Pick Photo or Video",
         type: FileType.media);
-    if (image == null) return;
+    if (image == null) {
+      isLoading.value = false;
+      return;
+    }
 
     for (var element in image.files) {
       final tempImage = File(element.path ?? "");

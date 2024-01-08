@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:wghdfm_java/common/common_snack.dart';
 import 'package:wghdfm_java/common/commons.dart';
@@ -40,10 +41,12 @@ import 'package:wghdfm_java/screen/messages/message_threads_ui.dart';
 import 'package:wghdfm_java/utils/app_binding.dart';
 import 'package:wghdfm_java/utils/app_colors.dart';
 import 'package:wghdfm_java/utils/app_methods.dart';
+import 'package:wghdfm_java/utils/common-webview-screen.dart';
 import 'package:wghdfm_java/utils/emoji_keybord_custom.dart';
 import 'package:wghdfm_java/utils/endpoints.dart';
 import 'package:wghdfm_java/utils/get_links_text.dart';
 import 'package:wghdfm_java/utils/lists.dart';
+import 'package:wghdfm_java/utils/urls.dart';
 
 import '../../../screen/comment/comment_screen.dart';
 import '../../../services/prefrence_services.dart';
@@ -385,8 +388,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               );
             },
           );
-
-        
         }
       },
     );
@@ -607,18 +608,30 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                 color: Colors.black,
               )),
           actions: [
-            // IconButton(
-            //     onPressed: () {
-            //       Get.to(() => NotificationPostDetailsScreen(
-            //             postId: "8676",
-            //           ));
-            //     },
-            //     icon: const Icon(Icons.flutter_dash)),
             IconButton(
                 onPressed: () {
                   Get.to(() => const SearchScreen());
                 },
                 icon: const Icon(Icons.search_outlined)),
+            IconButton(
+                onPressed: () async {
+                  LoginModel userDetails =
+                      await SessionManagement.getUserDetails();
+                  Codec<String, String> stringToBase64Url =
+                      utf8.fuse(base64Url);
+                  String encoded = stringToBase64Url
+                      .encode(userDetails.pass.toString() + "|^{}^|");
+                  var parsedData = Uri.encodeComponent(encoded);
+                  String userToken =
+                      "?F=${userDetails.fname}&L=${userDetails.lname}&E=${userDetails.email}&P=${parsedData}";
+
+                  // print(userToken);
+                  Get.to(() => CommonWebScreen(
+                        url: chatUrl + userToken,
+                        title: "Chat",
+                      ));
+                },
+                icon: const Icon(Icons.forum)),
             IconButton(
                 key: notificationButtonKey,
                 onPressed: () {
@@ -685,6 +698,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                     final formKey = GlobalKey<FormState>();
                     Get.dialog(
                       Dialog(
+                        backgroundColor: Get.theme.colorScheme.background,
                         child: Form(
                           key: formKey,
                           child: Column(
@@ -800,7 +814,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                 if (dashBoardController.postUploading.value == false) {
                   return FloatingActionButton.extended(
                     key: addButtonKey,
-                    backgroundColor: Colors.black,
+                    backgroundColor: const Color(0xff132ba2),
                     onPressed: () {
                       Get.to(() => const AddPost());
                     },
@@ -813,7 +827,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                           fontSize: 16,
                           fontWeight: FontWeight.w600),
                     ),
-                    icon: const Icon(Icons.add_circle_outline),
+                    icon: Lottie.asset('assets/json/post.json',
+                        fit: BoxFit.fill,
+                        height: Get.height * 0.05,
+                        width: Get.width * 0.09),
                   );
                 } else {
                   return Container(

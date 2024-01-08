@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 
 // import 'package:flick_video_player/flick_video_player.dart';
@@ -346,11 +348,7 @@ Widget customImageView(PostModelFeed? feed) {
   print(
       ">> Youtube iFrame 1 use this link >> ${feed?.url?.split("/").last.split('?').first}");
   print(">> Content Link >> ${listOfMedia}");
-  // return Text(listOfMedia.length.toString());
-  // kFavouriteController.isRefreshing.value = true;
-  // Timer(const Duration(seconds: 1), () {
-  //   kFavouriteController.isRefreshing.value = false;
-  // });
+
   return InkWell(
     onTap: () {
       feed?.media == ""
@@ -363,17 +361,18 @@ Widget customImageView(PostModelFeed? feed) {
       children: [
         (feed?.media != "" || feed?.url != "")
             ? Container(
-                // color: Colors.red,
-                height: Get.height * 0.5,
+                height: (listOfMedia?.length ?? 0) == 2
+                    ? Get.height * 0.2
+                    : Get.height * 0.5,
                 child: (listOfMedia?.length ?? 0) <= 1
                     ? mediaView(
                         listOfMedia: listOfMedia ?? [], feed: feed, index: 0)
                     : (listOfMedia?.length ?? 0) == 2
                         ? SizedBox(
-                            height: Get.height * 0.5,
+                            height: Get.height * 0.2,
                             width: Get.width,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
+                            child: Row(
+                              // mainAxisSize: MainAxisSize.min,
                               children: listOfMedia
                                       ?.asMap()
                                       .entries
@@ -382,12 +381,9 @@ Widget customImageView(PostModelFeed? feed) {
                                               listOfMedia: listOfMedia,
                                               feed: feed,
                                               index: e.key,
-                                              imgFit: BoxFit.fitWidth)))
+                                              imgFit: BoxFit.cover)))
                                       .toList() ??
                                   [],
-                              // listOfMedia?.asMap().map((key, value) {
-                              //   return Container();
-                              // }).values.toList() ?? [],
                             ),
                           )
                         : (listOfMedia?.length ?? 0) == 3
@@ -521,7 +517,7 @@ Widget customImageView(PostModelFeed? feed) {
                                             "png",
                                             "gif",
                                             'heic',
-                                      'pvt',
+                                            'pvt',
                                             'heif'
                                           ].contains(listOfMedia?[index]
                                                 .split(".")
@@ -704,46 +700,6 @@ Widget customImageView(PostModelFeed? feed) {
                               ),
               )
             : SizedBox(),
-        // const SizedBox(
-        //   height: 5,
-        // ),
-        // feed?.media == ""
-        //     ? const SizedBox()
-        //     : (listOfMedia?.length ?? 0) <= 4
-        //         ? Padding(
-        //             padding: const EdgeInsets.only(left: 10, right: 10),
-        //             child: Container(
-        //               width: Get.width,
-        //               decoration: BoxDecoration(
-        //                 border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1),
-        //               ),
-        //               child: const Padding(
-        //                 padding: EdgeInsets.all(8.0),
-        //                 child: Center(
-        //                     child: Text(
-        //                   "View Large",
-        //                   style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
-        //                 )),
-        //               ),
-        //             ),
-        //           )
-        //         : Padding(
-        //             padding: const EdgeInsets.only(left: 10, right: 10),
-        //             child: Container(
-        //               width: Get.width,
-        //               decoration: BoxDecoration(
-        //                 border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1),
-        //               ),
-        //               child: Padding(
-        //                 padding: const EdgeInsets.all(8.0),
-        //                 child: Center(
-        //                     child: Text(
-        //                   "+${(listOfMedia?.length ?? 0) - 4} More",
-        //                   style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
-        //                 )),
-        //               ),
-        //             ),
-        //           )
       ],
     ),
   );

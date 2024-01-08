@@ -78,15 +78,17 @@ class AppMethods {
     // );
   }
 
-  void onNavigation(BuildContext context,
-      String originLatitude,
-      String originLongitude,
-      String destinationLatitude,
-      String destinationLongitude, {
-        int zoomLvl = 18,
-      }) async {
+  void onNavigation(
+    BuildContext context,
+    String originLatitude,
+    String originLongitude,
+    String destinationLatitude,
+    String destinationLongitude, {
+    int zoomLvl = 18,
+  }) async {
     //"StringAddress or lat,long"
-    String origin = "$originLatitude,$originLongitude"; // lat,long like 123.34,68.56
+    String origin =
+        "$originLatitude,$originLongitude"; // lat,long like 123.34,68.56
     String destination = "$destinationLatitude,$destinationLongitude";
 
     ///https://www.google.com/maps/dir/?api=1&origin=22.5735602,88.4324186&destination=26.1859246,91.7442156&travelmode=driving&dir_action=navigate
@@ -94,7 +96,8 @@ class AppMethods {
     //navUrl = "https://www.google.com/maps/dir/?api=1&origin=" + origin + "&destination=" + destination + "&travelmode=driving&dir_action=navigate";
 
     ///https://www.google.com/maps/dir/22.5735602,88.4324186/26.1859246,91.7442156/@26.1856037,91.7445514,18z
-    navUrl = "https://www.google.com/maps/dir/$origin/$destination/@$destination,${zoomLvl}z";
+    navUrl =
+        "https://www.google.com/maps/dir/$origin/$destination/@$destination,${zoomLvl}z";
     debugPrint("navUrl: $navUrl");
     // FlutterWebBrowser.openWebPage(
     //   url: navUrl,
@@ -124,11 +127,12 @@ class AppMethods {
     // );
   }
 
-  void onLocation(BuildContext context,
-      String latitude,
-      String longitude, {
-        int zoomLvl = 18,
-      }) async {
+  void onLocation(
+    BuildContext context,
+    String latitude,
+    String longitude, {
+    int zoomLvl = 18,
+  }) async {
     //"StringAddress or lat,long"
     String origin = "$latitude,$longitude"; // lat,long like 123.34,68.56
 
@@ -209,15 +213,17 @@ class AppMethods {
     await Permission.camera.request();
     await Permission.microphone.request();
     showLog(" Permission of camera >> ${await Permission.camera.status}");
-    showLog(" Permission of microphone >> ${await Permission.microphone.status}");
+    showLog(
+        " Permission of microphone >> ${await Permission.microphone.status}");
 
     ///For Location..
     if (Platform.isAndroid) {
-      if (await Permission.camera.status != PermissionStatus.granted || await Permission.microphone.status != PermissionStatus.granted) {
+      if (await Permission.camera.status != PermissionStatus.granted ||
+          await Permission.microphone.status != PermissionStatus.granted) {
         await Get.dialog(CupertinoAlertDialog(
           title: const Text("Camera & Microphone permission"),
-          content:
-          const Text("Camera & Microphone permission should be required to using this function, would you like to go to app settings to give Camera & Microphone permissions?"),
+          content: const Text(
+              "Camera & Microphone permission should be required to using this function, would you like to go to app settings to give Camera & Microphone permissions?"),
           actions: <Widget>[
             TextButton(
                 child: const Text('No thanks'),
@@ -252,15 +258,17 @@ class AppMethods {
 
     // await Permission.manageExternalStorage.request();
     showLog(" Permission of camera >> ${await Permission.camera.status}");
-    showLog(" Permission of microphone >> ${await Permission.microphone.status}");
+    showLog(
+        " Permission of microphone >> ${await Permission.microphone.status}");
 
     ///For Location..
     if (Platform.isAndroid) {
-      if (await Permission.storage.status != PermissionStatus.granted && await Permission.photos.status != PermissionStatus.granted) {
+      if (await Permission.storage.status != PermissionStatus.granted &&
+          await Permission.photos.status != PermissionStatus.granted) {
         await Get.dialog(CupertinoAlertDialog(
           title: const Text("Camera & Microphone permission"),
-          content:
-          const Text("Camera & Microphone permission should be required to using this function, would you like to go to app settings to give Camera & Microphone permissions?"),
+          content: const Text(
+              "Camera & Microphone permission should be required to using this function, would you like to go to app settings to give Camera & Microphone permissions?"),
           actions: <Widget>[
             TextButton(
                 child: const Text('No thanks'),
@@ -318,7 +326,8 @@ class AppMethods {
   checkTutorial({Function? callBack}) async {
     final instance = await SharedPreferences.getInstance();
     showTutorial.value = instance.getBool("showTutorial") ?? true;
-    showTutorialForProfile.value = instance.getBool("showTutorialForProfile") ?? true;
+    showTutorialForProfile.value =
+        instance.getBool("showTutorialForProfile") ?? true;
     print("----- showTutorial.value${showTutorial.value}");
     print("----- showTutorialForProfile.value${showTutorialForProfile.value}");
     if (callBack != null) {
@@ -326,8 +335,10 @@ class AppMethods {
     }
   }
 
-
-  static deleteDialog({String? headingText, String? descriptionText, required Function onDelete}) {
+  static deleteDialog(
+      {String? headingText,
+      String? descriptionText,
+      required Function onDelete}) {
     Get.dialog(CupertinoAlertDialog(
       title: Text(headingText ?? 'Are you sure you want to delete this?'),
       content: Text(descriptionText ?? 'This will delete the permanently'),
@@ -352,38 +363,40 @@ class AppMethods {
   }
 
   static tutorialDialog() {
-    Get.dialog(CupertinoAlertDialog(
-      title: Text("Profile Setup"),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            height: 10,
+    Get.dialog(
+        CupertinoAlertDialog(
+          title: Text("Profile Setup"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Text("You haven't setup your profile, Please Let's do it "),
+              SizedBox(
+                height: 10,
+              ),
+              Lottie.asset("assets/json/Profile.json", height: 250, width: 250)
+            ],
           ),
-          Text("You haven't setup your profile, Please Let's do it "),
-          SizedBox(
-            height: 10,
-          ),
-          Lottie.asset("assets/json/Profile.json", height: 250, width: 250)
-        ],
-      ),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () {
-            Get.back(); //close Dialog
-          },
-          child: const Text('Skip'),
+          actions: <Widget>[
+            // TextButton(
+            //   onPressed: () {
+            //     Get.back(); //close Dialog
+            //   },
+            //   child: const Text('Skip'),
+            // ),
+            TextButton(
+                onPressed: () {
+                  Get.back();
+                  Get.to(() => ProfileSetupPage());
+                },
+                child: const Text(
+                  "Let's do it",
+                )),
+          ],
         ),
-        TextButton(
-            onPressed: () {
-              Get.back();
-              Get.to(() => ProfileSetupPage());
-            },
-            child: const Text(
-              "Let's do it",
-            )),
-      ],
-    ));
+        barrierDismissible: false);
   }
 
   acceptEULA() async {
@@ -404,33 +417,41 @@ class AppMethods {
         context: context,
         backgroundColor: Colors.transparent,
         isDismissible: false,
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(15))),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(15))),
         builder: (context) {
           return WillPopScope(
             onWillPop: () {
               return Future.value(false);
             },
             child: Container(
-              decoration: BoxDecoration(color: AppColors.white, borderRadius: BorderRadius.circular(15)),
+              decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(15)),
               margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset('assets/icon/term_condition.png', height: 50, width: 50),
+                  Image.asset('assets/icon/term_condition.png',
+                      height: 50, width: 50),
                   const SizedBox(height: 15),
                   RichText(
-                    text: TextSpan(style: const TextStyle(color: Colors.black), text: "For use of What God Has Done For Me, you need to allow to the user", children: [
-                      TextSpan(
-                          text: " agreement",
-                          style: const TextStyle(
-                            color: Colors.blue,
-                          ),
-                          recognizer: new TapGestureRecognizer()
-                            ..onTap = () {
-                              launch(AppTexts.eulaLink);
-                            }),
-                    ]),
+                    text: TextSpan(
+                        style: const TextStyle(color: Colors.black),
+                        text:
+                            "For use of What God Has Done For Me, you need to allow to the user",
+                        children: [
+                          TextSpan(
+                              text: " agreement",
+                              style: const TextStyle(
+                                color: Colors.blue,
+                              ),
+                              recognizer: new TapGestureRecognizer()
+                                ..onTap = () {
+                                  launch(AppTexts.eulaLink);
+                                }),
+                        ]),
                   ),
                   // Text(
                   //   "Please read and allow our Privacy Policy to continue using our app.",

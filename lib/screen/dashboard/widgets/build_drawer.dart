@@ -62,9 +62,9 @@ Widget buildDrawer() {
                       if (index == 3) {
                         return SizedBox();
                       }
-                      // if (index == 4 && !appConfigController.chatPage) {
-                      //   return SizedBox();
-                      // }
+                      if (index == 4 && !appConfigController.chatPage) {
+                        return SizedBox();
+                      }
                       if (index == 5 && !appConfigController.biblePage) {
                         return SizedBox();
                       }

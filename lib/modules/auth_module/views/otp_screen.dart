@@ -79,7 +79,17 @@ class _OTPScreenState extends State<OTPScreen> {
                 color: AppColors.black),
           ),
         ),
-
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Note: Please check your email and spam  to activate your account.',
+            textAlign: TextAlign.left,
+            style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
+                color: AppColors.blackColor),
+          ),
+        ),
         const SizedBox(height: 22),
         Pinput(
           controller: pinController,
@@ -136,7 +146,6 @@ class _OTPScreenState extends State<OTPScreen> {
               );
             }),
 
-        const SizedBox(height: 15),
         // Text.rich(
         //   TextSpan(
         //     text: '${Language.didNotReceived.capitalizeByWord()} ? ',
