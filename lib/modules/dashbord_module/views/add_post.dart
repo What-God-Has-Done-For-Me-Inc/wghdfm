@@ -969,6 +969,7 @@ class _AddPostState extends State<AddPost> {
                                 ],
                               ),
                             ),
+                            const SizedBox(height: 15),
                           ],
                         );
                       },
