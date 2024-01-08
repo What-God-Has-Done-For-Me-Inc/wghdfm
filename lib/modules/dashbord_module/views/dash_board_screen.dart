@@ -698,66 +698,79 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                     final formKey = GlobalKey<FormState>();
                     Get.dialog(
                       Dialog(
-                        backgroundColor: Get.theme.colorScheme.background,
-                        child: Form(
-                          key: formKey,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                height: 20,
-                              ),
-                              const Text(
-                                "Invite Friends",
-                                style: TextStyle(fontSize: 22),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              const Text(
-                                  'Write a Email address of your friend that you want to Invite. '),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Container(
-                                color: Colors.white,
-                                child: commonTextField(
-                                  baseColor: Colors.black,
-                                  borderColor: Colors.black,
-                                  controller: emailController,
-                                  errorColor: Colors.white,
-                                  hint: "Email of your friend",
-                                  validator: (String? value) {
-                                    return (value == null ||
-                                            value.isEmpty ||
-                                            !value.isEmail)
-                                        ? "Please enter valid email"
-                                        : null;
-                                  },
-                                ),
-                              ),
-                              ElevatedButton(
-                                onPressed: () async {
-                                  if (formKey.currentState!.validate()) {
-                                    await profileController.inviteFriend(
-                                        email: emailController.text,
-                                        callBack: () {});
-                                  }
-                                },
-                                child: Text(
-                                  "Invite",
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.montserrat(
-                                    color: Colors.white,
-                                    fontSize: 16,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Form(
+                              key: formKey,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(height: Get.height * 0.02),
+                                  const Text(
+                                    "Invite Friends",
+                                    style: TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w600),
                                   ),
-                                ),
+                                  SizedBox(height: Get.height * 0.02),
+                                  const Text(
+                                    'Write a Email address of your friends that you want to Invite.',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  SizedBox(height: Get.height * 0.02),
+                                  Container(
+                                    color: Colors.white,
+                                    child: commonTextField(
+                                        baseColor: Colors.black,
+                                        borderColor: Colors.black,
+                                        controller: emailController,
+                                        errorColor: Colors.white,
+                                        hint: "Email of your friends",
+                                        validator: (String? value) {
+                                          return (value == null ||
+                                                  value.isEmpty)
+                                              ? "Please enter valid email"
+                                              : null;
+                                        },
+                                        commentBox: true),
+                                  ),
+                                  SizedBox(height: Get.height * 0.01),
+                                  const Text(
+                                    'Note: Enter maximum 5 emails all separated by comma..',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  SizedBox(height: Get.height * 0.02),
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      print(emailController.text);
+                                      if (formKey.currentState!.validate()) {
+                                        await profileController.inviteFriend(
+                                            email: emailController.text,
+                                            callBack: () {});
+                                      }
+                                    },
+                                    child: Text(
+                                      "Invite",
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.montserrat(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: Get.height * 0.02),
+                                ],
                               ),
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.01,
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
