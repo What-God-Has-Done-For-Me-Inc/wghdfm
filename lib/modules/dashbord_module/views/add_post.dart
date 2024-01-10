@@ -11,11 +11,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:wghdfm_java/common/video_compressor.dart';
 import 'package:wghdfm_java/common/video_player.dart';
 import 'package:wghdfm_java/modules/dashbord_module/model/friends_model.dart';
-import 'package:wghdfm_java/modules/dashbord_module/views/add_post_screen.dart';
 import 'package:wghdfm_java/modules/dashbord_module/views/tag_post_screen.dart';
 import 'package:wghdfm_java/modules/dashbord_module/views/take_picture_screen.dart';
 import 'package:wghdfm_java/modules/dashbord_module/views/take_video_screen.dart';
-import 'package:wghdfm_java/networking/api_service_class.dart';
 import 'package:wghdfm_java/utils/app_binding.dart';
 
 import '../../../common/commonYoutubePlayer.dart';
@@ -355,120 +353,9 @@ class _AddPostState extends State<AddPost> {
                   TextEditingController searchController =
                       TextEditingController();
 
-                  // taggedUsers.forEach((element) {
-                  //   if(element['id'])
-                  // });
-
-                  // kDashboardController.friendsModel.value.data?.forEach((element) {
-                  //   if (taggedUsers.every((elements) => elements['id'] == element?.userId)) {
-                  //     element?.isSelected.value = true;
-                  //   }
-                  // });
-
                   Get.to(() => const TagUserScreen())?.then((value) {
                     setState(() {});
                   });
-
-                  ///Add Post Dialogue
-                  /*Get.dialog(Dialog(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                    elevation: 10,
-                    child: StatefulBuilder(
-                      builder: (context, StateSetter setStateSearch) {
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(height: 15),
-                            Text(
-                              "Tag Friends",
-                              style: GoogleFonts.poppins(color: Colors.black, fontSize: 20),
-                            ),
-                            SizedBox(height: 15),
-                            // Container(
-                            //   color: Colors.white,
-                            //   child: commonTextField(
-                            //       baseColor: Colors.black,
-                            //       borderColor: Colors.black,
-                            //       controller: searchController,
-                            //       errorColor: Colors.white,
-                            //       hint: "Search Friends",
-                            //       onChanged: (String? value) {
-                            //         setStateSearch(() {});
-                            //       }),
-                            // ),
-                            SizedBox(
-                              height: Get.height * 0.35,
-                              width: Get.width * 0.8,
-                              child: Container(
-                                height: Get.height * 0.30,
-                                child: ListView.builder(
-                                  itemCount: kDashboardController.friendsModel.value.data?.length,
-                                  itemBuilder: (context, index) {
-                                    return StreamBuilder(
-                                        stream: kDashboardController.friendsModel.value.data?[index]?.isSelected.stream,
-                                        builder: (context, snapshot) {
-                                          return CheckboxListTile(
-                                            contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                                            tileColor: Colors.white,
-                                            activeColor: Colors.white,
-                                            checkColor: Colors.black,
-                                            value: kDashboardController.friendsModel.value.data?[index]?.isSelected.value,
-                                            onChanged: (value) {
-                                              kDashboardController.friendsModel.value.data?[index]?.isSelected.toggle();
-                                              if (value == true) {
-                                                taggedUsers.add({
-                                                  'id': "${kDashboardController.friendsModel.value.data?[index]?.userId}",
-                                                  "name":
-                                                      "${kDashboardController.friendsModel.value.data?[index]?.firstname} ${kDashboardController.friendsModel.value.data?[index]?.lastname}"
-                                                });
-                                              } else {
-                                                Map usr = {
-                                                  "id": "${kDashboardController.friendsModel.value.data?[index]?.userId}",
-                                                  "name":
-                                                      "${kDashboardController.friendsModel.value.data?[index]?.firstname} ${kDashboardController.friendsModel.value.data?[index]?.lastname}"
-                                                };
-                                                taggedUsers.remove(usr);
-                                              }
-                                              setState(() {});
-                                            },
-                                            title: Text(
-                                                "${kDashboardController.friendsModel.value.data?[index]?.firstname} ${kDashboardController.friendsModel.value.data?[index]?.lastname}",
-                                                style: TextStyle(color: Colors.black)),
-                                          ).paddingOnly(bottom: 3);
-                                        });
-                                  },
-                                ),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    // kDashboardController.friendsModel.value.data?.forEach((element) {
-                                    //   element?.isSelected.value = false;
-                                    // });
-                                    setState(() {});
-                                    Get.back();
-                                  },
-                                  child: Text("Cancel"),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      Get.back();
-                                    });
-                                  },
-                                  child: Text("Done"),
-                                ),
-                              ],
-                            )
-                          ],
-                        );
-                      },
-                    ),
-                  ));*/
                 },
                 child: Row(
                   children: const [
@@ -487,16 +374,6 @@ class _AddPostState extends State<AddPost> {
                   builder: (context, snapshot) {
                     return Wrap(
                       spacing: 5,
-                      // children: taggedUsers
-                      //     .map((element) => Chip(
-                      //           label: Text("${element['name']}"),
-                      //           deleteIcon: Icon(Icons.close_sharp, size: 18),
-                      //           onDeleted: () {
-                      //             taggedUsers.remove(element);
-                      //           },
-                      //         ))
-                      //     .toList(),
-
                       children: kDashboardController.friendsModel.value.data
                               ?.map(
                                   (element) => element?.isSelected.value == true
@@ -514,33 +391,6 @@ class _AddPostState extends State<AddPost> {
                                       : SizedBox())
                               .toList() ??
                           [],
-                      // children: [
-                      //   Chip(
-                      //     label: Text("Romil Mavani "),
-                      //     deleteIcon: Icon(Icons.close_sharp, size: 18),
-                      //     onDeleted: () {},
-                      //   ),
-                      //   Chip(
-                      //     label: Text("Romil "),
-                      //     deleteIcon: Icon(Icons.close_sharp, size: 18),
-                      //     onDeleted: () {},
-                      //   ),
-                      //   Chip(
-                      //     label: Text(" Mavani "),
-                      //     deleteIcon: Icon(Icons.close_sharp, size: 18),
-                      //     onDeleted: () {},
-                      //   ),
-                      //   Chip(
-                      //     label: Text("Romil"),
-                      //     deleteIcon: Icon(Icons.close_sharp, size: 18),
-                      //     onDeleted: () {},
-                      //   ),
-                      //   Chip(
-                      //     label: Text("Romil Mavani "),
-                      //     deleteIcon: Icon(Icons.close_sharp, size: 18),
-                      //     onDeleted: () {},
-                      //   ),
-                      // ],
                     );
                   }),
               const SizedBox(height: 10),

@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:wghdfm_java/common/background_widget.dart';
 import 'package:wghdfm_java/modules/auth_module/controller/auth_controller.dart';
 import 'package:wghdfm_java/modules/auth_module/views/sign_up_screen.dart';
@@ -10,17 +9,27 @@ import 'package:wghdfm_java/utils/app_colors.dart';
 import 'package:wghdfm_java/utils/app_methods.dart';
 import 'package:wghdfm_java/utils/button.dart';
 import 'package:wghdfm_java/utils/page_res.dart';
-import 'package:wghdfm_java/utils/scale_ui_utils.dart';
 
 import '../../../common/commons.dart';
 import '../../../utils/validation_utils.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final authController = Get.put(AuthController());
+
   final formKey = GlobalKey<FormState>();
+
   final emailTEC = TextEditingController();
+
   final passwordTEC = TextEditingController();
+
+  bool passwordHide = true;
 
   @override
   Widget build(BuildContext context) {
@@ -122,11 +131,19 @@ class LoginScreen extends StatelessWidget {
                           ? "Please enter valid password"
                           : null;
                     },
+                    showEye: true,
+                    onTap: () {
+                      setState(
+                        () {
+                          passwordHide = !passwordHide;
+                        },
+                      );
+                    },
                     controller: passwordTEC,
                     borderColor: Colors.white,
                     baseColor: AppColors.blackColor,
                     isLastField: true,
-                    obscureText: true,
+                    obscureText: passwordHide,
                   ),
                   SizedBox(height: Get.height * 0.04),
                   customButton(

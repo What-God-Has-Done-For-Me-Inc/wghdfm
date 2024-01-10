@@ -11,6 +11,7 @@ import 'package:wghdfm_java/modules/dashbord_module/controller/dash_board_contro
 import 'package:wghdfm_java/modules/profile_module/view/add_post_someones_profile.dart';
 import 'package:wghdfm_java/screen/comment/comment_screen.dart';
 import 'package:wghdfm_java/services/sesssion.dart';
+import 'package:wghdfm_java/utils/app_colors.dart';
 import 'package:wghdfm_java/utils/app_texts.dart';
 import 'package:wghdfm_java/utils/get_links_text.dart';
 import 'package:wghdfm_java/utils/lists.dart';
@@ -34,7 +35,8 @@ import '../controller/profile_controller.dart';
 class SomeoneProfileScreen extends StatefulWidget {
   final String profileID;
 
-  const SomeoneProfileScreen({Key? key, required this.profileID}) : super(key: key);
+  const SomeoneProfileScreen({Key? key, required this.profileID})
+      : super(key: key);
 
   @override
   State<SomeoneProfileScreen> createState() => _SomeoneProfileScreenState();
@@ -52,7 +54,10 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
     profileController.currentPage = 0;
 
     profileController.getSomeonesProfileData(profileID: widget.profileID);
-    profileController.getProfileFeed(profileId: widget.profileID, isFirstTimeLoading: true, page: profileController.currentPage);
+    profileController.getProfileFeed(
+        profileId: widget.profileID,
+        isFirstTimeLoading: true,
+        page: profileController.currentPage);
     pagination();
     super.initState();
   }
@@ -60,11 +65,17 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
   pagination() {
     feedScrollController.addListener(() async {
       print(">>>> pixels ${feedScrollController.position.pixels}");
-      print(">>>> maxScrollExtent ${feedScrollController.position.maxScrollExtent * 0.70}");
+      print(
+          ">>>> maxScrollExtent ${feedScrollController.position.maxScrollExtent * 0.70}");
       print(">>>> maxScrollExtent ${profileController.isProfileLoading.value}");
-      if (feedScrollController.position.pixels >= feedScrollController.position.maxScrollExtent * 0.70 && profileController.isProfileLoading.value == false) {
+      if (feedScrollController.position.pixels >=
+              feedScrollController.position.maxScrollExtent * 0.70 &&
+          profileController.isProfileLoading.value == false) {
         profileController.currentPage++;
-        await profileController.getProfileFeed(profileId: widget.profileID, isFirstTimeLoading: false, page: profileController.currentPage);
+        await profileController.getProfileFeed(
+            profileId: widget.profileID,
+            isFirstTimeLoading: false,
+            page: profileController.currentPage);
       }
     });
   }
@@ -90,13 +101,16 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                   builder: (context, snapshot) {
                     return StatefulBuilder(
                       builder: (context, StateSetter setStateCustom) {
-                        return profileController.someonesProfileData.value.blockStatus == "0"
+                        return profileController
+                                    .someonesProfileData.value.blockStatus ==
+                                "0"
                             ? TextButton(
                                 onPressed: () {
                                   profileController.blockUser(
                                       userID: widget.profileID,
                                       callBack: () {
-                                        profileController.someonesProfileData.value.blockStatus = "1";
+                                        profileController.someonesProfileData
+                                            .value.blockStatus = "1";
                                         setStateCustom(() {});
                                       });
                                 },
@@ -107,7 +121,8 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                                   profileController.unBlockUser(
                                       userID: widget.profileID,
                                       callBack: () {
-                                        profileController.someonesProfileData.value.blockStatus = "0";
+                                        profileController.someonesProfileData
+                                            .value.blockStatus = "0";
                                         setStateCustom(() {});
                                       });
                                 },
@@ -163,13 +178,12 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                 builder: (context, snapshot) {
                   if (DashBoardController.uploadingProcess.value == "0.0") {
                     return FloatingActionButton(
-                      backgroundColor: Colors.black,
+                      backgroundColor: AppColors.primery,
                       onPressed: () {
-                        // Get.to(() => const AddNewPost());
-                        // Get.to(() => const AddPost());
                         Get.to(() => SomeonesAddPost(
                               userId: "${widget.profileID}",
-                              name: "${profileController.someonesProfileData.value.firstname} ${profileController.someonesProfileData.value.lastname}",
+                              name:
+                                  "${profileController.someonesProfileData.value.firstname} ${profileController.someonesProfileData.value.lastname}",
                             ));
                       },
                       child: const Icon(Icons.add),
@@ -177,20 +191,32 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                   } else {
                     return Container(
                       padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Colors.white, boxShadow: [
-                        BoxShadow(color: Colors.black.withOpacity(0.5), spreadRadius: -1, blurRadius: 15),
-                      ]),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.5),
+                                spreadRadius: -1,
+                                blurRadius: 15),
+                          ]),
                       child: StreamBuilder(
                         stream: DashBoardController.uploadingProcess.stream,
                         builder: (context, snapshot) {
-                          print("------ PERCENTAGES ${DashBoardController.uploadingProcess.value}");
-                          double value = (double.tryParse(DashBoardController.uploadingProcess.value) ?? 0.0) / 100;
+                          print(
+                              "------ PERCENTAGES ${DashBoardController.uploadingProcess.value}");
+                          double value = (double.tryParse(DashBoardController
+                                      .uploadingProcess.value) ??
+                                  0.0) /
+                              100;
                           print(" -- value is ${value}");
                           return CircularPercentIndicator(
                             radius: 25.0,
                             lineWidth: 5.0,
                             header: Text(
-                              (value > 0 && value <= 0.9) ? "Uploading" : "Getting Ready ",
+                              (value > 0 && value <= 0.9)
+                                  ? "Uploading"
+                                  : "Getting Ready ",
                               style: GoogleFonts.roboto(
                                 fontStyle: FontStyle.italic,
                                 fontWeight: FontWeight.bold,
@@ -200,7 +226,8 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                             // fillColor: Colors.white,
                             circularStrokeCap: CircularStrokeCap.round,
                             percent: value,
-                            center: Text("${DashBoardController.uploadingProcess.value}%",
+                            center: Text(
+                                "${DashBoardController.uploadingProcess.value}%",
                                 style: GoogleFonts.roboto(
                                   fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.bold,
@@ -213,16 +240,7 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                     );
                   }
                 }),
-          )
-          // floatingActionButton: FloatingActionButton(
-          //   onPressed: () {
-          // Get.to(() => SomeonesAddPost(
-          //       userId: "${widget.profileID}",
-          //       name: "${profileController.someonesProfileData.value.firstname} ${profileController.someonesProfileData.value.lastname}",
-          //     ));
-          //   },
-          // ),
-          ),
+          )),
     );
   }
 
@@ -230,10 +248,6 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
     return Column(children: [
       Expanded(
         child: StreamBuilder(
-          // future: loadProfileFeeds(
-          //     isFirstTimeLoading: p.isFirstTime,
-          //     page: p.currentPage,
-          //     profileId: p.profileId),
           stream: profileController.profileFeeds?.stream,
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (profileController.profileFeeds == null) {
@@ -246,11 +260,12 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                 child: customText(title: "${snapshot.error}"),
               );
             }
-            //return buildList(allFeeds: feeds);
             return profileController.profileFeeds?.isNotEmpty == true
                 ? RefreshIndicator(
                     onRefresh: () async {
-                      await profileController.getProfileFeed(profileId: userId, isFirstTimeLoading: true);
+                      await profileController.getProfileFeed(
+                          profileId: widget.profileID,
+                          isFirstTimeLoading: true);
                     },
                     child: ListView.builder(
                       controller: feedScrollController,
@@ -264,7 +279,8 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                         return profileFeed(
                           index,
                           // isLoved: profileController.profileFeeds?[index].getFav!.contains("S") == true,
-                          isLoved: profileController.profileFeeds?[index].isFav == 1,
+                          isLoved:
+                              profileController.profileFeeds?[index].isFav == 1,
                           onFavClick: () {
                             setState(() {});
                           },
@@ -283,7 +299,8 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                     ),
                   )
                 : Center(
-                    child: customText(title: 'No Feeds', txtColor: Colors.white),
+                    child:
+                        customText(title: 'No Feeds', txtColor: Colors.white),
                   );
           },
         ),
@@ -325,7 +342,9 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
         if (index == 0)
           Card(
             color: Colors.white,
-            shape: RoundedRectangleBorder(side: const BorderSide(color: Colors.grey, width: 0.5), borderRadius: BorderRadius.circular(5)),
+            shape: RoundedRectangleBorder(
+                side: const BorderSide(color: Colors.grey, width: 0.5),
+                borderRadius: BorderRadius.circular(5)),
             child: AspectRatio(
               aspectRatio: 16 / 9,
               child: StreamBuilder(
@@ -354,7 +373,8 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                               return CachedNetworkImage(
                                 alignment: Alignment.center,
                                 fit: BoxFit.cover,
-                                imageUrl: "${profileController.someonesProfileData.value.cover}",
+                                imageUrl:
+                                    "${profileController.someonesProfileData.value.cover}",
                                 placeholder: (context, url) => Container(
                                   padding: const EdgeInsets.all(3),
                                   child: Center(
@@ -362,13 +382,18 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                                       width: 30,
                                       height: 30,
                                       child: CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.secondary),
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary),
                                       ),
                                     ),
                                   ),
                                 ),
                                 // errorWidget: (context, url, error) => const Icon(Icons.error),
-                                errorWidget: (context, url, error) => Image.asset(AppImages.logoImage),
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(AppImages.logoImage),
                               );
                             }),
                       ),
@@ -391,7 +416,9 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(100),
                                       border: Border.all(
-                                        color: Theme.of(Get.context!).iconTheme.color!,
+                                        color: Theme.of(Get.context!)
+                                            .iconTheme
+                                            .color!,
                                         width: 1,
                                       ),
                                     ),
@@ -399,21 +426,33 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                                     padding: EdgeInsets.zero,
                                     child: ClipOval(
                                       child: StreamBuilder(
-                                          stream: profileController.someonesProfileData.stream,
+                                          stream: profileController
+                                              .someonesProfileData.stream,
                                           builder: (context, snapshot) {
                                             return CachedNetworkImage(
                                               alignment: Alignment.center,
                                               fit: BoxFit.cover,
-                                              imageUrl: "${profileController.someonesProfileData.value.img}",
-                                              placeholder: (context, url) => Container(
-                                                padding: const EdgeInsets.all(3),
-                                                child: shimmerMeUp(CircularProgressIndicator(
-                                                  valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.secondary),
+                                              imageUrl:
+                                                  "${profileController.someonesProfileData.value.img}",
+                                              placeholder: (context, url) =>
+                                                  Container(
+                                                padding:
+                                                    const EdgeInsets.all(3),
+                                                child: shimmerMeUp(
+                                                    CircularProgressIndicator(
+                                                  valueColor:
+                                                      AlwaysStoppedAnimation<
+                                                              Color>(
+                                                          Theme.of(context)
+                                                              .colorScheme
+                                                              .secondary),
                                                 )),
                                               ),
                                               // errorWidget: (context, url, error) => const Icon(Icons.error),
-                                              errorWidget: (context, url, error) => Center(
-                                                  child: Image.asset(
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Center(
+                                                          child: Image.asset(
                                                 AppImages.logoImage,
                                                 height: 30,
                                                 width: 30,
@@ -427,7 +466,8 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                               width: 10,
                             ),
                             StreamBuilder(
-                                stream: profileController.someonesProfileData.stream,
+                                stream: profileController
+                                    .someonesProfileData.stream,
                                 builder: (context, snapshot) {
                                   return Container(
                                     color: Colors.white.withOpacity(0.5),
@@ -456,7 +496,8 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                         child: InkWell(
                           onTap: () {
                             final formKey = GlobalKey<FormState>();
-                            TextEditingController messageController = TextEditingController();
+                            TextEditingController messageController =
+                                TextEditingController();
                             Get.dialog(Dialog(
                                 child: Form(
                               key: formKey,
@@ -466,7 +507,8 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  Text("Leave a message", style: TextStyle(fontSize: 18)),
+                                  Text("Leave a message",
+                                      style: TextStyle(fontSize: 18)),
                                   SizedBox(
                                     height: 20,
                                   ),
@@ -476,14 +518,18 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                                       hint: "Enter message",
                                       baseColor: Colors.black,
                                       validator: (String? value) {
-                                        return (value != null) && (value.isNotEmpty) ? null : "Please enter message";
+                                        return (value != null) &&
+                                                (value.isNotEmpty)
+                                            ? null
+                                            : "Please enter message";
                                       },
                                       borderColor: Colors.black),
                                   SizedBox(
                                     height: 15,
                                   ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
                                     children: [
                                       TextButton(
                                           onPressed: () {
@@ -492,19 +538,30 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                                           child: Text("Cancel")),
                                       TextButton(
                                           onPressed: () {
-                                            if (formKey.currentState!.validate()) {
+                                            if (formKey.currentState!
+                                                .validate()) {
                                               profileController.addMessage(
                                                   userID: widget.profileID,
-                                                  message: messageController.text,
+                                                  message:
+                                                      messageController.text,
                                                   callBack: () async {
-                                                    snack(title: "Success", msg: "Message Sent Successfully");
-                                                    LoginModel userDetails = await SessionManagement.getUserDetails();
+                                                    snack(
+                                                        title: "Success",
+                                                        msg:
+                                                            "Message Sent Successfully");
+                                                    LoginModel userDetails =
+                                                        await SessionManagement
+                                                            .getUserDetails();
 
-                                                    NotificationHandler.to.sendNotificationToUserID(
-                                                        postId: '',
-                                                        userId: widget.profileID,
-                                                        title: "You have new message",
-                                                        body: "${userDetails.fname} ${userDetails.lname} messaged you");
+                                                    NotificationHandler.to
+                                                        .sendNotificationToUserID(
+                                                            postId: '',
+                                                            userId: widget
+                                                                .profileID,
+                                                            title:
+                                                                "You have new message",
+                                                            body:
+                                                                "${userDetails.fname} ${userDetails.lname} messaged you");
                                                   });
                                             }
                                           },
@@ -583,18 +640,22 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                           child: ClipOval(
                             child: CachedNetworkImage(
                               alignment: Alignment.center,
-                              fit: BoxFit.fill,
-                              imageUrl: "${profileController.profileFeeds?[index].profilePic}",
+                              fit: BoxFit.cover,
+                              imageUrl:
+                                  "${profileController.profileFeeds?[index].profilePic}",
                               // placeholder: (context, url) {
                               //   return Image.asset(
                               //     "assets/logo.png",
                               //     scale: 5.0,
                               //   );
                               // },
-                              progressIndicatorBuilder: (BuildContext, String, DownloadProgress) {
-                                return const Center(child: CupertinoActivityIndicator());
+                              progressIndicatorBuilder:
+                                  (BuildContext, String, DownloadProgress) {
+                                return const Center(
+                                    child: CupertinoActivityIndicator());
                               },
-                              errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.white),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error, color: Colors.white),
                             ),
                           ),
                         ),
@@ -621,7 +682,9 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                             // "",
 
                             TextSpan(
-                              text: profileController.profileFeeds?[index].toUserIdDetails != null
+                              text: profileController.profileFeeds?[index]
+                                          .toUserIdDetails !=
+                                      null
                                   ? " shared to ${profileController.profileFeeds?[index].toUserIdDetails?.firstname ?? "Guest"} ${profileController.profileFeeds?[index].toUserIdDetails?.lastname ?? ""} "
                                   : "",
                               style: TextStyle(
@@ -643,7 +706,8 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                           Icons.more_horiz,
                         ),
                         itemBuilder: (BuildContext context) {
-                          return PopUpOptions.feedPostMoreOptions.map((String choice) {
+                          return PopUpOptions.feedPostMoreOptions
+                              .map((String choice) {
                             return PopupMenuItem<String>(
                               value: choice,
                               child: Text(choice),
@@ -653,15 +717,19 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                         onSelected: (value) {
                           switch (value) {
                             case PopUpOptions.edit:
-                              editStatusBottomSheet(profileController.profileFeeds?[index] ?? PostModelFeed(), onEdit: () {
+                              editStatusBottomSheet(
+                                  profileController.profileFeeds?[index] ??
+                                      PostModelFeed(), onEdit: () {
                                 onEditClick!();
                               });
                               break;
                             case PopUpOptions.delete:
                               deletePost(
-                                  postId: "${profileController.profileFeeds?[index].id}",
+                                  postId:
+                                      "${profileController.profileFeeds?[index].id}",
                                   callBack: () {
-                                    profileController.profileFeeds?.removeAt(index);
+                                    profileController.profileFeeds
+                                        ?.removeAt(index);
                                     profileController.profileFeeds?.refresh();
                                   }).then((value) {
                                 onDeleteClick!();
@@ -674,7 +742,8 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                 ),
               ),
 
-              if (profileController.profileFeeds?[index].status != null && profileController.profileFeeds?[index].status != '')
+              if (profileController.profileFeeds?[index].status != null &&
+                  profileController.profileFeeds?[index].status != '')
                 Container(
                   margin: const EdgeInsets.only(
                     left: 10,
@@ -685,7 +754,10 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                     children: <Widget>[
                       Expanded(
                         flex: 8,
-                        child: getLinkText(text: profileController.profileFeeds?[index].status ?? ""),
+                        child: getLinkText(
+                            text:
+                                profileController.profileFeeds?[index].status ??
+                                    ""),
                         // child: RichText(
                         //   text: TextSpan(
                         //     text: profileController.profileFeeds?[index].status!,
@@ -718,21 +790,32 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                           onPressed: () {
                             if (!isLoved) {
                               setAsFav(
-                                postId: "${profileController.profileFeeds?[index].id}",
+                                postId:
+                                    "${profileController.profileFeeds?[index].id}",
                               ).then((value) {
-                                if (profileController.profileFeeds?[index].isFav == 0) {
-                                  profileController.profileFeeds?[index].isFav = 1;
+                                if (profileController
+                                        .profileFeeds?[index].isFav ==
+                                    0) {
+                                  profileController.profileFeeds?[index].isFav =
+                                      1;
                                 } else {
-                                  profileController.profileFeeds?[index].isFav = 0;
+                                  profileController.profileFeeds?[index].isFav =
+                                      0;
                                 }
                                 onFavClick!();
                               });
                             } else {
-                              setAsUnFav("${profileController.profileFeeds?[index].id}").then((value) {
-                                if (profileController.profileFeeds?[index].isFav == 0) {
-                                  profileController.profileFeeds?[index].isFav = 1;
+                              setAsUnFav(
+                                      "${profileController.profileFeeds?[index].id}")
+                                  .then((value) {
+                                if (profileController
+                                        .profileFeeds?[index].isFav ==
+                                    0) {
+                                  profileController.profileFeeds?[index].isFav =
+                                      1;
                                 } else {
-                                  profileController.profileFeeds?[index].isFav = 0;
+                                  profileController.profileFeeds?[index].isFav =
+                                      0;
                                 }
                                 setState(() {});
                               });
@@ -740,7 +823,9 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                           },
                           icon: Icon(
                             isLoved ? Icons.favorite : Icons.favorite_border,
-                            color: isLoved ? Colors.red : Theme.of(Get.context!).iconTheme.color,
+                            color: isLoved
+                                ? Colors.red
+                                : Theme.of(Get.context!).iconTheme.color,
                           )),
                     ),
                     /*Expanded(
@@ -781,14 +866,20 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                           //   }
                           // });
                           await setAsLiked(
-                              postId: "${profileController.profileFeeds?[index].id}",
+                              postId:
+                                  "${profileController.profileFeeds?[index].id}",
                               callBack: (commentCount) {
-                                if (profileController.profileFeeds?[index].isLike == 0) {
-                                  profileController.profileFeeds?[index].isLike = 1;
+                                if (profileController
+                                        .profileFeeds?[index].isLike ==
+                                    0) {
+                                  profileController
+                                      .profileFeeds?[index].isLike = 1;
                                 } else {
-                                  profileController.profileFeeds?[index].isLike = 0;
+                                  profileController
+                                      .profileFeeds?[index].isLike = 0;
                                 }
-                                profileController.profileFeeds?[index].countLike = "$commentCount";
+                                profileController.profileFeeds?[index]
+                                    .countLike = "$commentCount";
                                 setState(() {});
                               });
                         },
@@ -801,8 +892,12 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Image.asset(
-                                isLiked ? "assets/icon/liked_image.png" : "assets/icon/like_img.png",
-                                color: isLiked ? Colors.blue : Theme.of(Get.context!).iconTheme.color,
+                                isLiked
+                                    ? "assets/icon/liked_image.png"
+                                    : "assets/icon/like_img.png",
+                                color: isLiked
+                                    ? Colors.blue
+                                    : Theme.of(Get.context!).iconTheme.color,
                               ),
                               const SizedBox(
                                 width: 3,
@@ -840,19 +935,26 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                       flex: 1,
                       child: InkWell(
                         onTap: () async {
-                          LoginModel userDetails = await SessionManagement.getUserDetails();
+                          LoginModel userDetails =
+                              await SessionManagement.getUserDetails();
                           if (kDebugMode) {
                             print("user id: ${userDetails.id}");
-                            print("post id: ${profileController.profileFeeds?[index].id!}");
+                            print(
+                                "post id: ${profileController.profileFeeds?[index].id!}");
                           }
 
-                          debugPrint("Before: ${profileController.profileFeeds?[index].id!}");
-                          EndPoints.selectedPostId = "${profileController.profileFeeds?[index].id}";
+                          debugPrint(
+                              "Before: ${profileController.profileFeeds?[index].id!}");
+                          EndPoints.selectedPostId =
+                              "${profileController.profileFeeds?[index].id}";
                           Get.to(() => CommentScreen(
                               index: index,
                               isFrom: AppTexts.dashBoard,
-                              postOwnerId: "${profileController.profileFeeds?[index].ownerId}",
-                              postId: EndPoints.selectedPostId))?.then((value) => dashBoardController.dashboardFeeds.refresh());
+                              postOwnerId:
+                                  "${profileController.profileFeeds?[index].ownerId}",
+                              postId:
+                                  EndPoints.selectedPostId))?.then((value) =>
+                              dashBoardController.dashboardFeeds.refresh());
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -881,7 +983,8 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                       flex: 1,
                       child: IconButton(
                           onPressed: () {
-                            addToTimeline("${profileController.profileFeeds?[index].id}");
+                            addToTimeline(
+                                "${profileController.profileFeeds?[index].id}");
                           },
                           icon: const Icon(Icons.add_box)),
                     ),
@@ -889,7 +992,8 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                       flex: 1,
                       child: IconButton(
                           onPressed: () {
-                            AppMethods().share("${EndPoints.socialSharePostUrl}${profileController.profileFeeds?[index].id}");
+                            AppMethods().share(
+                                "${EndPoints.socialSharePostUrl}${profileController.profileFeeds?[index].id}");
                           },
                           icon: const Icon(Icons.share)),
                     ),
@@ -897,7 +1001,8 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                       flex: 1,
                       child: IconButton(
                           onPressed: () {
-                            reportPost("${profileController.profileFeeds?[index].id}");
+                            reportPost(
+                                "${profileController.profileFeeds?[index].id}");
                           },
                           icon: const Icon(Icons.report_problem)),
                     ),
@@ -908,9 +1013,14 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                   alignment: Alignment.bottomRight,
                   child: Container(
                     margin: const EdgeInsets.all(10),
-                    child: customText(title: "${profileController.profileFeeds?[index].timeStamp}", fs: 10),
+                    child: customText(
+                        title:
+                            "${profileController.profileFeeds?[index].timeStamp}",
+                        fs: 10),
                   )),
-              if (profileController.profileFeeds?[index].latestComments?.isNotEmpty == true)
+              if (profileController
+                      .profileFeeds?[index].latestComments?.isNotEmpty ==
+                  true)
                 Column(
                   children: [
                     const Align(
@@ -920,7 +1030,9 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: profileController.profileFeeds?[index].latestComments?.length ?? 0,
+                      itemCount: profileController
+                              .profileFeeds?[index].latestComments?.length ??
+                          0,
                       itemBuilder: (context, indexOfComment) => Row(
                         children: [
                           Container(
@@ -940,11 +1052,16 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                               child: CachedNetworkImage(
                                 alignment: Alignment.center,
                                 fit: BoxFit.fill,
-                                imageUrl: "https://wghdfm.s3.amazonaws.com/thumb/${profileController.profileFeeds?[index].latestComments?[indexOfComment]?.img}",
-                                progressIndicatorBuilder: (BuildContext, String, DownloadProgress) {
-                                  return const Center(child: CupertinoActivityIndicator());
+                                imageUrl:
+                                    "https://wghdfm.s3.amazonaws.com/thumb/${profileController.profileFeeds?[index].latestComments?[indexOfComment]?.img}",
+                                progressIndicatorBuilder:
+                                    (BuildContext, String, DownloadProgress) {
+                                  return const Center(
+                                      child: CupertinoActivityIndicator());
                                 },
-                                errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.white),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error,
+                                        color: Colors.white),
                               ),
                             ),
                           ),
@@ -956,8 +1073,12 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                               children: [
                                 Text(
                                     "${profileController.profileFeeds?[index].latestComments?[indexOfComment]?.firstname} ${profileController.profileFeeds?[index].latestComments?[indexOfComment]?.lastname}",
-                                    style: TextStyle(overflow: TextOverflow.ellipsis)),
-                                Text("${profileController.profileFeeds?[index].latestComments?[indexOfComment]?.comment}", style: TextStyle(overflow: TextOverflow.ellipsis)),
+                                    style: TextStyle(
+                                        overflow: TextOverflow.ellipsis)),
+                                Text(
+                                    "${profileController.profileFeeds?[index].latestComments?[indexOfComment]?.comment}",
+                                    style: TextStyle(
+                                        overflow: TextOverflow.ellipsis)),
                               ],
                             ),
                           )

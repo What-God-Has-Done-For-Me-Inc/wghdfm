@@ -11,6 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import 'package:upgrader/upgrader.dart';
 import 'package:wghdfm_java/common/common_snack.dart';
 import 'package:wghdfm_java/common/commons.dart';
 import 'package:wghdfm_java/custom_package/percentage_indicator/circular_percent_indicator.dart';
@@ -441,7 +442,14 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         getTutorial();
       }
     });
-
+    Future.delayed(Duration(seconds: 7), () {
+      print("================ ${profilePic.value}");
+      if (profilePic.value == null ||
+          profilePic.value ==
+              'https://wghdfm.s3.amazonaws.com/thumb/default_profile.jpg') {
+        AppMethods.tutorialDialog();
+      }
+    });
     dashBoardController.getFriendList();
 
     dashBoardController.dashBoardLoadFeeds(
@@ -456,15 +464,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
     pagination();
     getProfile();
-
-    Future.delayed(Duration(seconds: 5), () {
-      print("================ ${profilePic.value}");
-      if (profilePic.value == null ||
-          profilePic.value ==
-              'https://wghdfm.s3.amazonaws.com/thumb/default_profile.jpg') {
-        AppMethods.tutorialDialog();
-      }
-    });
 
     super.initState();
   }
@@ -578,22 +577,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     // print("--- -- convertUTCToLocal ${formatTime('2023-06-29 10:10:26.808699Z')}");
     return WillPopScope(
       onWillPop: onWillPop,
-      /*() async {
-        await onWillPop();
-        // Future<bool> b = (exitAppAlertDialog(
-        //   context: context,
-        //   onExit: () {
-        //     exit(0);
-        //   },
-        //   onCancel: () {
-        //     Get.back();
-        //     // Get.offAll(() => const DashBoardScreen());
-        //     // Get.offNamed(PageRes.dashBoardScreen);
-        //     // pushReplaceTo(widget: DashboardUI());
-        //   },
-        // )) as Future<bool>;
-        // return Future.value(false);
-      }*/
       child: Scaffold(
         backgroundColor: Colors.grey,
         extendBody: true,
@@ -975,228 +958,221 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
               if ((dashBoardController.dashboardFeeds != null &&
                   dashBoardController.dashboardFeeds.isNotEmpty == true)) {
-                return Column(
-                  children: [
-                    Expanded(
-                      child: RefreshIndicator(
-                        triggerMode: RefreshIndicatorTriggerMode.anywhere,
-                        onRefresh: () async {
-                          if (dashBoardController.postUploading.isFalse) {
-                            dashBoardController.dashboardFeeds.clear();
-                            dashBoardController.currentPage = 0;
-                            dashBoardController.dashBoardLoadFeeds(
-                              isFirstTimeLoading: true,
-                              page: dashBoardController.currentPage,
-                              isShowProcess: true,
-                            );
-                          }
-                        },
-                        child: StreamBuilder(
-                            stream: dashBoardController.dashboardFeeds.stream,
-                            builder: (context, snapshot) {
-                              return ListView.builder(
-                                cacheExtent: 100000,
-                                controller: feedScrollController,
-                                shrinkWrap: true,
-                                physics: const ClampingScrollPhysics(),
-                                itemCount:
-                                    dashBoardController.dashboardFeeds.length ??
-                                        0,
-                                itemBuilder: (BuildContext context, int index) {
-                                  bool isOwn = isOwnPost(
-                                      "${dashBoardController.dashboardFeeds[index].ownerId}");
-                                  // bool isLoved = dashBoardController.dashboardFeeds[index].getFav!.contains("S") == true;
-                                  bool isLoved = dashBoardController
-                                          .dashboardFeeds[index].isFav ==
-                                      1;
-                                  // bool isLiked = false;
-                                  bool isLiked = dashBoardController
-                                          .dashboardFeeds[index].isLike ==
-                                      1;
-                                  // TextEditingController commentTextController = TextEditingController();
-                                  RxBool emojiShowing = false.obs;
-                                  FocusNode focusNode = FocusNode();
+                return UpgradeAlert(
+                  upgrader: Upgrader(
+                      durationUntilAlertAgain: const Duration(days: 1),
+                      shouldPopScope: () => false,
+                      canDismissDialog: false,
+                      dialogStyle: UpgradeDialogStyle.cupertino,
+                      showIgnore: false,
+                      showLater: false),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: RefreshIndicator(
+                          triggerMode: RefreshIndicatorTriggerMode.anywhere,
+                          onRefresh: () async {
+                            if (dashBoardController.postUploading.isFalse) {
+                              dashBoardController.dashboardFeeds.clear();
+                              dashBoardController.currentPage = 0;
+                              dashBoardController.dashBoardLoadFeeds(
+                                isFirstTimeLoading: true,
+                                page: dashBoardController.currentPage,
+                                isShowProcess: true,
+                              );
+                            }
+                          },
+                          child: StreamBuilder(
+                              stream: dashBoardController.dashboardFeeds.stream,
+                              builder: (context, snapshot) {
+                                return ListView.builder(
+                                  cacheExtent: 100000,
+                                  controller: feedScrollController,
+                                  shrinkWrap: true,
+                                  physics: const ClampingScrollPhysics(),
+                                  itemCount: dashBoardController
+                                          .dashboardFeeds.length ??
+                                      0,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    bool isOwn = isOwnPost(
+                                        "${dashBoardController.dashboardFeeds[index].ownerId}");
+                                    // bool isLoved = dashBoardController.dashboardFeeds[index].getFav!.contains("S") == true;
+                                    bool isLoved = dashBoardController
+                                            .dashboardFeeds[index].isFav ==
+                                        1;
+                                    // bool isLiked = false;
+                                    bool isLiked = dashBoardController
+                                            .dashboardFeeds[index].isLike ==
+                                        1;
+                                    // TextEditingController commentTextController = TextEditingController();
+                                    RxBool emojiShowing = false.obs;
+                                    FocusNode focusNode = FocusNode();
 
-                                  return Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      if (index == 0)
-                                        StreamBuilder(
-                                            stream: userName.stream,
-                                            builder: (context, snapshot) {
-                                              return Container(
-                                                width: Get.width,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12)),
-                                                padding: EdgeInsets.all(20),
-                                                margin: EdgeInsets.all(5),
-                                                alignment: Alignment.center,
-                                                child: Column(
-                                                  children: [
-                                                    Text(
-                                                      "Hello ${userName},",
-                                                      style: GoogleFonts.itim(
-                                                          fontSize: 17),
-                                                    ),
-                                                    Text(
-                                                      "${getGreeting()}..!",
-                                                      style: GoogleFonts.itim(
-                                                          fontSize: 25),
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            }),
+                                    return Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        if (index == 0)
+                                          StreamBuilder(
+                                              stream: userName.stream,
+                                              builder: (context, snapshot) {
+                                                return Container(
+                                                  width: Get.width,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12)),
+                                                  padding: EdgeInsets.all(20),
+                                                  margin: EdgeInsets.all(5),
+                                                  alignment: Alignment.center,
+                                                  child: Column(
+                                                    children: [
+                                                      Text(
+                                                        "Hello ${userName},",
+                                                        style: GoogleFonts.itim(
+                                                            fontSize: 17),
+                                                      ),
+                                                      Text(
+                                                        "${getGreeting()}..!",
+                                                        style: GoogleFonts.itim(
+                                                            fontSize: 25),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              }),
 
-                                      if (index % 10 == 0 && index != 0)
-                                        const AdsScreen(),
-                                      // if (index % 2 == 0 && index != 0)  NativeAdWidget(),
-                                      Card(
-                                        color: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
-                                        //margin: EdgeInsets.all(10),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.all(10),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: <Widget>[
-                                                  ClipOval(
-                                                    child: Container(
-                                                      height: 50,
-                                                      width: 50,
-                                                      decoration: BoxDecoration(
-                                                        color: Theme.of(
-                                                                Get.context!)
-                                                            .iconTheme
-                                                            .color,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(100),
-                                                        border: Border.all(
+                                        if (index % 10 == 0 && index != 0)
+                                          const AdsScreen(),
+                                        // if (index % 2 == 0 && index != 0)  NativeAdWidget(),
+                                        Card(
+                                          color: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          //margin: EdgeInsets.all(10),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Container(
+                                                margin:
+                                                    const EdgeInsets.all(10),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    ClipOval(
+                                                      child: Container(
+                                                        height: 50,
+                                                        width: 50,
+                                                        decoration:
+                                                            BoxDecoration(
                                                           color: Theme.of(
                                                                   Get.context!)
                                                               .iconTheme
-                                                              .color!,
-                                                          width: 1,
+                                                              .color,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      100),
+                                                          border: Border.all(
+                                                            color: Theme.of(Get
+                                                                    .context!)
+                                                                .iconTheme
+                                                                .color!,
+                                                            width: 1,
+                                                          ),
                                                         ),
-                                                      ),
-                                                      margin:
-                                                          const EdgeInsets.all(
-                                                              5),
-                                                      padding: EdgeInsets.zero,
-                                                      child: InkWell(
-                                                        onTap: () {
-                                                          if (dashBoardController
-                                                                  .dashboardFeeds[
-                                                                      index]
-                                                                  .ownerId !=
-                                                              userId) {
-                                                            Get.to(() =>
-                                                                SomeoneProfileScreen(
-                                                                    profileID:
-                                                                        "${dashBoardController.dashboardFeeds[index].ownerId}"));
-                                                          } else {
-                                                            Get.to(() =>
-                                                                const ProfileScreen());
-                                                          }
-                                                          // Get.toNamed(PageRes.profileScreen, arguments: {"profileId": kDashboardController.dashboardFeeds?[index].ownerId!, "isSelf": isOwn});
-                                                        },
-                                                        child: ClipOval(
-                                                          child:
-                                                              CachedNetworkImage(
-                                                            alignment: Alignment
-                                                                .center,
-                                                            fit: BoxFit.fill,
-                                                            imageUrl:
-                                                                "${dashBoardController.dashboardFeeds[index].profilePic}",
-                                                            // placeholder: (context, url) {
-                                                            //   return Image.asset(
-                                                            //     "assets/logo.png",
-                                                            //     scale: 5.0,
-                                                            //   );
-                                                            // },
-                                                            progressIndicatorBuilder:
-                                                                (BuildContext,
-                                                                    String,
-                                                                    DownloadProgress) {
-                                                              return const Center(
-                                                                  child:
-                                                                      CupertinoActivityIndicator());
-                                                            },
-                                                            errorWidget: (context,
-                                                                    url,
-                                                                    error) =>
-                                                                const Icon(
-                                                                    Icons.error,
-                                                                    color: Colors
-                                                                        .white),
+                                                        margin: const EdgeInsets
+                                                            .all(5),
+                                                        padding:
+                                                            EdgeInsets.zero,
+                                                        child: InkWell(
+                                                          onTap: () {
+                                                            if (dashBoardController
+                                                                    .dashboardFeeds[
+                                                                        index]
+                                                                    .ownerId !=
+                                                                userId) {
+                                                              Get.to(() =>
+                                                                  SomeoneProfileScreen(
+                                                                      profileID:
+                                                                          "${dashBoardController.dashboardFeeds[index].ownerId}"));
+                                                            } else {
+                                                              Get.to(() =>
+                                                                  const ProfileScreen());
+                                                            }
+                                                            // Get.toNamed(PageRes.profileScreen, arguments: {"profileId": kDashboardController.dashboardFeeds?[index].ownerId!, "isSelf": isOwn});
+                                                          },
+                                                          child: ClipOval(
+                                                            child:
+                                                                CachedNetworkImage(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              fit: BoxFit.cover,
+                                                              imageUrl:
+                                                                  "${dashBoardController.dashboardFeeds[index].profilePic}",
+                                                              // placeholder: (context, url) {
+                                                              //   return Image.asset(
+                                                              //     "assets/logo.png",
+                                                              //     scale: 5.0,
+                                                              //   );
+                                                              // },
+                                                              progressIndicatorBuilder:
+                                                                  (BuildContext,
+                                                                      String,
+                                                                      DownloadProgress) {
+                                                                return const Center(
+                                                                    child:
+                                                                        CupertinoActivityIndicator());
+                                                              },
+                                                              errorWidget: (context,
+                                                                      url,
+                                                                      error) =>
+                                                                  const Icon(
+                                                                      Icons
+                                                                          .error,
+                                                                      color: Colors
+                                                                          .white),
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 5,
-                                                  ),
-                                                  Expanded(
-                                                    flex: 8,
-                                                    child: RichText(
-                                                      text: TextSpan(
-                                                        text:
-                                                            dashBoardController
-                                                                .dashboardFeeds[
-                                                                    index]
-                                                                .name,
-                                                        style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 15.0,
-                                                          height: 1.8,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none,
-                                                        ),
-                                                        children: [
-                                                          TextSpan(
-                                                            text: dashBoardController
-                                                                        .dashboardFeeds[
-                                                                            index]
-                                                                        .toUserIdDetails !=
-                                                                    null
-                                                                ? " shared to ${dashBoardController.dashboardFeeds[index].toUserIdDetails?.firstname ?? "Guest"} ${dashBoardController.dashboardFeeds[index].toUserIdDetails?.lastname ?? ""} "
-                                                                : " ",
-                                                            style: TextStyle(
-                                                              color: Colors
-                                                                  .black45,
-                                                              fontSize: 15.0,
-                                                              height: 1.8,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                            ),
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Expanded(
+                                                      flex: 8,
+                                                      child: RichText(
+                                                        text: TextSpan(
+                                                          text: dashBoardController
+                                                              .dashboardFeeds[
+                                                                  index]
+                                                              .name,
+                                                          style:
+                                                              const TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 15.0,
+                                                            height: 1.8,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .none,
                                                           ),
-                                                          if (dashBoardController
-                                                                  .dashboardFeeds[
-                                                                      index]
-                                                                  .allTagUserList
-                                                                  ?.isNotEmpty ==
-                                                              true)
-                                                            const TextSpan(
-                                                              text: "is with ",
+                                                          children: [
+                                                            TextSpan(
+                                                              text: dashBoardController
+                                                                          .dashboardFeeds[
+                                                                              index]
+                                                                          .toUserIdDetails !=
+                                                                      null
+                                                                  ? " shared to ${dashBoardController.dashboardFeeds[index].toUserIdDetails?.firstname ?? "Guest"} ${dashBoardController.dashboardFeeds[index].toUserIdDetails?.lastname ?? ""} "
+                                                                  : " ",
                                                               style: TextStyle(
                                                                 color: Colors
                                                                     .black45,
@@ -1210,29 +1186,136 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                                         .none,
                                                               ),
                                                             ),
-                                                          ...dashBoardController
-                                                                  .dashboardFeeds[
-                                                                      index]
-                                                                  .allTagUserList
-                                                                  ?.map(
-                                                                (e) {
-                                                                  int indexs = dashBoardController
-                                                                          .dashboardFeeds[
-                                                                              index]
-                                                                          .allTagUserList
-                                                                          ?.indexOf(
-                                                                              e) ??
-                                                                      0;
+                                                            if (dashBoardController
+                                                                    .dashboardFeeds[
+                                                                        index]
+                                                                    .allTagUserList
+                                                                    ?.isNotEmpty ==
+                                                                true)
+                                                              const TextSpan(
+                                                                text:
+                                                                    "is with ",
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .black45,
+                                                                  fontSize:
+                                                                      15.0,
+                                                                  height: 1.8,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .none,
+                                                                ),
+                                                              ),
+                                                            ...dashBoardController
+                                                                    .dashboardFeeds[
+                                                                        index]
+                                                                    .allTagUserList
+                                                                    ?.map(
+                                                                  (e) {
+                                                                    int indexs = dashBoardController
+                                                                            .dashboardFeeds[index]
+                                                                            .allTagUserList
+                                                                            ?.indexOf(e) ??
+                                                                        0;
 
-                                                                  if (indexs >
-                                                                      0) {
                                                                     if (indexs >
-                                                                        1) {
-                                                                      return const TextSpan();
+                                                                        0) {
+                                                                      if (indexs >
+                                                                          1) {
+                                                                        return const TextSpan();
+                                                                      }
+                                                                      return TextSpan(
+                                                                          text:
+                                                                              "${(dashBoardController.dashboardFeeds[index].allTagUserList?.length ?? 0) - indexs} Others",
+                                                                          style:
+                                                                              const TextStyle(
+                                                                            color:
+                                                                                Colors.black,
+                                                                            fontSize:
+                                                                                15.0,
+                                                                            height:
+                                                                                1.8,
+                                                                            fontWeight:
+                                                                                FontWeight.normal,
+                                                                            decoration:
+                                                                                TextDecoration.none,
+                                                                          ),
+                                                                          recognizer: TapGestureRecognizer()
+                                                                            ..onTap = () {
+                                                                              Get.bottomSheet(BottomSheet(
+                                                                                onClosing: () {},
+                                                                                shape: const RoundedRectangleBorder(
+                                                                                  borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                                                                                ),
+                                                                                builder: (context) {
+                                                                                  return Container(
+                                                                                    width: Get.width,
+                                                                                    decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(12))),
+                                                                                    child: ListView.builder(
+                                                                                      itemCount: dashBoardController.dashboardFeeds[index].allTagUserList?.length ?? 0,
+                                                                                      shrinkWrap: true,
+                                                                                      itemBuilder: (context, listIndex) {
+                                                                                        if (listIndex < 1) {
+                                                                                          return const SizedBox();
+                                                                                        }
+                                                                                        return ListTile(
+                                                                                          leading: ClipOval(
+                                                                                            child: Container(
+                                                                                              height: 50,
+                                                                                              width: 50,
+                                                                                              decoration: BoxDecoration(
+                                                                                                color: Theme.of(Get.context!).iconTheme.color,
+                                                                                                borderRadius: BorderRadius.circular(100),
+                                                                                                border: Border.all(
+                                                                                                  color: Theme.of(Get.context!).iconTheme.color!,
+                                                                                                  width: 1,
+                                                                                                ),
+                                                                                              ),
+                                                                                              margin: const EdgeInsets.all(5),
+                                                                                              padding: EdgeInsets.zero,
+                                                                                              child: ClipOval(
+                                                                                                child: CachedNetworkImage(
+                                                                                                  alignment: Alignment.center,
+                                                                                                  fit: BoxFit.cover,
+                                                                                                  imageUrl: "${dashBoardController.dashboardFeeds[index].allTagUserList?[listIndex].profileImg}",
+                                                                                                  progressIndicatorBuilder: (BuildContext, String, DownloadProgress) {
+                                                                                                    return const Center(child: CupertinoActivityIndicator());
+                                                                                                  },
+                                                                                                  errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.white),
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                          title: Text("${dashBoardController.dashboardFeeds[index].allTagUserList?[listIndex].profileName}"),
+                                                                                          onTap: () {
+                                                                                            if (dashBoardController.dashboardFeeds[index].allTagUserList?[listIndex].profileId?.isNotEmpty == true) {
+                                                                                              Get.back();
+                                                                                              if (dashBoardController.dashboardFeeds[index].allTagUserList?[listIndex].profileId != userId) {
+                                                                                                Get.to(() => SomeoneProfileScreen(profileID: dashBoardController.dashboardFeeds[index].allTagUserList?[listIndex].profileId ?? ""));
+                                                                                              } else {
+                                                                                                Get.to(() => const ProfileScreen());
+                                                                                              }
+                                                                                            }
+                                                                                          },
+                                                                                        );
+                                                                                      },
+                                                                                    ),
+                                                                                  );
+                                                                                },
+                                                                              ));
+                                                                              // (e.profileId?.isNotEmpty == true) {
+                                                                              //   Get.to(() => SomeoneProfileScreen(profileID: e.profileId ?? ""));
+                                                                              // }
+                                                                            });
                                                                     }
+
                                                                     return TextSpan(
                                                                         text:
-                                                                            "${(dashBoardController.dashboardFeeds[index].allTagUserList?.length ?? 0) - indexs} Others",
+                                                                            "${e.profileName} ${(indexs < (dashBoardController.dashboardFeeds[index].allTagUserList?.length ?? 0) && indexs > 1) ? ' & ' : ''}",
                                                                         style:
                                                                             const TextStyle(
                                                                           color:
@@ -1248,86 +1331,233 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                                         ),
                                                                         recognizer: TapGestureRecognizer()
                                                                           ..onTap = () {
-                                                                            Get.bottomSheet(BottomSheet(
-                                                                              onClosing: () {},
-                                                                              shape: const RoundedRectangleBorder(
-                                                                                borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-                                                                              ),
-                                                                              builder: (context) {
-                                                                                return Container(
-                                                                                  width: Get.width,
-                                                                                  decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(12))),
-                                                                                  child: ListView.builder(
-                                                                                    itemCount: dashBoardController.dashboardFeeds[index].allTagUserList?.length ?? 0,
-                                                                                    shrinkWrap: true,
-                                                                                    itemBuilder: (context, listIndex) {
-                                                                                      if (listIndex < 1) {
-                                                                                        return const SizedBox();
-                                                                                      }
-                                                                                      return ListTile(
-                                                                                        leading: ClipOval(
-                                                                                          child: Container(
-                                                                                            height: 50,
-                                                                                            width: 50,
-                                                                                            decoration: BoxDecoration(
-                                                                                              color: Theme.of(Get.context!).iconTheme.color,
-                                                                                              borderRadius: BorderRadius.circular(100),
-                                                                                              border: Border.all(
-                                                                                                color: Theme.of(Get.context!).iconTheme.color!,
-                                                                                                width: 1,
-                                                                                              ),
-                                                                                            ),
-                                                                                            margin: const EdgeInsets.all(5),
-                                                                                            padding: EdgeInsets.zero,
-                                                                                            child: ClipOval(
-                                                                                              child: CachedNetworkImage(
-                                                                                                alignment: Alignment.center,
-                                                                                                fit: BoxFit.fill,
-                                                                                                imageUrl: "${dashBoardController.dashboardFeeds[index].allTagUserList?[listIndex].profileImg}",
-                                                                                                // placeholder: (context, url) {
-                                                                                                //   return Image.asset(
-                                                                                                //     "assets/logo.png",
-                                                                                                //     scale: 5.0,
-                                                                                                //   );
-                                                                                                // },
-                                                                                                progressIndicatorBuilder: (BuildContext, String, DownloadProgress) {
-                                                                                                  return const Center(child: CupertinoActivityIndicator());
-                                                                                                },
-                                                                                                errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.white),
-                                                                                              ),
-                                                                                            ),
-                                                                                          ),
-                                                                                        ),
-                                                                                        title: Text("${dashBoardController.dashboardFeeds[index].allTagUserList?[listIndex].profileName}"),
-                                                                                        onTap: () {
-                                                                                          if (dashBoardController.dashboardFeeds[index].allTagUserList?[listIndex].profileId?.isNotEmpty == true) {
-                                                                                            Get.back();
-                                                                                            if (dashBoardController.dashboardFeeds[index].allTagUserList?[listIndex].profileId != userId) {
-                                                                                              Get.to(() => SomeoneProfileScreen(profileID: dashBoardController.dashboardFeeds[index].allTagUserList?[listIndex].profileId ?? ""));
-                                                                                            } else {
-                                                                                              Get.to(() => const ProfileScreen());
-                                                                                            }
-                                                                                          }
-                                                                                        },
-                                                                                      );
-                                                                                    },
-                                                                                  ),
-                                                                                );
-                                                                              },
-                                                                            ));
-                                                                            // (e.profileId?.isNotEmpty == true) {
-                                                                            //   Get.to(() => SomeoneProfileScreen(profileID: e.profileId ?? ""));
-                                                                            // }
+                                                                            if (e.profileId?.isNotEmpty ==
+                                                                                true) {
+                                                                              if (e.profileId != userId) {
+                                                                                Get.to(() => SomeoneProfileScreen(profileID: e.profileId ?? ""));
+                                                                              } else {
+                                                                                Get.to(() => const ProfileScreen());
+                                                                              }
+                                                                            }
                                                                           });
-                                                                  }
-
-                                                                  return TextSpan(
-                                                                      text:
-                                                                          "${e.profileName} ${(indexs < (dashBoardController.dashboardFeeds[index].allTagUserList?.length ?? 0) && indexs > 1) ? ' & ' : ''}",
+                                                                  },
+                                                                ).toList() ??
+                                                                [],
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    PopupMenuButton<String>(
+                                                      offset:
+                                                          const Offset(0, 40),
+                                                      icon: const Icon(
+                                                        Icons.more_horiz,
+                                                      ),
+                                                      shape: const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius.circular(
+                                                                      15.0))),
+                                                      itemBuilder: (BuildContext
+                                                          context) {
+                                                        return [
+                                                          const PopupMenuItem<
+                                                              String>(
+                                                            value: PopUpOptions
+                                                                .report,
+                                                            child: Text(
+                                                                PopUpOptions
+                                                                    .report),
+                                                          ),
+                                                          if (isOwn)
+                                                            const PopupMenuItem<
+                                                                String>(
+                                                              value:
+                                                                  PopUpOptions
+                                                                      .edit,
+                                                              child: Text(
+                                                                  PopUpOptions
+                                                                      .edit),
+                                                            ),
+                                                          if (isOwn)
+                                                            const PopupMenuItem<
+                                                                String>(
+                                                              value:
+                                                                  PopUpOptions
+                                                                      .delete,
+                                                              child: Text(
+                                                                  PopUpOptions
+                                                                      .delete),
+                                                            ),
+                                                        ];
+                                                        // return PopUpOptions.feedPostMoreOptions.map((String choice) {
+                                                        //       return PopupMenuItem<String>(
+                                                        //         value: choice,
+                                                        //         child: Text(choice),
+                                                        //       );
+                                                        // }).toList();
+                                                      },
+                                                      onSelected: (value) {
+                                                        switch (value) {
+                                                          case PopUpOptions
+                                                                .report:
+                                                            reportPost(
+                                                                "${dashBoardController.dashboardFeeds[index].id}");
+                                                            break;
+                                                          case PopUpOptions
+                                                                .edit:
+                                                            editStatusBottomSheet(
+                                                                dashBoardController
+                                                                        .dashboardFeeds[
+                                                                    index],
+                                                                onEdit: () {
+                                                              setStateCustom(
+                                                                  () {});
+                                                            });
+                                                            break;
+                                                          case PopUpOptions
+                                                                .delete:
+                                                            // AppMethods.deleteDialog(
+                                                            //     headingText: 'Are you sure you want to delete this post?',
+                                                            //     descriptionText: "" ?? "This will delete the permanently delete your post and you can't undo it after delete.'",
+                                                            //     onDelete: () {
+                                                            //
+                                                            //     });
+                                                            deletePost(
+                                                                postId:
+                                                                    "${dashBoardController.dashboardFeeds[index].id}",
+                                                                callBack: () {
+                                                                  dashBoardController
+                                                                      .dashboardFeeds
+                                                                      .removeAt(
+                                                                          index);
+                                                                  dashBoardController
+                                                                      .dashboardFeeds
+                                                                      .refresh();
+                                                                }).then((value) {
+                                                              setStateCustom(
+                                                                  () {});
+                                                            });
+                                                            break;
+                                                        }
+                                                      },
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              if (dashBoardController
+                                                          .dashboardFeeds[index]
+                                                          .status !=
+                                                      null &&
+                                                  dashBoardController
+                                                          .dashboardFeeds[index]
+                                                          .status !=
+                                                      '')
+                                                Container(
+                                                  margin: const EdgeInsets.only(
+                                                    left: 10,
+                                                    right: 10,
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        flex: 8,
+                                                        child: getLinkText(
+                                                            text: dashBoardController
+                                                                    .dashboardFeeds[
+                                                                        index]
+                                                                    .status ??
+                                                                ""),
+                                                        // child: RichText(
+                                                        //   text: TextSpan(
+                                                        //     text: dashBoardController
+                                                        //         .dashboardFeeds[
+                                                        //             index]
+                                                        //         .status!,
+                                                        //     style:
+                                                        //         const TextStyle(
+                                                        //       color: Colors
+                                                        //           .black45,
+                                                        //       fontSize: 15.0,
+                                                        //       height: 1.8,
+                                                        //       fontWeight:
+                                                        //           FontWeight
+                                                        //               .normal,
+                                                        //       decoration:
+                                                        //           TextDecoration
+                                                        //               .none,
+                                                        //     ),
+                                                        //   ),
+                                                        // ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              if (dashBoardController
+                                                          .dashboardFeeds[index]
+                                                          .promoteGroupDetails
+                                                          ?.groupId !=
+                                                      null &&
+                                                  dashBoardController
+                                                          .dashboardFeeds[index]
+                                                          .promoteGroupDetails
+                                                          ?.groupId !=
+                                                      '' &&
+                                                  dashBoardController
+                                                          .dashboardFeeds[index]
+                                                          .promoteGroupDetails
+                                                          ?.groupTitle !=
+                                                      null &&
+                                                  dashBoardController
+                                                          .dashboardFeeds[index]
+                                                          .promoteGroupDetails
+                                                          ?.groupTitle !=
+                                                      '')
+                                                Container(
+                                                  margin: const EdgeInsets.only(
+                                                    left: 10,
+                                                    right: 10,
+                                                  ),
+                                                  child: Column(
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                            flex: 8,
+                                                            child: RichText(
+                                                              text: TextSpan(
+                                                                  text:
+                                                                      "Please join this group ",
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontSize:
+                                                                        15.0,
+                                                                    height: 1.8,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    decoration:
+                                                                        TextDecoration
+                                                                            .none,
+                                                                  ),
+                                                                  children: [
+                                                                    TextSpan(
+                                                                      text: dashBoardController
+                                                                              .dashboardFeeds[index]
+                                                                              .promoteGroupDetails
+                                                                              ?.groupTitle ??
+                                                                          "",
                                                                       style:
                                                                           const TextStyle(
                                                                         color: Colors
-                                                                            .black,
+                                                                            .blue,
                                                                         fontSize:
                                                                             15.0,
                                                                         height:
@@ -1341,123 +1571,93 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                                           TapGestureRecognizer()
                                                                             ..onTap =
                                                                                 () {
-                                                                              if (e.profileId?.isNotEmpty == true) {
-                                                                                if (e.profileId != userId) {
-                                                                                  Get.to(() => SomeoneProfileScreen(profileID: e.profileId ?? ""));
-                                                                                } else {
-                                                                                  Get.to(() => const ProfileScreen());
-                                                                                }
-                                                                              }
-                                                                            });
-                                                                },
-                                                              ).toList() ??
-                                                              [],
+                                                                              Get.to(() => GroupDetailsScreen(
+                                                                                    groupId: dashBoardController.dashboardFeeds[index].promoteGroupDetails?.groupId,
+                                                                                  ));
+                                                                              // openInWeb(linkText);
+                                                                              // Handle link tap here
+                                                                            },
+                                                                    ),
+                                                                  ]),
+                                                            ),
+                                                          ),
                                                         ],
                                                       ),
-                                                    ),
-                                                  ),
-                                                  PopupMenuButton<String>(
-                                                    offset: const Offset(0, 40),
-                                                    icon: const Icon(
-                                                      Icons.more_horiz,
-                                                    ),
-                                                    shape: const RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    15.0))),
-                                                    itemBuilder:
-                                                        (BuildContext context) {
-                                                      return [
-                                                        const PopupMenuItem<
-                                                            String>(
-                                                          value: PopUpOptions
-                                                              .report,
+
+                                                      ///Promote Group Description.
+                                                      if (dashBoardController
+                                                              .dashboardFeeds[
+                                                                  index]
+                                                              .promoteGroupDetails
+                                                              ?.groupDescription !=
+                                                          null)
+                                                        Container(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          width: Get.width,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  vertical: 5),
                                                           child: Text(
-                                                              PopUpOptions
-                                                                  .report),
+                                                            "Description: ${dashBoardController.dashboardFeeds[index].promoteGroupDetails?.groupDescription}",
+                                                            maxLines: 2,
+                                                            style:
+                                                                const TextStyle(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              fontSize: 15.0,
+                                                            ),
+                                                          ),
                                                         ),
-                                                        if (isOwn)
-                                                          const PopupMenuItem<
-                                                              String>(
-                                                            value: PopUpOptions
-                                                                .edit,
-                                                            child: Text(
-                                                                PopUpOptions
-                                                                    .edit),
-                                                          ),
-                                                        if (isOwn)
-                                                          const PopupMenuItem<
-                                                              String>(
-                                                            value: PopUpOptions
-                                                                .delete,
-                                                            child: Text(
-                                                                PopUpOptions
-                                                                    .delete),
-                                                          ),
-                                                      ];
-                                                      // return PopUpOptions.feedPostMoreOptions.map((String choice) {
-                                                      //       return PopupMenuItem<String>(
-                                                      //         value: choice,
-                                                      //         child: Text(choice),
-                                                      //       );
-                                                      // }).toList();
-                                                    },
-                                                    onSelected: (value) {
-                                                      switch (value) {
-                                                        case PopUpOptions
-                                                              .report:
-                                                          reportPost(
-                                                              "${dashBoardController.dashboardFeeds[index].id}");
-                                                          break;
-                                                        case PopUpOptions.edit:
-                                                          editStatusBottomSheet(
-                                                              dashBoardController
-                                                                      .dashboardFeeds[
-                                                                  index],
-                                                              onEdit: () {
-                                                            setStateCustom(
-                                                                () {});
-                                                          });
-                                                          break;
-                                                        case PopUpOptions
-                                                              .delete:
-                                                          // AppMethods.deleteDialog(
-                                                          //     headingText: 'Are you sure you want to delete this post?',
-                                                          //     descriptionText: "" ?? "This will delete the permanently delete your post and you can't undo it after delete.'",
-                                                          //     onDelete: () {
-                                                          //
-                                                          //     });
-                                                          deletePost(
-                                                              postId:
-                                                                  "${dashBoardController.dashboardFeeds[index].id}",
-                                                              callBack: () {
-                                                                dashBoardController
-                                                                    .dashboardFeeds
-                                                                    .removeAt(
-                                                                        index);
-                                                                dashBoardController
-                                                                    .dashboardFeeds
-                                                                    .refresh();
-                                                              }).then((value) {
-                                                            setStateCustom(
-                                                                () {});
-                                                          });
-                                                          break;
-                                                      }
-                                                    },
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            if (dashBoardController
-                                                        .dashboardFeeds[index]
-                                                        .status !=
-                                                    null &&
-                                                dashBoardController
-                                                        .dashboardFeeds[index]
-                                                        .status !=
-                                                    '')
+                                                      Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(top: 10),
+                                                        // height: 200,
+                                                        // width: 400,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(12),
+                                                          // image: DecorationImage(image:),
+                                                        ),
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          // alignment:
+                                                          //     Alignment.center,
+                                                          fit: BoxFit.contain,
+                                                          imageUrl:
+                                                              "https://wghdfm.s3.amazonaws.com/medium/${dashBoardController.dashboardFeeds[index].promoteGroupDetails?.coverPic}",
+                                                          progressIndicatorBuilder:
+                                                              (BuildContext,
+                                                                  String,
+                                                                  DownloadProgress) {
+                                                            return const SizedBox(
+                                                              height: 50,
+                                                              width: 50,
+                                                              child: Center(
+                                                                  child:
+                                                                      CupertinoActivityIndicator()),
+                                                            );
+                                                          },
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              const Icon(
+                                                                  Icons.error,
+                                                                  color: Colors
+                                                                      .white),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              // Text(feeds![index].status.toString()),
+                                              customImageView(
+                                                  dashBoardController
+                                                      .dashboardFeeds[index]),
                                               Container(
                                                 margin: const EdgeInsets.only(
                                                   left: 10,
@@ -1468,975 +1668,780 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                       MainAxisAlignment.start,
                                                   children: <Widget>[
                                                     Expanded(
-                                                      flex: 8,
-                                                      child: getLinkText(
-                                                          text: dashBoardController
-                                                                  .dashboardFeeds[
-                                                                      index]
-                                                                  .status ??
-                                                              ""),
-                                                      // child: RichText(
-                                                      //   text: TextSpan(
-                                                      //     text: dashBoardController
-                                                      //         .dashboardFeeds[
-                                                      //             index]
-                                                      //         .status!,
-                                                      //     style:
-                                                      //         const TextStyle(
-                                                      //       color: Colors
-                                                      //           .black45,
-                                                      //       fontSize: 15.0,
-                                                      //       height: 1.8,
-                                                      //       fontWeight:
-                                                      //           FontWeight
-                                                      //               .normal,
-                                                      //       decoration:
-                                                      //           TextDecoration
-                                                      //               .none,
-                                                      //     ),
-                                                      //   ),
-                                                      // ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            if (dashBoardController
-                                                        .dashboardFeeds[index]
-                                                        .promoteGroupDetails
-                                                        ?.groupId !=
-                                                    null &&
-                                                dashBoardController
-                                                        .dashboardFeeds[index]
-                                                        .promoteGroupDetails
-                                                        ?.groupId !=
-                                                    '' &&
-                                                dashBoardController
-                                                        .dashboardFeeds[index]
-                                                        .promoteGroupDetails
-                                                        ?.groupTitle !=
-                                                    null &&
-                                                dashBoardController
-                                                        .dashboardFeeds[index]
-                                                        .promoteGroupDetails
-                                                        ?.groupTitle !=
-                                                    '')
-                                              Container(
-                                                margin: const EdgeInsets.only(
-                                                  left: 10,
-                                                  right: 10,
-                                                ),
-                                                child: Column(
-                                                  children: [
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        Expanded(
-                                                          flex: 8,
-                                                          child: RichText(
-                                                            text: TextSpan(
-                                                                text:
-                                                                    "Please join this group ",
-                                                                style:
-                                                                    const TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize:
-                                                                      15.0,
-                                                                  height: 1.8,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  decoration:
-                                                                      TextDecoration
-                                                                          .none,
-                                                                ),
-                                                                children: [
-                                                                  TextSpan(
-                                                                    text: dashBoardController
-                                                                            .dashboardFeeds[index]
-                                                                            .promoteGroupDetails
-                                                                            ?.groupTitle ??
-                                                                        "",
-                                                                    style:
-                                                                        const TextStyle(
-                                                                      color: Colors
-                                                                          .blue,
-                                                                      fontSize:
-                                                                          15.0,
-                                                                      height:
-                                                                          1.8,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
-                                                                      decoration:
-                                                                          TextDecoration
-                                                                              .none,
-                                                                    ),
-                                                                    recognizer:
-                                                                        TapGestureRecognizer()
-                                                                          ..onTap =
-                                                                              () {
-                                                                            Get.to(() =>
-                                                                                GroupDetailsScreen(
-                                                                                  groupId: dashBoardController.dashboardFeeds[index].promoteGroupDetails?.groupId,
-                                                                                ));
-                                                                            // openInWeb(linkText);
-                                                                            // Handle link tap here
-                                                                          },
-                                                                  ),
-                                                                ]),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-
-                                                    ///Promote Group Description.
-                                                    if (dashBoardController
-                                                            .dashboardFeeds[
-                                                                index]
-                                                            .promoteGroupDetails
-                                                            ?.groupDescription !=
-                                                        null)
-                                                      Container(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        width: Get.width,
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                vertical: 5),
-                                                        child: Text(
-                                                          "Description: ${dashBoardController.dashboardFeeds[index].promoteGroupDetails?.groupDescription}",
-                                                          maxLines: 2,
-                                                          style:
-                                                              const TextStyle(
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            fontSize: 15.0,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    Container(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 10),
-                                                      // height: 200,
-                                                      // width: 400,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12),
-                                                        // image: DecorationImage(image:),
-                                                      ),
-                                                      child: CachedNetworkImage(
-                                                        // alignment:
-                                                        //     Alignment.center,
-                                                        fit: BoxFit.contain,
-                                                        imageUrl:
-                                                            "https://wghdfm.s3.amazonaws.com/medium/${dashBoardController.dashboardFeeds[index].promoteGroupDetails?.coverPic}",
-                                                        progressIndicatorBuilder:
-                                                            (BuildContext,
-                                                                String,
-                                                                DownloadProgress) {
-                                                          return const SizedBox(
-                                                            height: 50,
-                                                            width: 50,
-                                                            child: Center(
-                                                                child:
-                                                                    CupertinoActivityIndicator()),
-                                                          );
-                                                        },
-                                                        errorWidget: (context,
-                                                                url, error) =>
-                                                            const Icon(
-                                                                Icons.error,
-                                                                color: Colors
-                                                                    .white),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            // Text(feeds![index].status.toString()),
-                                            customImageView(dashBoardController
-                                                .dashboardFeeds[index]),
-                                            Container(
-                                              margin: const EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: IconButton(
-                                                        onPressed: () {
-                                                          if (!isLoved) {
-                                                            setAsFav(
-                                                              postId:
-                                                                  "${dashBoardController.dashboardFeeds[index].id}",
-                                                            ).then((value) {
-                                                              if (dashBoardController
-                                                                      .dashboardFeeds[
-                                                                          index]
-                                                                      .isFav ==
-                                                                  0) {
-                                                                dashBoardController
-                                                                    .dashboardFeeds[
-                                                                        index]
-                                                                    .isFav = 1;
-                                                              } else {
-                                                                dashBoardController
-                                                                    .dashboardFeeds[
-                                                                        index]
-                                                                    .isFav = 0;
-                                                              }
-                                                              setStateCustom(
-                                                                  () {});
-                                                            });
-                                                          } else {
-                                                            setAsUnFav(
-                                                                    "${dashBoardController.dashboardFeeds[index].id}")
-                                                                .then((value) {
-                                                              if (dashBoardController
-                                                                      .dashboardFeeds[
-                                                                          index]
-                                                                      .isFav ==
-                                                                  0) {
-                                                                dashBoardController
-                                                                    .dashboardFeeds[
-                                                                        index]
-                                                                    .isFav = 1;
-                                                              } else {
-                                                                dashBoardController
-                                                                    .dashboardFeeds[
-                                                                        index]
-                                                                    .isFav = 0;
-                                                              }
-                                                              setStateCustom(
-                                                                  () {});
-                                                            });
-                                                          }
-                                                        },
-                                                        icon: Icon(
-                                                          isLoved
-                                                              ? Icons.favorite
-                                                              : Icons
-                                                                  .favorite_border,
-                                                          color: isLoved
-                                                              ? Colors.red
-                                                              : Theme.of(Get
-                                                                      .context!)
-                                                                  .iconTheme
-                                                                  .color,
-                                                        )),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: InkWell(
-                                                      onTap: () async {
-                                                        // checkPostLikeStatus(
-                                                        //   "${dashBoardController.dashboardFeeds?[index].id}",
-                                                        // ).then((haveYouLiked) {
-                                                        //   if (!haveYouLiked) {
-                                                        //     setAsLiked(
-                                                        //       "${dashBoardController.dashboardFeeds?[index].id!}",
-                                                        //     );
-                                                        //   }
-                                                        // });
-
-                                                        await setAsLiked(
-                                                            postId:
-                                                                "${dashBoardController.dashboardFeeds[index].id}",
-                                                            postOwnerId:
-                                                                "${dashBoardController.dashboardFeeds[index].ownerId}",
-                                                            isInsertLike:
-                                                                dashBoardController
+                                                      flex: 1,
+                                                      child: IconButton(
+                                                          onPressed: () {
+                                                            if (!isLoved) {
+                                                              setAsFav(
+                                                                postId:
+                                                                    "${dashBoardController.dashboardFeeds[index].id}",
+                                                              ).then((value) {
+                                                                if (dashBoardController
                                                                         .dashboardFeeds[
                                                                             index]
-                                                                        .isLike ==
-                                                                    0,
-                                                            callBack:
-                                                                (commentCount) {
-                                                              if (dashBoardController
+                                                                        .isFav ==
+                                                                    0) {
+                                                                  dashBoardController
+                                                                      .dashboardFeeds[
+                                                                          index]
+                                                                      .isFav = 1;
+                                                                } else {
+                                                                  dashBoardController
+                                                                      .dashboardFeeds[
+                                                                          index]
+                                                                      .isFav = 0;
+                                                                }
+                                                                setStateCustom(
+                                                                    () {});
+                                                              });
+                                                            } else {
+                                                              setAsUnFav(
+                                                                      "${dashBoardController.dashboardFeeds[index].id}")
+                                                                  .then(
+                                                                      (value) {
+                                                                if (dashBoardController
+                                                                        .dashboardFeeds[
+                                                                            index]
+                                                                        .isFav ==
+                                                                    0) {
+                                                                  dashBoardController
+                                                                      .dashboardFeeds[
+                                                                          index]
+                                                                      .isFav = 1;
+                                                                } else {
+                                                                  dashBoardController
+                                                                      .dashboardFeeds[
+                                                                          index]
+                                                                      .isFav = 0;
+                                                                }
+                                                                setStateCustom(
+                                                                    () {});
+                                                              });
+                                                            }
+                                                          },
+                                                          icon: Icon(
+                                                            isLoved
+                                                                ? Icons.favorite
+                                                                : Icons
+                                                                    .favorite_border,
+                                                            color: isLoved
+                                                                ? Colors.red
+                                                                : Theme.of(Get
+                                                                        .context!)
+                                                                    .iconTheme
+                                                                    .color,
+                                                          )),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: InkWell(
+                                                        onTap: () async {
+                                                          // checkPostLikeStatus(
+                                                          //   "${dashBoardController.dashboardFeeds?[index].id}",
+                                                          // ).then((haveYouLiked) {
+                                                          //   if (!haveYouLiked) {
+                                                          //     setAsLiked(
+                                                          //       "${dashBoardController.dashboardFeeds?[index].id!}",
+                                                          //     );
+                                                          //   }
+                                                          // });
+
+                                                          await setAsLiked(
+                                                              postId:
+                                                                  "${dashBoardController.dashboardFeeds[index].id}",
+                                                              postOwnerId:
+                                                                  "${dashBoardController.dashboardFeeds[index].ownerId}",
+                                                              isInsertLike: dashBoardController
                                                                       .dashboardFeeds[
                                                                           index]
                                                                       .isLike ==
-                                                                  0) {
-                                                                dashBoardController
-                                                                    .dashboardFeeds[
-                                                                        index]
-                                                                    .isLike = 1;
-                                                              } else {
-                                                                dashBoardController
-                                                                    .dashboardFeeds[
-                                                                        index]
-                                                                    .isLike = 0;
-                                                              }
-                                                              dashBoardController
+                                                                  0,
+                                                              callBack:
+                                                                  (commentCount) {
+                                                                if (dashBoardController
+                                                                        .dashboardFeeds[
+                                                                            index]
+                                                                        .isLike ==
+                                                                    0) {
+                                                                  dashBoardController
                                                                       .dashboardFeeds[
                                                                           index]
-                                                                      .countLike =
-                                                                  "${commentCount}";
-                                                              setStateCustom(
-                                                                  () {});
-                                                            });
-                                                      },
-                                                      child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal: 5),
-                                                        height: 20,
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Image.asset(
-                                                              isLiked
-                                                                  ? "assets/icon/liked_image.png"
-                                                                  : "assets/icon/like_img.png",
-                                                              color: isLiked
-                                                                  ? Colors.blue
-                                                                  : Theme.of(Get
-                                                                          .context!)
-                                                                      .iconTheme
-                                                                      .color,
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 3,
-                                                            ),
-                                                            Text(
-                                                              "${dashBoardController.dashboardFeeds[index].countLike}",
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: InkWell(
-                                                      onTap: () async {
-                                                        LoginModel userDetails =
-                                                            await SessionManagement
-                                                                .getUserDetails();
-                                                        if (kDebugMode) {
-                                                          print(
-                                                              "user id: ${userDetails.id}");
-                                                          print(
-                                                              "post id: ${dashBoardController.dashboardFeeds[index].id}");
-                                                          print(
-                                                              ">> > Before Comment Count ${dashBoardController.dashboardFeeds[index].countComment}");
-                                                          print(
-                                                              ":: CURRENT INDEX IS ${index}");
-                                                          print(
-                                                              "Before: ${dashBoardController.dashboardFeeds[index].id!}");
-                                                        }
-                                                        EndPoints
-                                                                .selectedPostId =
-                                                            "${dashBoardController.dashboardFeeds[index].id}";
-                                                        Get.to(() =>
-                                                            CommentScreen(
-                                                              index: index,
-                                                              isFrom: AppTexts
-                                                                  .dashBoard,
-                                                              postId: EndPoints
-                                                                  .selectedPostId,
-                                                              postOwnerId:
-                                                                  "${dashBoardController.dashboardFeeds[index].ownerId}",
-                                                            ))?.then((value) {
-                                                          dashBoardController
-                                                              .dashboardFeeds
-                                                              .refresh();
-                                                          print(
-                                                              ">> >> > After Comment Count ${dashBoardController.dashboardFeeds[index].countComment}");
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal: 5),
-                                                        height: 20,
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            const Icon(
-                                                              Icons
-                                                                  .chat_bubble_outline,
-                                                              // color: isLiked ? Colors.blue : Theme.of(Get.context!).iconTheme.color,
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 3,
-                                                            ),
-                                                            Text(
-                                                              "${dashBoardController.dashboardFeeds[index].countComment}",
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  /*Expanded(
-                                                      flex: 1,
-                                                      child: IconButton(
-                                                          onPressed: () async {
-                                                            // todo:
-                                                            LoginModel userDetails = await SessionManagement.getUserDetails();
-                                                            if (kDebugMode) {
-                                                              print("user id: ${userDetails.id}");
-                                                              print("post id: ${dashBoardController.dashboardFeeds[index].id!}");
-                                                            }
-
-                                                            debugPrint("Before: ${dashBoardController.dashboardFeeds[index].id!}");
-                                                            EndPoints.selectedPostId = "${dashBoardController.dashboardFeeds[index].id}";
-                                                            Get.to(() => CommentScreen(postId: EndPoints.selectedPostId));
-                                                          },
-                                                          icon: Row(
+                                                                      .isLike = 1;
+                                                                } else {
+                                                                  dashBoardController
+                                                                      .dashboardFeeds[
+                                                                          index]
+                                                                      .isLike = 0;
+                                                                }
+                                                                dashBoardController
+                                                                        .dashboardFeeds[
+                                                                            index]
+                                                                        .countLike =
+                                                                    "${commentCount}";
+                                                                setStateCustom(
+                                                                    () {});
+                                                              });
+                                                        },
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  horizontal:
+                                                                      5),
+                                                          height: 20,
+                                                          child: Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
                                                             children: [
-                                                              const Icon(Icons.messenger_outline),
-                                                              SizedBox(
+                                                              Image.asset(
+                                                                isLiked
+                                                                    ? "assets/icon/liked_image.png"
+                                                                    : "assets/icon/like_img.png",
+                                                                color: isLiked
+                                                                    ? Colors
+                                                                        .blue
+                                                                    : Theme.of(Get
+                                                                            .context!)
+                                                                        .iconTheme
+                                                                        .color,
+                                                              ),
+                                                              const SizedBox(
                                                                 width: 3,
                                                               ),
                                                               Text(
-                                                                "${dashBoardController.dashboardFeeds[index].countComment ?? 0}",
+                                                                "${dashBoardController.dashboardFeeds[index].countLike}",
                                                               ),
                                                             ],
-                                                          )),
-                                                    ),*/
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: PopupMenuButton(
-                                                      onSelected: (value) {
-                                                        if (value ==
-                                                            "Timeline") {
-                                                          addToTimeline(
-                                                              "${dashBoardController.dashboardFeeds[index].id}");
-                                                        }
-                                                        if (value == "Groups") {
-                                                          dashBoardController
-                                                              .sharePostToGroup(
-                                                                  postId:
-                                                                      "${dashBoardController.dashboardFeeds[index].id}",
-                                                                  ownerID:
-                                                                      userId);
-                                                        }
-                                                        if (value == "Other") {
-                                                          AppMethods().share(
-                                                              "${EndPoints.socialSharePostUrl}${dashBoardController.dashboardFeeds[index].id}");
-                                                        }
-                                                      },
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          15)),
-                                                      position:
-                                                          PopupMenuPosition
-                                                              .under,
-                                                      icon: const Icon(
-                                                          Icons.share),
-                                                      itemBuilder: (context) {
-                                                        return [
-                                                          PopupMenuItem(
-                                                              value: "Timeline",
-                                                              child: Row(
-                                                                children: [
-                                                                  const Icon(Icons
-                                                                          .add_box)
-                                                                      .paddingOnly(
-                                                                          right:
-                                                                              7),
-                                                                  const Text(
-                                                                      "Timeline"),
-                                                                ],
-                                                              )),
-                                                          PopupMenuItem(
-                                                              value: "Groups",
-                                                              child: Row(
-                                                                children: [
-                                                                  const Icon(Icons
-                                                                          .group)
-                                                                      .paddingOnly(
-                                                                          right:
-                                                                              7),
-                                                                  const Text(
-                                                                      "Groups"),
-                                                                ],
-                                                              )),
-                                                          PopupMenuItem(
-                                                              value: "Other",
-                                                              child: Row(
-                                                                children: [
-                                                                  const Icon(Icons
-                                                                          .ios_share)
-                                                                      .paddingOnly(
-                                                                          right:
-                                                                              7),
-                                                                  const Text(
-                                                                      "Share"),
-                                                                ],
-                                                              )),
-                                                        ];
-                                                      },
-                                                    ),
-                                                    /*IconButton(
-                                                            onPressed: () {
-
-                                                              addToTimeline("${dashBoardController.dashboardFeeds[index].id}");
-                                                            },
-                                                            icon: const Icon(Icons.add_box)),*/
-                                                  ),
-                                                  // Expanded(
-                                                  //   flex: 1,
-                                                  //   child: IconButton(
-                                                  //       onPressed: () {
-                                                  //         AppMethods().share(
-                                                  //             "${EndPoints.socialSharePostUrl}${dashBoardController.dashboardFeeds[index].id}");
-                                                  //       },
-                                                  //       icon: const Icon(Icons.share)),
-                                                  // ),
-
-                                                  // Expanded(
-                                                  //   flex: 1,
-                                                  //   child: IconButton(
-                                                  //       onPressed: () {
-                                                  //         reportPost(
-                                                  //             "${dashBoardController.dashboardFeeds[index].id}");
-                                                  //       },
-                                                  //       icon: const Icon(Icons
-                                                  //           .report_problem)),
-                                                  // ),
-                                                ],
-                                              ),
-                                            ),
-                                            Align(
-                                                alignment:
-                                                    Alignment.bottomRight,
-                                                child: Container(
-                                                  margin:
-                                                      const EdgeInsets.all(10),
-                                                  child: customText(
-                                                      title:
-                                                          "${dashBoardController.dashboardFeeds[index].timeStamp}",
-                                                      fs: 10),
-                                                )),
-                                            if (dashBoardController
-                                                    .dashboardFeeds[index]
-                                                    .latestComments
-                                                    ?.isNotEmpty ==
-                                                true)
-                                              Column(
-                                                children: [
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: Text(
-                                                      "Comments",
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w500,
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ).paddingOnly(left: 10),
-                                                  ListView.builder(
-                                                    shrinkWrap: true,
-                                                    // reverse: true,
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    itemCount: (dashBoardController
-                                                                    .dashboardFeeds[
-                                                                        index]
-                                                                    .latestComments
-                                                                    ?.length ??
-                                                                0) >
-                                                            3
-                                                        ? 3
-                                                        : dashBoardController
-                                                                .dashboardFeeds[
-                                                                    index]
-                                                                .latestComments
-                                                                ?.length ??
-                                                            0,
-                                                    itemBuilder: (context,
-                                                        indexOfComment) {
-                                                      int listLength =
-                                                          dashBoardController
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: InkWell(
+                                                        onTap: () async {
+                                                          LoginModel
+                                                              userDetails =
+                                                              await SessionManagement
+                                                                  .getUserDetails();
+                                                          if (kDebugMode) {
+                                                            print(
+                                                                "user id: ${userDetails.id}");
+                                                            print(
+                                                                "post id: ${dashBoardController.dashboardFeeds[index].id}");
+                                                            print(
+                                                                ">> > Before Comment Count ${dashBoardController.dashboardFeeds[index].countComment}");
+                                                            print(
+                                                                ":: CURRENT INDEX IS ${index}");
+                                                            print(
+                                                                "Before: ${dashBoardController.dashboardFeeds[index].id!}");
+                                                          }
+                                                          EndPoints
+                                                                  .selectedPostId =
+                                                              "${dashBoardController.dashboardFeeds[index].id}";
+                                                          Get.to(() =>
+                                                              CommentScreen(
+                                                                index: index,
+                                                                isFrom: AppTexts
+                                                                    .dashBoard,
+                                                                postId: EndPoints
+                                                                    .selectedPostId,
+                                                                postOwnerId:
+                                                                    "${dashBoardController.dashboardFeeds[index].ownerId}",
+                                                              ))?.then((value) {
+                                                            dashBoardController
+                                                                .dashboardFeeds
+                                                                .refresh();
+                                                            print(
+                                                                ">> >> > After Comment Count ${dashBoardController.dashboardFeeds[index].countComment}");
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  horizontal:
+                                                                      5),
+                                                          height: 20,
+                                                          child: Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              const Icon(
+                                                                Icons
+                                                                    .chat_bubble_outline,
+                                                                // color: isLiked ? Colors.blue : Theme.of(Get.context!).iconTheme.color,
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 3,
+                                                              ),
+                                                              Text(
+                                                                "${dashBoardController.dashboardFeeds[index].countComment}",
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    /*Expanded(
+                                                        flex: 1,
+                                                        child: IconButton(
+                                                            onPressed: () async {
+                                                              // todo:
+                                                              LoginModel userDetails = await SessionManagement.getUserDetails();
+                                                              if (kDebugMode) {
+                                                                print("user id: ${userDetails.id}");
+                                                                print("post id: ${dashBoardController.dashboardFeeds[index].id!}");
+                                                              }
+                  
+                                                              debugPrint("Before: ${dashBoardController.dashboardFeeds[index].id!}");
+                                                              EndPoints.selectedPostId = "${dashBoardController.dashboardFeeds[index].id}";
+                                                              Get.to(() => CommentScreen(postId: EndPoints.selectedPostId));
+                                                            },
+                                                            icon: Row(
+                                                              children: [
+                                                                const Icon(Icons.messenger_outline),
+                                                                SizedBox(
+                                                                  width: 3,
+                                                                ),
+                                                                Text(
+                                                                  "${dashBoardController.dashboardFeeds[index].countComment ?? 0}",
+                                                                ),
+                                                              ],
+                                                            )),
+                                                      ),*/
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: PopupMenuButton(
+                                                        onSelected: (value) {
+                                                          if (value ==
+                                                              "Timeline") {
+                                                            addToTimeline(
+                                                                "${dashBoardController.dashboardFeeds[index].id}");
+                                                          }
+                                                          if (value ==
+                                                              "Groups") {
+                                                            dashBoardController
+                                                                .sharePostToGroup(
+                                                                    postId:
+                                                                        "${dashBoardController.dashboardFeeds[index].id}",
+                                                                    ownerID:
+                                                                        userId);
+                                                          }
+                                                          if (value ==
+                                                              "Other") {
+                                                            AppMethods().share(
+                                                                "${EndPoints.socialSharePostUrl}${dashBoardController.dashboardFeeds[index].id}");
+                                                          }
+                                                        },
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15)),
+                                                        position:
+                                                            PopupMenuPosition
+                                                                .under,
+                                                        icon: const Icon(
+                                                            Icons.share),
+                                                        itemBuilder: (context) {
+                                                          return [
+                                                            PopupMenuItem(
+                                                                value:
+                                                                    "Timeline",
+                                                                child: Row(
+                                                                  children: [
+                                                                    const Icon(Icons
+                                                                            .add_box)
+                                                                        .paddingOnly(
+                                                                            right:
+                                                                                7),
+                                                                    const Text(
+                                                                        "Timeline"),
+                                                                  ],
+                                                                )),
+                                                            PopupMenuItem(
+                                                                value: "Groups",
+                                                                child: Row(
+                                                                  children: [
+                                                                    const Icon(Icons
+                                                                            .group)
+                                                                        .paddingOnly(
+                                                                            right:
+                                                                                7),
+                                                                    const Text(
+                                                                        "Groups"),
+                                                                  ],
+                                                                )),
+                                                            PopupMenuItem(
+                                                                value: "Other",
+                                                                child: Row(
+                                                                  children: [
+                                                                    const Icon(Icons
+                                                                            .ios_share)
+                                                                        .paddingOnly(
+                                                                            right:
+                                                                                7),
+                                                                    const Text(
+                                                                        "Share"),
+                                                                  ],
+                                                                )),
+                                                          ];
+                                                        },
+                                                      ),
+                                                      /*IconButton(
+                                                              onPressed: () {
+                  
+                                                                addToTimeline("${dashBoardController.dashboardFeeds[index].id}");
+                                                              },
+                                                              icon: const Icon(Icons.add_box)),*/
+                                                    ),
+                                                    // Expanded(
+                                                    //   flex: 1,
+                                                    //   child: IconButton(
+                                                    //       onPressed: () {
+                                                    //         AppMethods().share(
+                                                    //             "${EndPoints.socialSharePostUrl}${dashBoardController.dashboardFeeds[index].id}");
+                                                    //       },
+                                                    //       icon: const Icon(Icons.share)),
+                                                    // ),
+
+                                                    // Expanded(
+                                                    //   flex: 1,
+                                                    //   child: IconButton(
+                                                    //       onPressed: () {
+                                                    //         reportPost(
+                                                    //             "${dashBoardController.dashboardFeeds[index].id}");
+                                                    //       },
+                                                    //       icon: const Icon(Icons
+                                                    //           .report_problem)),
+                                                    // ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Align(
+                                                  alignment:
+                                                      Alignment.bottomRight,
+                                                  child: Container(
+                                                    margin:
+                                                        const EdgeInsets.all(
+                                                            10),
+                                                    child: customText(
+                                                        title:
+                                                            "${dashBoardController.dashboardFeeds[index].timeStamp}",
+                                                        fs: 10),
+                                                  )),
+                                              if (dashBoardController
+                                                      .dashboardFeeds[index]
+                                                      .latestComments
+                                                      ?.isNotEmpty ==
+                                                  true)
+                                                Column(
+                                                  children: [
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Text(
+                                                        "Comments",
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                    ).paddingOnly(left: 10),
+                                                    ListView.builder(
+                                                      shrinkWrap: true,
+                                                      // reverse: true,
+                                                      physics:
+                                                          const NeverScrollableScrollPhysics(),
+                                                      itemCount: (dashBoardController
+                                                                      .dashboardFeeds[
+                                                                          index]
+                                                                      .latestComments
+                                                                      ?.length ??
+                                                                  0) >
+                                                              3
+                                                          ? 3
+                                                          : dashBoardController
                                                                   .dashboardFeeds[
                                                                       index]
                                                                   .latestComments
                                                                   ?.length ??
-                                                              0;
-                                                      return Row(
-                                                        children: [
-                                                          Container(
-                                                            height: 40,
-                                                            width: 40,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: Theme.of(Get
-                                                                      .context!)
-                                                                  .iconTheme
-                                                                  .color,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          100),
-                                                              border:
-                                                                  Border.all(
+                                                              0,
+                                                      itemBuilder: (context,
+                                                          indexOfComment) {
+                                                        int listLength =
+                                                            dashBoardController
+                                                                    .dashboardFeeds[
+                                                                        index]
+                                                                    .latestComments
+                                                                    ?.length ??
+                                                                0;
+                                                        return Row(
+                                                          children: [
+                                                            Container(
+                                                              height: 40,
+                                                              width: 40,
+                                                              decoration:
+                                                                  BoxDecoration(
                                                                 color: Theme.of(
                                                                         Get.context!)
                                                                     .iconTheme
-                                                                    .color!,
-                                                                width: 1,
+                                                                    .color,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            100),
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Theme.of(
+                                                                          Get.context!)
+                                                                      .iconTheme
+                                                                      .color!,
+                                                                  width: 1,
+                                                                ),
+                                                              ),
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                      .all(5),
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .zero,
+                                                              child: ClipOval(
+                                                                child:
+                                                                    CachedNetworkImage(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  fit: BoxFit
+                                                                      .fill,
+                                                                  imageUrl:
+                                                                      "https://wghdfm.s3.amazonaws.com/thumb/${dashBoardController.dashboardFeeds[index].latestComments?[listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 1) + indexOfComment]?.img}",
+                                                                  // "https://wghdfm.s3.amazonaws.com/thumb/${dashBoardController.dashboardFeeds[index].latestComments?.last.img}",
+                                                                  progressIndicatorBuilder:
+                                                                      (BuildContext,
+                                                                          String,
+                                                                          DownloadProgress) {
+                                                                    return const Center(
+                                                                        child:
+                                                                            CupertinoActivityIndicator());
+                                                                  },
+                                                                  errorWidget: (context,
+                                                                          url,
+                                                                          error) =>
+                                                                      const Icon(
+                                                                          Icons
+                                                                              .error,
+                                                                          color:
+                                                                              Colors.white),
+                                                                ),
                                                               ),
                                                             ),
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .all(5),
-                                                            padding:
-                                                                EdgeInsets.zero,
-                                                            child: ClipOval(
-                                                              child:
-                                                                  CachedNetworkImage(
-                                                                alignment:
-                                                                    Alignment
+                                                            Expanded(
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
                                                                         .center,
-                                                                fit:
-                                                                    BoxFit.fill,
-                                                                imageUrl:
-                                                                    "https://wghdfm.s3.amazonaws.com/thumb/${dashBoardController.dashboardFeeds[index].latestComments?[listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 1) + indexOfComment]?.img}",
-                                                                // "https://wghdfm.s3.amazonaws.com/thumb/${dashBoardController.dashboardFeeds[index].latestComments?.last.img}",
-                                                                progressIndicatorBuilder:
-                                                                    (BuildContext,
-                                                                        String,
-                                                                        DownloadProgress) {
-                                                                  return const Center(
-                                                                      child:
-                                                                          CupertinoActivityIndicator());
-                                                                },
-                                                                errorWidget: (context,
-                                                                        url,
-                                                                        error) =>
-                                                                    const Icon(
-                                                                        Icons
-                                                                            .error,
-                                                                        color: Colors
-                                                                            .white),
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                children: [
+                                                                  Text(
+                                                                      "${dashBoardController.dashboardFeeds[index].latestComments?[listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 1) + indexOfComment]?.firstname} ${dashBoardController.dashboardFeeds[index].latestComments?[listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 1) + indexOfComment]?.lastname}",
+                                                                      style: GoogleFonts.montserrat(
+                                                                          fontSize:
+                                                                              13,
+                                                                          fontWeight:
+                                                                              FontWeight.w500)),
+                                                                  Text(
+                                                                      "${dashBoardController.dashboardFeeds[index].latestComments?[listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 1) + indexOfComment]?.comment}",
+                                                                      style: GoogleFonts
+                                                                          .montserrat(
+                                                                        fontSize:
+                                                                            12,
+                                                                      ),
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis),
+                                                                ],
                                                               ),
                                                             ),
-                                                          ),
-                                                          Expanded(
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: [
-                                                                Text(
-                                                                    "${dashBoardController.dashboardFeeds[index].latestComments?[listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 1) + indexOfComment]?.firstname} ${dashBoardController.dashboardFeeds[index].latestComments?[listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 1) + indexOfComment]?.lastname}",
-                                                                    style: GoogleFonts.montserrat(
-                                                                        fontSize:
-                                                                            13,
-                                                                        fontWeight:
-                                                                            FontWeight.w500)),
-                                                                Text(
-                                                                    "${dashBoardController.dashboardFeeds[index].latestComments?[listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 1) + indexOfComment]?.comment}",
-                                                                    style: GoogleFonts
-                                                                        .montserrat(
-                                                                      fontSize:
-                                                                          12,
-                                                                    ),
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          // Text("${listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 0) + indexOfComment}"),
-                                                        ],
-                                                      );
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                            Container(
-                                              padding: const EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                              ),
-                                              height: 60,
-                                              color: Colors.white,
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                    flex: 9,
-                                                    child: commonTextField(
-                                                      readOnly: false,
-                                                      focusNode: focusNode,
-                                                      leading: IconButton(
-                                                        icon: const Icon(
-                                                            Icons
-                                                                .emoji_emotions_outlined,
-                                                            size: 25),
-                                                        onPressed: () async {
-                                                          emojiShowing.toggle();
-                                                          if (emojiShowing
-                                                              .isFalse) {
-                                                            print(" ooo");
-                                                            // FocusScope.of(context).requestFocus(focusNode);
-                                                          }
-                                                          // setState(() {});
-                                                        },
-                                                      ),
-                                                      hint: 'Write Comment',
-                                                      isLabelFloating: false,
-                                                      controller:
-                                                          dashBoardController
-                                                              .dashboardFeeds[
-                                                                  index]
-                                                              .commentTextController,
-                                                      borderColor:
-                                                          Theme.of(Get.context!)
-                                                              .primaryColor,
-                                                      baseColor:
-                                                          AppColors.black,
-                                                      commentBox: true,
-                                                      isLastField: true,
-                                                      obscureText: false,
+                                                            // Text("${listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 0) + indexOfComment}"),
+                                                          ],
+                                                        );
+                                                      },
                                                     ),
-                                                  ),
-                                                  IconButton(
-                                                    icon:
-                                                        const Icon(Icons.send),
-                                                    onPressed: () async {
-                                                      print(
-                                                          ":: ${dashBoardController.dashboardFeeds[index].latestComments?.length}");
-                                                      FocusManager
-                                                          .instance.primaryFocus
-                                                          ?.unfocus();
-                                                      EndPoints.selectedPostId =
-                                                          "${dashBoardController.dashboardFeeds[index].id}";
-
-                                                      if (dashBoardController
-                                                              .dashboardFeeds[
-                                                                  index]
-                                                              .commentTextController
-                                                              ?.text
-                                                              .trim()
-                                                              .isNotEmpty ==
-                                                          true) {
-                                                        LoginModel userDetails =
-                                                            await SessionManagement
-                                                                .getUserDetails();
-
-                                                        Map<String, String>
-                                                            bodyData = {
-                                                          "post_id": EndPoints
-                                                              .selectedPostId,
-                                                          "user_id":
-                                                              userDetails.id!,
-                                                          "comment": dashBoardController
-                                                                  .dashboardFeeds[
-                                                                      index]
-                                                                  .commentTextController
-                                                                  ?.text ??
-                                                              ""
-                                                        };
-
-                                                        await APIService()
-                                                            .callAPI(
-                                                                params: {},
-                                                                serviceUrl: EndPoints
-                                                                        .baseUrl +
-                                                                    EndPoints
-                                                                        .insertCommentUrl,
-                                                                method: APIService
-                                                                    .postMethod,
-                                                                formDatas:
-                                                                    dio.FormData.fromMap(
-                                                                        bodyData),
-                                                                success: (dio
-                                                                    .Response
-                                                                    response) async {
-                                                                  // Get.back();
-                                                                  print(
-                                                                      ":: RESPONSE : ${response.data}");
-                                                                  print(
-                                                                      ":: RESPONSE Comment Id  : ${jsonDecode(response.data)["comment_id"]}");
-                                                                  print(
-                                                                      ":: INDEX IS ${index}");
-                                                                  setStateCustom(
-                                                                      () {
-                                                                    // print(":: commentController.commentList?.length IS ${commentController.commentList?.length}");
-                                                                    dashBoardController
-                                                                        .dashboardFeeds[
-                                                                            index]
-                                                                        .latestComments
-                                                                        ?.add(
-                                                                            PostModelFeedLatestComments(
-                                                                      comment: dashBoardController
-                                                                          .dashboardFeeds[
-                                                                              index]
-                                                                          .commentTextController
-                                                                          ?.text,
-                                                                      commentId:
-                                                                          "${jsonDecode(response.data)["comment_id"]}",
-                                                                      firstname:
-                                                                          userDetails.fname ??
-                                                                              "",
-                                                                      lastname:
-                                                                          userDetails.lname ??
-                                                                              "",
-                                                                      img: userDetails
-                                                                              .img ??
-                                                                          "",
-                                                                      date: DateTime
-                                                                              .now()
-                                                                          .toString(),
-                                                                      userId:
-                                                                          userDetails.id ??
-                                                                              "",
-                                                                    ));
-                                                                    dashBoardController
-                                                                        .dashboardFeeds[
-                                                                            index]
-                                                                        .countComment = (dashBoardController.dashboardFeeds[index].countComment ??
-                                                                            0) +
-                                                                        1;
-                                                                    dashBoardController
-                                                                        .dashboardFeeds[
-                                                                            index]
-                                                                        .commentTextController
-                                                                        ?.clear();
-                                                                    dashBoardController
-                                                                        .dashboardFeeds
-                                                                        .refresh();
-                                                                  });
-                                                                  if (dashBoardController
-                                                                              .dashboardFeeds[
-                                                                                  index]
-                                                                              .ownerId !=
-                                                                          userDetails
-                                                                              .id &&
-                                                                      dashBoardController
-                                                                              .dashboardFeeds[index]
-                                                                              .ownerId !=
-                                                                          null) {
-                                                                    NotificationHandler.to.sendNotificationToUserID(
-                                                                        postId: dashBoardController.dashboardFeeds[index].id ??
-                                                                            "0",
-                                                                        userId: dashBoardController.dashboardFeeds[index].ownerId ??
-                                                                            "0",
-                                                                        title:
-                                                                            "New Comments on Your Post",
-                                                                        body:
-                                                                            "${userDetails.fname} ${userDetails.lname} Commented your post");
-                                                                  }
-                                                                  print(
-                                                                      ">> < COMMENT COUNT ? ${dashBoardController.dashboardFeeds[index].countComment}");
-                                                                  print(
-                                                                      ">> ::  COMMENT COUNT ? ${dashBoardController.dashboardFeeds[index].latestComments?.length}");
-                                                                },
-                                                                error: (dio
-                                                                    .Response
-                                                                    response) {
-                                                                  snack(
-                                                                      icon: Icons
-                                                                          .report_problem,
-                                                                      iconColor:
-                                                                          Colors
-                                                                              .yellow,
-                                                                      msg:
-                                                                          "Type something first...",
-                                                                      title:
-                                                                          "Alert!");
-                                                                },
-                                                                showProcess:
-                                                                    true);
-                                                      }
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            StreamBuilder(
-                                                stream: emojiShowing.stream,
-                                                builder: (context, snapshot) {
-                                                  return Offstage(
-                                                    offstage:
-                                                        emojiShowing.isFalse,
-                                                    child: SizedBox(
-                                                      height: Get.height * 0.4,
-                                                      child: EmojiKeybord(
-                                                        textController:
+                                                  ],
+                                                ),
+                                              Container(
+                                                padding: const EdgeInsets.only(
+                                                  left: 10,
+                                                  right: 10,
+                                                ),
+                                                height: 60,
+                                                color: Colors.white,
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 9,
+                                                      child: commonTextField(
+                                                        readOnly: false,
+                                                        focusNode: focusNode,
+                                                        leading: IconButton(
+                                                          icon: const Icon(
+                                                              Icons
+                                                                  .emoji_emotions_outlined,
+                                                              size: 25),
+                                                          onPressed: () async {
+                                                            emojiShowing
+                                                                .toggle();
+                                                            if (emojiShowing
+                                                                .isFalse) {
+                                                              print(" ooo");
+                                                              // FocusScope.of(context).requestFocus(focusNode);
+                                                            }
+                                                            // setState(() {});
+                                                          },
+                                                        ),
+                                                        hint: 'Write Comment',
+                                                        isLabelFloating: false,
+                                                        controller:
                                                             dashBoardController
                                                                 .dashboardFeeds[
                                                                     index]
                                                                 .commentTextController,
+                                                        borderColor: Theme.of(
+                                                                Get.context!)
+                                                            .primaryColor,
+                                                        baseColor:
+                                                            AppColors.black,
+                                                        commentBox: true,
+                                                        isLastField: true,
+                                                        obscureText: false,
                                                       ),
                                                     ),
-                                                  );
-                                                }),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                          ],
+                                                    IconButton(
+                                                      icon: const Icon(
+                                                          Icons.send),
+                                                      onPressed: () async {
+                                                        print(
+                                                            ":: ${dashBoardController.dashboardFeeds[index].latestComments?.length}");
+                                                        FocusManager.instance
+                                                            .primaryFocus
+                                                            ?.unfocus();
+                                                        EndPoints
+                                                                .selectedPostId =
+                                                            "${dashBoardController.dashboardFeeds[index].id}";
+
+                                                        if (dashBoardController
+                                                                .dashboardFeeds[
+                                                                    index]
+                                                                .commentTextController
+                                                                ?.text
+                                                                .trim()
+                                                                .isNotEmpty ==
+                                                            true) {
+                                                          LoginModel
+                                                              userDetails =
+                                                              await SessionManagement
+                                                                  .getUserDetails();
+
+                                                          Map<String, String>
+                                                              bodyData = {
+                                                            "post_id": EndPoints
+                                                                .selectedPostId,
+                                                            "user_id":
+                                                                userDetails.id!,
+                                                            "comment": dashBoardController
+                                                                    .dashboardFeeds[
+                                                                        index]
+                                                                    .commentTextController
+                                                                    ?.text ??
+                                                                ""
+                                                          };
+
+                                                          await APIService()
+                                                              .callAPI(
+                                                                  params: {},
+                                                                  serviceUrl: EndPoints
+                                                                          .baseUrl +
+                                                                      EndPoints
+                                                                          .insertCommentUrl,
+                                                                  method:
+                                                                      APIService
+                                                                          .postMethod,
+                                                                  formDatas: dio
+                                                                          .FormData
+                                                                      .fromMap(
+                                                                          bodyData),
+                                                                  success: (dio
+                                                                      .Response
+                                                                      response) async {
+                                                                    // Get.back();
+                                                                    print(
+                                                                        ":: RESPONSE : ${response.data}");
+                                                                    print(
+                                                                        ":: RESPONSE Comment Id  : ${jsonDecode(response.data)["comment_id"]}");
+                                                                    print(
+                                                                        ":: INDEX IS ${index}");
+                                                                    setStateCustom(
+                                                                        () {
+                                                                      // print(":: commentController.commentList?.length IS ${commentController.commentList?.length}");
+                                                                      dashBoardController
+                                                                          .dashboardFeeds[
+                                                                              index]
+                                                                          .latestComments
+                                                                          ?.add(
+                                                                              PostModelFeedLatestComments(
+                                                                        comment: dashBoardController
+                                                                            .dashboardFeeds[index]
+                                                                            .commentTextController
+                                                                            ?.text,
+                                                                        commentId:
+                                                                            "${jsonDecode(response.data)["comment_id"]}",
+                                                                        firstname:
+                                                                            userDetails.fname ??
+                                                                                "",
+                                                                        lastname:
+                                                                            userDetails.lname ??
+                                                                                "",
+                                                                        img: userDetails.img ??
+                                                                            "",
+                                                                        date: DateTime.now()
+                                                                            .toString(),
+                                                                        userId:
+                                                                            userDetails.id ??
+                                                                                "",
+                                                                      ));
+                                                                      dashBoardController
+                                                                          .dashboardFeeds[
+                                                                              index]
+                                                                          .countComment = (dashBoardController.dashboardFeeds[index].countComment ??
+                                                                              0) +
+                                                                          1;
+                                                                      dashBoardController
+                                                                          .dashboardFeeds[
+                                                                              index]
+                                                                          .commentTextController
+                                                                          ?.clear();
+                                                                      dashBoardController
+                                                                          .dashboardFeeds
+                                                                          .refresh();
+                                                                    });
+                                                                    if (dashBoardController.dashboardFeeds[index].ownerId !=
+                                                                            userDetails
+                                                                                .id &&
+                                                                        dashBoardController.dashboardFeeds[index].ownerId !=
+                                                                            null) {
+                                                                      NotificationHandler.to.sendNotificationToUserID(
+                                                                          postId: dashBoardController.dashboardFeeds[index].id ??
+                                                                              "0",
+                                                                          userId: dashBoardController.dashboardFeeds[index].ownerId ??
+                                                                              "0",
+                                                                          title:
+                                                                              "New Comments on Your Post",
+                                                                          body:
+                                                                              "${userDetails.fname} ${userDetails.lname} Commented your post");
+                                                                    }
+                                                                    print(
+                                                                        ">> < COMMENT COUNT ? ${dashBoardController.dashboardFeeds[index].countComment}");
+                                                                    print(
+                                                                        ">> ::  COMMENT COUNT ? ${dashBoardController.dashboardFeeds[index].latestComments?.length}");
+                                                                  },
+                                                                  error: (dio
+                                                                      .Response
+                                                                      response) {
+                                                                    snack(
+                                                                        icon: Icons
+                                                                            .report_problem,
+                                                                        iconColor:
+                                                                            Colors
+                                                                                .yellow,
+                                                                        msg:
+                                                                            "Type something first...",
+                                                                        title:
+                                                                            "Alert!");
+                                                                  },
+                                                                  showProcess:
+                                                                      true);
+                                                        }
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              StreamBuilder(
+                                                  stream: emojiShowing.stream,
+                                                  builder: (context, snapshot) {
+                                                    return Offstage(
+                                                      offstage:
+                                                          emojiShowing.isFalse,
+                                                      child: SizedBox(
+                                                        height:
+                                                            Get.height * 0.4,
+                                                        child: EmojiKeybord(
+                                                          textController:
+                                                              dashBoardController
+                                                                  .dashboardFeeds[
+                                                                      index]
+                                                                  .commentTextController,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            }),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }),
+                        ),
                       ),
-                    ),
-                    StreamBuilder(
-                      stream: dashBoardController.isLoading.stream,
-                      builder: (context, snapshot) {
-                        if (dashBoardController.isLoading.isTrue) {
-                          return Container(
-                            // width: Get.width,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
-                            padding: const EdgeInsets.all(10),
-                            child: const CupertinoActivityIndicator(radius: 10),
-                          );
-                        } else {
-                          return const SizedBox();
-                        }
-                      },
-                    ),
-                  ],
+                      StreamBuilder(
+                        stream: dashBoardController.isLoading.stream,
+                        builder: (context, snapshot) {
+                          if (dashBoardController.isLoading.isTrue) {
+                            return Container(
+                              // width: Get.width,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                              ),
+                              padding: const EdgeInsets.all(10),
+                              child:
+                                  const CupertinoActivityIndicator(radius: 10),
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                 );
               } else {
                 return Center(

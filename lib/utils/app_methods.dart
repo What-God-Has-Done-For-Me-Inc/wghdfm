@@ -364,37 +364,41 @@ class AppMethods {
 
   static tutorialDialog() {
     Get.dialog(
-        CupertinoAlertDialog(
-          title: Text("Profile Setup"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              Text("You haven't setup your profile, Please Let's do it "),
-              SizedBox(
-                height: 10,
-              ),
-              Lottie.asset("assets/json/Profile.json", height: 250, width: 250)
+        PopScope(
+          canPop: false,
+          child: CupertinoAlertDialog(
+            title: Text("Profile Setup"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: 10,
+                ),
+                Text("You haven't setup your profile, Please Let's do it "),
+                SizedBox(
+                  height: 10,
+                ),
+                Lottie.asset("assets/json/Profile.json",
+                    height: 250, width: 250)
+              ],
+            ),
+            actions: <Widget>[
+              // TextButton(
+              //   onPressed: () {
+              //     Get.back(); //close Dialog
+              //   },
+              //   child: const Text('Skip'),
+              // ),
+              TextButton(
+                  onPressed: () {
+                    Get.back();
+                    Get.to(() => ProfileSetupPage());
+                  },
+                  child: const Text(
+                    "Let's do it",
+                  )),
             ],
           ),
-          actions: <Widget>[
-            // TextButton(
-            //   onPressed: () {
-            //     Get.back(); //close Dialog
-            //   },
-            //   child: const Text('Skip'),
-            // ),
-            TextButton(
-                onPressed: () {
-                  Get.back();
-                  Get.to(() => ProfileSetupPage());
-                },
-                child: const Text(
-                  "Let's do it",
-                )),
-          ],
         ),
         barrierDismissible: false);
   }

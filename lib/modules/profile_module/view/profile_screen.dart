@@ -548,7 +548,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               builder: (context, snapshot) {
                                                 return CachedNetworkImage(
                                                   alignment: Alignment.center,
-                                                  fit: BoxFit.fill,
+                                                  fit: BoxFit.cover,
                                                   imageUrl: profilePic.value,
                                                   placeholder: (context, url) =>
                                                       Container(
@@ -683,7 +683,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: ClipOval(
                             child: CachedNetworkImage(
                               alignment: Alignment.center,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.cover,
                               imageUrl:
                                   "${profileController.profileFeeds?[index].profilePic}",
                               // placeholder: (context, url) {

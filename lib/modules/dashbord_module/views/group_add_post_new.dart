@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wghdfm_java/common/video_player.dart';
-import 'package:wghdfm_java/modules/dashbord_module/views/add_post_screen.dart';
 import 'package:wghdfm_java/modules/dashbord_module/views/take_picture_screen.dart';
 import 'package:wghdfm_java/modules/dashbord_module/views/take_video_screen.dart';
 
@@ -47,7 +46,9 @@ class _GroupAddPostState extends State<GroupAddPost> {
             onTap: () async {
               if (isPost.value) {
                 if (pickedFiles?.isNotEmpty == true) {
-                  snack(title: "Success", msg: "Your post is uploading in background..");
+                  snack(
+                      title: "Success",
+                      msg: "Your post is uploading in background..");
                   // Get.back();
                   groupController.uploadImage(
                       imageFilePaths: pickedFiles?.value ?? [],
@@ -83,10 +84,15 @@ class _GroupAddPostState extends State<GroupAddPost> {
                   //           () => const DashBoardScreen());
                   //     });
                 } else {
-                  snack(title: "Ohh No.", msg: "Please upload photo or video", icon: Icons.close, textColor: Colors.red.withOpacity(0.5));
+                  snack(
+                      title: "Ohh No.",
+                      msg: "Please upload photo or video",
+                      icon: Icons.close,
+                      textColor: Colors.red.withOpacity(0.5));
                 }
               } else {
-                if (urlYTController.text.isNotEmpty || desImgController.text.isNotEmpty) {
+                if (urlYTController.text.isNotEmpty ||
+                    desImgController.text.isNotEmpty) {
                   groupController.uploadText(
                       groupID: "${widget.groupId}",
                       url: urlYTController.text,
@@ -120,7 +126,11 @@ class _GroupAddPostState extends State<GroupAddPost> {
                   // });
                   Get.close(1);
                 } else {
-                  snack(title: "Ohh", msg: "Please write description or YT Video Link.", iconColor: Colors.yellow, icon: Icons.warning);
+                  snack(
+                      title: "Ohh",
+                      msg: "Please write description or YT Video Link.",
+                      iconColor: Colors.yellow,
+                      icon: Icons.warning);
                 }
               }
             },
@@ -129,7 +139,8 @@ class _GroupAddPostState extends State<GroupAddPost> {
               margin: EdgeInsets.symmetric(vertical: 10),
               // width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-              decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(30)),
+              decoration: BoxDecoration(
+                  color: Colors.blue, borderRadius: BorderRadius.circular(30)),
               child: const Center(
                   child: Text(
                 "Post",
@@ -311,7 +322,9 @@ class _GroupAddPostState extends State<GroupAddPost> {
                             reLoad.toggle();
                           },
                           validator: (String? value) {
-                            return value == null || value == "" || !value.isURL ? " Please enter valid link" : null;
+                            return value == null || value == "" || !value.isURL
+                                ? " Please enter valid link"
+                                : null;
                             // value.isEmail
                           }),
                     ),
@@ -341,12 +354,21 @@ class _GroupAddPostState extends State<GroupAddPost> {
                 builder: (context, snapshot) {
                   if (urlYTController.text.contains("youtube.com/watch?v") ||
                       urlYTController.text.contains("youtu.be") ||
-                      urlYTController.text.contains("www.youtube.com/live/") == true) {
-                    final String videoId = urlYTController.text.contains("youtube.com/watch?v") == true
-                        ? urlYTController.text.split("=").last ?? ""
-                        : urlYTController.text.contains("www.youtube.com/live/") == true
-                            ? urlYTController.text.split("/").last.split('?').first
-                            : urlYTController.text.split("/").last ?? "";
+                      urlYTController.text.contains("www.youtube.com/live/") ==
+                          true) {
+                    final String videoId =
+                        urlYTController.text.contains("youtube.com/watch?v") ==
+                                true
+                            ? urlYTController.text.split("=").last ?? ""
+                            : urlYTController.text
+                                        .contains("www.youtube.com/live/") ==
+                                    true
+                                ? urlYTController.text
+                                    .split("/")
+                                    .last
+                                    .split('?')
+                                    .first
+                                : urlYTController.text.split("/").last ?? "";
                     RxBool reload = false.obs;
                     return StreamBuilder(
                         stream: reload.stream,
@@ -355,15 +377,18 @@ class _GroupAddPostState extends State<GroupAddPost> {
                             return Container(
                               height: 150,
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey, width: 0.5),
+                                border:
+                                    Border.all(color: Colors.grey, width: 0.5),
                                 borderRadius: BorderRadius.circular(6),
                               ),
-                              child: const CupertinoActivityIndicator(radius: 10),
+                              child:
+                                  const CupertinoActivityIndicator(radius: 10),
                             );
                           }
                           return Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey, width: 0.5),
+                              border:
+                                  Border.all(color: Colors.grey, width: 0.5),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: ClipRRect(
@@ -385,7 +410,8 @@ class _GroupAddPostState extends State<GroupAddPost> {
                         border: Border.all(color: Colors.grey, width: 0.5),
                         borderRadius: BorderRadius.circular(6),
                       ),
-                      child: Text("Please paste youtube video Url to see videos."),
+                      child:
+                          Text("Please paste youtube video Url to see videos."),
                     );
                   }
                 },
@@ -402,16 +428,16 @@ class _GroupAddPostState extends State<GroupAddPost> {
                     ),
                   ),
                   StreamBuilder(
-                       stream: pickedFiles?.stream,
+                      stream: pickedFiles?.stream,
                       builder: (context, snapshot) {
-                    if (pickedFiles?.isEmpty == true) {
-                      return const SizedBox();
-                    }
-                    return const Text(
-                      'Swipe to see images..',
-                      style: TextStyle(color: Colors.grey),
-                    );
-                  }),
+                        if (pickedFiles?.isEmpty == true) {
+                          return const SizedBox();
+                        }
+                        return const Text(
+                          'Swipe to see images..',
+                          style: TextStyle(color: Colors.grey),
+                        );
+                      }),
                 ],
               ),
             if (isPost.value) const SizedBox(height: 8),
@@ -466,23 +492,42 @@ class _GroupAddPostState extends State<GroupAddPost> {
                                         physics: const ClampingScrollPhysics(),
                                         itemCount: pickedFiles?.length ?? 0,
                                         itemBuilder: (context, index) {
-                                          print("______ ITM ${pickedFiles?[index].path}");
+                                          print(
+                                              "______ ITM ${pickedFiles?[index].path}");
 
                                           return Stack(
                                             children: [
                                               SizedBox(
-                                                  width: Get.mediaQuery.size.width,
+                                                  width:
+                                                      Get.mediaQuery.size.width,
                                                   height: 350,
-                                                  child: pickedFiles?[index].path.contains("jpg") == true ||
-                                                          pickedFiles?[index].path.contains("jpeg") == true ||
-                                                          pickedFiles?[index].path.contains("png") == true
+                                                  child: pickedFiles?[index]
+                                                                  .path
+                                                                  .contains(
+                                                                      "jpg") ==
+                                                              true ||
+                                                          pickedFiles?[index]
+                                                                  .path
+                                                                  .contains(
+                                                                      "jpeg") ==
+                                                              true ||
+                                                          pickedFiles?[index]
+                                                                  .path
+                                                                  .contains(
+                                                                      "png") ==
+                                                              true
                                                       ? Image.file(
-                                                          File(pickedFiles?[index].path ?? ""),
+                                                          File(pickedFiles?[
+                                                                      index]
+                                                                  .path ??
+                                                              ""),
                                                           fit: BoxFit.cover,
                                                         )
                                                       : Center(
-                                                          child: CommonVideoPlayer(
-                                                          videoLink: "${pickedFiles?[index].path}",
+                                                          child:
+                                                              CommonVideoPlayer(
+                                                          videoLink:
+                                                              "${pickedFiles?[index].path}",
                                                           isFile: true,
                                                         ))),
                                               Positioned(
@@ -493,14 +538,17 @@ class _GroupAddPostState extends State<GroupAddPost> {
                                                     setState(() {
                                                       _video = File("");
                                                       pickedImage = File('');
-                                                      pickedFiles?.removeAt(index);
+                                                      pickedFiles
+                                                          ?.removeAt(index);
                                                       pickedFiles?.refresh();
                                                     });
                                                   },
                                                   child: const CircleAvatar(
                                                     radius: 12,
-                                                    backgroundColor: Colors.black,
-                                                    child: Icon(Icons.close, color: Colors.white),
+                                                    backgroundColor:
+                                                        Colors.black,
+                                                    child: Icon(Icons.close,
+                                                        color: Colors.white),
                                                   ),
                                                 ),
                                               ),
@@ -532,7 +580,9 @@ class _GroupAddPostState extends State<GroupAddPost> {
 
               showModalBottomSheet(
                 context: context,
-                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(15))),
+                shape: const RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(15))),
                 builder: (context) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -545,7 +595,8 @@ class _GroupAddPostState extends State<GroupAddPost> {
                             Get.back();
                           }
                         },
-                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: const [
@@ -568,7 +619,8 @@ class _GroupAddPostState extends State<GroupAddPost> {
                             Get.back();
                           }
                         },
-                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: const [
@@ -592,7 +644,8 @@ class _GroupAddPostState extends State<GroupAddPost> {
                             Get.back();
                           }
                         },
-                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: const [
@@ -614,7 +667,12 @@ class _GroupAddPostState extends State<GroupAddPost> {
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Colors.white,
-                boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.7), spreadRadius: 1, blurRadius: 20)],
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.7),
+                      spreadRadius: 1,
+                      blurRadius: 20)
+                ],
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
@@ -638,7 +696,14 @@ class _GroupAddPostState extends State<GroupAddPost> {
             child: Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                  color: Colors.white, boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.7), spreadRadius: 1, blurRadius: 20)], borderRadius: BorderRadius.circular(12)),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(0.7),
+                        spreadRadius: 1,
+                        blurRadius: 20)
+                  ],
+                  borderRadius: BorderRadius.circular(12)),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -678,7 +743,12 @@ class _GroupAddPostState extends State<GroupAddPost> {
   }
 
   Future getImage() async {
-    final image = await FilePicker.platform.pickFiles(allowCompression: true, allowMultiple: true, withData: false, dialogTitle: "Pick Photo or Video", type: FileType.media);
+    final image = await FilePicker.platform.pickFiles(
+        allowCompression: true,
+        allowMultiple: true,
+        withData: false,
+        dialogTitle: "Pick Photo or Video",
+        type: FileType.media);
     if (image == null) return;
     image.files.forEach((element) {
       final tempImage = File(element.path ?? "");

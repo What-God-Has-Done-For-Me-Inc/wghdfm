@@ -7,9 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wghdfm_java/common/video_player.dart';
 import 'package:wghdfm_java/modules/dashbord_module/model/friends_model.dart';
-import 'package:wghdfm_java/modules/dashbord_module/views/add_post_screen.dart';
-import 'package:wghdfm_java/modules/dashbord_module/views/dash_board_screen.dart';
-import 'package:wghdfm_java/modules/dashbord_module/views/tag_post_screen.dart';
 import 'package:wghdfm_java/modules/dashbord_module/views/take_picture_screen.dart';
 import 'package:wghdfm_java/modules/dashbord_module/views/take_video_screen.dart';
 import 'package:wghdfm_java/utils/app_binding.dart';
@@ -65,14 +62,17 @@ class _SomeonesAddPostState extends State<SomeonesAddPost> {
               if (isPost.value) {
                 if (pickedFiles?.isNotEmpty == true) {
                   Get.back();
-                  snack(title: "Success", msg: "Your post is uploading in background..");
+                  snack(
+                      title: "Success",
+                      msg: "Your post is uploading in background..");
                   // Get.back();
                   // Get.offAll(() => const DashBoardScreen());
 
                   ///----START--
 
                   String taggedUser = "";
-                  kDashboardController.friendsModel.value.data?.forEach((element) {
+                  kDashboardController.friendsModel.value.data
+                      ?.forEach((element) {
                     if (element?.isSelected.value == true) {
                       taggedUser = "${taggedUser}|${element?.userId}";
                     }
@@ -88,25 +88,35 @@ class _SomeonesAddPostState extends State<SomeonesAddPost> {
                         kDashboardController.currentPage = 0;
                         profileController.currentPage = 0;
 
-                        profileController.getSomeonesProfileData(profileID: widget.userId ?? "");
-                        profileController.getProfileFeed(profileId: widget.userId ?? "", isFirstTimeLoading: true, page: profileController.currentPage);
+                        profileController.getSomeonesProfileData(
+                            profileID: widget.userId ?? "");
+                        profileController.getProfileFeed(
+                            profileId: widget.userId ?? "",
+                            isFirstTimeLoading: true,
+                            page: profileController.currentPage);
                         // Get.offAll(
                         //     () => const DashBoardScreen());
                       });
 
                   ///----END
                 } else {
-                  snack(title: "Ohh No.", msg: "Please upload photo or video", icon: Icons.close, textColor: Colors.red.withOpacity(0.5));
+                  snack(
+                      title: "Ohh No.",
+                      msg: "Please upload photo or video",
+                      icon: Icons.close,
+                      textColor: Colors.red.withOpacity(0.5));
                 }
               } else {
                 String taggedUser = "";
-                kDashboardController.friendsModel.value.data?.forEach((element) {
+                kDashboardController.friendsModel.value.data
+                    ?.forEach((element) {
                   if (element?.isSelected.value == true) {
                     taggedUser = "${taggedUser}|${element?.userId}";
                   }
                 });
                 print("------ taggedUser ${taggedUser}");
-                if (urlYTController.text.isNotEmpty || desImgController.text.isNotEmpty) {
+                if (urlYTController.text.isNotEmpty ||
+                    desImgController.text.isNotEmpty) {
                   postStatus(
                     desImgController.text,
                     urlYTController.text,
@@ -117,12 +127,20 @@ class _SomeonesAddPostState extends State<SomeonesAddPost> {
                       Get.back();
                       profileController.currentPage = 0;
 
-                      profileController.getSomeonesProfileData(profileID: widget.userId ?? "");
-                      profileController.getProfileFeed(profileId: widget.userId ?? "", isFirstTimeLoading: true, page: profileController.currentPage);
+                      profileController.getSomeonesProfileData(
+                          profileID: widget.userId ?? "");
+                      profileController.getProfileFeed(
+                          profileId: widget.userId ?? "",
+                          isFirstTimeLoading: true,
+                          page: profileController.currentPage);
                     },
                   );
                 } else {
-                  snack(title: "Ohh", msg: "Please write description or YT Video Link.", iconColor: Colors.yellow, icon: Icons.warning);
+                  snack(
+                      title: "Ohh",
+                      msg: "Please write description or YT Video Link.",
+                      iconColor: Colors.yellow,
+                      icon: Icons.warning);
                 }
               }
             },
@@ -131,7 +149,8 @@ class _SomeonesAddPostState extends State<SomeonesAddPost> {
               margin: EdgeInsets.symmetric(vertical: 10),
               // width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-              decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(30)),
+              decoration: BoxDecoration(
+                  color: Colors.blue, borderRadius: BorderRadius.circular(30)),
               child: const Center(
                   child: Text(
                 "Post",
@@ -212,7 +231,9 @@ class _SomeonesAddPostState extends State<SomeonesAddPost> {
                             reLoad.toggle();
                           },
                           validator: (String? value) {
-                            return value == null || value == "" || !value.isURL ? " Please enter valid link" : null;
+                            return value == null || value == "" || !value.isURL
+                                ? " Please enter valid link"
+                                : null;
                             // value.isEmail
                           }),
                     ),
@@ -242,12 +263,21 @@ class _SomeonesAddPostState extends State<SomeonesAddPost> {
                 builder: (context, snapshot) {
                   if (urlYTController.text.contains("youtube.com/watch?v") ||
                       urlYTController.text.contains("youtu.be") ||
-                      urlYTController.text.contains("www.youtube.com/live/") == true) {
-                    final String videoId = urlYTController.text.contains("youtube.com/watch?v") == true
-                        ? urlYTController.text.split("=").last ?? ""
-                        : urlYTController.text.contains("www.youtube.com/live/") == true
-                            ? urlYTController.text.split("/").last.split('?').first
-                            : urlYTController.text.split("/").last ?? "";
+                      urlYTController.text.contains("www.youtube.com/live/") ==
+                          true) {
+                    final String videoId =
+                        urlYTController.text.contains("youtube.com/watch?v") ==
+                                true
+                            ? urlYTController.text.split("=").last ?? ""
+                            : urlYTController.text
+                                        .contains("www.youtube.com/live/") ==
+                                    true
+                                ? urlYTController.text
+                                    .split("/")
+                                    .last
+                                    .split('?')
+                                    .first
+                                : urlYTController.text.split("/").last ?? "";
                     RxBool reload = false.obs;
                     return StreamBuilder(
                         stream: reload.stream,
@@ -256,15 +286,18 @@ class _SomeonesAddPostState extends State<SomeonesAddPost> {
                             return Container(
                               height: 150,
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey, width: 0.5),
+                                border:
+                                    Border.all(color: Colors.grey, width: 0.5),
                                 borderRadius: BorderRadius.circular(6),
                               ),
-                              child: const CupertinoActivityIndicator(radius: 10),
+                              child:
+                                  const CupertinoActivityIndicator(radius: 10),
                             );
                           }
                           return Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey, width: 0.5),
+                              border:
+                                  Border.all(color: Colors.grey, width: 0.5),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: ClipRRect(
@@ -285,7 +318,8 @@ class _SomeonesAddPostState extends State<SomeonesAddPost> {
                         border: Border.all(color: Colors.grey, width: 0.5),
                         borderRadius: BorderRadius.circular(6),
                       ),
-                      child: Text("Please paste youtube video Url to see videos."),
+                      child:
+                          Text("Please paste youtube video Url to see videos."),
                     );
                   }
                 },
@@ -302,16 +336,16 @@ class _SomeonesAddPostState extends State<SomeonesAddPost> {
                     ),
                   ),
                   StreamBuilder(
-                       stream: pickedFiles?.stream,
+                      stream: pickedFiles?.stream,
                       builder: (context, snapshot) {
-                    if (pickedFiles?.isEmpty == true) {
-                      return const SizedBox();
-                    }
-                    return const Text(
-                      'Swipe to see images..',
-                      style: TextStyle(color: Colors.grey),
-                    );
-                  }),
+                        if (pickedFiles?.isEmpty == true) {
+                          return const SizedBox();
+                        }
+                        return const Text(
+                          'Swipe to see images..',
+                          style: TextStyle(color: Colors.grey),
+                        );
+                      }),
                 ],
               ),
             if (isPost.value) const SizedBox(height: 8),
@@ -366,23 +400,42 @@ class _SomeonesAddPostState extends State<SomeonesAddPost> {
                                         physics: const ClampingScrollPhysics(),
                                         itemCount: pickedFiles?.length ?? 0,
                                         itemBuilder: (context, index) {
-                                          print("______ ITM ${pickedFiles?[index].path}");
+                                          print(
+                                              "______ ITM ${pickedFiles?[index].path}");
 
                                           return Stack(
                                             children: [
                                               SizedBox(
-                                                  width: Get.mediaQuery.size.width,
+                                                  width:
+                                                      Get.mediaQuery.size.width,
                                                   height: 350,
-                                                  child: pickedFiles?[index].path.contains("jpg") == true ||
-                                                          pickedFiles?[index].path.contains("jpeg") == true ||
-                                                          pickedFiles?[index].path.contains("png") == true
+                                                  child: pickedFiles?[index]
+                                                                  .path
+                                                                  .contains(
+                                                                      "jpg") ==
+                                                              true ||
+                                                          pickedFiles?[index]
+                                                                  .path
+                                                                  .contains(
+                                                                      "jpeg") ==
+                                                              true ||
+                                                          pickedFiles?[index]
+                                                                  .path
+                                                                  .contains(
+                                                                      "png") ==
+                                                              true
                                                       ? Image.file(
-                                                          File(pickedFiles?[index].path ?? ""),
+                                                          File(pickedFiles?[
+                                                                      index]
+                                                                  .path ??
+                                                              ""),
                                                           fit: BoxFit.cover,
                                                         )
                                                       : Center(
-                                                          child: CommonVideoPlayer(
-                                                          videoLink: "${pickedFiles?[index].path}",
+                                                          child:
+                                                              CommonVideoPlayer(
+                                                          videoLink:
+                                                              "${pickedFiles?[index].path}",
                                                           isFile: true,
                                                         ))),
                                               Positioned(
@@ -393,14 +446,17 @@ class _SomeonesAddPostState extends State<SomeonesAddPost> {
                                                     setState(() {
                                                       _video = File("");
                                                       pickedImage = File('');
-                                                      pickedFiles?.removeAt(index);
+                                                      pickedFiles
+                                                          ?.removeAt(index);
                                                       pickedFiles?.refresh();
                                                     });
                                                   },
                                                   child: const CircleAvatar(
                                                     radius: 12,
-                                                    backgroundColor: Colors.black,
-                                                    child: Icon(Icons.close, color: Colors.white),
+                                                    backgroundColor:
+                                                        Colors.black,
+                                                    child: Icon(Icons.close,
+                                                        color: Colors.white),
                                                   ),
                                                 ),
                                               ),
@@ -429,7 +485,9 @@ class _SomeonesAddPostState extends State<SomeonesAddPost> {
               isPost.value = true;
               showModalBottomSheet(
                 context: context,
-                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(15))),
+                shape: const RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(15))),
                 builder: (context) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -442,7 +500,8 @@ class _SomeonesAddPostState extends State<SomeonesAddPost> {
                             Get.back();
                           }
                         },
-                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: const [
@@ -465,7 +524,8 @@ class _SomeonesAddPostState extends State<SomeonesAddPost> {
                             Get.back();
                           }
                         },
-                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: const [
@@ -489,7 +549,8 @@ class _SomeonesAddPostState extends State<SomeonesAddPost> {
                             Get.back();
                           }
                         },
-                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: const [
@@ -511,7 +572,12 @@ class _SomeonesAddPostState extends State<SomeonesAddPost> {
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Colors.white,
-                boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.7), spreadRadius: 1, blurRadius: 20)],
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.7),
+                      spreadRadius: 1,
+                      blurRadius: 20)
+                ],
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
@@ -535,7 +601,14 @@ class _SomeonesAddPostState extends State<SomeonesAddPost> {
             child: Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                  color: Colors.white, boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.7), spreadRadius: 1, blurRadius: 20)], borderRadius: BorderRadius.circular(12)),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(0.7),
+                        spreadRadius: 1,
+                        blurRadius: 20)
+                  ],
+                  borderRadius: BorderRadius.circular(12)),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -591,7 +664,12 @@ class _SomeonesAddPostState extends State<SomeonesAddPost> {
     //   });
     // });
 
-    final image = await FilePicker.platform.pickFiles(allowCompression: true, allowMultiple: true, withData: false, dialogTitle: "Pick Photo or Video", type: FileType.media);
+    final image = await FilePicker.platform.pickFiles(
+        allowCompression: true,
+        allowMultiple: true,
+        withData: false,
+        dialogTitle: "Pick Photo or Video",
+        type: FileType.media);
     if (image == null) return;
     image.files.forEach((element) {
       final tempImage = File(element.path ?? "");

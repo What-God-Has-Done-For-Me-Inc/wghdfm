@@ -16,6 +16,8 @@ Widget commonTextField({
   bool obscureText = false,
   bool readOnly = false,
   Function(String)? validator,
+  Function()? onTap,
+  bool? showEye,
   Function? onChanged,
   int? charLimit,
   int? maxLines,
@@ -73,6 +75,21 @@ Widget commonTextField({
       controller: controller,
       decoration: InputDecoration(
         prefixIcon: leading,
+        suffixIcon: showEye == true
+            ? Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                child: GestureDetector(
+                  onTap: onTap,
+                  child: Icon(
+                    obscureText == true
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                    color: AppColors.blackColor.withOpacity(.56),
+                  ),
+                ),
+              )
+            : null,
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.blackColor, width: 0.5),
         ),
@@ -86,9 +103,8 @@ Widget commonTextField({
             ? FloatingLabelBehavior.always
             : FloatingLabelBehavior.auto,
         contentPadding: EdgeInsets.only(
-          // left: 10,
           top: maxLines == null ? h / 2 : h / 2,
-          bottom: 10,
+          bottom: commentBox == true ? 0 : 10,
           right: 10,
         ),
         errorBorder: UnderlineInputBorder(

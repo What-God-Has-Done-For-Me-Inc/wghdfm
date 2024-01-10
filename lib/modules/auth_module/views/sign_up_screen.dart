@@ -22,6 +22,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final formKey = GlobalKey<FormState>();
   RxBool agree = false.obs;
   final authController = Get.put(AuthController());
+  bool passwordHide = true;
+  bool cPasswordHide = true;
 
   final firstNameTEC = TextEditingController(),
       lastNameTEC = TextEditingController(),
@@ -151,11 +153,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ? "Please enter password"
                           : null;
                     },
+                    showEye: true,
+                    onTap: () {
+                      setState(
+                        () {
+                          passwordHide = !passwordHide;
+                        },
+                      );
+                    },
                     isLabelFloating: false,
                     controller: passwordTEC,
                     borderColor: Colors.white,
                     baseColor: AppColors.blackColor,
-                    obscureText: true,
+                    obscureText: passwordHide,
                   ),
                   commonTextField(
                     readOnly: false,
@@ -167,12 +177,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ? "Please enter valid password"
                           : null;
                     },
+                    showEye: true,
+                    onTap: () {
+                      setState(
+                        () {
+                          cPasswordHide = !cPasswordHide;
+                        },
+                      );
+                    },
                     isLabelFloating: false,
                     controller: confirmPasswordTEC,
                     borderColor: Colors.white,
                     baseColor: AppColors.blackColor,
                     isLastField: true,
-                    obscureText: true,
+                    obscureText: cPasswordHide,
                   ),
                   FittedBox(
                     child: StreamBuilder(
