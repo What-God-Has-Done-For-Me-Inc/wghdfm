@@ -78,195 +78,198 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile Setup'),
-        leading: SizedBox(),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              if (step == 1) ...[
-                Text(
-                  "Step 1: Upload a Profile Photo",
-                  style: TextStyle(fontSize: 24.0),
-                ),
-                Container(
-                  width: 150,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.blue,
-                      width: 2.0,
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Profile Setup'),
+          leading: SizedBox(),
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                if (step == 1) ...[
+                  Text(
+                    "Step 1: Upload a Profile Photo",
+                    style: TextStyle(fontSize: 24.0),
+                  ),
+                  Container(
+                    width: 150,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.blue,
+                        width: 2.0,
+                      ),
+                    ),
+                    child: _profileImage != null
+                        ? ClipOval(
+                            child: Image.file(
+                              _profileImage!,
+                              width: 150,
+                              height: 150,
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        : Center(
+                            child: Text(
+                              'No Photo',
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                          ),
+                  ),
+                  ElevatedButton(
+                    onPressed: _pickProfileImage,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.add, color: Colors.white),
+                        Text(
+                          'Select Profile Photo',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
                     ),
                   ),
-                  child: _profileImage != null
-                      ? ClipOval(
-                          child: Image.file(
-                            _profileImage!,
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Why you should upload a profile picture..?',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      SizedBox(height: 5.0),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'A profile picture is your digital representation on our Christian social media platform. Uploading a photo allows others to recognize and connect with you more easily.',
+                          style: TextStyle(fontSize: 14.0),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20.0),
+                ],
+                if (step == 2) ...[
+                  Text(
+                    "Step 2: Upload a Cover Photo",
+                    style: TextStyle(fontSize: 24.0),
+                  ),
+                  Container(
+                    width: 350,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.blue,
+                        width: 2.0,
+                      ),
+                    ),
+                    child: _coverImage != null
+                        ? Image.file(
+                            _coverImage!,
                             width: 150,
                             height: 150,
                             fit: BoxFit.cover,
+                          )
+                        : Center(
+                            child: Text(
+                              'No Photo',
+                              style: TextStyle(fontSize: 16.0),
+                            ),
                           ),
-                        )
-                      : Center(
-                          child: Text(
-                            'No Photo',
-                            style: TextStyle(fontSize: 16.0),
-                          ),
+                  ),
+                  ElevatedButton(
+                    onPressed: _pickCoverImage,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.add, color: Colors.white),
+                        Text(
+                          'Select Cover Photo',
+                          style: TextStyle(color: Colors.white),
                         ),
-                ),
-                ElevatedButton(
-                  onPressed: _pickProfileImage,
-                  child: Row(
+                      ],
+                    ),
+                  ),
+                  Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.add, color: Colors.white),
-                      Text(
-                        'Select Profile Photo',
-                        style: TextStyle(color: Colors.white),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Why you should upload a Cover Image..?',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      SizedBox(height: 5.0),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "A cover picture is an opportunity to showcase your faith, interests, or personality in a larger image format. It's like the banner for your profile.",
+                          style: TextStyle(fontSize: 14.0),
+                        ),
                       ),
                     ],
                   ),
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Why you should upload a profile picture..?',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                    SizedBox(height: 5.0),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'A profile picture is your digital representation on our Christian social media platform. Uploading a photo allows others to recognize and connect with you more easily.',
-                        style: TextStyle(fontSize: 14.0),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20.0),
-              ],
-              if (step == 2) ...[
-                Text(
-                  "Step 2: Upload a Cover Photo",
-                  style: TextStyle(fontSize: 24.0),
-                ),
-                Container(
-                  width: 350,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.blue,
-                      width: 2.0,
-                    ),
-                  ),
-                  child: _coverImage != null
-                      ? Image.file(
-                          _coverImage!,
-                          width: 150,
-                          height: 150,
-                          fit: BoxFit.cover,
-                        )
-                      : Center(
+                  SizedBox(height: 20.0),
+                ],
+                if (step <= 2)
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      if (step != 1)
+                        ElevatedButton(
+                          onPressed: backStep,
                           child: Text(
-                            'No Photo',
-                            style: TextStyle(fontSize: 16.0),
+                            "Back",
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
-                ),
-                ElevatedButton(
-                  onPressed: _pickCoverImage,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.add, color: Colors.white),
-                      Text(
-                        'Select Cover Photo',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Why you should upload a Cover Image..?',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
+                      if (step != 2 && _profileImage != null)
+                        ElevatedButton(
+                          onPressed: nextStep,
+                          style: ElevatedButton.styleFrom(),
+                          child: Text(
+                            "Next",
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                    SizedBox(height: 5.0),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "A cover picture is an opportunity to showcase your faith, interests, or personality in a larger image format. It's like the banner for your profile.",
-                        style: TextStyle(fontSize: 14.0),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20.0),
-              ],
-              if (step <= 2)
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    if (step != 1)
-                      ElevatedButton(
-                        onPressed: backStep,
-                        child: Text(
-                          "Back",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    if (step != 2 && _profileImage != null)
-                      ElevatedButton(
-                        onPressed: nextStep,
-                        style: ElevatedButton.styleFrom(),
-                        child: Text(
-                          "Next",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
 
-                    if (step != 1 && _coverImage != null)
-                      ElevatedButton(
-                        onPressed: nextStep,
-                        style: ElevatedButton.styleFrom(),
-                        child: Text(
-                          "Complete",
-                          style: TextStyle(color: Colors.white),
+                      if (step != 1 && _coverImage != null)
+                        ElevatedButton(
+                          onPressed: nextStep,
+                          style: ElevatedButton.styleFrom(),
+                          child: Text(
+                            "Complete",
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
-                      ),
-                    // ElevatedButton(
-                    //   onPressed: nextStep,
-                    //   child: Text("Skip"),
-                    // ),
-                  ],
-                ),
-              SizedBox(height: Get.height * 0.02)
-            ],
+                      // ElevatedButton(
+                      //   onPressed: nextStep,
+                      //   child: Text("Skip"),
+                      // ),
+                    ],
+                  ),
+                SizedBox(height: Get.height * 0.02)
+              ],
+            ),
           ),
         ),
       ),

@@ -174,7 +174,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       // return (value != null && value.isEmpty && passwordTEC.text != value) ? "Please enter valid password" : null;
                       return (value != null && value.isEmpty ||
                               (value != passwordTEC.text) == true)
-                          ? "Please enter valid password"
+                          ? "Password don't match"
                           : null;
                     },
                     showEye: true,

@@ -21,6 +21,7 @@ class _CommonYTPlayerState extends State<CommonYTPlayer> {
   @override
   void initState() {
     super.initState();
+    print(widget.videoId);
     _controller = YoutubePlayerController.fromVideoId(
       videoId: widget.videoId,
       params: const YoutubePlayerParams(

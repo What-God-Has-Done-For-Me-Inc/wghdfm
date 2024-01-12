@@ -1232,7 +1232,9 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                         : CommonYTPlayer(
                                                             videoId: feed?.url
                                                                     ?.split("/")
-                                                                    .last ??
+                                                                    .last
+                                                                    .split('?')
+                                                                    .first ??
                                                                 "");
                                                   }),
 

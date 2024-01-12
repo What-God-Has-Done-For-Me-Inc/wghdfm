@@ -97,8 +97,8 @@ class _CommentScreenState extends State<CommentScreen> {
         color: Theme.of(Get.context!).colorScheme.background,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          margin: EdgeInsets.only(bottom: Get.height * 0.04),
-          height: Get.height * 0.05,
+          margin: EdgeInsets.only(bottom: Get.height * 0.05),
+          height: Get.height * 0.06,
           color: Theme.of(Get.context!).colorScheme.background,
           child: Row(
             children: [

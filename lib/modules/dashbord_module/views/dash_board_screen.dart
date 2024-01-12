@@ -2173,15 +2173,16 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                                           fontWeight:
                                                                               FontWeight.w500)),
                                                                   Text(
-                                                                      "${dashBoardController.dashboardFeeds[index].latestComments?[listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 1) + indexOfComment]?.comment}",
-                                                                      style: GoogleFonts
-                                                                          .montserrat(
-                                                                        fontSize:
-                                                                            12,
-                                                                      ),
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis),
+                                                                    "${dashBoardController.dashboardFeeds[index].latestComments?[listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 1) + indexOfComment]?.comment}",
+                                                                    style: GoogleFonts
+                                                                        .montserrat(
+                                                                      fontSize:
+                                                                          12,
+                                                                    ),
+                                                                    // overflow:
+                                                                    //     TextOverflow
+                                                                    //         .ellipsis,
+                                                                  ),
                                                                 ],
                                                               ),
                                                             ),

@@ -72,7 +72,18 @@ class _IntroducationScreenState extends State<IntroducationScreen> {
                               ? buildPageIndicator(true)
                               : buildPageIndicator(false),
                         Spacer(),
-                        //if (currentpage != 2) Container(),
+                        if (currentpage == 0)
+                          FloatingActionButton(
+                            backgroundColor: AppColors.primery,
+                            elevation: 5,
+                            onPressed: () {
+                              pagecontroller.nextPage(
+                                  duration: Duration(milliseconds: 100),
+                                  curve: Curves.bounceIn);
+                            },
+                            child: Icon(Icons.arrow_forward_ios,
+                                color: Colors.white),
+                          ),
                         if (currentpage == 1)
                           FloatingActionButton(
                             backgroundColor: AppColors.primery,
