@@ -81,15 +81,33 @@ class _OTPScreenState extends State<OTPScreen> {
         ),
         Align(
           alignment: Alignment.centerLeft,
-          child: Text(
-            'Note: Please check your email and spam  to activate your account.',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w400,
-                color: AppColors.blackColor),
+          child: RichText(
+            text: TextSpan(
+              text: "Note: Please check your email and",
+              style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.blackColor),
+              children: <TextSpan>[
+                TextSpan(
+                  text: " spam ",
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.black),
+                ),
+                TextSpan(
+                  text: "to activate your account.",
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.blackColor),
+                ),
+              ],
+            ),
           ),
         ),
+
         const SizedBox(height: 22),
         Pinput(
           controller: pinController,

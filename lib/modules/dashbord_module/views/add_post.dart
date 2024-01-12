@@ -15,6 +15,7 @@ import 'package:wghdfm_java/modules/dashbord_module/views/tag_post_screen.dart';
 import 'package:wghdfm_java/modules/dashbord_module/views/take_picture_screen.dart';
 import 'package:wghdfm_java/modules/dashbord_module/views/take_video_screen.dart';
 import 'package:wghdfm_java/utils/app_binding.dart';
+import 'package:wghdfm_java/utils/app_colors.dart';
 
 import '../../../common/commonYoutubePlayer.dart';
 import '../../../common/common_snack.dart';
@@ -441,26 +442,43 @@ class _AddPostState extends State<AddPost> {
                       child: Form(
                         key: formKey,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        child: commonTextField(
-                            hint: 'Enter youtube video url here...',
-                            baseColor: Colors.grey,
-                            borderColor: Colors.blue,
-                            errorColor: Colors.black,
-                            maxLines: 1,
-                            isLastField: true,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 2),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: AppColors.blackColor)),
+                          child: TextFormField(
                             controller: urlYTController,
-                            onChanged: () {
-                              formKey.currentState!.validate();
-                              reLoad.toggle();
-                            },
+                            textInputAction: TextInputAction.done,
+                            maxLines: 1,
                             validator: (String? value) {
                               return value == null ||
                                       value == "" ||
                                       !value.isURL
                                   ? " Please enter valid link"
                                   : null;
-                              // value.isEmail
-                            }),
+                            },
+                            onChanged: (text) {},
+                            enabled: true,
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.white, width: 1),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.white, width: 1),
+                              ),
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontFamily: "OpenSans",
+                                fontWeight: FontWeight.w300,
+                              ),
+                              border: InputBorder.none,
+                              hintText: "Enter youtube video url here...",
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 10),

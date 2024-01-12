@@ -648,8 +648,8 @@ class _CommentScreenState extends State<CommentScreen> {
                 ),
                 RichText(
                   text: TextSpan(
-                    text: commentController
-                        .commentList?[index]?.firstname?.capitalizeFirst,
+                    text:
+                        "${commentController.commentList?[index]?.firstname?.capitalizeFirst} ${commentController.commentList?[index]?.lastname?.capitalizeFirst}",
                     style: GoogleFonts.montserrat(
                       color: Colors.black,
                       fontSize: 15.0,
