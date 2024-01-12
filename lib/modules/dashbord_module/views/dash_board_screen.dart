@@ -960,7 +960,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   dashBoardController.dashboardFeeds.isNotEmpty == true)) {
                 return UpgradeAlert(
                   upgrader: Upgrader(
-                      durationUntilAlertAgain: const Duration(days: 1),
+                      durationUntilAlertAgain: const Duration(days: 0),
                       shouldPopScope: () => false,
                       canDismissDialog: false,
                       dialogStyle: UpgradeDialogStyle.cupertino,
