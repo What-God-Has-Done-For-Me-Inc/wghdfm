@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:upgrader/upgrader.dart';
+import 'package:wghdfm_java/modules/auth_module/views/Introduction_Screen.dart';
 import 'package:wghdfm_java/modules/notification_module/controller/notification_handler.dart';
 import 'package:wghdfm_java/screen/dashboard/post_details/post_details_screen.dart';
 import 'package:wghdfm_java/screen/favourite/favourite_screen.dart';
@@ -61,6 +62,7 @@ class _MyAppState extends State<MyApp> {
               .copyWith(background: const Color(0xffF3FCFB))),
       home: SplashScreen(),
       getPages: [
+        GetPage(name: PageRes.introScreen, page: () => IntroducationScreen()),
         GetPage(name: PageRes.loginScreen, page: () => LoginScreen()),
         GetPage(name: PageRes.signUpScreen, page: () => const SignUpScreen()),
         GetPage(

@@ -9,33 +9,11 @@ Widget backGroundWidget({required Widget widget}) {
         width: Get.width,
         height: Get.height,
         child: Image.asset(
-          // 'assets/drawable/splash_bg.jpeg',
           'assets/drawable/background.jpg',
           fit: BoxFit.cover,
           width: Get.width,
           height: Get.height,
         ),
-
-        /*CachedNetworkImage(
-          alignment: Alignment.center,
-          fit: BoxFit.fill,
-          imageUrl:
-              'https://images.pexels.com/photos/5206040/pexels-photo-5206040.jpeg?cs=srgb&dl=pexels-tima-miroshnichenko-5206040.jpg&fm=jpg',
-          placeholder: (context, url) => Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              width: 70,
-              height: 70,
-              padding: EdgeInsets.all(10),
-              child: CircularProgressIndicator(),
-            ),
-          ),
-          errorWidget: (context, url, error) => Icon(Icons.error),
-        ),*/
-        /*Image.network(
-          alignment: Alignment.center,
-          fit: BoxFit.cover,
-        ),*/
       ),
       Container(
         color: Colors.white.withOpacity(0.3),

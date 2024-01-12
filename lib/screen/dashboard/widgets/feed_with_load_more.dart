@@ -369,7 +369,7 @@ Widget customImageView(PostModelFeed? feed) {
                         listOfMedia: listOfMedia ?? [], feed: feed, index: 0)
                     : (listOfMedia?.length ?? 0) == 2
                         ? SizedBox(
-                            height: Get.height * 0.2,
+                            height: Get.height,
                             width: Get.width,
                             child: Row(
                               // mainAxisSize: MainAxisSize.min,
@@ -728,6 +728,7 @@ Widget mediaView({required List listOfMedia, index, feed, BoxFit? imgFit}) {
               .contains(listOfMedia[index].split(".").last)
           ? Container(
               width: Get.width,
+              height: Get.height,
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey, width: 0.5),
                 borderRadius: BorderRadius.circular(6),

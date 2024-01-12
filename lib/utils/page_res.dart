@@ -1,4 +1,5 @@
 class PageRes {
+  static const String introScreen = "/introScreen";
   static const String loginScreen = "/loginScreen";
   static const String signUpScreen = "/signUpScreen";
   static const String dashBoardScreen = "/DashBoardScreen";

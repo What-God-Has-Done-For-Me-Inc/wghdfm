@@ -14,6 +14,7 @@ RxString coverPic = ''.obs;
 
 class SessionManagement {
   static String IS_LOGIN = "IsLoggedIn";
+  static String IS_INTRO = "IsIntro";
   static String ACTIVE_USER_DETAILS = "ActiveUserDetails";
   static String KEY_EMAIL = "email";
   static String KEY_ID = "id";
@@ -36,7 +37,9 @@ class SessionManagement {
 
   static Future<void> checkLogin() async {
     // Check login status
-    if (!await isLoggedIn()) {
+    if (!await isLoggedIn() && await isIntro() == false) {
+      Get.toNamed(PageRes.introScreen);
+    } else if (!await isLoggedIn()) {
       // user is not logged in redirect him to Login Activity
       Get.toNamed(PageRes.loginScreen);
     }
@@ -53,7 +56,8 @@ class SessionManagement {
   }
 
   static Future<LoginModel> getUserDetails() async {
-    var jsonDecoded = jsonDecode(await fetchStringValuesSF(ACTIVE_USER_DETAILS));
+    var jsonDecoded =
+        jsonDecode(await fetchStringValuesSF(ACTIVE_USER_DETAILS));
     LoginModel details = LoginModel.fromJson(jsonDecoded);
     userName.value = ("${details.fname!} ${details.lname!}").trim();
     profilePic.value = details.img!;
@@ -80,5 +84,9 @@ class SessionManagement {
 
   static Future<bool> isLoggedIn() async {
     return await fetchBoolValuesSF(IS_LOGIN);
+  }
+
+  static Future<bool> isIntro() async {
+    return await fetchBoolValuesSF(IS_INTRO);
   }
 }
