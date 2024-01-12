@@ -393,11 +393,11 @@ class _AddPostState extends State<AddPost> {
                           [],
                     );
                   }),
-              const SizedBox(height: 10),
-              const Text(
-                'Description',
-                style: TextStyle(color: Colors.black),
-              ),
+              // const SizedBox(height: 10),
+              // const Text(
+              //   'Description',
+              //   style: TextStyle(color: Colors.black),
+              // ),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -428,10 +428,10 @@ class _AddPostState extends State<AddPost> {
               ),
               const SizedBox(height: 20),
               if (!isPost.value) ...[
-                const Text(
-                  'Youtube Video Link.',
-                  style: TextStyle(color: Colors.black),
-                ),
+                // const Text(
+                //   'Youtube Video Link.',
+                //   style: TextStyle(color: Colors.black),
+                // ),
                 const SizedBox(height: 15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -537,16 +537,16 @@ class _AddPostState extends State<AddPost> {
                           });
                     } else {
                       return SizedBox();
-                      return Container(
-                        height: 150,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey, width: 0.5),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Text(
-                            "Please paste youtube video Url to see videos."),
-                      );
+                      // return Container(
+                      //   height: 150,
+                      //   alignment: Alignment.center,
+                      //   decoration: BoxDecoration(
+                      //     border: Border.all(color: Colors.grey, width: 0.5),
+                      //     borderRadius: BorderRadius.circular(6),
+                      //   ),
+                      //   child: Text(
+                      //       "Please paste youtube video Url to see videos."),
+                      // );
                     }
                   },
                 ),
