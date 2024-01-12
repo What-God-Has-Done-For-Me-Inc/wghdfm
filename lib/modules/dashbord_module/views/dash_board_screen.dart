@@ -608,7 +608,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   String userToken =
                       "?F=${userDetails.fname}&L=${userDetails.lname}&E=${userDetails.email}&P=${parsedData}";
 
-                  // print(userToken);
                   Get.to(() => CommonWebScreen(
                         url: chatUrl + userToken,
                         title: "Chat",

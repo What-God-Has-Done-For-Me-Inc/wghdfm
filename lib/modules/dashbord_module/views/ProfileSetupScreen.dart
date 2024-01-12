@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -55,23 +56,38 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
   File? _coverImage;
 
   Future<void> _pickProfileImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    // final picker = ImagePicker();
+    // final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    if (pickedFile != null) {
+    final image = await FilePicker.platform.pickFiles(
+        allowCompression: false,
+        withReadStream: true,
+        allowMultiple: false,
+        withData: false,
+        dialogTitle: "Pick Profile Image",
+        type: FileType.media);
+
+    if (image != null) {
       setState(() {
-        _profileImage = File(pickedFile.path);
+        _profileImage = File(image.files.first.path!);
       });
     }
   }
 
   Future<void> _pickCoverImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    // final picker = ImagePicker();
+    // final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final image = await FilePicker.platform.pickFiles(
+        allowCompression: false,
+        withReadStream: true,
+        allowMultiple: false,
+        withData: false,
+        dialogTitle: "Pick Cover Image",
+        type: FileType.media);
 
-    if (pickedFile != null) {
+    if (image != null) {
       setState(() {
-        _coverImage = File(pickedFile.path);
+        _coverImage = File(image.files.first.path!);
       });
     }
   }

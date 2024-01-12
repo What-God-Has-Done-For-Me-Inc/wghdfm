@@ -6,6 +6,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class CommonWebScreen extends StatefulWidget {
   final String url;
@@ -21,13 +22,9 @@ class CommonWebScreen extends StatefulWidget {
 class _CommonWebScreenState extends State<CommonWebScreen> {
   final GlobalKey webViewKey = GlobalKey();
   InAppWebViewController? webViewController;
-  InAppWebViewGroupOptions settings = InAppWebViewGroupOptions(
-    crossPlatform: InAppWebViewOptions(mediaPlaybackRequiresUserGesture: false),
-    android: AndroidInAppWebViewOptions(),
-  );
-
+  late final WebViewCookieManager cookieManager = WebViewCookieManager();
   PullToRefreshController? pullToRefreshController;
-
+  final urlController = TextEditingController();
   late ContextMenu contextMenu;
   String url = "";
   double progress = 0;
@@ -44,6 +41,8 @@ class _CommonWebScreenState extends State<CommonWebScreen> {
   @override
   void initState() {
     super.initState();
+    print(widget.url);
+    clearCookies();
 
     contextMenu = ContextMenu(
         menuItems: [
@@ -96,7 +95,12 @@ class _CommonWebScreenState extends State<CommonWebScreen> {
 
   @override
   void dispose() {
+    webViewController!.dispose();
     super.dispose();
+  }
+
+  void clearCookies() async {
+    await cookieManager.clearCookies();
   }
 
   @override
@@ -118,6 +122,21 @@ class _CommonWebScreenState extends State<CommonWebScreen> {
         body: SafeArea(
           child: Column(
             children: [
+              // TextField(
+              //   decoration: InputDecoration(prefixIcon: Icon(Icons.search)),
+              //   controller: urlController,
+              //   keyboardType: TextInputType.text,
+              //   onSubmitted: (value) {
+              //     var url = WebUri(value);
+              //     // if (url.scheme.isEmpty) {
+              //     //   url = WebUri((!kIsWeb
+              //     //           ? "https://www.google.com/search?q="
+              //     //           : "https://www.bing.com/search?q=") +
+              //     //       value);
+              //     // }
+              //     webViewController?.loadUrl(urlRequest: URLRequest(url: url));
+              //   },
+              // ),
               Expanded(
                 child: Stack(
                   children: [
@@ -125,8 +144,11 @@ class _CommonWebScreenState extends State<CommonWebScreen> {
                       key: webViewKey,
                       initialUrlRequest:
                           URLRequest(url: WebUri.uri(Uri.parse(widget.url))),
-                      initialUserScripts: UnmodifiableListView<UserScript>([]),
-                      initialOptions: settings,
+                      initialSettings: InAppWebViewSettings(
+                          disableDefaultErrorPage: true,
+                          clearCache: true,
+                          cacheEnabled: false,
+                          clearSessionCache: true),
                       contextMenu: contextMenu,
                       pullToRefreshController: pullToRefreshController,
                       onWebViewCreated: (controller) async {
@@ -135,6 +157,7 @@ class _CommonWebScreenState extends State<CommonWebScreen> {
                       onLoadStart: (controller, url) async {
                         setState(() {
                           this.url = url.toString();
+                          urlController.text = this.url;
                         });
                       },
                       shouldOverrideUrlLoading:
@@ -159,6 +182,7 @@ class _CommonWebScreenState extends State<CommonWebScreen> {
 
                         setState(() {
                           this.url = url.toString();
+                          urlController.text = this.url;
                         });
                       },
                       onLoadError: (controller, request, i, error) {
@@ -189,13 +213,6 @@ class _CommonWebScreenState extends State<CommonWebScreen> {
               ),
             ],
           ),
-        )
-        // body: WebView(
-        //   initialUrl: widget.url,
-        //   javascriptMode: JavascriptMode.unrestricted,
-        //   gestureRecognizers: {}..add(Factory<LongPressGestureRecognizer>(() => LongPressGestureRecognizer())),
-
-        // ),
-        );
+        ));
   }
 }
