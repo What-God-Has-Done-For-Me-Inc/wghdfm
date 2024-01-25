@@ -19,9 +19,11 @@ class _CommonYTPlayerState extends State<CommonYTPlayer> {
   @override
   void initState() {
     super.initState();
-    var videoUrl = YoutubePlayerController.convertUrlToId(widget.videoId);
+    var videoUrl = widget.videoId.contains("youtube.com/live/")
+        ? widget.videoId.split("/").last.split('?').first
+        : YoutubePlayerController.convertUrlToId(widget.videoId);
     print("Youtube Link is " + widget.videoId);
-    // print(videoUrl);
+    print(videoUrl);
     _controller = YoutubePlayerController.fromVideoId(
       videoId: videoUrl.toString(),
       params: const YoutubePlayerParams(

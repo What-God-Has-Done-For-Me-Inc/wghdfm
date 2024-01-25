@@ -450,7 +450,7 @@ class _AddPostState extends State<AddPost> {
                           child: TextFormField(
                             controller: urlYTController,
                             textInputAction: TextInputAction.done,
-                            maxLines: 1,
+                            maxLines: 2,
                             validator: (String? value) {
                               return value == null ||
                                       value == "" ||
