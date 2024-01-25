@@ -907,50 +907,9 @@ class _AddPostState extends State<AddPost> {
 
   List<CameraDescription> cameras = [];
 
-  Future<bool> getPermission() async {
-    var cameraPermission = await Permission.camera.status;
-    var microphonePermission = await Permission.microphone.status;
-
-    if (cameraPermission == PermissionStatus.permanentlyDenied ||
-        microphonePermission == PermissionStatus.permanentlyDenied) {
-      // Handle permanently denied permissions
-      showDialog(
-        context: Get.context!,
-        builder: (context) => AlertDialog(
-          title: Text('Permissions Required'),
-          content: Text(
-              'Camera and microphone access are permanently denied. Please enable them in app settings.'),
-          actions: [
-            TextButton(
-              onPressed: () => openAppSettings(),
-              child: Text('Open Settings'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
-            ),
-          ],
-        ),
-      );
-      return false;
-    } else if (cameraPermission == PermissionStatus.denied ||
-        microphonePermission == PermissionStatus.denied) {
-      await Permission.camera.request();
-      await Permission.microphone.request();
-      return false;
-    } else if (cameraPermission == PermissionStatus.granted ||
-        microphonePermission == PermissionStatus.granted) {
-      return true;
-    }
-    // Permissions are already granted, proceed with your logic
-    print('Both camera and microphone permissions granted!');
-    return true;
-    // ...
-  }
-
   addPhotoScreen() async {
-    bool per = await getPermission();
-    print(per);
+    bool per = await AppMethods().getPermission();
+
     if (per == true) {
       final cameras = await availableCameras();
       final firstCamera = cameras.first;
@@ -963,8 +922,7 @@ class _AddPostState extends State<AddPost> {
   }
 
   Future<void> addVideoScreen() async {
-    // Check camera and microphone permissions
-    bool per = await getPermission();
+    bool per = await AppMethods().getPermission();
     if (per == true) {
       isLoading.value = true;
       cameras = await availableCameras();

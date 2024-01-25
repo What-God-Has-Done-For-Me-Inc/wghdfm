@@ -11,15 +11,15 @@ getLinkText({required String text}) {
     trimMode: TrimMode.Line,
     trimCollapsedText: 'Read more',
     trimExpandedText: '  Read less',
-    lessStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-    moreStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+    lessStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    moreStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
   );
-  return RichText(
-    text: TextSpan(
-        children: getTextSpan(
-      textWithLink: text,
-    )),
-  );
+  // return RichText(
+  //   text: TextSpan(
+  //       children: getTextSpan(
+  //     textWithLink: text,
+  //   )),
+  // );
 }
 
 List<TextSpan> getTextSpan({required String textWithLink}) {

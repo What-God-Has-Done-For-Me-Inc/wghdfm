@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:upgrader/upgrader.dart';
 import 'package:wghdfm_java/modules/auth_module/views/Introduction_Screen.dart';
 import 'package:wghdfm_java/modules/notification_module/controller/notification_handler.dart';
 import 'package:wghdfm_java/screen/dashboard/post_details/post_details_screen.dart';

@@ -8,6 +8,7 @@ class AppColors {
   static const Color primaryColor = Colors.redAccent;
   static const Color primery = Color(0xff132ba2); //0xff6835f0
   static Color blackColor = Color(0xff080808).withOpacity(.56);
+  static const background = Color(0xfff8fbff);
 
   static const kGrey200 = Color(0xFFEEEEEE);
 }

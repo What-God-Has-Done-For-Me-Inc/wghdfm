@@ -79,18 +79,16 @@ dependencies:
   percent_indicator: ^4.2.3
   #  light_compressor: ^2.0.1
   #  video_compress: ^3.1.2
-  #  video_compress_ds: ^3.1.6
   tutorial_coach_mark: ^1.2.11
   flutter_plugin_android_lifecycle: ^2.0.17
   flutter_inappwebview: ^6.0.0
   pinput: ^3.0.1
   lottie: ^2.7.0
   upgrader: 
+  icons_plus: ^5.0.0
  
-  
-  
 
-
+  
   # paypal sdk
   #  paypal_sdk: ^1.0.7
   #  flutter_paypal: ^0.0.8

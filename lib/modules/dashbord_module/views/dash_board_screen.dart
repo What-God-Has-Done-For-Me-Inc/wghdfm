@@ -8,6 +8,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
@@ -24,6 +25,7 @@ import 'package:wghdfm_java/modules/dashbord_module/controller/dash_board_contro
 import 'package:wghdfm_java/modules/dashbord_module/views/ProfileSetupScreen.dart';
 import 'package:wghdfm_java/modules/dashbord_module/views/add_post.dart';
 import 'package:wghdfm_java/modules/dashbord_module/views/search_screen.dart';
+import 'package:wghdfm_java/modules/dashbord_module/views/setting_screeen.dart';
 import 'package:wghdfm_java/modules/notification_module/controller/notification_handler.dart';
 import 'package:wghdfm_java/modules/notification_module/view/messages_screen.dart';
 import 'package:wghdfm_java/modules/profile_module/view/profile_screen.dart';
@@ -34,8 +36,10 @@ import 'package:wghdfm_java/screen/dashboard/dashboard_api/add_to_time_line_api.
 import 'package:wghdfm_java/screen/dashboard/dashboard_api/delete_post_api.dart';
 import 'package:wghdfm_java/screen/dashboard/dashboard_api/report_post_api.dart';
 import 'package:wghdfm_java/screen/dashboard/widgets/build_drawer.dart';
+import 'package:wghdfm_java/screen/dashboard/widgets/donation_banner.dart';
 import 'package:wghdfm_java/screen/dashboard/widgets/edit_bottom_sheet.dart';
 import 'package:wghdfm_java/screen/dashboard/widgets/feed_with_load_more.dart';
+import 'package:wghdfm_java/screen/favourite/favourite_screen.dart';
 import 'package:wghdfm_java/screen/groups/group_details_screen.dart';
 import 'package:wghdfm_java/screen/groups/group_screen.dart';
 import 'package:wghdfm_java/screen/messages/message_threads_ui.dart';
@@ -53,6 +57,7 @@ import '../../../screen/comment/comment_screen.dart';
 import '../../../services/prefrence_services.dart';
 import '../../../services/sesssion.dart';
 import '../../../utils/app_texts.dart';
+import '../../../utils/page_res.dart';
 import '../../../utils/shimmer_utils.dart';
 import '../../profile_module/controller/profile_controller.dart';
 import '../../profile_module/view/someones_profile_screen.dart';
@@ -66,6 +71,9 @@ class DashBoardScreen extends StatefulWidget {
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
   final dashBoardController = Get.put(DashBoardController());
+  Widget _selectedScreen = const MainScreen();
+
+  int ind = 0;
 
   @override
   void initState() {
@@ -78,32 +86,130 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     super.initState();
   }
 
+  screenSelector(int index) async {
+    switch (index) {
+      case 0:
+        setState(() {
+          _selectedScreen = const MainScreen();
+          ind = 0;
+        });
+        break;
+
+      case 1:
+        setState(() {
+          _selectedScreen = const FavouriteScreen();
+          ind = 1;
+        });
+        break;
+
+      case 2:
+        LoginModel userDetails = await SessionManagement.getUserDetails();
+        Codec<String, String> stringToBase64Url = utf8.fuse(base64Url);
+        String encoded =
+            stringToBase64Url.encode(userDetails.pass.toString() + "|^{}^|");
+        var parsedData = Uri.encodeComponent(encoded);
+        String userToken =
+            "?F=${userDetails.fname}&L=${userDetails.lname}&E=${userDetails.email}&P=${parsedData}";
+
+        setState(() {
+          _selectedScreen = CommonWebScreen(
+            url: chatUrl + userToken,
+            title: "Chat",
+          );
+          ind = 2;
+        });
+        break;
+
+      case 3:
+        setState(() {
+          _selectedScreen = const SettingScreen();
+          ind = 3;
+        });
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.darkGrey,
       resizeToAvoidBottomInset: false,
-      body: ZoomDrawer(
-        borderRadius: 24.0,
-        showShadow: true,
-        moveMenuScreen: false,
-        // angle: 0.0,
-        drawerShadowsBackgroundColor: Colors.white,
-        menuBackgroundColor: AppColors.darkGrey,
-        clipMainScreen: true,
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black,
-            spreadRadius: 0.5,
-            blurRadius: 5,
-          )
-        ],
-        controller: dashBoardController.zoomDrawerController,
-        menuScreen: buildDrawer(),
-        androidCloseOnBackTap: true,
-        mainScreen: const MainScreen(),
-        // mainScreen: const AddNewsTip(),
+      bottomNavigationBar: BottomAppBar(
+        height: Get.height * 0.07,
+        shape: CircularNotchedRectangle(), //shape of notch
+        notchMargin: 4,
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 4, bottom: 4),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  screenSelector(0);
+                },
+                child: Icon(
+                  ind == 0 ? MingCute.home_4_fill : MingCute.home_4_line,
+                  color: ind == 0 ? AppColors.primery : Colors.grey.shade500,
+                  size: 28,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  screenSelector(1);
+                },
+                child: Icon(
+                  ind == 1 ? MingCute.heart_fill : MingCute.heart_line,
+                  color: ind == 1 ? AppColors.primery : Colors.grey.shade500,
+                  size: 28,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  screenSelector(2);
+                },
+                child: Icon(
+                  ind == 2 ? MingCute.comment_2_fill : MingCute.comment_2_line,
+                  color: ind == 2 ? AppColors.primery : Colors.grey.shade500,
+                  size: 28,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  screenSelector(3);
+                },
+                child: Icon(
+                  ind == 3 ? MingCute.user_3_fill : MingCute.user_3_line,
+                  color: ind == 3 ? AppColors.primery : Colors.grey.shade500,
+                  size: 28,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
+      body: _selectedScreen,
+      // body: ZoomDrawer(
+      //   borderRadius: 24.0,
+      //   showShadow: true,
+      //   moveMenuScreen: false,
+      //   // angle: 0.0,
+      //   drawerShadowsBackgroundColor: Colors.white,
+      //   menuBackgroundColor: AppColors.darkGrey,
+      //   clipMainScreen: true,
+      //   boxShadow: const [
+      //     BoxShadow(
+      //       color: Colors.black,
+      //       spreadRadius: 0.5,
+      //       blurRadius: 5,
+      //     )
+      //   ],
+      //   controller: dashBoardController.zoomDrawerController,
+      //  menuScreen: buildDrawer(),
+      //   androidCloseOnBackTap: true,
+      //   mainScreen: const MainScreen(),
+      //   // mainScreen: const AddNewsTip(),
+      // ),
     );
   }
 }
@@ -578,42 +684,42 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     return WillPopScope(
       onWillPop: onWillPop,
       child: Scaffold(
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.grey.shade200,
         extendBody: true,
         // extendBodyBehindAppBar: true,
         appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {
-                dashBoardController.zoomDrawerController.toggle?.call();
-              },
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.black,
-              )),
+          // leading: IconButton(
+          //     onPressed: () {
+          //       dashBoardController.zoomDrawerController.toggle?.call();
+          //     },
+          //     icon: const Icon(
+          //       Icons.menu,
+          //       color: Colors.black,
+          //     )),
           actions: [
             IconButton(
                 onPressed: () {
                   Get.to(() => const SearchScreen());
                 },
-                icon: const Icon(Icons.search_outlined)),
-            IconButton(
-                onPressed: () async {
-                  LoginModel userDetails =
-                      await SessionManagement.getUserDetails();
-                  Codec<String, String> stringToBase64Url =
-                      utf8.fuse(base64Url);
-                  String encoded = stringToBase64Url
-                      .encode(userDetails.pass.toString() + "|^{}^|");
-                  var parsedData = Uri.encodeComponent(encoded);
-                  String userToken =
-                      "?F=${userDetails.fname}&L=${userDetails.lname}&E=${userDetails.email}&P=${parsedData}";
+                icon: const Icon(MingCute.search_3_line)),
+            // IconButton(
+            //     onPressed: () async {
+            //       LoginModel userDetails =
+            //           await SessionManagement.getUserDetails();
+            //       Codec<String, String> stringToBase64Url =
+            //           utf8.fuse(base64Url);
+            //       String encoded = stringToBase64Url
+            //           .encode(userDetails.pass.toString() + "|^{}^|");
+            //       var parsedData = Uri.encodeComponent(encoded);
+            //       String userToken =
+            //           "?F=${userDetails.fname}&L=${userDetails.lname}&E=${userDetails.email}&P=${parsedData}";
 
-                  Get.to(() => CommonWebScreen(
-                        url: chatUrl + userToken,
-                        title: "Chat",
-                      ));
-                },
-                icon: const Icon(Icons.forum)),
+            //       Get.to(() => CommonWebScreen(
+            //             url: chatUrl + userToken,
+            //             title: "Chat",
+            //           ));
+            //     },
+            //     icon: const Icon(Icons.forum)),
             IconButton(
                 key: notificationButtonKey,
                 onPressed: () {
@@ -626,7 +732,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                     stream: dashBoardController.notificationCount.stream,
                     builder: (context, snapshot) {
                       return Stack(children: [
-                        const Icon(Icons.notifications),
+                        const Icon(MingCute.notification_line),
                         Positioned(
                             top: 0,
                             right: 0,
@@ -733,7 +839,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                   SizedBox(height: Get.height * 0.02),
                                   ElevatedButton(
                                     onPressed: () async {
-                                      print(emailController.text);
                                       if (formKey.currentState!.validate()) {
                                         await profileController.inviteFriend(
                                             email: emailController.text,
@@ -785,15 +890,15 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               },
             )
           ],
-          title: Text(
-            'My Feed(s)',
-            style: GoogleFonts.montserrat(
-              color: Colors.black,
-              fontSize: 15,
-            ),
+          title: const Text(
+            'My Feed',
+            style: TextStyle(
+                color: AppColors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.w600),
           ),
           elevation: 0,
-          centerTitle: true,
+          centerTitle: false,
           iconTheme: Theme.of(context).iconTheme,
           backgroundColor: Theme.of(context).backgroundColor,
         ),
@@ -1021,21 +1126,23 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                       color: Colors.white,
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12)),
-                                                  padding: EdgeInsets.all(20),
-                                                  margin: EdgeInsets.all(5),
+                                                              5)),
+                                                  padding:
+                                                      const EdgeInsets.all(14),
+                                                  margin:
+                                                      const EdgeInsets.all(2),
                                                   alignment: Alignment.center,
                                                   child: Column(
                                                     children: [
                                                       Text(
                                                         "Hello ${userName},",
                                                         style: GoogleFonts.itim(
-                                                            fontSize: 17),
+                                                            fontSize: 16),
                                                       ),
                                                       Text(
                                                         "${getGreeting()}..!",
                                                         style: GoogleFonts.itim(
-                                                            fontSize: 25),
+                                                            fontSize: 24),
                                                       ),
                                                     ],
                                                   ),
@@ -1045,13 +1152,17 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                         if (index % 10 == 0 && index != 0)
                                           const AdsScreen(),
                                         // if (index % 2 == 0 && index != 0)  NativeAdWidget(),
-                                        Card(
-                                          color: Colors.white,
-                                          shape: RoundedRectangleBorder(
+                                        if (index % 25 == 0 && index != 0)
+                                          const DonateBanner(),
+
+                                        Container(
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 0, vertical: 5),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.background,
                                             borderRadius:
-                                                BorderRadius.circular(10.0),
+                                                BorderRadius.circular(8.0),
                                           ),
-                                          //margin: EdgeInsets.all(10),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
@@ -1155,10 +1266,9 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                           style:
                                                               const TextStyle(
                                                             color: Colors.black,
-                                                            fontSize: 15.0,
-                                                            height: 1.8,
+                                                            fontSize: 16,
                                                             fontWeight:
-                                                                FontWeight.bold,
+                                                                FontWeight.w500,
                                                             decoration:
                                                                 TextDecoration
                                                                     .none,
@@ -1199,8 +1309,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                                   color: Colors
                                                                       .black45,
                                                                   fontSize:
-                                                                      15.0,
-                                                                  height: 1.8,
+                                                                      14.0,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .normal,
@@ -1235,9 +1344,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                                             color:
                                                                                 Colors.black,
                                                                             fontSize:
-                                                                                15.0,
-                                                                            height:
-                                                                                1.8,
+                                                                                14.0,
                                                                             fontWeight:
                                                                                 FontWeight.normal,
                                                                             decoration:
@@ -1389,12 +1496,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                                       .delete),
                                                             ),
                                                         ];
-                                                        // return PopUpOptions.feedPostMoreOptions.map((String choice) {
-                                                        //       return PopupMenuItem<String>(
-                                                        //         value: choice,
-                                                        //         child: Text(choice),
-                                                        //       );
-                                                        // }).toList();
                                                       },
                                                       onSelected: (value) {
                                                         switch (value) {
@@ -1469,27 +1570,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                                         index]
                                                                     .status ??
                                                                 ""),
-                                                        // child: RichText(
-                                                        //   text: TextSpan(
-                                                        //     text: dashBoardController
-                                                        //         .dashboardFeeds[
-                                                        //             index]
-                                                        //         .status!,
-                                                        //     style:
-                                                        //         const TextStyle(
-                                                        //       color: Colors
-                                                        //           .black45,
-                                                        //       fontSize: 15.0,
-                                                        //       height: 1.8,
-                                                        //       fontWeight:
-                                                        //           FontWeight
-                                                        //               .normal,
-                                                        //       decoration:
-                                                        //           TextDecoration
-                                                        //               .none,
-                                                        //     ),
-                                                        //   ),
-                                                        // ),
                                                       ),
                                                     ],
                                                   ),
@@ -1720,9 +1800,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                           },
                                                           icon: Icon(
                                                             isLoved
-                                                                ? Icons.favorite
-                                                                : Icons
-                                                                    .favorite_border,
+                                                                ? MingCute
+                                                                    .heart_fill
+                                                                : MingCute
+                                                                    .heart_line,
                                                             color: isLoved
                                                                 ? Colors.red
                                                                 : Theme.of(Get
@@ -1735,16 +1816,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                       flex: 1,
                                                       child: InkWell(
                                                         onTap: () async {
-                                                          // checkPostLikeStatus(
-                                                          //   "${dashBoardController.dashboardFeeds?[index].id}",
-                                                          // ).then((haveYouLiked) {
-                                                          //   if (!haveYouLiked) {
-                                                          //     setAsLiked(
-                                                          //       "${dashBoardController.dashboardFeeds?[index].id!}",
-                                                          //     );
-                                                          //   }
-                                                          // });
-
                                                           await setAsLiked(
                                                               postId:
                                                                   "${dashBoardController.dashboardFeeds[index].id}",
@@ -1781,44 +1852,36 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                                     () {});
                                                               });
                                                         },
-                                                        child: Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal:
-                                                                      5),
-                                                          height: 20,
-                                                          child: Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Image.asset(
-                                                                isLiked
-                                                                    ? "assets/icon/liked_image.png"
-                                                                    : "assets/icon/like_img.png",
-                                                                color: isLiked
-                                                                    ? Colors
-                                                                        .blue
-                                                                    : Theme.of(Get
-                                                                            .context!)
-                                                                        .iconTheme
-                                                                        .color,
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 3,
-                                                              ),
-                                                              Text(
-                                                                "${dashBoardController.dashboardFeeds[index].countLike}",
-                                                              ),
-                                                            ],
-                                                          ),
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Icon(
+                                                              isLiked
+                                                                  ? MingCute
+                                                                      .thumb_up_2_fill
+                                                                  : MingCute
+                                                                      .thumb_up_line,
+                                                              color: isLiked
+                                                                  ? Colors.blue
+                                                                  : Theme.of(Get
+                                                                          .context!)
+                                                                      .iconTheme
+                                                                      .color,
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 3,
+                                                            ),
+                                                            Text(
+                                                              "${dashBoardController.dashboardFeeds[index].countLike}",
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
                                                     ),
@@ -1862,37 +1925,28 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                                 ">> >> > After Comment Count ${dashBoardController.dashboardFeeds[index].countComment}");
                                                           });
                                                         },
-                                                        child: Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal:
-                                                                      5),
-                                                          height: 20,
-                                                          child: Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              const Icon(
-                                                                Icons
-                                                                    .chat_bubble_outline,
-                                                                // color: isLiked ? Colors.blue : Theme.of(Get.context!).iconTheme.color,
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 3,
-                                                              ),
-                                                              Text(
-                                                                "${dashBoardController.dashboardFeeds[index].countComment}",
-                                                              ),
-                                                            ],
-                                                          ),
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            const Icon(
+                                                              MingCute
+                                                                  .message_4_line,
+                                                              // color: isLiked ? Colors.blue : Theme.of(Get.context!).iconTheme.color,
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 3,
+                                                            ),
+                                                            Text(
+                                                              "${dashBoardController.dashboardFeeds[index].countComment}",
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
                                                     ),
@@ -1906,7 +1960,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                                 print("user id: ${userDetails.id}");
                                                                 print("post id: ${dashBoardController.dashboardFeeds[index].id!}");
                                                               }
-                  
+                                                          
                                                               debugPrint("Before: ${dashBoardController.dashboardFeeds[index].id!}");
                                                               EndPoints.selectedPostId = "${dashBoardController.dashboardFeeds[index].id}";
                                                               Get.to(() => CommentScreen(postId: EndPoints.selectedPostId));
@@ -1956,7 +2010,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                             PopupMenuPosition
                                                                 .under,
                                                         icon: const Icon(
-                                                            Icons.share),
+                                                            MingCute
+                                                                .share_2_line),
                                                         itemBuilder: (context) {
                                                           return [
                                                             PopupMenuItem(
@@ -2004,7 +2059,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                       ),
                                                       /*IconButton(
                                                               onPressed: () {
-                  
+                                                          
                                                                 addToTimeline("${dashBoardController.dashboardFeeds[index].id}");
                                                               },
                                                               icon: const Icon(Icons.add_box)),*/
@@ -2034,15 +2089,16 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                               ),
                                               Align(
                                                   alignment:
-                                                      Alignment.bottomRight,
+                                                      Alignment.bottomLeft,
                                                   child: Container(
-                                                    margin:
-                                                        const EdgeInsets.all(
-                                                            10),
+                                                    margin: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 12,
+                                                        vertical: 4),
                                                     child: customText(
                                                         title:
                                                             "${dashBoardController.dashboardFeeds[index].timeStamp}",
-                                                        fs: 10),
+                                                        fs: 11),
                                                   )),
                                               if (dashBoardController
                                                       .dashboardFeeds[index]
@@ -2051,14 +2107,13 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                   true)
                                                 Column(
                                                   children: [
-                                                    Align(
+                                                    const Align(
                                                       alignment:
                                                           Alignment.centerLeft,
                                                       child: Text(
                                                         "Comments",
-                                                        style: GoogleFonts
-                                                            .montserrat(
-                                                          fontSize: 14,
+                                                        style: TextStyle(
+                                                          fontSize: 16,
                                                           fontWeight:
                                                               FontWeight.w500,
                                                         ),
@@ -2066,7 +2121,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                     ).paddingOnly(left: 10),
                                                     ListView.builder(
                                                       shrinkWrap: true,
-                                                      // reverse: true,
                                                       physics:
                                                           const NeverScrollableScrollPhysics(),
                                                       itemCount: (dashBoardController
@@ -2118,7 +2172,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                               ),
                                                               margin:
                                                                   const EdgeInsets
-                                                                      .all(5),
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          12,
+                                                                      vertical:
+                                                                          5),
                                                               padding:
                                                                   EdgeInsets
                                                                       .zero,
@@ -2129,7 +2187,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                                       Alignment
                                                                           .center,
                                                                   fit: BoxFit
-                                                                      .fill,
+                                                                      .cover,
                                                                   imageUrl:
                                                                       "https://wghdfm.s3.amazonaws.com/thumb/${dashBoardController.dashboardFeeds[index].latestComments?[listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 1) + indexOfComment]?.img}",
                                                                   // "https://wghdfm.s3.amazonaws.com/thumb/${dashBoardController.dashboardFeeds[index].latestComments?.last.img}",
@@ -2178,14 +2236,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                                       fontSize:
                                                                           12,
                                                                     ),
-                                                                    // overflow:
-                                                                    //     TextOverflow
-                                                                    //         .ellipsis,
                                                                   ),
                                                                 ],
                                                               ),
                                                             ),
-                                                            // Text("${listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 0) + indexOfComment}"),
                                                           ],
                                                         );
                                                       },
@@ -2198,7 +2252,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                   right: 10,
                                                 ),
                                                 height: 60,
-                                                color: Colors.white,
+                                                color: AppColors.background,
                                                 child: Row(
                                                   children: [
                                                     Expanded(
@@ -2208,8 +2262,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                         focusNode: focusNode,
                                                         leading: IconButton(
                                                           icon: const Icon(
-                                                              Icons
-                                                                  .emoji_emotions_outlined,
+                                                              MingCute
+                                                                  .emoji_line,
+                                                              color: AppColors
+                                                                  .darkGrey,
                                                               size: 25),
                                                           onPressed: () async {
                                                             emojiShowing
@@ -2219,7 +2275,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                               print(" ooo");
                                                               // FocusScope.of(context).requestFocus(focusNode);
                                                             }
-                                                            // setState(() {});
                                                           },
                                                         ),
                                                         hint: 'Write Comment',
@@ -2240,8 +2295,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                       ),
                                                     ),
                                                     IconButton(
-                                                      icon: const Icon(
-                                                          Icons.send),
+                                                      icon: const Icon(HeroIcons
+                                                          .paper_airplane),
                                                       onPressed: () async {
                                                         print(
                                                             ":: ${dashBoardController.dashboardFeeds[index].latestComments?.length}");

@@ -1,13 +1,17 @@
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:wghdfm_java/modules/auth_module/model/login_model.dart';
 import 'package:wghdfm_java/modules/dashbord_module/controller/dash_board_controller.dart';
+import 'package:wghdfm_java/modules/dashbord_module/views/take_picture_screen.dart';
 import 'package:wghdfm_java/modules/profile_module/controller/profile_controller.dart';
 import 'package:wghdfm_java/services/sesssion.dart';
+import 'package:wghdfm_java/utils/app_methods.dart';
 import 'package:wghdfm_java/utils/button.dart';
 
 class ProfileSetupPage extends StatefulWidget {
@@ -92,6 +96,20 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
     }
   }
 
+  addPhotoScreen() async {
+    bool per = await AppMethods().getPermission();
+
+    if (per == true) {
+      final cameras = await availableCameras();
+      final firstCamera = cameras.first;
+      Get.to(() => TakePictureScreen(
+            camera: firstCamera,
+          ))?.then((value) {
+        _profileImage = value;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -152,7 +170,20 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                       ],
                     ),
                   ),
-                  Column(
+                  ElevatedButton(
+                    onPressed: addPhotoScreen,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.camera, color: Colors.white),
+                        Text(
+                          'Click Profile Photo',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Align(

@@ -11,6 +11,7 @@ import '../networking/api_service_class.dart';
 RxString userName = 'Guest'.obs;
 RxString profilePic = ''.obs;
 RxString coverPic = ''.obs;
+RxString userEmail = ''.obs;
 
 class SessionManagement {
   static String IS_LOGIN = "IsLoggedIn";
@@ -61,6 +62,8 @@ class SessionManagement {
     LoginModel details = LoginModel.fromJson(jsonDecoded);
     userName.value = ("${details.fname!} ${details.lname!}").trim();
     profilePic.value = details.img!;
+    userEmail.value = details.email!;
+
     return details;
   }
 

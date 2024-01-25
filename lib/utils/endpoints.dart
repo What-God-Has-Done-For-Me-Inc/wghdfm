@@ -1,5 +1,6 @@
 class EndPoints {
   static const String baseUrl = "https://whatgodhasdoneforme.com/mobile/";
+  static const String webUrl = "https://whatgodhasdoneforme.com/";
 
   static String VIDEO_URL = "https://s3.amazonaws.com/wghdfm/videowires/";
   static String VIDEO_THUMB_URL =

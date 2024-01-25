@@ -1128,7 +1128,7 @@ Widget buildSelectionTile({
 Widget customText({String? title, double fs = 15, Color? txtColor}) {
   return Text(
     title ?? '',
-    style: GoogleFonts.montserrat(
+    style: TextStyle(
       color: txtColor ?? Colors.black,
       fontSize: fs,
     ),

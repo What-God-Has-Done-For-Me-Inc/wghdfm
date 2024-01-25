@@ -15,6 +15,7 @@ import 'package:wghdfm_java/modules/profile_module/view/profile_screen.dart';
 import 'package:wghdfm_java/screen/dashboard/widgets/feed_with_load_more.dart';
 import 'package:wghdfm_java/screen/dashboard/widgets/shimmer_feed_loading.dart';
 import 'package:wghdfm_java/screen/favourite/favourite_controller.dart';
+import 'package:wghdfm_java/utils/app_colors.dart';
 import 'package:wghdfm_java/utils/app_texts.dart';
 import 'package:wghdfm_java/utils/page_res.dart';
 
@@ -75,15 +76,15 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
           elevation: 0,
-          title: Text(
+          title: const Text(
             'Favorite Feed(s)',
-            style: GoogleFonts.montserrat(
-              color: Colors.black,
-              fontSize: 15,
-            ),
+            style: TextStyle(
+                color: AppColors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.w600),
           ),
           centerTitle: true,
           iconTheme: Theme.of(context).iconTheme,

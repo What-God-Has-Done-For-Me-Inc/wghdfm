@@ -8,6 +8,8 @@ import 'package:wghdfm_java/common/commons.dart';
 import 'package:wghdfm_java/model/feed_res_obj.dart';
 import 'package:wghdfm_java/modules/auth_module/model/login_model.dart';
 import 'package:wghdfm_java/modules/notification_module/controller/notification_handler.dart';
+import 'package:wghdfm_java/modules/profile_module/view/profile_screen.dart';
+import 'package:wghdfm_java/modules/profile_module/view/someones_profile_screen.dart';
 import 'package:wghdfm_java/networking/api_service_class.dart';
 import 'package:wghdfm_java/screen/comment/comment_controller.dart';
 import 'package:wghdfm_java/screen/dashboard/widgets/shimmer_feed_loading.dart';
@@ -93,217 +95,219 @@ class _CommentScreenState extends State<CommentScreen> {
         title: const Text('Comment(s)'),
         centerTitle: true,
       ),
-      bottomSheet: Container(
-        color: Theme.of(Get.context!).colorScheme.background,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          margin: EdgeInsets.only(bottom: Get.height * 0.05),
-          height: Get.height * 0.06,
-          color: Theme.of(Get.context!).colorScheme.background,
-          child: Row(
-            children: [
-              Expanded(
-                flex: 9,
-                child: commonTextField(
-                    readOnly: false,
-                    hint: 'Write Comment',
-                    isLabelFloating: false,
-                    controller: commentTextController,
-                    borderColor: Theme.of(Get.context!).primaryColor,
-                    baseColor: Theme.of(Get.context!).colorScheme.secondary,
-                    isLastField: false,
-                    obscureText: false,
-                    commentBox: true),
-              ),
-              IconButton(
-                icon: const Icon(Icons.send),
-                onPressed: () async {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  if (commentTextController.text.trim().isNotEmpty) {
-                    LoginModel userDetails =
-                        await SessionManagement.getUserDetails();
+      // bottomSheet: Container(
+      //   color: Theme.of(Get.context!).colorScheme.background,
+      //   child: Container(
+      //     // padding: const EdgeInsets.symmetric(horizontal: 10),
+      //     padding:
+      //         EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      //     //margin: EdgeInsets.only(bottom: Get.height * 0.05),
 
-                    Map<String, String> bodyData = {
-                      "post_id": widget.postId,
-                      "user_id": userDetails.id!,
-                      "comment": commentTextController.text
-                    };
-                    FocusManager.instance.primaryFocus?.unfocus();
+      //     color: Theme.of(Get.context!).colorScheme.background,
+      //     child: Row(
+      //       children: [
+      //         Expanded(
+      //           flex: 9,
+      //           child: commonTextField(
+      //               readOnly: false,
+      //               hint: 'Write Comment',
+      //               isLabelFloating: false,
+      //               controller: commentTextController,
+      //               borderColor: Theme.of(Get.context!).primaryColor,
+      //               baseColor: Theme.of(Get.context!).colorScheme.secondary,
+      //               isLastField: true,
+      //               obscureText: false,
+      //               commentBox: true),
+      //         ),
+      //         IconButton(
+      //           icon: const Icon(Icons.send),
+      //           onPressed: () async {
+      //             FocusScope.of(context).requestFocus(FocusNode());
+      //             if (commentTextController.text.trim().isNotEmpty) {
+      //               LoginModel userDetails =
+      //                   await SessionManagement.getUserDetails();
 
-                    await APIService().callAPI(
-                        params: {},
-                        serviceUrl: widget.isFrom != AppTexts.group
-                            ? EndPoints.baseUrl + EndPoints.insertCommentUrl
-                            : "${EndPoints.baseUrl}${EndPoints.insertCommentForGrpUrl}/${widget.postId}/${userDetails.id}/G",
-                        method: APIService.postMethod,
-                        formDatas: dio.FormData.fromMap(bodyData),
-                        success: (dio.Response response) async {
-                          // Get.back();
-                          commentTextController.clear();
-                          // NotificationHandler.to.sendNotificationToUserID(userId: userId, title: title, body: body);
-                          await commentController.getComments(
-                              postId: widget.postId,
-                              isFirstTime: true,
-                              isFromGrp: widget.isFrom == AppTexts.group,
-                              callBack: () {
-                                if (widget.isFrom == AppTexts.dashBoard) {
-                                  print(":: INDEX IS ${widget.index}");
-                                  print(
-                                      ":: commentController.commentList?.length IS ${commentController.commentList?.length}");
-                                  if (widget.index != null) {
-                                    dashBoardController
-                                            .dashboardFeeds[widget.index ?? 0]
-                                            .countComment =
-                                        commentController.commentList?.length ??
-                                            0;
-                                    dashBoardController
-                                        .dashboardFeeds[widget.index ?? 0]
-                                        .latestComments
-                                        ?.clear();
-                                    commentController.commentList
-                                        ?.forEach((element) {
-                                      kDashboardController
-                                          .dashboardFeeds[widget.index ?? 0]
-                                          .latestComments
-                                          ?.add(PostModelFeedLatestComments(
-                                              comment: element?.comment,
-                                              commentId: element?.commentId,
-                                              firstname: element?.firstname,
-                                              lastname: element?.lastname,
-                                              img: element?.img,
-                                              date: element?.date,
-                                              userId: element?.userId));
-                                    });
-                                    print(
-                                        ">> < COMMENT COUNT ? ${dashBoardController.dashboardFeeds[widget.index ?? 0].countComment}");
-                                  }
-                                }
-                                if (widget.isFrom == AppTexts.favorite) {
-                                  kFavouriteController
-                                          .favFeeds?[widget.index ?? 0]
-                                          .countComment =
-                                      commentController.commentList?.length ??
-                                          0;
-                                  kFavouriteController
-                                      .favFeeds?[widget.index ?? 0]
-                                      .latestComments
-                                      ?.clear();
-                                  commentController.commentList
-                                      ?.forEach((element) {
-                                    kFavouriteController
-                                        .favFeeds?[widget.index ?? 0]
-                                        .latestComments
-                                        ?.add(PostModelFeedLatestComments(
-                                            comment: element?.comment,
-                                            commentId: element?.commentId,
-                                            firstname: element?.firstname,
-                                            lastname: element?.lastname,
-                                            img: element?.img,
-                                            date: element?.date,
-                                            userId: element?.userId));
-                                  });
-                                }
-                                if (widget.isFrom == AppTexts.profile) {
-                                  kProfileController
-                                          .profileFeeds?[widget.index ?? 0]
-                                          .countComment =
-                                      commentController.commentList?.length ??
-                                          0;
-                                  kProfileController
-                                      .profileFeeds?[widget.index ?? 0]
-                                      .latestComments
-                                      ?.clear();
-                                  commentController.commentList
-                                      ?.forEach((element) {
-                                    kProfileController
-                                        .profileFeeds?[widget.index ?? 0]
-                                        .latestComments
-                                        ?.add(PostModelFeedLatestComments(
-                                            comment: element?.comment,
-                                            commentId: element?.commentId,
-                                            firstname: element?.firstname,
-                                            lastname: element?.lastname,
-                                            img: element?.img,
-                                            date: element?.date,
-                                            userId: element?.userId));
-                                  });
-                                }
-                                if (widget.isFrom == AppTexts.someoneProfile) {
-                                  kProfileController
-                                          .profileFeeds?[widget.index ?? 0]
-                                          .countComment =
-                                      commentController.commentList?.length ??
-                                          0;
-                                  kProfileController
-                                      .profileFeeds?[widget.index ?? 0]
-                                      .latestComments
-                                      ?.clear();
-                                  commentController.commentList
-                                      ?.forEach((element) {
-                                    kProfileController
-                                        .profileFeeds?[widget.index ?? 0]
-                                        .latestComments
-                                        ?.add(PostModelFeedLatestComments(
-                                            comment: element?.comment,
-                                            commentId: element?.commentId,
-                                            firstname: element?.firstname,
-                                            lastname: element?.lastname,
-                                            img: element?.img,
-                                            date: element?.date,
-                                            userId: element?.userId));
-                                  });
-                                }
-                                if (widget.isFrom == AppTexts.group) {
-                                  groupFeeds?[widget.index ?? 0].countComment =
-                                      commentController.commentList?.length ??
-                                          0;
-                                  groupFeeds?[widget.index ?? 0]
-                                      .latestComments
-                                      ?.clear();
-                                  commentController.commentList
-                                      ?.forEach((element) {
-                                    groupFeeds?[widget.index ?? 0]
-                                        .latestComments
-                                        ?.add(PostModelFeedLatestComments(
-                                            comment: element?.comment,
-                                            commentId: element?.commentId,
-                                            firstname: element?.firstname,
-                                            lastname: element?.lastname,
-                                            img: element?.img,
-                                            date: element?.date,
-                                            userId: element?.userId));
-                                  });
-                                }
-                                print(
-                                    ">> INDEX ${widget.index ?? 0} COUNT >> ${kDashboardController.dashboardFeeds[widget.index ?? 0].countComment}");
-                                print(
-                                    ">> WIDGET COMMENT COUNT < BEFORE ${kDashboardController.dashboardFeeds[widget.index ?? 0].countComment} ");
-                              });
-                          if (widget.postOwnerId != userDetails.id &&
-                              widget.postOwnerId != null) {
-                            NotificationHandler.to.sendNotificationToUserID(
-                                postId: widget.postId ?? "0",
-                                userId: widget.postOwnerId ?? "0",
-                                title: "Comment Your Post",
-                                body:
-                                    "${userDetails.fname} ${userDetails.lname} Commented your post");
-                          }
-                        },
-                        error: (dio.Response response) {
-                          snack(
-                              icon: Icons.report_problem,
-                              iconColor: Colors.yellow,
-                              msg: "Type something first...",
-                              title: "Alert!");
-                        },
-                        showProcess: true);
-                  }
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
+      //               Map<String, String> bodyData = {
+      //                 "post_id": widget.postId,
+      //                 "user_id": userDetails.id!,
+      //                 "comment": commentTextController.text
+      //               };
+      //               FocusManager.instance.primaryFocus?.unfocus();
+
+      //               await APIService().callAPI(
+      //                   params: {},
+      //                   serviceUrl: widget.isFrom != AppTexts.group
+      //                       ? EndPoints.baseUrl + EndPoints.insertCommentUrl
+      //                       : "${EndPoints.baseUrl}${EndPoints.insertCommentForGrpUrl}/${widget.postId}/${userDetails.id}/G",
+      //                   method: APIService.postMethod,
+      //                   formDatas: dio.FormData.fromMap(bodyData),
+      //                   success: (dio.Response response) async {
+      //                     // Get.back();
+      //                     commentTextController.clear();
+      //                     // NotificationHandler.to.sendNotificationToUserID(userId: userId, title: title, body: body);
+      //                     await commentController.getComments(
+      //                         postId: widget.postId,
+      //                         isFirstTime: true,
+      //                         isFromGrp: widget.isFrom == AppTexts.group,
+      //                         callBack: () {
+      //                           if (widget.isFrom == AppTexts.dashBoard) {
+      //                             print(":: INDEX IS ${widget.index}");
+      //                             print(
+      //                                 ":: commentController.commentList?.length IS ${commentController.commentList?.length}");
+      //                             if (widget.index != null) {
+      //                               dashBoardController
+      //                                       .dashboardFeeds[widget.index ?? 0]
+      //                                       .countComment =
+      //                                   commentController.commentList?.length ??
+      //                                       0;
+      //                               dashBoardController
+      //                                   .dashboardFeeds[widget.index ?? 0]
+      //                                   .latestComments
+      //                                   ?.clear();
+      //                               commentController.commentList
+      //                                   ?.forEach((element) {
+      //                                 kDashboardController
+      //                                     .dashboardFeeds[widget.index ?? 0]
+      //                                     .latestComments
+      //                                     ?.add(PostModelFeedLatestComments(
+      //                                         comment: element?.comment,
+      //                                         commentId: element?.commentId,
+      //                                         firstname: element?.firstname,
+      //                                         lastname: element?.lastname,
+      //                                         img: element?.img,
+      //                                         date: element?.date,
+      //                                         userId: element?.userId));
+      //                               });
+      //                               print(
+      //                                   ">> < COMMENT COUNT ? ${dashBoardController.dashboardFeeds[widget.index ?? 0].countComment}");
+      //                             }
+      //                           }
+      //                           if (widget.isFrom == AppTexts.favorite) {
+      //                             kFavouriteController
+      //                                     .favFeeds?[widget.index ?? 0]
+      //                                     .countComment =
+      //                                 commentController.commentList?.length ??
+      //                                     0;
+      //                             kFavouriteController
+      //                                 .favFeeds?[widget.index ?? 0]
+      //                                 .latestComments
+      //                                 ?.clear();
+      //                             commentController.commentList
+      //                                 ?.forEach((element) {
+      //                               kFavouriteController
+      //                                   .favFeeds?[widget.index ?? 0]
+      //                                   .latestComments
+      //                                   ?.add(PostModelFeedLatestComments(
+      //                                       comment: element?.comment,
+      //                                       commentId: element?.commentId,
+      //                                       firstname: element?.firstname,
+      //                                       lastname: element?.lastname,
+      //                                       img: element?.img,
+      //                                       date: element?.date,
+      //                                       userId: element?.userId));
+      //                             });
+      //                           }
+      //                           if (widget.isFrom == AppTexts.profile) {
+      //                             kProfileController
+      //                                     .profileFeeds?[widget.index ?? 0]
+      //                                     .countComment =
+      //                                 commentController.commentList?.length ??
+      //                                     0;
+      //                             kProfileController
+      //                                 .profileFeeds?[widget.index ?? 0]
+      //                                 .latestComments
+      //                                 ?.clear();
+      //                             commentController.commentList
+      //                                 ?.forEach((element) {
+      //                               kProfileController
+      //                                   .profileFeeds?[widget.index ?? 0]
+      //                                   .latestComments
+      //                                   ?.add(PostModelFeedLatestComments(
+      //                                       comment: element?.comment,
+      //                                       commentId: element?.commentId,
+      //                                       firstname: element?.firstname,
+      //                                       lastname: element?.lastname,
+      //                                       img: element?.img,
+      //                                       date: element?.date,
+      //                                       userId: element?.userId));
+      //                             });
+      //                           }
+      //                           if (widget.isFrom == AppTexts.someoneProfile) {
+      //                             kProfileController
+      //                                     .profileFeeds?[widget.index ?? 0]
+      //                                     .countComment =
+      //                                 commentController.commentList?.length ??
+      //                                     0;
+      //                             kProfileController
+      //                                 .profileFeeds?[widget.index ?? 0]
+      //                                 .latestComments
+      //                                 ?.clear();
+      //                             commentController.commentList
+      //                                 ?.forEach((element) {
+      //                               kProfileController
+      //                                   .profileFeeds?[widget.index ?? 0]
+      //                                   .latestComments
+      //                                   ?.add(PostModelFeedLatestComments(
+      //                                       comment: element?.comment,
+      //                                       commentId: element?.commentId,
+      //                                       firstname: element?.firstname,
+      //                                       lastname: element?.lastname,
+      //                                       img: element?.img,
+      //                                       date: element?.date,
+      //                                       userId: element?.userId));
+      //                             });
+      //                           }
+      //                           if (widget.isFrom == AppTexts.group) {
+      //                             groupFeeds?[widget.index ?? 0].countComment =
+      //                                 commentController.commentList?.length ??
+      //                                     0;
+      //                             groupFeeds?[widget.index ?? 0]
+      //                                 .latestComments
+      //                                 ?.clear();
+      //                             commentController.commentList
+      //                                 ?.forEach((element) {
+      //                               groupFeeds?[widget.index ?? 0]
+      //                                   .latestComments
+      //                                   ?.add(PostModelFeedLatestComments(
+      //                                       comment: element?.comment,
+      //                                       commentId: element?.commentId,
+      //                                       firstname: element?.firstname,
+      //                                       lastname: element?.lastname,
+      //                                       img: element?.img,
+      //                                       date: element?.date,
+      //                                       userId: element?.userId));
+      //                             });
+      //                           }
+      //                           print(
+      //                               ">> INDEX ${widget.index ?? 0} COUNT >> ${kDashboardController.dashboardFeeds[widget.index ?? 0].countComment}");
+      //                           print(
+      //                               ">> WIDGET COMMENT COUNT < BEFORE ${kDashboardController.dashboardFeeds[widget.index ?? 0].countComment} ");
+      //                         });
+      //                     if (widget.postOwnerId != userDetails.id &&
+      //                         widget.postOwnerId != null) {
+      //                       NotificationHandler.to.sendNotificationToUserID(
+      //                           postId: widget.postId ?? "0",
+      //                           userId: widget.postOwnerId ?? "0",
+      //                           title: "Comment Your Post",
+      //                           body:
+      //                               "${userDetails.fname} ${userDetails.lname} Commented your post");
+      //                     }
+      //                   },
+      //                   error: (dio.Response response) {
+      //                     snack(
+      //                         icon: Icons.report_problem,
+      //                         iconColor: Colors.yellow,
+      //                         msg: "Type something first...",
+      //                         title: "Alert!");
+      //                   },
+      //                   showProcess: true);
+      //             }
+      //           },
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
       body: Column(
         children: [
           Expanded(
@@ -345,23 +349,25 @@ class _CommentScreenState extends State<CommentScreen> {
               },
             ),
           ),
-          StreamBuilder(
-            stream: commentController.commentLoading.stream,
-            builder: (context, snapshot) {
-              if (commentController.commentLoading.isTrue) {
-                return Container(
-                  // width: Get.width,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                  ),
-                  padding: const EdgeInsets.all(10),
-                  child: const CupertinoActivityIndicator(radius: 10),
-                );
-              } else {
-                return SizedBox();
-              }
-            },
+          Expanded(
+            child: StreamBuilder(
+              stream: commentController.commentLoading.stream,
+              builder: (context, snapshot) {
+                if (commentController.commentLoading.isTrue) {
+                  return Container(
+                    // width: Get.width,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    child: const CupertinoActivityIndicator(radius: 10),
+                  );
+                } else {
+                  return SizedBox();
+                }
+              },
+            ),
           ),
           // Container(
           //   padding: const EdgeInsets.only(
@@ -392,14 +398,12 @@ class _CommentScreenState extends State<CommentScreen> {
           //           if (commentTextController.text.trim().isNotEmpty) {
           //             LoginModel userDetails =
           //                 await SessionManagement.getUserDetails();
-
           //             Map<String, String> bodyData = {
           //               "post_id": widget.postId,
           //               "user_id": userDetails.id!,
           //               "comment": commentTextController.text
           //             };
           //             FocusManager.instance.primaryFocus?.unfocus();
-
           //             await APIService().callAPI(
           //                 params: {},
           //                 serviceUrl: widget.isFrom != AppTexts.group
@@ -575,6 +579,229 @@ class _CommentScreenState extends State<CommentScreen> {
           //     ],
           //   ),
           // ),
+          Spacer(),
+          Expanded(
+            child: Container(
+              color: Theme.of(Get.context!).colorScheme.background,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                color: Theme.of(Get.context!).colorScheme.background,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 9,
+                      child: commonTextField(
+                          readOnly: false,
+                          hint: 'Write Comment',
+                          isLabelFloating: false,
+                          controller: commentTextController,
+                          borderColor: Theme.of(Get.context!).primaryColor,
+                          baseColor:
+                              Theme.of(Get.context!).colorScheme.secondary,
+                          isLastField: true,
+                          obscureText: false,
+                          commentBox: true),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.send),
+                      onPressed: () async {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        if (commentTextController.text.trim().isNotEmpty) {
+                          LoginModel userDetails =
+                              await SessionManagement.getUserDetails();
+
+                          Map<String, String> bodyData = {
+                            "post_id": widget.postId,
+                            "user_id": userDetails.id!,
+                            "comment": commentTextController.text
+                          };
+                          FocusManager.instance.primaryFocus?.unfocus();
+
+                          await APIService().callAPI(
+                              params: {},
+                              serviceUrl: widget.isFrom != AppTexts.group
+                                  ? EndPoints.baseUrl +
+                                      EndPoints.insertCommentUrl
+                                  : "${EndPoints.baseUrl}${EndPoints.insertCommentForGrpUrl}/${widget.postId}/${userDetails.id}/G",
+                              method: APIService.postMethod,
+                              formDatas: dio.FormData.fromMap(bodyData),
+                              success: (dio.Response response) async {
+                                // Get.back();
+                                commentTextController.clear();
+                                // NotificationHandler.to.sendNotificationToUserID(userId: userId, title: title, body: body);
+                                await commentController.getComments(
+                                    postId: widget.postId,
+                                    isFirstTime: true,
+                                    isFromGrp: widget.isFrom == AppTexts.group,
+                                    callBack: () {
+                                      if (widget.isFrom == AppTexts.dashBoard) {
+                                        print(":: INDEX IS ${widget.index}");
+                                        print(
+                                            ":: commentController.commentList?.length IS ${commentController.commentList?.length}");
+                                        if (widget.index != null) {
+                                          dashBoardController
+                                              .dashboardFeeds[widget.index ?? 0]
+                                              .countComment = commentController
+                                                  .commentList?.length ??
+                                              0;
+                                          dashBoardController
+                                              .dashboardFeeds[widget.index ?? 0]
+                                              .latestComments
+                                              ?.clear();
+                                          commentController.commentList
+                                              ?.forEach((element) {
+                                            kDashboardController
+                                                .dashboardFeeds[
+                                                    widget.index ?? 0]
+                                                .latestComments
+                                                ?.add(
+                                                    PostModelFeedLatestComments(
+                                                        comment:
+                                                            element?.comment,
+                                                        commentId:
+                                                            element?.commentId,
+                                                        firstname:
+                                                            element?.firstname,
+                                                        lastname:
+                                                            element?.lastname,
+                                                        img: element?.img,
+                                                        date: element?.date,
+                                                        userId:
+                                                            element?.userId));
+                                          });
+                                          print(
+                                              ">> < COMMENT COUNT ? ${dashBoardController.dashboardFeeds[widget.index ?? 0].countComment}");
+                                        }
+                                      }
+                                      if (widget.isFrom == AppTexts.favorite) {
+                                        kFavouriteController
+                                            .favFeeds?[widget.index ?? 0]
+                                            .countComment = commentController
+                                                .commentList?.length ??
+                                            0;
+                                        kFavouriteController
+                                            .favFeeds?[widget.index ?? 0]
+                                            .latestComments
+                                            ?.clear();
+                                        commentController.commentList
+                                            ?.forEach((element) {
+                                          kFavouriteController
+                                              .favFeeds?[widget.index ?? 0]
+                                              .latestComments
+                                              ?.add(PostModelFeedLatestComments(
+                                                  comment: element?.comment,
+                                                  commentId: element?.commentId,
+                                                  firstname: element?.firstname,
+                                                  lastname: element?.lastname,
+                                                  img: element?.img,
+                                                  date: element?.date,
+                                                  userId: element?.userId));
+                                        });
+                                      }
+                                      if (widget.isFrom == AppTexts.profile) {
+                                        kProfileController
+                                            .profileFeeds?[widget.index ?? 0]
+                                            .countComment = commentController
+                                                .commentList?.length ??
+                                            0;
+                                        kProfileController
+                                            .profileFeeds?[widget.index ?? 0]
+                                            .latestComments
+                                            ?.clear();
+                                        commentController.commentList
+                                            ?.forEach((element) {
+                                          kProfileController
+                                              .profileFeeds?[widget.index ?? 0]
+                                              .latestComments
+                                              ?.add(PostModelFeedLatestComments(
+                                                  comment: element?.comment,
+                                                  commentId: element?.commentId,
+                                                  firstname: element?.firstname,
+                                                  lastname: element?.lastname,
+                                                  img: element?.img,
+                                                  date: element?.date,
+                                                  userId: element?.userId));
+                                        });
+                                      }
+                                      if (widget.isFrom ==
+                                          AppTexts.someoneProfile) {
+                                        kProfileController
+                                            .profileFeeds?[widget.index ?? 0]
+                                            .countComment = commentController
+                                                .commentList?.length ??
+                                            0;
+                                        kProfileController
+                                            .profileFeeds?[widget.index ?? 0]
+                                            .latestComments
+                                            ?.clear();
+                                        commentController.commentList
+                                            ?.forEach((element) {
+                                          kProfileController
+                                              .profileFeeds?[widget.index ?? 0]
+                                              .latestComments
+                                              ?.add(PostModelFeedLatestComments(
+                                                  comment: element?.comment,
+                                                  commentId: element?.commentId,
+                                                  firstname: element?.firstname,
+                                                  lastname: element?.lastname,
+                                                  img: element?.img,
+                                                  date: element?.date,
+                                                  userId: element?.userId));
+                                        });
+                                      }
+                                      if (widget.isFrom == AppTexts.group) {
+                                        groupFeeds?[widget.index ?? 0]
+                                            .countComment = commentController
+                                                .commentList?.length ??
+                                            0;
+                                        groupFeeds?[widget.index ?? 0]
+                                            .latestComments
+                                            ?.clear();
+                                        commentController.commentList
+                                            ?.forEach((element) {
+                                          groupFeeds?[widget.index ?? 0]
+                                              .latestComments
+                                              ?.add(PostModelFeedLatestComments(
+                                                  comment: element?.comment,
+                                                  commentId: element?.commentId,
+                                                  firstname: element?.firstname,
+                                                  lastname: element?.lastname,
+                                                  img: element?.img,
+                                                  date: element?.date,
+                                                  userId: element?.userId));
+                                        });
+                                      }
+                                      print(
+                                          ">> INDEX ${widget.index ?? 0} COUNT >> ${kDashboardController.dashboardFeeds[widget.index ?? 0].countComment}");
+                                      print(
+                                          ">> WIDGET COMMENT COUNT < BEFORE ${kDashboardController.dashboardFeeds[widget.index ?? 0].countComment} ");
+                                    });
+                                if (widget.postOwnerId != userDetails.id &&
+                                    widget.postOwnerId != null) {
+                                  NotificationHandler.to.sendNotificationToUserID(
+                                      postId: widget.postId ?? "0",
+                                      userId: widget.postOwnerId ?? "0",
+                                      title: "Comment Your Post",
+                                      body:
+                                          "${userDetails.fname} ${userDetails.lname} Commented your post");
+                                }
+                              },
+                              error: (dio.Response response) {
+                                snack(
+                                    icon: Icons.report_problem,
+                                    iconColor: Colors.yellow,
+                                    msg: "Type something first...",
+                                    title: "Alert!");
+                              },
+                              showProcess: true);
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -623,21 +850,34 @@ class _CommentScreenState extends State<CommentScreen> {
                         //   ),
                         // );
                       },
-                      child: ClipOval(
-                        child: CachedNetworkImage(
-                          alignment: Alignment.center,
-                          fit: BoxFit.fill,
-                          imageUrl:
-                              "${EndPoints.ImageURl}${commentController.commentList?[index]?.img}",
-                          placeholder: (context, url) => Container(
-                            padding: const EdgeInsets.all(3),
-                            child: shimmerMeUp(CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                  Theme.of(context).colorScheme.secondary),
-                            )),
+                      child: InkWell(
+                        onTap: () {
+                          if (commentController.commentList?[index]?.userId !=
+                              userId) {
+                            Get.to(() => SomeoneProfileScreen(
+                                profileID: commentController
+                                    .commentList![index]!.userId
+                                    .toString()));
+                          } else {
+                            Get.to(() => const ProfileScreen());
+                          }
+                        },
+                        child: ClipOval(
+                          child: CachedNetworkImage(
+                            alignment: Alignment.center,
+                            fit: BoxFit.fill,
+                            imageUrl:
+                                "${EndPoints.ImageURl}${commentController.commentList?[index]?.img}",
+                            placeholder: (context, url) => Container(
+                              padding: const EdgeInsets.all(3),
+                              child: shimmerMeUp(CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    Theme.of(context).colorScheme.secondary),
+                              )),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                           ),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
                         ),
                       ),
                     ),
