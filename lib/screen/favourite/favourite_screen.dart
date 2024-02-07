@@ -984,7 +984,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                     print("=== == = = =${feed?.url}");
                     print("=== 121 2 12${listOfMedia?[index]}");
                     print("=== indexxx ${index}");
-                    return ["mp4", "3gp"]
+                    return ["mp4", "3gp", 'mov', 'mkv', 'avi', 'm3u8', 'webm']
                             .contains(listOfMedia?[index].split(".").last)
                         ? Container(
                             decoration: BoxDecoration(
@@ -1023,14 +1023,9 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                   )
                                 ],
                               ),
-                              // child: FlickVideoPlayer(
-                              //     flickManager: FlickManager(
-                              //   autoPlay: false,
-                              //   videoPlayerController: VideoPlayerController.network(listOfMedia[index] ?? "-"),
-                              // )),
                             ),
                           )
-                        : ["jpg", "jpeg", "png", "gif"]
+                        : ["jpg", "jpeg", "png", "gif", 'heic', 'heif']
                                 .contains(listOfMedia?[index].split(".").last)
                             ? Stack(
                                 fit: StackFit.expand,
@@ -1056,12 +1051,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                               child:
                                                   CupertinoActivityIndicator());
                                         },
-                                        // progressIndicatorBuilder: (BuildContext, String, DownloadProgress){
-                                        //   return SizedBox(
-                                        //     height: 35,
-                                        //     width: 35,
-                                        //     child: Platform.isAndroid ? CircularProgressIndicator() : CupertinoActivityIndicator(),);
-                                        // },
+
                                         errorWidget:
                                             (BuildContext, String, dynamic) {
                                           return Image.asset("assets/logo.png");
@@ -1091,16 +1081,6 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                       ),
                                     ),
                                   ),
-                                  // Center(
-                                  //   child: Visibility(
-                                  //     visible: index == 3 && (listOfMedia?.length ?? 0) >= 5,
-                                  //     child: Positioned(
-                                  //         child: Text(
-                                  //       "+${(listOfMedia?.length ?? 0) - 4} More",
-                                  //       style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-                                  //     )),
-                                  //   ),
-                                  // )
                                 ],
                               )
                             : feed?.url?.contains("youtube.com/watch?v") == true
@@ -1112,49 +1092,10 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                     ),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(5),
-                                      // child: YoutubeVideoScereen(
-                                      //   videoId: feed.url!.split("=").last,
-                                      // ),
-                                      child: StreamBuilder(
-                                          stream: favouriteController
-                                              .isRefreshing.stream,
-                                          builder: (context, snapshot) {
-                                            print(
-                                                "> kFavouriteController.isRefreshing => ${favouriteController.isRefreshing.value}");
-                                            return favouriteController
-                                                        .isRefreshing.value ==
-                                                    true
-                                                ? const CupertinoActivityIndicator()
-                                                : CommonYTPlayer(
-                                                    videoId: feed?.url
-                                                            ?.split("=")
-                                                            .last ??
-                                                        "");
-                                          }),
-
-                                      /*child: YoutubePlayer(
-                                      controller: YoutubePlayerController(
-                                        initialVideoId: feed?.url?.split("=").last ?? "",
-                                        flags: YoutubePlayerFlags(
-                                          autoPlay: true,
-                                          mute: true,
-                                        ),
+                                      child: CommonYTPlayer(
+                                        videoId: feed?.url ?? "",
                                       ),
-                                      showVideoProgressIndicator: true,
-                                      // videoProgressIndicatorColor: Colors.amber,
-                                      // progressColors: ProgressColors(
-                                      //   playedColor: Colors.amber,
-                                      //   handleColor: Colors.amberAccent,
-                                      // ),
-
-                                      // child: YoutubePlayerIFrame(
-                                      //   controller: YoutubePlayerController(
-                                      //     params: YoutubePlayerParams(autoPlay: false),
-                                      //     initialVideoId: feed?.url?.split("=").last ?? "",
-                                      //   ),
-                                    ),*/
-                                    ),
-                                  )
+                                    ))
                                 : (feed?.url?.contains(
                                             "www.youtube.com/live/") ==
                                         true)
@@ -1168,39 +1109,12 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(5),
-                                          // child: YoutubeVideoScereen(
-                                          //   videoId: feed.url!.split("=").last,
-                                          // ),
 
                                           child: CommonYTPlayer(
-                                              videoId: feed?.url
-                                                      ?.split("/")
-                                                      .last
-                                                      .split('?')
-                                                      .first ??
-                                                  ""),
-
-                                          /*child: YoutubePlayer(
-                                        controller: YoutubePlayerController(
-                                          initialVideoId: feed?.url?.split("=").last ?? "",
-                                          flags: YoutubePlayerFlags(
-                                            autoPlay: true,
-                                            mute: true,
-                                          ),
-                                        ),
-                                        showVideoProgressIndicator: true,
-                                        // videoProgressIndicatorColor: Colors.amber,
-                                        // progressColors: ProgressColors(
-                                        //   playedColor: Colors.amber,
-                                        //   handleColor: Colors.amberAccent,
-                                        // ),
-
-                                        // child: YoutubePlayerIFrame(
-                                        //   controller: YoutubePlayerController(
-                                        //     params: YoutubePlayerParams(autoPlay: false),
-                                        //     initialVideoId: feed?.url?.split("=").last ?? "",
-                                        //   ),
-                                      ),*/
+                                              videoId: feed?.url ?? ""),
+                                          // videoId:
+                                          // feed?.url?.split("/").last.split('?').first ??
+                                          //     ""
                                         ),
                                       )
                                     : feed?.url?.contains("youtu.be") == true
@@ -1215,58 +1129,39 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                             child: ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(5),
-                                              // child: YoutubeVideoScereen(
-                                              //   videoId: feed.url!.split("/").last,
-                                              // ),
-                                              child: StreamBuilder(
-                                                  stream: favouriteController
-                                                      .isRefreshing.stream,
-                                                  builder: (context, snapshot) {
-                                                    print(
-                                                        "> kFavouriteController.isRefreshing => 22 ${favouriteController.isRefreshing.value}");
-
-                                                    return favouriteController
-                                                                .isRefreshing
-                                                                .value ==
-                                                            true
-                                                        ? const CupertinoActivityIndicator()
-                                                        : CommonYTPlayer(
-                                                            videoId: feed?.url
-                                                                    ?.split("/")
-                                                                    .last
-                                                                    .split('?')
-                                                                    .first ??
-                                                                "");
-                                                  }),
-
-                                              /*child: YoutubePlayer(
-                                          controller: YoutubePlayerController(
-                                            initialVideoId: feed?.url?.split("/").last ?? "",
-                                            flags: YoutubePlayerFlags(
-                                              autoPlay: true,
-                                              mute: true,
-                                            ),
-                                          ),
-                                          showVideoProgressIndicator: true,
-                                          // videoProgressIndicatorColor: Colors.amber,
-                                          // progressColors: ProgressColors(
-                                          //   playedColor: Colors.amber,
-                                          //   handleColor: Colors.amberAccent,
-                                          // ),
-                                        ),*/
-
-                                              /*child: YoutubePlayerIFrame(
-                                          controller: YoutubePlayerController(
-                                            params: const YoutubePlayerParams(
-                                              autoPlay: false,
-                                            ),
-                                            initialVideoId: feed?.url?.split("/").last ?? "",
-                                            // initialVideoId: feed.url!.split("/").last
-                                          ),
-                                        ),*/
+                                              child: CommonYTPlayer(
+                                                  videoId: feed?.url ?? ""),
+                                              /* videoId: feed?.url
+                                        ?.split("/")
+                                        .last
+                                        .split('?')
+                                        .first ??
+                                    ""*/
                                             ),
                                           )
-                                        : const SizedBox();
+                                        : (feed?.url?.contains(
+                                                    "youtube.com/shorts/") ==
+                                                true)
+                                            ? Container(
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.grey,
+                                                      width: 0.5),
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                ),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+
+                                                  child: CommonYTPlayer(
+                                                      videoId: feed?.url ?? ""),
+                                                  // videoId:
+                                                  // feed?.url?.split("/").last.split('?').first ??
+                                                  //     ""
+                                                ),
+                                              )
+                                            : const SizedBox();
                   },
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisSpacing: 3,

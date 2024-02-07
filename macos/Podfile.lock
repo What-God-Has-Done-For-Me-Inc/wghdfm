@@ -24,7 +24,7 @@ PODS:
     - FMDB (>= 2.7.5)
   - url_launcher_macos (0.0.1):
     - FlutterMacOS
-  - wakelock_macos (0.0.1):
+  - WakelockPlus_macos (0.0.1):
     - FlutterMacOS
 
 DEPENDENCIES:
@@ -38,7 +38,7 @@ DEPENDENCIES:
   - shared_preferences_macos (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_macos/macos`)
   - sqflite (from `Flutter/ephemeral/.symlinks/plugins/sqflite/macos`)
   - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
-  - wakelock_macos (from `Flutter/ephemeral/.symlinks/plugins/wakelock_macos/macos`)
+  - WakelockPlus_macos (from `Flutter/ephemeral/.symlinks/plugins/WakelockPlus_macos/macos`)
 
 SPEC REPOS:
   trunk:
@@ -66,8 +66,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/sqflite/macos
   url_launcher_macos:
     :path: Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos
-  wakelock_macos:
-    :path: Flutter/ephemeral/.symlinks/plugins/wakelock_macos/macos
+  WakelockPlus_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/WakelockPlus_macos/macos
 
 SPEC CHECKSUMS:
   awesome_notifications: 428f5c15a700b117418aed09e29c21c5806fcf69
@@ -82,7 +82,7 @@ SPEC CHECKSUMS:
   shared_preferences_macos: a64dc611287ed6cbe28fd1297898db1336975727
   sqflite: a5789cceda41d54d23f31d6de539d65bb14100ea
   url_launcher_macos: 597e05b8e514239626bcf4a850fcf9ef5c856ec3
-  wakelock_macos: bc3f2a9bd8d2e6c89fee1e1822e7ddac3bd004a9
+  WakelockPlus_macos: bc3f2a9bd8d2e6c89fee1e1822e7ddac3bd004a9
 
 PODFILE CHECKSUM: 353c8bcc5d5b0994e508d035b5431cfe18c1dea7
 

@@ -46,14 +46,10 @@ class _MyAppState extends State<MyApp> {
             },
           ),
           primaryColor: const Color(0xff132ba2),
-          iconTheme: const IconThemeData(
-            color: Color(0xff4b4b4b),
-          ),
+          iconTheme: const IconThemeData(color: Color(0xff4b4b4b)),
           elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              primary: const Color(0xff1742cb).withOpacity(0.7),
-            ),
-          ),
+              style: ElevatedButton.styleFrom(
+                  primary: const Color(0xff1742cb).withOpacity(0.7))),
           fontFamily: 'Gilroy',
           visualDensity: VisualDensity.adaptivePlatformDensity,
           colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)

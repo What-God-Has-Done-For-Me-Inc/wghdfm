@@ -16,13 +16,16 @@ import 'package:wghdfm_java/utils/get_links_text.dart';
 class NotificationPostDetailsScreen extends StatefulWidget {
   final String postId;
 
-  const NotificationPostDetailsScreen({Key? key, required this.postId}) : super(key: key);
+  const NotificationPostDetailsScreen({Key? key, required this.postId})
+      : super(key: key);
 
   @override
-  State<NotificationPostDetailsScreen> createState() => _NotificationPostDetailsScreenState();
+  State<NotificationPostDetailsScreen> createState() =>
+      _NotificationPostDetailsScreenState();
 }
 
-class _NotificationPostDetailsScreenState extends State<NotificationPostDetailsScreen> {
+class _NotificationPostDetailsScreenState
+    extends State<NotificationPostDetailsScreen> {
   NotificationHandler notificationHandler = Get.put(NotificationHandler());
 
   @override
@@ -34,8 +37,11 @@ class _NotificationPostDetailsScreenState extends State<NotificationPostDetailsS
 
   @override
   Widget build(BuildContext context) {
-    bool isLoved = notificationHandler.notificationPostModel.value.feed?.first?.isFav == 1;
-    bool isLiked = notificationHandler.notificationPostModel.value.feed?.first?.isLike == 1;
+    bool isLoved =
+        notificationHandler.notificationPostModel.value.feed?.first?.isFav == 1;
+    bool isLiked =
+        notificationHandler.notificationPostModel.value.feed?.first?.isLike ==
+            1;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -89,17 +95,22 @@ class _NotificationPostDetailsScreenState extends State<NotificationPostDetailsS
                                 child: CachedNetworkImage(
                                   alignment: Alignment.center,
                                   fit: BoxFit.fill,
-                                  imageUrl: "${notificationHandler.notificationPostModel.value.feed?.first?.profilePic}",
+                                  imageUrl:
+                                      "${notificationHandler.notificationPostModel.value.feed?.first?.profilePic}",
                                   // placeholder: (context, url) {
                                   //   return Image.asset(
                                   //     "assets/logo.png",
                                   //     scale: 5.0,
                                   //   );
                                   // },
-                                  progressIndicatorBuilder: (BuildContext, String, DownloadProgress) {
-                                    return const Center(child: CupertinoActivityIndicator());
+                                  progressIndicatorBuilder:
+                                      (BuildContext, String, DownloadProgress) {
+                                    return const Center(
+                                        child: CupertinoActivityIndicator());
                                   },
-                                  errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.white),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error,
+                                          color: Colors.white),
                                 ),
                               ),
                             ),
@@ -112,7 +123,8 @@ class _NotificationPostDetailsScreenState extends State<NotificationPostDetailsS
                           flex: 8,
                           child: RichText(
                             text: TextSpan(
-                              text: notificationHandler.notificationPostModel.value.feed?.first?.name,
+                              text: notificationHandler.notificationPostModel
+                                  .value.feed?.first?.name,
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 15.0,
@@ -131,7 +143,14 @@ class _NotificationPostDetailsScreenState extends State<NotificationPostDetailsS
                                     decoration: TextDecoration.none,
                                   ),
                                 ),
-                                if (notificationHandler.notificationPostModel.value.feed?.first?.allTagUserList?.isNotEmpty == true)
+                                if (notificationHandler
+                                        .notificationPostModel
+                                        .value
+                                        .feed
+                                        ?.first
+                                        ?.allTagUserList
+                                        ?.isNotEmpty ==
+                                    true)
                                   const TextSpan(
                                     text: "is with ",
                                     style: TextStyle(
@@ -142,16 +161,26 @@ class _NotificationPostDetailsScreenState extends State<NotificationPostDetailsS
                                       decoration: TextDecoration.none,
                                     ),
                                   ),
-                                ...notificationHandler.notificationPostModel.value.feed?.first?.allTagUserList?.map(
+                                ...notificationHandler.notificationPostModel
+                                        .value.feed?.first?.allTagUserList
+                                        ?.map(
                                       (e) {
-                                        int indexs = notificationHandler.notificationPostModel.value.feed?.first?.allTagUserList?.indexOf(e) ?? 0;
+                                        int indexs = notificationHandler
+                                                .notificationPostModel
+                                                .value
+                                                .feed
+                                                ?.first
+                                                ?.allTagUserList
+                                                ?.indexOf(e) ??
+                                            0;
 
                                         if (indexs > 0) {
                                           if (indexs > 1) {
                                             return const TextSpan();
                                           }
                                           return TextSpan(
-                                              text: "${(notificationHandler.notificationPostModel.value.feed?.first?.allTagUserList?.length ?? 0) - indexs} Others",
+                                              text:
+                                                  "${(notificationHandler.notificationPostModel.value.feed?.first?.allTagUserList?.length ?? 0) - indexs} Others",
                                               style: const TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 15.0,
@@ -163,39 +192,80 @@ class _NotificationPostDetailsScreenState extends State<NotificationPostDetailsS
                                                 ..onTap = () {
                                                   Get.bottomSheet(BottomSheet(
                                                     onClosing: () {},
-                                                    shape: const RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                                                    shape:
+                                                        const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.vertical(
+                                                              top: Radius
+                                                                  .circular(
+                                                                      12)),
                                                     ),
                                                     builder: (context) {
                                                       return Container(
                                                         width: Get.width,
-                                                        decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(12))),
+                                                        decoration: const BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius.vertical(
+                                                                    top: Radius
+                                                                        .circular(
+                                                                            12))),
                                                         child: ListView.builder(
-                                                          itemCount: notificationHandler.notificationPostModel.value.feed?.first?.allTagUserList?.length ?? 0,
+                                                          itemCount: notificationHandler
+                                                                  .notificationPostModel
+                                                                  .value
+                                                                  .feed
+                                                                  ?.first
+                                                                  ?.allTagUserList
+                                                                  ?.length ??
+                                                              0,
                                                           shrinkWrap: true,
-                                                          itemBuilder: (context, listIndex) {
+                                                          itemBuilder: (context,
+                                                              listIndex) {
                                                             if (listIndex < 1) {
                                                               return const SizedBox();
                                                             }
                                                             return ListTile(
                                                               leading: ClipOval(
-                                                                child: Container(
+                                                                child:
+                                                                    Container(
                                                                   height: 50,
                                                                   width: 50,
-                                                                  decoration: BoxDecoration(
-                                                                    color: Theme.of(Get.context!).iconTheme.color,
-                                                                    borderRadius: BorderRadius.circular(100),
-                                                                    border: Border.all(
-                                                                      color: Theme.of(Get.context!).iconTheme.color!,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: Theme.of(
+                                                                            Get.context!)
+                                                                        .iconTheme
+                                                                        .color,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            100),
+                                                                    border:
+                                                                        Border
+                                                                            .all(
+                                                                      color: Theme.of(
+                                                                              Get.context!)
+                                                                          .iconTheme
+                                                                          .color!,
                                                                       width: 1,
                                                                     ),
                                                                   ),
-                                                                  margin: const EdgeInsets.all(5),
-                                                                  padding: EdgeInsets.zero,
-                                                                  child: ClipOval(
-                                                                    child: CachedNetworkImage(
-                                                                      alignment: Alignment.center,
-                                                                      fit: BoxFit.fill,
+                                                                  margin:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          5),
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .zero,
+                                                                  child:
+                                                                      ClipOval(
+                                                                    child:
+                                                                        CachedNetworkImage(
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .center,
+                                                                      fit: BoxFit
+                                                                          .fill,
                                                                       imageUrl:
                                                                           "${notificationHandler.notificationPostModel.value.feed?.first?.allTagUserList?[listIndex].profileImg}",
                                                                       // placeholder: (context, url) {
@@ -204,27 +274,54 @@ class _NotificationPostDetailsScreenState extends State<NotificationPostDetailsS
                                                                       //     scale: 5.0,
                                                                       //   );
                                                                       // },
-                                                                      progressIndicatorBuilder: (BuildContext, String, DownloadProgress) {
-                                                                        return const Center(child: CupertinoActivityIndicator());
+                                                                      progressIndicatorBuilder: (BuildContext,
+                                                                          String,
+                                                                          DownloadProgress) {
+                                                                        return const Center(
+                                                                            child:
+                                                                                CupertinoActivityIndicator());
                                                                       },
-                                                                      errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.white),
+                                                                      errorWidget: (context,
+                                                                              url,
+                                                                              error) =>
+                                                                          const Icon(
+                                                                              Icons.error,
+                                                                              color: Colors.white),
                                                                     ),
                                                                   ),
                                                                 ),
                                                               ),
-                                                              title: Text("${notificationHandler.notificationPostModel.value.feed?.first?.allTagUserList?[listIndex].profileName}"),
+                                                              title: Text(
+                                                                  "${notificationHandler.notificationPostModel.value.feed?.first?.allTagUserList?[listIndex].profileName}"),
                                                               onTap: () {
-                                                                if (notificationHandler.notificationPostModel.value.feed?.first?.allTagUserList?[listIndex].profileId?.isNotEmpty ==
+                                                                if (notificationHandler
+                                                                        .notificationPostModel
+                                                                        .value
+                                                                        .feed
+                                                                        ?.first
+                                                                        ?.allTagUserList?[
+                                                                            listIndex]
+                                                                        .profileId
+                                                                        ?.isNotEmpty ==
                                                                     true) {
                                                                   Get.back();
 
-                                                                  if (notificationHandler.notificationPostModel.value.feed?.first?.allTagUserList?[listIndex].profileId != userId) {
-                                                                    Get.to(() => SomeoneProfileScreen(
-                                                                        profileID:
-                                                                            notificationHandler.notificationPostModel.value.feed?.first?.allTagUserList?[listIndex].profileId ??
-                                                                                ""));
+                                                                  if (notificationHandler
+                                                                          .notificationPostModel
+                                                                          .value
+                                                                          .feed
+                                                                          ?.first
+                                                                          ?.allTagUserList?[
+                                                                              listIndex]
+                                                                          .profileId !=
+                                                                      userId) {
+                                                                    Get.to(() =>
+                                                                        SomeoneProfileScreen(
+                                                                            profileID:
+                                                                                notificationHandler.notificationPostModel.value.feed?.first?.allTagUserList?[listIndex].profileId ?? ""));
                                                                   } else {
-                                                                    Get.to(() => const ProfileScreen());
+                                                                    Get.to(() =>
+                                                                        const ProfileScreen());
                                                                   }
                                                                 }
                                                               },
@@ -252,8 +349,13 @@ class _NotificationPostDetailsScreenState extends State<NotificationPostDetailsS
                                             ),
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
-                                                if (e.profileId?.isNotEmpty == true) {
-                                                  Get.to(() => SomeoneProfileScreen(profileID: e.profileId ?? ""));
+                                                if (e.profileId?.isNotEmpty ==
+                                                    true) {
+                                                  Get.to(() =>
+                                                      SomeoneProfileScreen(
+                                                          profileID:
+                                                              e.profileId ??
+                                                                  ""));
                                                 }
                                               });
                                       },
@@ -266,7 +368,12 @@ class _NotificationPostDetailsScreenState extends State<NotificationPostDetailsS
                       ],
                     ),
                   ),
-                  if (notificationHandler.notificationPostModel.value.feed?.first?.status != null && notificationHandler.notificationPostModel.value.feed?.first?.status != '')
+                  if (notificationHandler.notificationPostModel.value.feed
+                              ?.first?.status !=
+                          null &&
+                      notificationHandler.notificationPostModel.value.feed
+                              ?.first?.status !=
+                          '')
                     Container(
                       margin: const EdgeInsets.only(
                         left: 10,
@@ -277,7 +384,10 @@ class _NotificationPostDetailsScreenState extends State<NotificationPostDetailsS
                         children: <Widget>[
                           Expanded(
                             flex: 8,
-                            child: getLinkText(text: notificationHandler.notificationPostModel.value.feed?.first?.status ?? ""),
+                            child: getLinkText(
+                                text: notificationHandler.notificationPostModel
+                                        .value.feed?.first?.status ??
+                                    ""),
                             // child: RichText(
                             //   text: TextSpan(
                             //     text: profileController.profileFeeds?[index].status!,
@@ -295,7 +405,8 @@ class _NotificationPostDetailsScreenState extends State<NotificationPostDetailsS
                       ),
                     ),
                   // Text(feeds![index].status.toString()),
-                  customImageViewForDetails(notificationHandler.notificationPostModel.value.feed?.first),
+                  customImageViewForDetails(notificationHandler
+                      .notificationPostModel.value.feed?.first),
                   // Container(
                   //   margin: const EdgeInsets.only(
                   //     left: 10,
@@ -578,7 +689,9 @@ Widget customImageViewForDetails(PostModelFeed? feed) {
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        (feed?.media != "" || feed?.url != "" || listOfMedia?.isNotEmpty == true)
+        (feed?.media != "" ||
+                feed?.url != "" ||
+                listOfMedia?.isNotEmpty == true)
             ? ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 shrinkWrap: true,
@@ -587,7 +700,8 @@ Widget customImageViewForDetails(PostModelFeed? feed) {
                   print("=== == = = =${feed?.url}");
                   print("=== 121 2 12${listOfMedia?[index]}");
                   print("=== indexxx ${index}");
-                  return ["mp4", "3gp"].contains(listOfMedia?[index].split(".").last)
+                  return ["mp4", "3gp", 'mov', 'mkv', 'avi', 'm3u8', 'webm']
+                          .contains(listOfMedia?[index].split(".").last)
                       ? Container(
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey, width: 0.5),
@@ -595,18 +709,16 @@ Widget customImageViewForDetails(PostModelFeed? feed) {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(5),
-                            child: CommonVideoPlayer(videoLink: listOfMedia?[index] ?? ""),
-                            // child: FlickVideoPlayer(
-                            //     flickManager: FlickManager(
-                            //   autoPlay: false,
-                            //   videoPlayerController: VideoPlayerController.network(listOfMedia[index] ?? "-"),
-                            // )),
+                            child: CommonVideoPlayer(
+                                videoLink: listOfMedia?[index] ?? ""),
                           ),
                         )
-                      : ["jpg", "jpeg", "png", "gif"].contains(listOfMedia?[index].split(".").last)
+                      : ["jpg", "jpeg", "png", "gif", 'heic', 'heif']
+                              .contains(listOfMedia?[index].split(".").last)
                           ? Container(
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey, width: 0.5),
+                                border:
+                                    Border.all(color: Colors.grey, width: 0.5),
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               child: ClipRRect(
@@ -614,155 +726,99 @@ Widget customImageViewForDetails(PostModelFeed? feed) {
                                 child: Container(
                                   child: CachedNetworkImage(
                                     imageUrl: listOfMedia?[index] ?? "",
-                                    // placeholder: (context, url) {
-                                    //   return Image.asset("assets/logo.png");
-                                    // },
-                                    progressIndicatorBuilder: (BuildContext, String, DownloadProgress) {
-                                      return const Center(child: CupertinoActivityIndicator());
+                                    progressIndicatorBuilder: (BuildContext,
+                                        String, DownloadProgress) {
+                                      return const Center(
+                                          child: CupertinoActivityIndicator());
                                     },
-                                    // progressIndicatorBuilder: (BuildContext, String, DownloadProgress){
-                                    //   return SizedBox(
-                                    //     height: 35,
-                                    //     width: 35,
-                                    //     child: Platform.isAndroid ? CircularProgressIndicator() : CupertinoActivityIndicator(),);
-                                    // },
-                                    errorWidget: (BuildContext, String, dynamic) {
+                                    errorWidget:
+                                        (BuildContext, String, dynamic) {
                                       return Image.asset("assets/logo.png");
                                       // return Image.asset("assets/drawable/home.jpg");
                                     },
                                   ),
                                 ),
-                                // Image(
-                                //   image: NetworkImage(listOfMedia[index]),
-                                //   fit: BoxFit.cover,
-                                // ),
                               ),
                             )
                           : feed?.url?.contains("youtube.com/watch?v") == true
                               ? Container(
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey, width: 0.5),
+                                    border: Border.all(
+                                        color: Colors.grey, width: 0.5),
                                     borderRadius: BorderRadius.circular(6),
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(5),
-                                    // child: YoutubeVideoScereen(
-                                    //   videoId: feed.url!.split("=").last,
-                                    // ),
-                                    child: CommonYTPlayer(videoId: feed?.url?.split("=").last ?? ""),
-
-                                    /*child: YoutubePlayer(
-                                    controller: YoutubePlayerController(
-                                      initialVideoId: feed?.url?.split("=").last ?? "",
-                                      flags: YoutubePlayerFlags(
-                                        autoPlay: true,
-                                        mute: true,
-                                      ),
+                                    child: CommonYTPlayer(
+                                      videoId: feed?.url ?? "",
                                     ),
-                                    showVideoProgressIndicator: true,
-                                    // videoProgressIndicatorColor: Colors.amber,
-                                    // progressColors: ProgressColors(
-                                    //   playedColor: Colors.amber,
-                                    //   handleColor: Colors.amberAccent,
-                                    // ),
-
-                                    // child: YoutubePlayerIFrame(
-                                    //   controller: YoutubePlayerController(
-                                    //     params: YoutubePlayerParams(autoPlay: false),
-                                    //     initialVideoId: feed?.url?.split("=").last ?? "",
-                                    //   ),
-                                  ),*/
-                                  ),
-                                )
-                              : (feed?.url?.contains("www.youtube.com/live/") == true)
+                                  ))
+                              : (feed?.url?.contains("www.youtube.com/live/") ==
+                                      true)
                                   ? Container(
                                       decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey, width: 0.5),
+                                        border: Border.all(
+                                            color: Colors.grey, width: 0.5),
                                         borderRadius: BorderRadius.circular(6),
                                       ),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
-                                        // child: YoutubeVideoScereen(
-                                        //   videoId: feed.url!.split("=").last,
-                                        // ),
 
-                                        child: CommonYTPlayer(videoId: feed?.url?.split("/").last.split('?').first ?? ""),
-
-                                        /*child: YoutubePlayer(
-                                        controller: YoutubePlayerController(
-                                          initialVideoId: feed?.url?.split("=").last ?? "",
-                                          flags: YoutubePlayerFlags(
-                                            autoPlay: true,
-                                            mute: true,
-                                          ),
-                                        ),
-                                        showVideoProgressIndicator: true,
-                                        // videoProgressIndicatorColor: Colors.amber,
-                                        // progressColors: ProgressColors(
-                                        //   playedColor: Colors.amber,
-                                        //   handleColor: Colors.amberAccent,
-                                        // ),
-
-                                        // child: YoutubePlayerIFrame(
-                                        //   controller: YoutubePlayerController(
-                                        //     params: YoutubePlayerParams(autoPlay: false),
-                                        //     initialVideoId: feed?.url?.split("=").last ?? "",
-                                        //   ),
-                                      ),*/
+                                        child: CommonYTPlayer(
+                                            videoId: feed?.url ?? ""),
+                                        // videoId:
+                                        // feed?.url?.split("/").last.split('?').first ??
+                                        //     ""
                                       ),
                                     )
                                   : feed?.url?.contains("youtu.be") == true
                                       ? Container(
                                           decoration: BoxDecoration(
-                                            border: Border.all(color: Colors.grey, width: 0.5),
-                                            borderRadius: BorderRadius.circular(6),
+                                            border: Border.all(
+                                                color: Colors.grey, width: 0.5),
+                                            borderRadius:
+                                                BorderRadius.circular(6),
                                           ),
                                           child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(5),
-                                            // child: YoutubeVideoScereen(
-                                            //   videoId: feed.url!.split("/").last,
-                                            // ),
-                                            child: CommonYTPlayer(videoId: feed?.url?.split("/").last ?? ""),
-
-                                            /*child: YoutubePlayer(
-                                        controller: YoutubePlayerController(
-                                          initialVideoId: feed?.url?.split("/").last ?? "",
-                                          flags: YoutubePlayerFlags(
-                                            autoPlay: true,
-                                            mute: true,
-                                          ),
-                                        ),
-                                        showVideoProgressIndicator: true,
-                                        // videoProgressIndicatorColor: Colors.amber,
-                                        // progressColors: ProgressColors(
-                                        //   playedColor: Colors.amber,
-                                        //   handleColor: Colors.amberAccent,
-                                        // ),
-                                      ),*/
-
-                                            /*child: YoutubePlayerIFrame(
-                                        controller: YoutubePlayerController(
-                                          params: const YoutubePlayerParams(
-                                            autoPlay: false,
-                                          ),
-                                          initialVideoId: feed?.url?.split("/").last ?? "",
-                                          // initialVideoId: feed.url!.split("/").last
-                                        ),
-                                      ),*/
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            child: CommonYTPlayer(
+                                                videoId: feed?.url ?? ""),
+                                            /* videoId: feed?.url
+                                        ?.split("/")
+                                        .last
+                                        .split('?')
+                                        .first ??
+                                    ""*/
                                           ),
                                         )
-                                      : const SizedBox();
+                                      : (feed?.url?.contains(
+                                                  "youtube.com/shorts/") ==
+                                              true)
+                                          ? Container(
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.grey,
+                                                    width: 0.5),
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+
+                                                child: CommonYTPlayer(
+                                                    videoId: feed?.url ?? ""),
+                                                // videoId:
+                                                // feed?.url?.split("/").last.split('?').first ??
+                                                //     ""
+                                              ),
+                                            )
+                                          : const SizedBox();
                 },
-                // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                //   crossAxisSpacing: 3,
-                //   childAspectRatio: 0.75,
-                //   mainAxisSpacing: 3,
-                //   // mainAxisExtent: 100,
-                //   crossAxisCount: listOfMedia?.length == 1 ? 1 : 2,
-                // ),
                 itemCount: listOfMedia?.length ?? 0,
               )
-            : SizedBox(),
+            : const SizedBox(),
         const SizedBox(
           height: 5,
         ),

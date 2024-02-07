@@ -37,7 +37,6 @@ Widget customImageView(PostModelFeed? feed) {
       feed?.media == ""
           ? const Offstage()
           : Get.toNamed(PageRes.postDetailScreen, arguments: listOfMedia);
-      print("more");
     },
     child: Column(
       mainAxisSize: MainAxisSize.min,
@@ -131,7 +130,7 @@ Widget customImageView(PostModelFeed? feed) {
                                       ? listOfMedia?.length
                                       : 4,
                                   itemBuilder: (context, index) {
-                                    print("=== == = = =${feed?.url}");
+                                    print("wow === == = = =${feed?.url}");
                                     print("=== 121 2 12${listOfMedia?[index]}");
                                     print("=== indexxx ${index}");
                                     return [
@@ -140,6 +139,7 @@ Widget customImageView(PostModelFeed? feed) {
                                       "mov",
                                       "mkv",
                                       'avi',
+                                      'm3u8',
                                       'webm'
                                     ].contains(
                                             listOfMedia?[index].split(".").last)
@@ -191,11 +191,6 @@ Widget customImageView(PostModelFeed? feed) {
                                                   )
                                                 ],
                                               ),
-                                              // child: FlickVideoPlayer(
-                                              //     flickManager: FlickManager(
-                                              //   autoPlay: false,
-                                              //   videoPlayerController: VideoPlayerController.network(listOfMedia[index] ?? "-"),
-                                              // )),
                                             ),
                                           )
                                         : [
@@ -393,7 +388,7 @@ Widget customImageView(PostModelFeed? feed) {
 }
 
 Widget mediaView({required List listOfMedia, index, feed, BoxFit? imgFit}) {
-  return ["mp4", "3gp", 'mov', 'mkv', 'avi', 'webm']
+  return ["mp4", "3gp", 'mov', 'mkv', 'avi', 'm3u8', 'webm']
           .contains(listOfMedia[index].split(".").last)
       ? Container(
           height: Get.height * 0.5,

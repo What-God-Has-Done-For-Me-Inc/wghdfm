@@ -12,78 +12,50 @@ class PostDetailsScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        // appBar: AppBar(
-        //   backgroundColor: Colors.transparent,
-        //   shadowColor: Colors.transparent,
-        //   leading: IconButton(
-        //     icon: const Icon(Icons.arrow_back, color: Colors.black),
-        //     onPressed: () => Navigator.of(context).pop(),
-        //   ),
-        // ),
         body: Stack(
           children: [
             Column(
               children: [
                 Expanded(
                   child: PageView.builder(
-                    // separatorBuilder: (context, index) => SizedBox(height: 10),
-                    // padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                    // shrinkWrap: true,
-                    // primary: false,
-
                     physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       p.media[index];
-                      return ["mp4", "3gp"].contains(p.media[index].split(".").last)
+                      return ["mp4", "3gp", 'mov', 'mkv', 'avi', 'm3u8', 'webm']
+                              .contains(p.media[index].split(".").last)
                           ? Container(
                               child: Container(
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey, width: 1),
+                                  border:
+                                      Border.all(color: Colors.grey, width: 1),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8.5),
-                                  child: CommonVideoPlayer(videoLink: p.media[index]),
-                                  // child: FlickVideoPlayer(
-                                  //     flickManager: FlickManager(
-                                  //   autoPlay: false,
-                                  //   videoPlayerController: VideoPlayerController.network(p.media[index]),
-                                  // )),
+                                  child: CommonVideoPlayer(
+                                      videoLink: p.media[index]),
                                 ),
                               ),
                             )
-                          : ["jpg", "jpeg", "png", "gif"].contains(p.media[index].split(".").last)
+                          : ["jpg", "jpeg", "png", "gif", 'heic', 'heif']
+                                  .contains(p.media[index].split(".").last)
                               ? Container(
                                   height: MediaQuery.of(context).size.height,
                                   width: MediaQuery.of(context).size.width,
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey, width: 1),
+                                    border: Border.all(
+                                        color: Colors.grey, width: 1),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(8.5),
-                                    child: ZoomableCachedNetworkImage(imageUrl: p.media[index]),
-                                    // child: CachedNetworkImage(
-                                    //     progressIndicatorBuilder: (BuildContext, String, DownloadProgress) {
-                                    //       return const Center(child: CupertinoActivityIndicator());
-                                    //     },
-                                    //     errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.white),
-                                    //     imageUrl: p.media[index]),
-                                    // child: Image(
-                                    //   image: NetworkImage(p.media[index]),
-                                    //   fit: BoxFit.cover,
-                                    // ),
+                                    child: ZoomableCachedNetworkImage(
+                                        imageUrl: p.media[index]),
                                   ),
                                 )
                               : const Offstage();
                     },
-                    // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    //   crossAxisSpacing: 0,
-                    //   childAspectRatio: 0.75,
-                    //   mainAxisSpacing: 18,
-                    //   crossAxisCount: 1,
-                    // ),
                     itemCount: p.media.length ?? 0,
                   ),
                 ),
@@ -117,7 +89,8 @@ class ZoomableCachedNetworkImage extends StatelessWidget {
         fit: BoxFit.contain,
         width: double.infinity,
         height: double.infinity,
-        placeholder: (context, url) => SizedBox(height: 30, width: 30, child: CircularProgressIndicator()),
+        placeholder: (context, url) =>
+            SizedBox(height: 30, width: 30, child: CircularProgressIndicator()),
         errorWidget: (context, url, error) => Icon(Icons.error),
       ),
     );

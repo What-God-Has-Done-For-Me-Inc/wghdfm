@@ -11,7 +11,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.1.5+20
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
+  sdk: '>=3.2.6 <4.0.0'
 
 
 dependencies:
@@ -23,69 +23,44 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
  
   get: ^4.6.6
+  provider: ^6.1.1
   dio: ^5.4.0
   path_provider: ^2.1.1
   permission_handler: ^11.1.0
-  # file_picker: ^6.1.1
   file_picker: 
-  # image_picker: ^1.0.4
   image_picker:
-  #   path: lib/custom_package/image_picker/image_picker
-  #  video_compress: ^3.1.2
   video_compress_ds: ^3.1.6
   light_compressor: ^2.2.0
   flutter_image_compress: ^2.1.0
-  #  image_cropper:
   camera: ^0.10.5+6
-  #  camerawesome: ^0.3.3
-  #  camera_camera: ^2.0.2
   connectivity_plus: ^5.0.2
-  # async: ^2.9.0
-  # marquee: ^2.2.3
   intl: ^0.18.0
   shared_preferences: ^2.2.2
   flutter_slidable: ^3.0.1
-  # flutter_web_browser: ^0.17.1
-  #  webview_flutter: ^3.0.4
   webview_flutter: ^4.4.2
-  share_plus: 
+  # share_plus: ^7.2.0
   url_launcher: ^6.2.2
   google_fonts: 
-  #  flutter_icons  : ^1.1.0
   shimmer: ^3.0.0
   cached_network_image: ^3.3.0
-  # new_version: ^0.3.1
-  #  chewie: ^1.3.5
   video_player: ^2.8.1
-#  chewie: ^1.7.4
-  #  better_player: ^0.0.83
-  #  better_player: ^0.0.79
-  #  better_player:
-  #    git: https://github.com/tintran-dev/betterplayer.git
-  flick_video_player: ^0.6.0
+  # flick_video_player: ^0.7.0
   universal_html:
-  # youtube_player_flutter: ^8.1.1
   youtube_player_flutter_plus: ^9.0.0
   youtube_player_iframe: ^4.0.4
   google_mobile_ads: ^4.0.0
-  #  flutter_zoom_drawer: ^3.0.3
-  #  flutter_zoom_drawer: ^3.0.0
   emoji_picker_flutter: ^1.6.3
-  #  dotted_border: ^2.0.0+3
-  #  dotted_border: ^2.0.0+3
-  #  dotted_border: ^2.0.0+3
   readmore: ^2.2.0
   mime: ^1.0.4
   percent_indicator: ^4.2.3
-  #  light_compressor: ^2.0.1
-  #  video_compress: ^3.1.2
   tutorial_coach_mark: ^1.2.11
-  flutter_plugin_android_lifecycle: ^2.0.17
   flutter_inappwebview: ^6.0.0
   pinput: ^3.0.1
   lottie: ^2.7.0
-  upgrader: 
+  # upgrader:
   icons_plus: ^5.0.0
+  wakelock: ^0.6.2
+  # wakelock_plus: ^1.1.4
  
 
   

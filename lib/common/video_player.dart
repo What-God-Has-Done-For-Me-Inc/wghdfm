@@ -2,11 +2,13 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flick_video_player/flick_video_player.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:wghdfm_java/utils/endpoints.dart';
+
+import '../custom_package/flick_player/flick_video_player.dart';
 
 class CommonVideoPlayer extends StatefulWidget {
   final String videoLink;
@@ -35,7 +37,7 @@ class _CommonVideoPlayer extends State<CommonVideoPlayer> {
 
   Future<void> initializePlayer() async {
     log("==== LINK OF PLAYER ${widget.videoLink}");
-    _videoPlayerController =  VideoPlayerController.networkUrl(
+    _videoPlayerController = VideoPlayerController.networkUrl(
       Uri.parse(widget.videoLink),
     );
     //_videoPlayerController.initialize();
@@ -59,36 +61,22 @@ class _CommonVideoPlayer extends State<CommonVideoPlayer> {
     if (widget.isFile == true) {
       flickManager = FlickManager(
           videoPlayerController:
-          VideoPlayerController.file(File(widget.videoLink)),
+              VideoPlayerController.file(File(widget.videoLink)),
           autoInitialize: true,
           onVideoEnd: () {
             // thumbnail.value = true;
           });
     } else {
       flickManager = FlickManager(
-          videoPlayerController:_videoPlayerController,
+          videoPlayerController: _videoPlayerController,
           autoInitialize: true,
+          videoUrl: widget.videoLink,
           autoPlay: true,
           onVideoEnd: () {
             thumbnail.value = true;
           });
     }
-
-
   }
-
-  // void _createChewieController() {
-  //   _chewieController = ChewieController(
-  //     videoPlayerController: _videoPlayerController,
-  //     // aspectRatio: _videoPlayerController.value.aspectRatio,
-  //     autoPlay: true,
-  //     looping: false,
-  //     autoInitialize: true,
-  //     progressIndicatorDelay:
-  //         bufferDelay != null ? Duration(milliseconds: bufferDelay!) : null,
-  //     hideControlsTimer: const Duration(seconds: 2),
-  //   );
-  // }
 
   @override
   void dispose() {
@@ -97,7 +85,6 @@ class _CommonVideoPlayer extends State<CommonVideoPlayer> {
     // _chewieController?.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -111,58 +98,60 @@ class _CommonVideoPlayer extends State<CommonVideoPlayer> {
         builder: (context, snapshot) {
           print(thumbnail.value);
           if (thumbnail.value && !_videoPlayerController.value.isInitialized) {
-            print(
-                '====${widget.videoLink.replaceAll("videowires", 'videothumbnails').replaceAll('mp4', 'jpg')}');
+            var videoThumbnail =
+                "${widget.videoLink.replaceAll("videowires", 'videothumbnails').replaceAll('mp4', 'jpg')}";
+            if (widget.videoLink.contains('.m3u8')) {
+              videoThumbnail =
+                  "${EndPoints.VIDEO_THUMB_URL + widget.videoLink.split('/HLS/').last.replaceAll('m3u8', 'jpg')}";
+            }
+            print('====$videoThumbnail');
             return Stack(
               fit: StackFit.expand,
               children: [
                 CachedNetworkImage(
-                  imageUrl:
-                  '${widget.videoLink.replaceAll("videowires", 'videothumbnails').replaceAll('mp4', 'jpg')}',
+                  imageUrl: videoThumbnail,
                   fit: BoxFit.cover,
                   errorWidget: (context, url, error) {
-                    return Center(child: Icon(Icons.error));
+                    return const Center(child: Icon(Icons.error));
                   },
                 ),
                 InkWell(
                   onTap: () {
                     thumbnail.value = false;
-                    // flickManager.flickControlManager!.autoResume();
+                    flickManager.flickControlManager!.play();
                   },
-                  child: Align(
+                  child: const Align(
                     alignment: Alignment.center,
                     child:
-                    Icon(Icons.play_circle, color: Colors.white, size: 50),
+                        Icon(Icons.play_circle, color: Colors.white, size: 50),
                   ),
                 ),
               ],
             );
           }
-          return Builder(
-              builder: (context) {
-                RxBool loading = true.obs;
-                return FlickVideoPlayer(
-                  flickManager: flickManager,
-                  flickVideoWithControls: const FlickVideoWithControls(
-                    closedCaptionTextStyle: TextStyle(fontSize: 8),
-                    controls: FlickPortraitControls(),
-                  ),
-                  flickVideoWithControlsFullscreen: const FlickVideoWithControls(
-                    controls: FlickLandscapeControls(),
-                  ),
-                  preferredDeviceOrientationFullscreen: const [
-                    DeviceOrientation.portraitUp,
-                    DeviceOrientation.landscapeLeft
-                  ],
-                  preferredDeviceOrientation: const [
-                    DeviceOrientation.portraitUp,
-                    DeviceOrientation.landscapeLeft
-                  ],
-                  systemUIOverlayFullscreen: [SystemUiOverlay.bottom],
-                  systemUIOverlay: [SystemUiOverlay.top],
-                );
-              }
-          );
+
+          return Builder(builder: (context) {
+            return FlickVideoPlayer(
+              flickManager: flickManager,
+              flickVideoWithControls: const FlickVideoWithControls(
+                closedCaptionTextStyle: TextStyle(fontSize: 8),
+                controls: FlickPortraitControls(),
+              ),
+              flickVideoWithControlsFullscreen: const FlickVideoWithControls(
+                controls: FlickLandscapeControls(),
+              ),
+              preferredDeviceOrientationFullscreen: const [
+                DeviceOrientation.portraitUp,
+                DeviceOrientation.landscapeLeft
+              ],
+              preferredDeviceOrientation: const [
+                DeviceOrientation.portraitUp,
+                DeviceOrientation.landscapeLeft
+              ],
+              systemUIOverlayFullscreen: [SystemUiOverlay.bottom],
+              systemUIOverlay: [SystemUiOverlay.top],
+            );
+          });
         });
   }
 }

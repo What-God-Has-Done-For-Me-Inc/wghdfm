@@ -925,7 +925,7 @@ PODS:
   - video_player_avfoundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - wakelock (0.0.1):
+  - WakelockPlus (0.0.1):
     - Flutter
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
@@ -953,7 +953,7 @@ DEPENDENCIES:
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - video_compress_ds (from `.symlinks/plugins/video_compress_ds/ios`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/darwin`)
-  - wakelock (from `.symlinks/plugins/wakelock/ios`)
+  - WakelockPlus (from `.symlinks/plugins/WakelockPlus/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
 SPEC REPOS:
@@ -1037,8 +1037,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/video_compress_ds/ios"
   video_player_avfoundation:
     :path: ".symlinks/plugins/video_player_avfoundation/darwin"
-  wakelock:
-    :path: ".symlinks/plugins/wakelock/ios"
+  WakelockPlus:
+    :path: ".symlinks/plugins/WakelockPlus/ios"
   webview_flutter_wkwebview:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
@@ -1098,7 +1098,7 @@ SPEC CHECKSUMS:
   url_launcher_ios: bf5ce03e0e2088bad9cc378ea97fa0ed5b49673b
   video_compress_ds: bb434c35e9ffdb4106a92b9115cd8fa8d5c555a4
   video_player_avfoundation: e9e6f9cae7d7a6d9b43519b0aab382bca60fcfd1
-  wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
+  WakelockPlus: d0fc7c864128eac40eba1617cb5264d9c940b46f
   webview_flutter_wkwebview: 2e2d318f21a5e036e2c3f26171342e95908bd60a
 
 PODFILE CHECKSUM: 87da8645820357787922ff31b0a61e4613e97205
