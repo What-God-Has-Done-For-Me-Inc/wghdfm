@@ -12,7 +12,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 //import 'package:intent/action.dart' as android_action;
 //import 'package:intent/intent.dart' as android_intent;
-// import 'package:share_plus/share_plus.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
@@ -26,7 +26,7 @@ class AppMethods {
   }
 
   void share(var string) {
-    // Share.share('$string', subject: '#WGHDFM #WHATGODHASDONEFORME');
+     Share.share('$string', subject: '#WGHDFM #WHATGODHASDONEFORME');
   }
 
   void onCall(String contactNumber) {

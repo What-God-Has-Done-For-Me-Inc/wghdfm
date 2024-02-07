@@ -8,10 +8,10 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 #android version: 1.0.9+15
 #ios version: 1.1.1+15
-version: 1.1.5+20
+version: 1.1.6+21
 
 environment:
-  sdk: '>=3.2.6 <4.0.0'
+  sdk: '>=3.2.3 <4.0.0'
 
 
 dependencies:
@@ -38,7 +38,7 @@ dependencies:
   shared_preferences: ^2.2.2
   flutter_slidable: ^3.0.1
   webview_flutter: ^4.4.2
-  # share_plus: ^7.2.0
+  share_plus: ^6.3.4
   url_launcher: ^6.2.2
   google_fonts: 
   shimmer: ^3.0.0
@@ -57,10 +57,10 @@ dependencies:
   flutter_inappwebview: ^6.0.0
   pinput: ^3.0.1
   lottie: ^2.7.0
-  # upgrader:
+  upgrader:
   icons_plus: ^5.0.0
   wakelock: ^0.6.2
-  # wakelock_plus: ^1.1.4
+
  
 
   
