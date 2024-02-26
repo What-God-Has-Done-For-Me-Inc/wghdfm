@@ -3,8 +3,7 @@ class EndPoints {
   static const String webUrl = "https://whatgodhasdoneforme.com/";
 
   static String VIDEO_URL = "https://s3.amazonaws.com/wghdfm/videowires/";
-  static String VIDEO_THUMB_URL =
-      "https://s3.amazonaws.com/wghdfm/videothumbnails/";
+  static String VIDEO_THUMB_URL = "https://wghdfm.s3.amazonaws.com/thumbnails/";
 
   // end Points
   static const String signUpApi = "signup"; //done

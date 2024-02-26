@@ -99,10 +99,10 @@ class _CommonVideoPlayer extends State<CommonVideoPlayer> {
           print(thumbnail.value);
           if (thumbnail.value && !_videoPlayerController.value.isInitialized) {
             var videoThumbnail =
-                "${widget.videoLink.replaceAll("videowires", 'videothumbnails').replaceAll('mp4', 'jpg')}";
+                "${widget.videoLink.replaceAll("videowires", 'videothumbnails').replaceAll('mp4', '0000000.jpg')}";
             if (widget.videoLink.contains('.m3u8')) {
               videoThumbnail =
-                  "${EndPoints.VIDEO_THUMB_URL + widget.videoLink.split('/HLS/').last.replaceAll('m3u8', 'jpg')}";
+                  "${EndPoints.VIDEO_THUMB_URL + widget.videoLink.split('/HLS/').last.replaceAll('m3u8', '0000000.jpg')}";
             }
             print('====$videoThumbnail');
             return Stack(

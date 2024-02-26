@@ -971,7 +971,7 @@ class _AddPostState extends State<AddPost> {
 
     final image = await FilePicker.platform.pickFiles(
         allowCompression: false,
-        withReadStream: true,
+        withReadStream: false,
         allowMultiple: true,
         withData: false,
         dialogTitle: "Pick Photo or Video",

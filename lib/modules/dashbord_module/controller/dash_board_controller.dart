@@ -1,20 +1,19 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:mime/mime.dart';
 
 import 'package:awesome_notifications/awesome_notifications.dart' as awesome;
 import 'package:dio/dio.dart' as dio;
 import 'package:file_picker/file_picker.dart';
-
+import 'package:http_parser/http_parser.dart';
 // import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:light_compressor/light_compressor.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wghdfm_java/common/common_snack.dart';
 import 'package:wghdfm_java/common/commons.dart';
-import 'package:wghdfm_java/common/video_compressor.dart';
 import 'package:wghdfm_java/custom_package/zoom_drawer/config.dart';
 import 'package:wghdfm_java/modules/auth_module/model/login_model.dart';
 import 'package:wghdfm_java/modules/dashbord_module/model/friends_model.dart';
@@ -558,14 +557,7 @@ class DashBoardController extends GetxController {
   }) async {
     postUploading.value = true;
     uploadingProcess.value = "0.0";
-    // AwesomeNotifications().createNotification(
-    //     content: NotificationContent(
-    //   id: 1,
-    //   channelKey: 'basic_channel',
-    //   title: "Uploading..",
-    //   body: "Your Post is uploading on What God Has Done For Me ",
-    //   actionType: ActionType.Default,
-    // ));
+
     print(">>>> PATH >> ${imageFilePaths}");
 
     LoginModel userDetails = await SessionManagement.getUserDetails();
@@ -574,30 +566,8 @@ class DashBoardController extends GetxController {
     ///In case of new image post, post id is ""
     // loader(isCancellable: false);
 
-    ///Compressor Code
-    // for (var element in image.files) {
-    //   final tempImage = File(element.path ?? "");
-    //   print("========= FILE PATH  ========${tempImage.path}");
-    //   if (isVideo(filePath: tempImage.path)) {
-    //     final compressedFile = await videoCompressor.compressVideo(originalFile: tempImage);
-    //     if (compressedFile != null) {
-    //       setState(() {
-    //         // pickedImage = tempImage;
-    //         pickedFiles?.add(compressedFile);
-    //         VideoCompressor.percentage.value = 0.0;
-    //       });
-    //     }
-    //   } else {
-    //     if (tempImage != null) {
-    //       setState(() {
-    //         // pickedImage = tempImage;
-    //         pickedFiles?.add(tempImage);
-    //       });
-    //     }
-    //   }
-    // }
-    final LightCompressor _lightCompressor = LightCompressor();
-    VideoCompressor videoCompressor = VideoCompressor();
+    // final LightCompressor _lightCompressor = LightCompressor();
+    // VideoCompressor videoCompressor = VideoCompressor();
     List<dio.MultipartFile> fileList = <dio.MultipartFile>[];
 
     try {
@@ -605,45 +575,58 @@ class DashBoardController extends GetxController {
         ///File Compressor Added..
         // final compressedFile = await FileCompressor.compressFile(file: File(element!.path));
         if (isVideo(filePath: element?.path ?? "")) {
-          final Result response = await _lightCompressor.compressVideo(
-            path: element!.path,
-            videoQuality: VideoQuality.medium,
-            isMinBitrateCheckEnabled: false,
-            video: Video(
-                videoName: element.path
-                    .split('/')
-                    .last
-                    .toString()
-                    .split('.')
-                    .first
-                    .toString()),
-            android:
-                AndroidConfig(isSharedStorage: false, saveAt: SaveAt.Movies),
-            ios: IOSConfig(saveInGallery: false),
-          );
+          // final Result response = await _lightCompressor.compressVideo(
+          //   path: element!.path,
+          //   videoQuality: VideoQuality.medium,
+          //   isMinBitrateCheckEnabled: false,
+          //   video: Video(
+          //       videoName: element.path
+          //           .split('/')
+          //           .last
+          //           .toString()
+          //           .split('.')
+          //           .first
+          //           .toString()),
+          //   android:
+          //       AndroidConfig(isSharedStorage: false, saveAt: SaveAt.Movies),
+          //   ios: IOSConfig(saveInGallery: false),
+          // );
           /* final compressedFile = await videoCompressor.compressVideo(
               originalFile: element ?? File(""));*/
-          if (response is OnSuccess) {
-            /*  final bytes = (await response..readAsBytes())!.lengthInBytes;
+          // if (response is OnSuccess) {
+          /*  final bytes = (await response..readAsBytes())!.lengthInBytes;
             final kb = bytes / 1024;
             final mb = kb / 1024;
             print("=== === === === === === === === === === === === $mb mb");*/
-            print(
-                "=== === === === === === === === === === === === ${response.destinationPath}");
-            dio.MultipartFile file =
-                await dio.MultipartFile.fromFile(response.destinationPath);
-            fileList.add(file);
-            print('file added');
-          } else if (response is OnFailure) {
-            snack(
-                title: "Failed",
-                msg: "Compress Fail => for (var element in imageFilePaths)",
-                iconColor: Colors.red,
-                icon: Icons.close);
-          }
+          // print(
+          //     "=== === === === === === === === === === === === ${response.destinationPath}");
+          print(
+              "=== === === === === === === === === === === === ${element!.path}");
+          // dio.MultipartFile file =
+          //     await dio.MultipartFile.fromFile(response.destinationPath);
+          String fileName = element.path.split('/').last;
+
+          dio.MultipartFile file = await dio.MultipartFile.fromFile(
+            element.path,
+            filename: fileName,
+            contentType: MediaType.parse(lookupMimeType(fileName).toString()),
+          );
+          fileList.add(file);
+          print('file added');
+          // } else if (response is OnFailure) {
+          //   snack(
+          //       title: "Failed",
+          //       msg: "Compress Fail => for (var element in imageFilePaths)",
+          //       iconColor: Colors.red,
+          //       icon: Icons.close);
+          // }
         } else {
-          dio.MultipartFile file =
-              await dio.MultipartFile.fromFile(element?.path ?? "");
+          String fileName = element!.path.split('/').last;
+          dio.MultipartFile file = await dio.MultipartFile.fromFile(
+            element.path,
+            filename: fileName,
+            contentType: MediaType.parse(lookupMimeType(fileName).toString()),
+          );
           fileList.add(file);
           print('Image added');
         }
@@ -675,6 +658,7 @@ class DashBoardController extends GetxController {
                 print("======== POST NAME ${value}");
                 fileNames.add(value);
               });
+              // await APIService().uploadAndConvertVideos(videoFiles: fileNames);
 
               Map<String, dynamic> data = {
                 "user_id": userId,
@@ -779,16 +763,17 @@ class DashBoardController extends GetxController {
       {required List<dio.MultipartFile> fileList,
       required Function onSuccess,
       required Function onError}) async {
+    print(fileList.length);
+    print(fileList.first.filename);
     try {
       await APIService().callAPI(
-          formDatas: dio.FormData.fromMap({"photo": fileList}),
+          formDatas: dio.FormData.fromMap({"multi_wirefile": fileList}),
           percentage: uploadingProcess,
           params: {},
-          headers: {},
+          headers: {'Content-Type': 'multipart/form-data'},
           serviceUrl: EndPoints.postUploadingURL,
           method: APIService.postMethod,
           success: (dio.Response response) async {
-            print('success Recived');
             onSuccess(response);
           },
           error: (dio.Response response) {
@@ -824,8 +809,14 @@ class DashBoardController extends GetxController {
     loader(isCancellable: false);
     List<dio.MultipartFile> fileList = <dio.MultipartFile>[];
     for (var element in imageFilePaths) {
-      dio.MultipartFile file =
-          await dio.MultipartFile.fromFile(element?.path ?? "");
+      String fileName = element!.path.split('/').last;
+
+      dio.MultipartFile file = await dio.MultipartFile.fromFile(
+        element.path,
+        filename: fileName,
+        contentType: MediaType.parse(lookupMimeType(fileName).toString()),
+      );
+
       fileList.add(file);
     }
     Map<String, dynamic> data = {

@@ -11,9 +11,12 @@ import 'package:wghdfm_java/utils/app_methods.dart';
 class APIService {
   static const String somethingWrong = "Something Went Wrong";
   static const String responseMessage = "NO RESPONSE DATA FOUND";
-  static const String interNetMessage = "No internet connection, Please check your internet connection and try again later";
-  static const String connectionTimeOutMessage = "Oops.. Server not working or might be in maintenance. Please Try Again Later";
-  static const String authenticationMessage = "The session has been Expired. Please log in again.";
+  static const String interNetMessage =
+      "No internet connection, Please check your internet connection and try again later";
+  static const String connectionTimeOutMessage =
+      "Oops.. Server not working or might be in maintenance. Please Try Again Later";
+  static const String authenticationMessage =
+      "The session has been Expired. Please log in again.";
   static const String tryAgain = "Try Again";
 
   static const String getMethod = "getMethod";
@@ -66,8 +69,10 @@ class APIService {
     AppMethods.showLog(" DIO API Method >> $methodPassed", name: "API");
     AppMethods.showLog(" DIO API Params >> $paramsPassed", name: "API");
     AppMethods.showLog(" DIO API formDataMap >> $formDataMap", name: "API");
-    AppMethods.showLog(" DIO API FormData Fields >> ${formData?.fields}", name: "API");
-    AppMethods.showLog(" DIO API Form Data Files >> ${formData?.files}", name: "API");
+    AppMethods.showLog(" DIO API FormData Fields >> ${formData?.fields}",
+        name: "API");
+    AppMethods.showLog(" DIO API Form Data Files >> ${formData?.files}",
+        name: "API");
 
     if (await checkInternet()) {
       final timer = Stopwatch();
@@ -97,21 +102,28 @@ class APIService {
               AppMethods.showLog("percentage ===> $uploadPercentage");
               percentage?.value = uploadPercentage;
               AppMethods.showLog("percentagesss ===> ${percentage?.value}");
-              // kDashboardController.uploadingProcess.value = (sent / total * 100).toDouble() ?? 0.0;
             },
             options: d.Options(
-              headers: headersPassed,
+              headers: {'Content-Type': 'multipart/form-data'},
             ),
           );
         } else if (methodPassed == putMethod) {
-          response = await dio.put(serviceUrlPassed, queryParameters: paramsPassed, data: formData, options: d.Options(headers: headersPassed));
+          response = await dio.put(serviceUrlPassed,
+              queryParameters: paramsPassed,
+              data: formData,
+              options: d.Options(headers: headersPassed));
         } else {
-          response = await dio.delete(serviceUrlPassed, queryParameters: paramsPassed, data: formData, options: d.Options(headers: headersPassed));
+          response = await dio.delete(serviceUrlPassed,
+              queryParameters: paramsPassed,
+              data: formData,
+              options: d.Options(headers: headersPassed));
         }
         AppMethods.showLog(":::: API RESPONSE >>  $response ::::", name: "API");
         if (response.statusCode == 200 || response.statusCode == 201) {
           AppMethods.showLog(":::: SUCCESS API CALL ::::", name: "API");
-          AppMethods.showLog("$serviceUrl is completed in ${timer.elapsedMilliseconds} ms", name: "API");
+          AppMethods.showLog(
+              "$serviceUrl is completed in ${timer.elapsedMilliseconds} ms",
+              name: "API");
           timer.reset();
           if (showProcess == true) {
             hideProgressDialog();
@@ -128,19 +140,25 @@ class APIService {
       } on d.DioError catch (dioError) {
         AppMethods.showLog(" DIO ERROR >> TYPE >> ${dioError.type}");
         AppMethods.showLog(" DIO ERROR >> error >> ${dioError.error}");
-        AppMethods.showLog(" DIO ERROR >> response >> ${dioError.response?.data}");
+        AppMethods.showLog(
+            " DIO ERROR >> response >> ${dioError.response?.data}");
         AppMethods.showLog(" DIO ERROR >> message >> ${dioError.message}");
         if (showProcess == true) {
           hideProgressDialog();
         }
         await error(dioError.response);
-         apiAlertDialog(
-              message: connectionTimeOutMessage,
-              buttonCallBack: () async {
-                hideProgressDialog();
-                await callAPI(params: paramsPassed, serviceUrl: serviceUrl, method: methodPassed, success: success, error: error, showProcess: showProcess);
-              });
-        
+        apiAlertDialog(
+            message: connectionTimeOutMessage,
+            buttonCallBack: () async {
+              hideProgressDialog();
+              await callAPI(
+                  params: paramsPassed,
+                  serviceUrl: serviceUrl,
+                  method: methodPassed,
+                  success: success,
+                  error: error,
+                  showProcess: showProcess);
+            });
       } catch (e) {
         if (showProcess == true) {
           hideProgressDialog();
@@ -162,7 +180,13 @@ class APIService {
           isBackOnly: false,
           buttonCallBack: () async {
             hideProgressDialog();
-            await callAPI(params: paramsPassed, serviceUrl: serviceUrl, method: methodPassed, success: success, error: error, showProcess: showProcess);
+            await callAPI(
+                params: paramsPassed,
+                serviceUrl: serviceUrl,
+                method: methodPassed,
+                success: success,
+                error: error,
+                showProcess: showProcess);
           });
     }
   }

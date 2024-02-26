@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:http_parser/http_parser.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mime/mime.dart';
 import 'package:wghdfm_java/common/common_snack.dart';
 import 'package:wghdfm_java/model/feed_res_obj.dart';
 import 'package:wghdfm_java/modules/auth_module/model/login_model.dart';
@@ -60,9 +61,10 @@ class GroupController extends GetxController {
         showProcess: true);
   }
 
-  Future acceptMember({required String grpMemberID,
-    required String grpID,
-    Function? callBack}) async {
+  Future acceptMember(
+      {required String grpMemberID,
+      required String grpID,
+      Function? callBack}) async {
     await APIService().callAPI(
         params: {},
         serviceUrl: "${EndPoints.baseUrl}wire/accept_member/$grpMemberID",
@@ -96,18 +98,20 @@ class GroupController extends GetxController {
         showProcess: true);
   }
 
-  Future<void> postStatus(String status,
-      String youtubeLink,
-      String grpID,) async {
+  Future<void> postStatus(
+    String status,
+    String youtubeLink,
+    String grpID,
+  ) async {
     LoginModel userDetails = await SessionManagement.getUserDetails();
     userId = userDetails.id;
 
     await APIService().callAPI(
         params: {},
         formDatas:
-        dio.FormData.fromMap({"status": status, "vurl": youtubeLink}),
+            dio.FormData.fromMap({"status": status, "vurl": youtubeLink}),
         serviceUrl:
-        EndPoints.baseUrl + EndPoints.addFeedStatusInGroupUrl + userId,
+            EndPoints.baseUrl + EndPoints.addFeedStatusInGroupUrl + userId,
         method: APIService.postMethod,
         success: (dio.Response response) {
           Get.back();
@@ -132,8 +136,14 @@ class GroupController extends GetxController {
     ///In case of new image post, post id is ""
     List<dio.MultipartFile> fileList = <dio.MultipartFile>[];
     for (var element in imageFilePaths) {
-      dio.MultipartFile file =
-      await dio.MultipartFile.fromFile(element?.path ?? "");
+      String fileName = element!.path.split('/').last;
+
+      dio.MultipartFile file = await dio.MultipartFile.fromFile(
+        element.path,
+        filename: fileName,
+        contentType: MediaType.parse(lookupMimeType(fileName).toString()),
+      );
+
       fileList.add(file);
     }
     Map<String, dynamic> data = {
@@ -230,11 +240,16 @@ class GroupController extends GetxController {
   }) async {
     LoginModel userDetails = await SessionManagement.getUserDetails();
     userId = userDetails.id;
+    String fileName = imagePath!.path.split('/').last;
 
     Map<String, dynamic> data = {
       "group_id": groupID,
-      "cover_pic": imagePath?.path != null
-          ? await dio.MultipartFile.fromFile(imagePath?.path ?? "")
+      "cover_pic": imagePath.path != null
+          ? await dio.MultipartFile.fromFile(
+              imagePath.path,
+              filename: fileName,
+              contentType: MediaType.parse(lookupMimeType(fileName).toString()),
+            )
           : null,
     };
     print("uploadImage responseBody: $data ");
@@ -264,16 +279,17 @@ class GroupController extends GetxController {
         showProcess: true);
   }
 
-  Future getGrpFeed({var isFirstTimeLoading,
-    var page = 0,
-    var groupId = 0,
-    bool? showProcess}) async {
+  Future getGrpFeed(
+      {var isFirstTimeLoading,
+      var page = 0,
+      var groupId = 0,
+      bool? showProcess}) async {
     userId = await fetchStringValuesSF(SessionManagement.KEY_ID);
     isLoading.value = true;
     await APIService().callAPI(
         params: {},
         serviceUrl:
-        "${EndPoints.baseUrl}wire/group_more/$page/$groupId/$userId",
+            "${EndPoints.baseUrl}wire/group_more/$page/$groupId/$userId",
         method: APIService.postMethod,
         success: (dio.Response response) {
           if (response.data.trim() != '') {
@@ -390,9 +406,11 @@ class Gender {
   String sexCode = "";
   bool isSelected = false;
 
-  Gender(this.sexState,
-      this.sexCode,
-      this.isSelected,);
+  Gender(
+    this.sexState,
+    this.sexCode,
+    this.isSelected,
+  );
 }
 
 class GroupType {
@@ -400,7 +418,9 @@ class GroupType {
   String groupCode = "";
   bool isSelected = false;
 
-  GroupType(this.groupState,
-      this.groupCode,
-      this.isSelected,);
+  GroupType(
+    this.groupState,
+    this.groupCode,
+    this.isSelected,
+  );
 }
