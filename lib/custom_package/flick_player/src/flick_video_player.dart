@@ -196,6 +196,7 @@ class _FlickVideoPlayerState extends State<FlickVideoPlayer>
 
   Future<M3U8s?> m3u8Video(String? videoUrl) async {
     videoModel.add(M3U8Data(dataQuality: "Auto", dataURL: videoUrl));
+
     RegExp regExp = RegExp(
       RegexResponse.regexM3U8Resolution,
       caseSensitive: false,
@@ -209,6 +210,7 @@ class _FlickVideoPlayerState extends State<FlickVideoPlayer>
 
     if (m3u8Content == null && videoUrl != null) {
       http.Response response = await http.get(Uri.parse(videoUrl));
+      print(response.statusCode);
       if (response.statusCode == 200) {
         m3u8Content = utf8.decode(response.bodyBytes);
 
@@ -269,6 +271,15 @@ class _FlickVideoPlayerState extends State<FlickVideoPlayer>
         print(
             "--- m3u8 File write --- ${videoModel.map((e) => e.dataQuality == e.dataURL).toList()} --- length : ${videoModel.length} --- Success");
         return m3u8s;
+      } else if (response.statusCode == 404) {
+        //https://wghdfm.s3.amazonaws.com/videowires/475a68fb-f65a-4477-b24e-6102ad6013ce.mp4
+        var videoId = videoUrl.split('/HLS/').last.replaceAll('.m3u8', '.mp4');
+        var newVideoUrl = "https://wghdfm.s3.amazonaws.com/videowires/$videoId";
+        print(newVideoUrl);
+        handleVideoNotFound(videoUrl: newVideoUrl);
+        setState(() {
+          flickManager.flickDisplayManager!.handelQualityButton(show: false);
+        });
       }
     }
 
@@ -352,6 +363,24 @@ class _FlickVideoPlayerState extends State<FlickVideoPlayer>
     var controller = VideoPlayerController.networkUrl(
       Uri.parse(data.dataURL!),
       formatHint: VideoFormat.hls,
+    );
+
+    flickManager.handleChangeVideo(controller,
+        videoChangeDuration: lastPlayedPos);
+    flickManager.flickVideoManager!.videoPlayerController!.play();
+  }
+
+  void handleVideoNotFound({required String videoUrl}) async {
+    var lastPlayedPos =
+        await flickManager.flickVideoManager!.videoPlayerController!.position;
+
+    if (flickManager
+        .flickVideoManager!.videoPlayerController!.value.isPlaying) {
+      await flickManager.flickVideoManager!.videoPlayerController!.pause();
+    }
+
+    var controller = VideoPlayerController.networkUrl(
+      Uri.parse(videoUrl),
     );
 
     flickManager.handleChangeVideo(controller,

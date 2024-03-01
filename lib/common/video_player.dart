@@ -40,23 +40,6 @@ class _CommonVideoPlayer extends State<CommonVideoPlayer> {
     _videoPlayerController = VideoPlayerController.networkUrl(
       Uri.parse(widget.videoLink),
     );
-    //_videoPlayerController.initialize();
-    // _videoPlayerController.addListener(() {
-    //   if (_videoPlayerController.value.isBuffering) {
-    //     // Video is buffering
-    //     setState(() {
-    //       thumbnail.value = true;
-    //       print('Video is Buffring');
-    //     });
-    //   } else {
-    //     // Video is not buffering
-    //     setState(() {
-    //       thumbnail.value = false;
-    //       print('Video Not Buffring');
-    //     });
-    //   }
-    //
-    // });
 
     if (widget.isFile == true) {
       flickManager = FlickManager(
@@ -71,10 +54,11 @@ class _CommonVideoPlayer extends State<CommonVideoPlayer> {
           videoPlayerController: _videoPlayerController,
           autoInitialize: true,
           videoUrl: widget.videoLink,
-          autoPlay: true,
+          autoPlay: false,
           onVideoEnd: () {
             thumbnail.value = true;
           });
+      flickManager.registerContext(context);
     }
   }
 
@@ -99,10 +83,10 @@ class _CommonVideoPlayer extends State<CommonVideoPlayer> {
           print(thumbnail.value);
           if (thumbnail.value && !_videoPlayerController.value.isInitialized) {
             var videoThumbnail =
-                "${widget.videoLink.replaceAll("videowires", 'videothumbnails').replaceAll('mp4', '0000000.jpg')}";
+                "${widget.videoLink.replaceAll("videowires", 'videothumbnails').replaceAll('mp4', '0000001.jpg')}";
             if (widget.videoLink.contains('.m3u8')) {
               videoThumbnail =
-                  "${EndPoints.VIDEO_THUMB_URL + widget.videoLink.split('/HLS/').last.replaceAll('m3u8', '0000000.jpg')}";
+                  "${EndPoints.VIDEO_THUMB_URL + widget.videoLink.split('/converted/').last.replaceAll('m3u8', '0000001.jpg')}";
             }
             print('====$videoThumbnail');
             return Stack(
@@ -130,28 +114,26 @@ class _CommonVideoPlayer extends State<CommonVideoPlayer> {
             );
           }
 
-          return Builder(builder: (context) {
-            return FlickVideoPlayer(
-              flickManager: flickManager,
-              flickVideoWithControls: const FlickVideoWithControls(
-                closedCaptionTextStyle: TextStyle(fontSize: 8),
-                controls: FlickPortraitControls(),
-              ),
-              flickVideoWithControlsFullscreen: const FlickVideoWithControls(
-                controls: FlickLandscapeControls(),
-              ),
-              preferredDeviceOrientationFullscreen: const [
-                DeviceOrientation.portraitUp,
-                DeviceOrientation.landscapeLeft
-              ],
-              preferredDeviceOrientation: const [
-                DeviceOrientation.portraitUp,
-                DeviceOrientation.landscapeLeft
-              ],
-              systemUIOverlayFullscreen: [SystemUiOverlay.bottom],
-              systemUIOverlay: [SystemUiOverlay.top],
-            );
-          });
+          return FlickVideoPlayer(
+            flickManager: flickManager,
+            flickVideoWithControls: const FlickVideoWithControls(
+              closedCaptionTextStyle: TextStyle(fontSize: 8),
+              controls: FlickPortraitControls(),
+            ),
+            flickVideoWithControlsFullscreen: const FlickVideoWithControls(
+              controls: FlickLandscapeControls(),
+            ),
+            preferredDeviceOrientationFullscreen: const [
+              DeviceOrientation.portraitUp,
+              DeviceOrientation.landscapeLeft
+            ],
+            preferredDeviceOrientation: const [
+              DeviceOrientation.portraitUp,
+              DeviceOrientation.landscapeLeft
+            ],
+            systemUIOverlayFullscreen: [SystemUiOverlay.bottom],
+            systemUIOverlay: [SystemUiOverlay.top],
+          );
         });
   }
 }

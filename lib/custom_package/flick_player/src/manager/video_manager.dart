@@ -84,7 +84,6 @@ class FlickVideoManager extends ChangeNotifier {
   _handleChangeVideo(VideoPlayerController newController,
       {Duration? videoChangeDuration,
       TimerCancelCallback? timerCancelCallback}) async {
-    print("Video is ready for test");
     // If videoChangeDuration is not null, start the autoPlayTimer.
     if (videoChangeDuration != null) {
       _timerCancelCallback = timerCancelCallback;
@@ -122,7 +121,7 @@ class FlickVideoManager extends ChangeNotifier {
     _notify();
 
     // Dispose the old controller after 5 seconds.
-    Future.delayed(Duration(seconds: 5), () => oldController?.dispose());
+    Future.delayed(Duration(seconds: 2), () => oldController?.dispose());
 
     // Initialize the video if not initialized
     // (User can initialize the video while passing to flick).
