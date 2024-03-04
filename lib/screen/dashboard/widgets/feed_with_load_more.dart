@@ -51,7 +51,7 @@ Widget customImageView(PostModelFeed? feed) {
                         listOfMedia: listOfMedia ?? [],
                         feed: feed,
                         index: 0,
-                        imgFit: BoxFit.fill)
+                        imgFit: BoxFit.cover)
                     : (listOfMedia?.length ?? 0) == 2
                         ? SizedBox(
                             height: Get.height,
