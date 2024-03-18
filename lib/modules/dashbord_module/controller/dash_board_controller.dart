@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:light_compressor/light_compressor.dart';
 import 'package:mime/mime.dart';
 
 import 'package:awesome_notifications/awesome_notifications.dart' as awesome;
@@ -563,63 +564,93 @@ class DashBoardController extends GetxController {
     LoginModel userDetails = await SessionManagement.getUserDetails();
     userId = userDetails.id;
 
-    ///In case of new image post, post id is ""
-    // loader(isCancellable: false);
-
-    // final LightCompressor _lightCompressor = LightCompressor();
-    // VideoCompressor videoCompressor = VideoCompressor();
+    final LightCompressor _lightCompressor = LightCompressor();
     List<dio.MultipartFile> fileList = <dio.MultipartFile>[];
 
     try {
       for (var element in imageFilePaths) {
-        ///File Compressor Added..
-        // final compressedFile = await FileCompressor.compressFile(file: File(element!.path));
         if (isVideo(filePath: element?.path ?? "")) {
-          // final Result response = await _lightCompressor.compressVideo(
-          //   path: element!.path,
-          //   videoQuality: VideoQuality.medium,
-          //   isMinBitrateCheckEnabled: false,
-          //   video: Video(
-          //       videoName: element.path
-          //           .split('/')
-          //           .last
-          //           .toString()
-          //           .split('.')
-          //           .first
-          //           .toString()),
-          //   android:
-          //       AndroidConfig(isSharedStorage: false, saveAt: SaveAt.Movies),
-          //   ios: IOSConfig(saveInGallery: false),
-          // );
-          /* final compressedFile = await videoCompressor.compressVideo(
-              originalFile: element ?? File(""));*/
-          // if (response is OnSuccess) {
-          /*  final bytes = (await response..readAsBytes())!.lengthInBytes;
-            final kb = bytes / 1024;
-            final mb = kb / 1024;
-            print("=== === === === === === === === === === === === $mb mb");*/
-          // print(
-          //     "=== === === === === === === === === === === === ${response.destinationPath}");
-          print(
-              "=== === === === === === === === === === === === ${element!.path}");
-          // dio.MultipartFile file =
-          //     await dio.MultipartFile.fromFile(response.destinationPath);
-          String fileName = element.path.split('/').last;
+          String fileName = element!.path.split('/').last;
 
-          dio.MultipartFile file = await dio.MultipartFile.fromFile(
-            element.path,
-            filename: fileName,
-            contentType: MediaType.parse(lookupMimeType(fileName).toString()),
-          );
-          fileList.add(file);
-          print('file added');
-          // } else if (response is OnFailure) {
-          //   snack(
-          //       title: "Failed",
-          //       msg: "Compress Fail => for (var element in imageFilePaths)",
-          //       iconColor: Colors.red,
-          //       icon: Icons.close);
-          // }
+          final bytes = (await element.readAsBytes()).lengthInBytes;
+          final kb = bytes / 1024;
+          final mb = kb / 1024;
+          print(
+              "=== === === === === === === === === === === === ${element.path}");
+          print("=== === === === === === === === === === === === $mb mb");
+          if (mb <= 850) {
+            dio.MultipartFile file = await dio.MultipartFile.fromFile(
+              element.path,
+              filename: fileName,
+              contentType: MediaType.parse(lookupMimeType(fileName).toString()),
+            );
+            fileList.add(file);
+          // } else if (mb >= 200 && mb <= 700) {
+          //   final Result response = await _lightCompressor.compressVideo(
+          //     path: element.path,
+          //     videoQuality: VideoQuality.very_high,
+          //     isMinBitrateCheckEnabled: false,
+          //     video: Video(videoName: fileName.split('.').first.toString()),
+          //     android:
+          //         AndroidConfig(isSharedStorage: false, saveAt: SaveAt.Movies),
+          //     ios: IOSConfig(saveInGallery: false),
+          //   );
+          //   if (response is OnSuccess) {
+          //     print(
+          //         "=== === === === === === === === === === === === ${response.destinationPath}");
+
+          //     dio.MultipartFile file = await dio.MultipartFile.fromFile(
+          //       response.destinationPath,
+          //       filename: fileName,
+          //       contentType:
+          //           MediaType.parse(lookupMimeType(fileName).toString()),
+          //     );
+          //     fileList.add(file);
+          //     print('file added');
+          //   } else if (response is OnFailure) {
+          //     snack(
+          //         title: "Failed",
+          //         msg: "Compress Fail => for (var element in imageFilePaths)",
+          //         iconColor: Colors.red,
+          //         icon: Icons.close);
+          //   }
+          } else {
+            final Result response = await _lightCompressor.compressVideo(
+              path: element.path,
+              videoQuality: VideoQuality.medium,
+              isMinBitrateCheckEnabled: false,
+              video: Video(videoName: fileName.split('.').first.toString()),
+              android:
+                  AndroidConfig(isSharedStorage: false, saveAt: SaveAt.Movies),
+              ios: IOSConfig(saveInGallery: false),
+            );
+
+            if (response is OnSuccess) {
+              print(
+                  "=== === === === === === === === === === === === ${response.destinationPath}");
+
+              dio.MultipartFile file = await dio.MultipartFile.fromFile(
+                response.destinationPath,
+                filename: fileName,
+                contentType:
+                    MediaType.parse(lookupMimeType(fileName).toString()),
+              );
+
+              // dio.MultipartFile file = await dio.MultipartFile.fromFile(
+              //   element.path,
+              //   filename: fileName,
+              //   contentType: MediaType.parse(lookupMimeType(fileName).toString()),
+              // );
+              fileList.add(file);
+              print('file added');
+            } else if (response is OnFailure) {
+              snack(
+                  title: "Failed",
+                  msg: "Compress Fail => for (var element in imageFilePaths)",
+                  iconColor: Colors.red,
+                  icon: Icons.close);
+            }
+          }
         } else {
           String fileName = element!.path.split('/').last;
           dio.MultipartFile file = await dio.MultipartFile.fromFile(
@@ -738,6 +769,7 @@ class DashBoardController extends GetxController {
           onError: (dio.Response response) {
             postUploading.value = false;
             uploadingProcess.value = "0.0";
+            print(response);
             print("---- showProngress ____ error ---  ${response.statusCode}");
             print("---- showProngress ____ error ---  ${response.data}");
             String responseBody = response.data;

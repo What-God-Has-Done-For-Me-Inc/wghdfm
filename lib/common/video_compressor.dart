@@ -66,11 +66,17 @@ class VideoCompressor {
       final info = await VideoCompress.compressVideo(
         originalFile.path,
         frameRate: Platform.isAndroid ? 12000 : 30,
-        quality: Platform.isAndroid ? VideoQuality.HighestQuality : VideoQuality.DefaultQuality,
+        quality: Platform.isAndroid
+            ? VideoQuality.HighestQuality
+            : VideoQuality.DefaultQuality,
         deleteOrigin: false,
         includeAudio: Platform.isAndroid ? true : null,
       );
-      return (info?.file == null || info?.path?.isEmpty == true || info?.file?.path.isEmpty == true) ? null : File(info!.file!.path);
+      return (info?.file == null ||
+              info?.path?.isEmpty == true ||
+              info?.file?.path.isEmpty == true)
+          ? null
+          : File(info!.file!.path);
     }
     return null;
   }

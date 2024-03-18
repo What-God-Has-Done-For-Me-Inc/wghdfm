@@ -958,12 +958,13 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text(
-                              "${(value > 0 && value <= 0.9) ? 'Your post is Uploading Now' : 'Your post is Under Progress, you  will be notified soon'}",
+                              "${(value > 0 && value <= 0.95) ? 'Please wait, your media files are uploading' : 'Sit tight, we are processing your files to upload'}",
+                              // "${(value > 0 && value <= 0.95) ? 'Your post is Uploading Now' : 'Your post is Under Progress, you  will be notified soon'}",
                               style: GoogleFonts.inter(
                                   fontSize: 13, fontWeight: FontWeight.w600),
                             ),
                             SizedBox(height: 5),
-                            if (value > 0 && value <= 0.9)
+                            if (value > 0 && value <= 0.95)
                               ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
