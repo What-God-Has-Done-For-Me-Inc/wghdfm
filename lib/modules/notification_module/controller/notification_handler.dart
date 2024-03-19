@@ -109,7 +109,8 @@ class NotificationHandler extends GetxController {
         if (receivedAction.payload != null) {
           print(" Local Notification Payload is ${receivedAction.payload}");
           if (receivedAction.payload?.containsKey("postId") == true) {
-            Get.to(() => NotificationPostDetailsScreen(postId: "${receivedAction.payload?['postId']}"));
+            Get.to(() => NotificationPostDetailsScreen(
+                postId: "${receivedAction.payload?['postId']}"));
           }
           if (receivedAction.payload?.containsKey("notificationId") == true) {
             Get.to(() => MessageScreens());
@@ -128,7 +129,8 @@ class NotificationHandler extends GetxController {
       return;
     }
     if (message.data.keys.contains("postId")) {
-      Get.to(() => NotificationPostDetailsScreen(postId: "${message.data["postId"]}"));
+      Get.to(() =>
+          NotificationPostDetailsScreen(postId: "${message.data["postId"]}"));
       return;
     }
     if (message.data.keys.contains("notificationId")) {
@@ -148,7 +150,11 @@ class NotificationHandler extends GetxController {
               ledColor: Colors.white)
         ],
         // Channel groups are only visual and are not required
-        channelGroups: [NotificationChannelGroup(channelGroupKey: 'basic_channel_group', channelGroupName: 'Basic group')],
+        channelGroups: [
+          NotificationChannelGroup(
+              channelGroupKey: 'basic_channel_group',
+              channelGroupName: 'Basic group')
+        ],
         debug: true);
   }
 
@@ -191,11 +197,13 @@ class NotificationHandler extends GetxController {
     required String postId,
     Map? data,
   }) async {
+    print(serverKey);
     await APIService().callAPI(
         params: {},
-        formDataMap: jsonEncode({
+        formDataMap: jsonEncode(<String, dynamic>{
           "to": fcmToken,
-          "notification": {
+          'priority': 'high',
+          "notification": <String, dynamic>{
             "title": title,
             "body": body,
             "mutable_content": true,
@@ -204,7 +212,10 @@ class NotificationHandler extends GetxController {
           "data": data ?? {"postId": postId}
         }),
         serviceUrl: "https://fcm.googleapis.com/fcm/send",
-        headers: {"Content-Type": "application/json", "Authorization": "key=$serverKey"},
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "key=$serverKey"
+        },
         method: APIService.postMethod,
         success: (dio.Response response) {
           print(" ::: : Successfully sent notification");
@@ -215,7 +226,12 @@ class NotificationHandler extends GetxController {
         showProcess: false);
   }
 
-  sendNotificationToUserID({required String userId, required String title, required String body, required String postId, Map? map}) async {
+  sendNotificationToUserID(
+      {required String userId,
+      required String title,
+      required String body,
+      required String postId,
+      Map? map}) async {
     await APIService().callAPI(
         params: {},
         serviceUrl: "${EndPoints.baseUrl}user/get_firebase_token",
@@ -225,6 +241,7 @@ class NotificationHandler extends GetxController {
         success: (dio.Response response) {
           Map<String, dynamic> dataMap = jsonDecode(response.data);
           if (dataMap['token'] != null) {
+            print(dataMap['token']);
             sendNotification(
               fcmToken: dataMap['token'],
               title: title,
@@ -247,7 +264,8 @@ class NotificationHandler extends GetxController {
             params: {},
             serviceUrl: "${EndPoints.baseUrl}user/update_firebase_token",
             // headers: {},
-            formDatas: dio.FormData.fromMap({"user_id": userId, "token": value}),
+            formDatas:
+                dio.FormData.fromMap({"user_id": userId, "token": value}),
             method: APIService.postMethod,
             success: (dio.Response response) async {
               print(" Set Token Successfully");
@@ -263,7 +281,8 @@ class NotificationHandler extends GetxController {
           params: {},
           serviceUrl: "${EndPoints.baseUrl}user/update_firebase_token",
           // headers: {},
-          formDatas: dio.FormData.fromMap({"user_id": userId, "token": fcmToken}),
+          formDatas:
+              dio.FormData.fromMap({"user_id": userId, "token": fcmToken}),
           method: APIService.postMethod,
           success: (dio.Response response) async {
             await FirebaseMessaging.instance.subscribeToTopic("general");
@@ -291,8 +310,10 @@ class NotificationHandler extends GetxController {
         success: (dio.Response response) {
           print(" >>>>>>> response.data >>>>>> ${response.data}");
           // print(" >>>>>>> JSON ${jsonDecode(response.data['feed'].first)}");
-          notificationPostModel.value = NotificationPostModel.fromJson(jsonDecode(response.data));
-          print(" >>>>>>> Model ${notificationPostModel.value.feed?.first?.name}");
+          notificationPostModel.value =
+              NotificationPostModel.fromJson(jsonDecode(response.data));
+          print(
+              " >>>>>>> Model ${notificationPostModel.value.feed?.first?.name}");
         },
         error: (dio.Response response) {
           print(" Error while set token");

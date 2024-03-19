@@ -103,9 +103,7 @@ class APIService {
               percentage?.value = uploadPercentage;
               AppMethods.showLog("percentagesss ===> ${percentage?.value}");
             },
-            options: d.Options(
-              headers: {'Content-Type': 'multipart/form-data'},
-            ),
+            options: d.Options(headers: headersPassed),
           );
         } else if (methodPassed == putMethod) {
           response = await dio.put(serviceUrlPassed,

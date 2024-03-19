@@ -11,6 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:wghdfm_java/common/common_snack.dart';
@@ -930,18 +931,18 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   return Container(
                     // alignment: Alignment.center,
                     // height: 45,
-                    width: Get.width,
-                    padding: const EdgeInsets.all(10),
-                    margin: EdgeInsets.only(left: 30),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black.withOpacity(0.5),
-                              spreadRadius: -1,
-                              blurRadius: 15),
-                        ]),
+                    // width: Get.width,
+                    // padding: const EdgeInsets.all(10),
+                    // margin: EdgeInsets.only(left: 30),
+                    // decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(12),
+                    //     color: Colors.white,
+                    //     boxShadow: [
+                    //       BoxShadow(
+                    //           color: Colors.black.withOpacity(0.5),
+                    //           spreadRadius: -1,
+                    //           blurRadius: 15),
+                    //     ]),
                     child: StreamBuilder(
                       stream: DashBoardController.uploadingProcess.stream,
                       builder: (context, snapshot) {
@@ -952,44 +953,73 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                 0.0) /
                             100;
                         print(" -- value is ${value}");
-
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              "${(value > 0 && value <= 0.95) ? 'Please wait, your media files are uploading' : 'Sit tight, we are processing your files to upload'}",
-                              // "${(value > 0 && value <= 0.95) ? 'Your post is Uploading Now' : 'Your post is Under Progress, you  will be notified soon'}",
-                              style: GoogleFonts.inter(
-                                  fontSize: 13, fontWeight: FontWeight.w600),
-                            ),
-                            SizedBox(height: 5),
-                            if (value > 0 && value <= 0.95)
-                              ClipRRect(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                child: LinearPercentIndicator(
-                                  lineHeight: 13.0,
-                                  percent: value,
-                                  backgroundColor: Colors.grey,
-                                  progressColor: Colors.blue,
-                                  barRadius: Radius.circular(10),
+                        return FloatingActionButton(
+                          backgroundColor: const Color(0xff132ba2),
+                          onPressed: () {},
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(1000000)),
+                          child: (value > 0 && value <= 0.95)
+                              ? Center(
+                                  child: CircularPercentIndicator(
+                                    radius: 25.0,
+                                    lineWidth: 5.0,
+                                    animation: false,
+                                    percent: value,
+                                    backgroundColor: Colors.white,
+                                    center: Text(
+                                      "${value.toStringAsFixed(2).split(".").last}%",
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                          fontSize: 14.0),
+                                    ),
+                                    circularStrokeCap: CircularStrokeCap.round,
+                                    progressColor: Colors.amber,
+                                  ),
+                                )
+                              : const CircularProgressIndicator(
+                                  backgroundColor: Colors.white,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.amber),
                                 ),
-                              )
-                            else
-                              ClipRRect(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                child: LinearProgressIndicator(
-                                  backgroundColor: Colors.blue,
-                                  minHeight: 13,
-                                  valueColor:
-                                      AlwaysStoppedAnimation<Color>(Colors.red),
-                                ),
-                              ),
-                          ],
                         );
 
+                        // return Column(
+                        //   mainAxisSize: MainAxisSize.min,
+                        //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        //   children: [
+                        //     Text(
+                        //       "${(value > 0 && value <= 0.95) ? 'Please wait, your media files are uploading' : 'Sit tight, we are processing your files to upload'}",
+                        //       // "${(value > 0 && value <= 0.95) ? 'Your post is Uploading Now' : 'Your post is Under Progress, you  will be notified soon'}",
+                        //       style: GoogleFonts.inter(
+                        //           fontSize: 13, fontWeight: FontWeight.w600),
+                        //     ),
+                        //     SizedBox(height: 5),
+                        //     if (value > 0 && value <= 0.95)
+                        //       ClipRRect(
+                        //         borderRadius:
+                        //             BorderRadius.all(Radius.circular(10)),
+                        //         child: LinearPercentIndicator(
+                        //           lineHeight: 13.0,
+                        //           percent: value,
+                        //           backgroundColor: Colors.grey,
+                        //           progressColor: Colors.blue,
+                        //           barRadius: Radius.circular(10),
+                        //         ),
+                        //       )
+                        //     else
+                        //       ClipRRect(
+                        //         borderRadius:
+                        //             BorderRadius.all(Radius.circular(10)),
+                        //         child: LinearProgressIndicator(
+                        //           backgroundColor: Colors.blue,
+                        //           minHeight: 13,
+                        //           valueColor:
+                        //               AlwaysStoppedAnimation<Color>(Colors.red),
+                        //         ),
+                        //       ),
+                        //   ],
+                        // );
                         // return CircularPercentIndicator(
                         //   radius: 25.0,
                         //   lineWidth: 5.0,

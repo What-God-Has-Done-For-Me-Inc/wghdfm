@@ -84,7 +84,8 @@ Future<dynamic> checkPostLikeStatus(String postId) async {
       method: APIService.getMethod,
       success: (dio.Response response) {
         Get.back();
-        debugPrint("postLikes statusCode: ${response.statusCode}; response: ${response.data}");
+        debugPrint(
+            "postLikes statusCode: ${response.statusCode}; response: ${response.data}");
         try {
           List list = jsonDecode(response.data);
           list.forEach((element) {
@@ -129,7 +130,12 @@ Future<dynamic> checkPostLikeStatus(String postId) async {
   return haveYouLiked;
 }
 
-Future<void> setAsLiked({required String postId, Function? callBack, bool? isGrpPost, String? postOwnerId, bool? isInsertLike}) async {
+Future<void> setAsLiked(
+    {required String postId,
+    Function? callBack,
+    bool? isGrpPost,
+    String? postOwnerId,
+    bool? isInsertLike}) async {
   // var type = "D";
   LoginModel userDetails = await SessionManagement.getUserDetails();
   userId = userDetails.id;
@@ -149,9 +155,15 @@ Future<void> setAsLiked({required String postId, Function? callBack, bool? isGrp
         if (callBack != null) {
           callBack(commentCount);
         }
-        if (postOwnerId != null && postOwnerId != userId && isInsertLike == true) {
+        if (postOwnerId != null &&
+            postOwnerId != userId &&
+            isInsertLike == true) {
           NotificationHandler.to.sendNotificationToUserID(
-              postId: postId, userId: postOwnerId, title: "Like Your Post", body: "${userDetails.fname} ${userDetails.lname} Liked your post");
+              postId: postId,
+              userId: postOwnerId,
+              title: "Like Your Post",
+              body:
+                  "${userDetails.fname} ${userDetails.lname} Liked your post");
         }
         // snack(msg: "You have successfully liked this post.", title: "Status");
       },
