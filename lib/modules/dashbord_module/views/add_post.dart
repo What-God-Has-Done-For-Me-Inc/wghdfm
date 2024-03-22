@@ -599,8 +599,8 @@ class _AddPostState extends State<AddPost> {
                     if (isLoading.value == false) {
                       return const SizedBox();
                     }
-                    return Center(
-                      child: const Text(
+                    return const Center(
+                      child: Text(
                         'Please wait file is loading..',
                         style: TextStyle(color: Colors.grey),
                       ),
@@ -611,7 +611,15 @@ class _AddPostState extends State<AddPost> {
                     stream: pickedFiles?.stream,
                     builder: (context, snapshot) {
                       if (pickedFiles?.isEmpty == true) {
-                        return SizedBox();
+                        return const SizedBox();
+                      }
+                      if (Platform.isIOS) {
+                        return Center(
+                          child: Text(
+                            'Your selected files ${pickedFiles?.length ?? 0}',
+                            style: const TextStyle(color: Colors.grey),
+                          ),
+                        );
                       }
                       return Container(
                         decoration: BoxDecoration(
@@ -622,13 +630,9 @@ class _AddPostState extends State<AddPost> {
                         width: double.maxFinite,
                         // child: pickedImage?.path == null && _video?.path == null || pickedImage?.path.isEmpty == true && _video?.path.isEmpty == true
                         child: pickedFiles?.isEmpty == true
-                            ? Column(
+                            ? const Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  // Image.asset(
-                                  //   'assets/images/icons/cloud_upload.png',
-                                  //   height: 70,
-                                  // ),
+                                children: [
                                   Icon(
                                     Icons.upload_file_outlined,
                                     size: 70,
@@ -643,7 +647,6 @@ class _AddPostState extends State<AddPost> {
                                 ],
                               )
                             : Stack(
-                                // overflow: Overflow.visible,
                                 clipBehavior: Clip.none,
                                 children: [
                                   Positioned.fill(
@@ -720,7 +723,6 @@ class _AddPostState extends State<AddPost> {
                                                 ),
                                               ],
                                             );
-                                            return Container();
                                           },
                                         ),
                                       ),
@@ -941,13 +943,13 @@ class _AddPostState extends State<AddPost> {
   Future getImage() async {
     isLoading.value = true;
     Future<void> convartIosImage({required String filePath}) async {
-      if (filePath.contains('.pvt')) {
-        snack(
-            title: "Failed",
-            msg: "Some file format not supported",
-            iconColor: Colors.red,
-            icon: Icons.close);
-      }
+      // if (filePath.contains('.pvt')) {
+      //   snack(
+      //       title: "Failed",
+      //       msg: "Some file format not supported",
+      //       iconColor: Colors.red,
+      //       icon: Icons.close);
+      // }
       if (!filePath.contains('.pvt')) {
         final tmpDir = (await getTemporaryDirectory()).path;
         final target = '$tmpDir/${DateTime.now().microsecondsSinceEpoch}.jpg';
@@ -958,11 +960,9 @@ class _AddPostState extends State<AddPost> {
           quality: 90,
         );
 
-        print(result!.path);
         //isLoading.value = false;
         setState(() {
-          print('Loaded');
-          pickedFiles?.add(File(result.path));
+          pickedFiles?.add(File(result!.path));
           isLoading.value = false;
         });
       }

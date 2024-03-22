@@ -15,11 +15,14 @@ Future<void> addToTimeline(String postId) async {
 
   APIService().callAPI(
       params: {},
-      serviceUrl: "${EndPoints.baseUrl}${EndPoints.addTimeLineApi}$postId/$userId/$type",
+      serviceUrl:
+          "${EndPoints.baseUrl}${EndPoints.addTimeLineApi}$postId/$userId/$type",
       method: APIService.getMethod,
       success: (dio.Response response) {
-        Get.back();
-        snack(msg: "You have shared this post in your timeline.", title: "Status");
+        // Get.back();
+        snack(
+            msg: "You have shared this post in your timeline.",
+            title: "Status");
       },
       error: (dio.Response response) {},
       showProcess: true);
