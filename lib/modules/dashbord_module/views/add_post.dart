@@ -6,7 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wghdfm_java/common/video_compressor.dart';
 import 'package:wghdfm_java/common/video_player.dart';
@@ -613,14 +615,7 @@ class _AddPostState extends State<AddPost> {
                       if (pickedFiles?.isEmpty == true) {
                         return const SizedBox();
                       }
-                      if (Platform.isIOS) {
-                        return Center(
-                          child: Text(
-                            'Your selected files ${pickedFiles?.length ?? 0}',
-                            style: const TextStyle(color: Colors.grey),
-                          ),
-                        );
-                      }
+
                       return Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
@@ -943,45 +938,29 @@ class _AddPostState extends State<AddPost> {
   Future getImage() async {
     isLoading.value = true;
     Future<void> convartIosImage({required String filePath}) async {
-      // if (filePath.contains('.pvt')) {
-      //   snack(
-      //       title: "Failed",
-      //       msg: "Some file format not supported",
-      //       iconColor: Colors.red,
-      //       icon: Icons.close);
-      // }
-      if (!filePath.contains('.pvt')) {
-        final tmpDir = (await getTemporaryDirectory()).path;
-        final target = '$tmpDir/${DateTime.now().microsecondsSinceEpoch}.jpg';
-        final result = await FlutterImageCompress.compressAndGetFile(
-          filePath,
-          target,
-          format: CompressFormat.jpeg,
-          quality: 90,
-        );
 
-        //isLoading.value = false;
         setState(() {
-          pickedFiles?.add(File(result!.path));
+          pickedFiles?.add(File(filePath));
           isLoading.value = false;
         });
-      }
-      // error handling here
     }
+    final ImagePicker picker = ImagePicker();
+    final List<XFile> image = await picker.pickMultipleMedia();
 
-    final image = await FilePicker.platform.pickFiles(
+    /*final image = await FilePicker.platform.pickFiles(
         allowCompression: false,
         withReadStream: false,
         allowMultiple: true,
         withData: false,
         dialogTitle: "Pick Photo or Video",
-        type: FileType.media);
+        type: FileType.media);*/
     if (image == null) {
       isLoading.value = false;
       return;
     }
+    var selectedPostImages = image.map<File>((xfile) => File(xfile.path)).toList();
 
-    for (var element in image.files) {
+    for (var element in selectedPostImages) {
       final tempImage = File(element.path ?? "");
       print("========= FILE PATH  ========${tempImage.path}");
       if (isVideo(filePath: tempImage.path)) {

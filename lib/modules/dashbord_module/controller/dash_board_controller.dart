@@ -578,6 +578,7 @@ class DashBoardController extends GetxController {
           print(
               "=== === === === === === === === === === === === ${element.path}");
           print("=== === === === === === === === === === === === $mb mb");
+          print(lookupMimeType(fileName).toString());
           if (mb <= 850) {
             dio.MultipartFile file = await dio.MultipartFile.fromFile(
               element.path,
@@ -795,8 +796,8 @@ class DashBoardController extends GetxController {
       {required List<dio.MultipartFile> fileList,
       required Function onSuccess,
       required Function onError}) async {
-    print(fileList.length);
-    print(fileList.first.filename);
+    //print(fileList.length);
+    //print(fileList.first.filename);
     try {
       await APIService().callAPI(
           formDatas: dio.FormData.fromMap({"multi_wirefile": fileList}),
