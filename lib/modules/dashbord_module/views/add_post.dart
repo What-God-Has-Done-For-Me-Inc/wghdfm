@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:video_player/video_player.dart';
 import 'package:wghdfm_java/common/video_compressor.dart';
 import 'package:wghdfm_java/common/video_player.dart';
 import 'package:wghdfm_java/modules/dashbord_module/model/friends_model.dart';
@@ -396,11 +397,6 @@ class _AddPostState extends State<AddPost> {
                           [],
                     );
                   }),
-              // const SizedBox(height: 10),
-              // const Text(
-              //   'Description',
-              //   style: TextStyle(color: Colors.black),
-              // ),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -424,9 +420,6 @@ class _AddPostState extends State<AddPost> {
                     ),
                   ),
                   const SizedBox(width: 15),
-                  Column(
-                    children: [],
-                  )
                 ],
               ),
               const SizedBox(height: 20),
@@ -462,7 +455,7 @@ class _AddPostState extends State<AddPost> {
                             },
                             onChanged: (text) {},
                             enabled: true,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               enabledBorder: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.white, width: 1),
@@ -679,6 +672,11 @@ class _AddPostState extends State<AddPost> {
                                                                     .path
                                                                     .contains(
                                                                         "png") ==
+                                                                true ||
+                                                            pickedFiles?[index]
+                                                                    .path
+                                                                    .contains(
+                                                                        "heic") ==
                                                                 true
                                                         ? Image.file(
                                                             File(pickedFiles?[
@@ -938,14 +936,15 @@ class _AddPostState extends State<AddPost> {
   Future getImage() async {
     isLoading.value = true;
     Future<void> convartIosImage({required String filePath}) async {
-
-        setState(() {
-          pickedFiles?.add(File(filePath));
-          isLoading.value = false;
-        });
+      setState(() {
+        pickedFiles?.add(File(filePath));
+        isLoading.value = false;
+      });
     }
+
     final ImagePicker picker = ImagePicker();
-    final List<XFile> image = await picker.pickMultipleMedia();
+    final List<XFile> image =
+        await picker.pickMultipleMedia(requestFullMetadata: false);
 
     /*final image = await FilePicker.platform.pickFiles(
         allowCompression: false,
@@ -958,7 +957,8 @@ class _AddPostState extends State<AddPost> {
       isLoading.value = false;
       return;
     }
-    var selectedPostImages = image.map<File>((xfile) => File(xfile.path)).toList();
+    var selectedPostImages =
+        image.map<File>((xfile) => File(xfile.path)).toList();
 
     for (var element in selectedPostImages) {
       final tempImage = File(element.path ?? "");

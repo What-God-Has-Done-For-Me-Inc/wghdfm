@@ -49,10 +49,12 @@ import 'package:wghdfm_java/utils/get_links_text.dart';
 import 'package:wghdfm_java/utils/lists.dart';
 import 'package:wghdfm_java/utils/urls.dart';
 
+import '../../../common/video_player.dart';
 import '../../../screen/comment/comment_screen.dart';
 import '../../../services/prefrence_services.dart';
 import '../../../services/sesssion.dart';
 import '../../../utils/app_texts.dart';
+import '../../../utils/pref_keys.dart';
 import '../../../utils/shimmer_utils.dart';
 import '../../profile_module/controller/profile_controller.dart';
 import '../../profile_module/view/someones_profile_screen.dart';
@@ -587,22 +589,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   @override
   void dispose() {
     // TODO: implement dispose
+    print("Dispose");
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
-
-  // @override
-  // void didChangeMetrics() {
-  //   final bottomInset = WidgetsBinding.instance.window.viewInsets.bottom;
-  //   final newValue = bottomInset > 0.0;
-  //   if (newValue != _isKeyboardVisible) {
-  //     setState(() {
-  //       _isKeyboardVisible = newValue;
-  //     });
-  //   }
-  // }
-
-  // bool? _isKeyboardVisible;
 
   pagination() {
     feedScrollController.addListener(() async {
@@ -697,24 +687,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   Get.to(() => const SearchScreen());
                 },
                 icon: const Icon(MingCute.search_3_line)),
-            // IconButton(
-            //     onPressed: () async {
-            //       LoginModel userDetails =
-            //           await SessionManagement.getUserDetails();
-            //       Codec<String, String> stringToBase64Url =
-            //           utf8.fuse(base64Url);
-            //       String encoded = stringToBase64Url
-            //           .encode(userDetails.pass.toString() + "|^{}^|");
-            //       var parsedData = Uri.encodeComponent(encoded);
-            //       String userToken =
-            //           "?F=${userDetails.fname}&L=${userDetails.lname}&E=${userDetails.email}&P=${parsedData}";
-
-            //       Get.to(() => CommonWebScreen(
-            //             url: chatUrl + userToken,
-            //             title: "Chat",
-            //           ));
-            //     },
-            //     icon: const Icon(Icons.forum)),
             IconButton(
                 key: notificationButtonKey,
                 onPressed: () {
@@ -928,33 +900,20 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                         width: Get.width * 0.09),
                   );
                 } else {
-                  return Container(
-                    // alignment: Alignment.center,
-                    // height: 45,
-                    // width: Get.width,
-                    // padding: const EdgeInsets.all(10),
-                    // margin: EdgeInsets.only(left: 30),
-                    // decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(12),
-                    //     color: Colors.white,
-                    //     boxShadow: [
-                    //       BoxShadow(
-                    //           color: Colors.black.withOpacity(0.5),
-                    //           spreadRadius: -1,
-                    //           blurRadius: 15),
-                    //     ]),
-                    child: StreamBuilder(
-                      stream: DashBoardController.uploadingProcess.stream,
-                      builder: (context, snapshot) {
-                        print(
-                            "------ PERCENTAGES ${DashBoardController.uploadingProcess.value}");
-                        double value = (double.tryParse(DashBoardController
-                                    .uploadingProcess.value) ??
-                                0.0) /
-                            100;
-                        print(" -- value is ${value}");
-                        return FloatingActionButton(
-                          backgroundColor: const Color(0xff132ba2),
+                  return StreamBuilder(
+                    stream: DashBoardController.uploadingProcess.stream,
+                    builder: (context, snapshot) {
+                      print(
+                          "------ PERCENTAGES ${DashBoardController.uploadingProcess.value}");
+                      double value = (double.tryParse(
+                                  DashBoardController.uploadingProcess.value) ??
+                              0.0) /
+                          100;
+                      print(" -- value is ${value}");
+                      return FloatingActionButton(
+                          backgroundColor: (value > 0 && value <= 0.95)
+                              ? Color(0xff132ba2)
+                              : Colors.grey.shade50,
                           onPressed: () {},
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(1000000)),
@@ -977,73 +936,67 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                     progressColor: Colors.amber,
                                   ),
                                 )
-                              : const CircularProgressIndicator(
-                                  backgroundColor: Colors.white,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      Colors.amber),
-                                ),
-                        );
+                              : Lottie.asset('assets/json/upload.json'));
 
-                        // return Column(
-                        //   mainAxisSize: MainAxisSize.min,
-                        //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        //   children: [
-                        //     Text(
-                        //       "${(value > 0 && value <= 0.95) ? 'Please wait, your media files are uploading' : 'Sit tight, we are processing your files to upload'}",
-                        //       // "${(value > 0 && value <= 0.95) ? 'Your post is Uploading Now' : 'Your post is Under Progress, you  will be notified soon'}",
-                        //       style: GoogleFonts.inter(
-                        //           fontSize: 13, fontWeight: FontWeight.w600),
-                        //     ),
-                        //     SizedBox(height: 5),
-                        //     if (value > 0 && value <= 0.95)
-                        //       ClipRRect(
-                        //         borderRadius:
-                        //             BorderRadius.all(Radius.circular(10)),
-                        //         child: LinearPercentIndicator(
-                        //           lineHeight: 13.0,
-                        //           percent: value,
-                        //           backgroundColor: Colors.grey,
-                        //           progressColor: Colors.blue,
-                        //           barRadius: Radius.circular(10),
-                        //         ),
-                        //       )
-                        //     else
-                        //       ClipRRect(
-                        //         borderRadius:
-                        //             BorderRadius.all(Radius.circular(10)),
-                        //         child: LinearProgressIndicator(
-                        //           backgroundColor: Colors.blue,
-                        //           minHeight: 13,
-                        //           valueColor:
-                        //               AlwaysStoppedAnimation<Color>(Colors.red),
-                        //         ),
-                        //       ),
-                        //   ],
-                        // );
-                        // return CircularPercentIndicator(
-                        //   radius: 25.0,
-                        //   lineWidth: 5.0,
-                        //   header: Text(
-                        //     (value > 0 && value <= 0.9) ? "Uploading" : "Getting Ready ",
-                        //     style: GoogleFonts.roboto(
-                        //       fontStyle: FontStyle.italic,
-                        //       fontWeight: FontWeight.bold,
-                        //       fontSize: 12,
-                        //     ),
-                        //   ),
-                        //   // fillColor: Colors.white,
-                        //   circularStrokeCap: CircularStrokeCap.round,
-                        //   percent: value,
-                        //   center: Text("${DashBoardController.uploadingProcess.value}%",
-                        //       style: GoogleFonts.roboto(
-                        //         fontStyle: FontStyle.italic,
-                        //         fontWeight: FontWeight.bold,
-                        //         fontSize: 10,
-                        //       )),
-                        //   progressColor: Colors.green,
-                        // );
-                      },
-                    ),
+                      // return Column(
+                      //   mainAxisSize: MainAxisSize.min,
+                      //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      //   children: [
+                      //     Text(
+                      //       "${(value > 0 && value <= 0.95) ? 'Please wait, your media files are uploading' : 'Sit tight, we are processing your files to upload'}",
+                      //       // "${(value > 0 && value <= 0.95) ? 'Your post is Uploading Now' : 'Your post is Under Progress, you  will be notified soon'}",
+                      //       style: GoogleFonts.inter(
+                      //           fontSize: 13, fontWeight: FontWeight.w600),
+                      //     ),
+                      //     SizedBox(height: 5),
+                      //     if (value > 0 && value <= 0.95)
+                      //       ClipRRect(
+                      //         borderRadius:
+                      //             BorderRadius.all(Radius.circular(10)),
+                      //         child: LinearPercentIndicator(
+                      //           lineHeight: 13.0,
+                      //           percent: value,
+                      //           backgroundColor: Colors.grey,
+                      //           progressColor: Colors.blue,
+                      //           barRadius: Radius.circular(10),
+                      //         ),
+                      //       )
+                      //     else
+                      //       ClipRRect(
+                      //         borderRadius:
+                      //             BorderRadius.all(Radius.circular(10)),
+                      //         child: LinearProgressIndicator(
+                      //           backgroundColor: Colors.blue,
+                      //           minHeight: 13,
+                      //           valueColor:
+                      //               AlwaysStoppedAnimation<Color>(Colors.red),
+                      //         ),
+                      //       ),
+                      //   ],
+                      // );
+                      // return CircularPercentIndicator(
+                      //   radius: 25.0,
+                      //   lineWidth: 5.0,
+                      //   header: Text(
+                      //     (value > 0 && value <= 0.9) ? "Uploading" : "Getting Ready ",
+                      //     style: GoogleFonts.roboto(
+                      //       fontStyle: FontStyle.italic,
+                      //       fontWeight: FontWeight.bold,
+                      //       fontSize: 12,
+                      //     ),
+                      //   ),
+                      //   // fillColor: Colors.white,
+                      //   circularStrokeCap: CircularStrokeCap.round,
+                      //   percent: value,
+                      //   center: Text("${DashBoardController.uploadingProcess.value}%",
+                      //       style: GoogleFonts.roboto(
+                      //         fontStyle: FontStyle.italic,
+                      //         fontWeight: FontWeight.bold,
+                      //         fontSize: 10,
+                      //       )),
+                      //   progressColor: Colors.green,
+                      // );
+                    },
                   );
                 }
               }),
@@ -2535,16 +2488,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       ),
     );
   }
-
-  //  UpgradeAlert(
-  //                 shouldPopScope: () => false,
-  //                 canDismissDialog: false,
-  //                 dialogStyle: UpgradeDialogStyle.cupertino,
-  //                 showIgnore: false,
-  //                 showLater: false,
-  //                 upgrader: Upgrader(
-  //                   durationUntilAlertAgain: const Duration(days: 0),
-  //                 ),
 
   Widget shimmerFeedLoading() {
     return ListView(
