@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -71,6 +72,21 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   Widget _selectedScreen = const MainScreen();
 
   int ind = 0;
+  DateTime? currentBackPressTime;
+
+  Future<bool> onWillPop() {
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime ?? DateTime.now()) >
+            const Duration(seconds: 2)) {
+      currentBackPressTime = now;
+
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Double Tap to exit')));
+      return Future.value(false);
+    }
+    return Future.value(true);
+  }
 
   @override
   void initState() {
@@ -185,7 +201,18 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           ),
         ),
       ),
-      body: _selectedScreen,
+      body: PopScope(
+          canPop: false,
+          onPopInvoked: (didPop) async {
+            if (ind == 0) {
+              bool value = await onWillPop();
+              if (value == true) {
+                SystemNavigator.pop();
+              }
+            }
+            screenSelector(0);
+          },
+          child: _selectedScreen),
       // body: ZoomDrawer(
       //   borderRadius: 24.0,
       //   showShadow: true,
@@ -224,7 +251,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   final dashBoardController = Get.put(DashBoardController());
   final feedScrollController = ScrollController();
   final commentController = Get.put(CommentController());
-  DateTime? currentBackPressTime;
 
   List<TargetFocus> targets = [];
   GlobalKey addButtonKey = GlobalKey();
@@ -571,21 +597,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     super.initState();
   }
 
-  Future<bool> onWillPop() {
-    DateTime now = DateTime.now();
-    if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime ?? DateTime.now()) >
-            const Duration(seconds: 2)) {
-      currentBackPressTime = now;
-      // Fluttertoast.showToast(msg: exit_warning);
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Double Tap to exit')));
-      return Future.value(false);
-    }
-    return Future.value(true);
-  }
-
   @override
   void dispose() {
     // TODO: implement dispose
@@ -666,341 +677,335 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     // print("--- -- convertUTCToLocal ${formatTime('2023-06-29 10:10:26.808699Z')}");
-    return WillPopScope(
-      onWillPop: onWillPop,
-      child: Scaffold(
-        backgroundColor: Colors.grey.shade200,
-        extendBody: true,
-        // extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          // leading: IconButton(
-          //     onPressed: () {
-          //       dashBoardController.zoomDrawerController.toggle?.call();
-          //     },
-          //     icon: const Icon(
-          //       Icons.menu,
-          //       color: Colors.black,
-          //     )),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Get.to(() => const SearchScreen());
-                },
-                icon: const Icon(MingCute.search_3_line)),
-            IconButton(
-                key: notificationButtonKey,
-                onPressed: () {
-                  Get.to(() => const MessageScreens())?.then((value) {
-                    dashBoardController.getNotificationCount(
-                        showProcess: false);
-                  });
-                },
-                icon: StreamBuilder(
-                    stream: dashBoardController.notificationCount.stream,
-                    builder: (context, snapshot) {
-                      return Stack(children: [
-                        const Icon(MingCute.notification_line),
-                        Positioned(
-                            top: 0,
-                            right: 0,
-                            child: Container(
-                              padding: const EdgeInsets.all(3),
-                              decoration: const BoxDecoration(
-                                  shape: BoxShape.circle, color: Colors.red),
-                              child: Text(
-                                "${dashBoardController.notificationCount.value}",
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                ),
-                              ),
-                            ))
-                      ]);
-                    })),
-            PopupMenuButton<String>(
-              offset: const Offset(0, 40),
-              key: menuButtonKey,
-              icon: const Icon(
-                Icons.more_vert,
-              ),
-              padding: EdgeInsets.all(10),
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
-              itemBuilder: (BuildContext context) {
-                return PopUpOptions.homeMoreOptions.map((String choice) {
-                  return PopupMenuItem<String>(
-                    value: choice,
-                    child: Text(choice),
-                  );
-                }).toList();
+    return Scaffold(
+      backgroundColor: Colors.grey.shade200,
+      extendBody: true,
+      // extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        // leading: IconButton(
+        //     onPressed: () {
+        //       dashBoardController.zoomDrawerController.toggle?.call();
+        //     },
+        //     icon: const Icon(
+        //       Icons.menu,
+        //       color: Colors.black,
+        //     )),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Get.to(() => const SearchScreen());
               },
-              onSelected: (value) {
-                switch (value) {
-                  //todo:2
-                  case PopUpOptions.message:
-                    Get.to(() => MessageThreadsUI());
-                    // pushTransitionedOnlyTo(widget: MessageThreadsUI());
-                    break;
-                  case PopUpOptions.group:
-                    Get.to(() => const GroupScreen());
+              icon: const Icon(MingCute.search_3_line)),
+          IconButton(
+              key: notificationButtonKey,
+              onPressed: () {
+                Get.to(() => const MessageScreens())?.then((value) {
+                  dashBoardController.getNotificationCount(showProcess: false);
+                });
+              },
+              icon: StreamBuilder(
+                  stream: dashBoardController.notificationCount.stream,
+                  builder: (context, snapshot) {
+                    return Stack(children: [
+                      const Icon(MingCute.notification_line),
+                      Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Container(
+                            padding: const EdgeInsets.all(3),
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.red),
+                            child: Text(
+                              "${dashBoardController.notificationCount.value}",
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                              ),
+                            ),
+                          ))
+                    ]);
+                  })),
+          PopupMenuButton<String>(
+            offset: const Offset(0, 40),
+            key: menuButtonKey,
+            icon: const Icon(
+              Icons.more_vert,
+            ),
+            padding: EdgeInsets.all(10),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0))),
+            itemBuilder: (BuildContext context) {
+              return PopUpOptions.homeMoreOptions.map((String choice) {
+                return PopupMenuItem<String>(
+                  value: choice,
+                  child: Text(choice),
+                );
+              }).toList();
+            },
+            onSelected: (value) {
+              switch (value) {
+                //todo:2
+                case PopUpOptions.message:
+                  Get.to(() => MessageThreadsUI());
+                  // pushTransitionedOnlyTo(widget: MessageThreadsUI());
+                  break;
+                case PopUpOptions.group:
+                  Get.to(() => const GroupScreen());
 
-                    // pushTransitionedOnlyTo(widget: GroupsUI());
-                    break;
-                  case PopUpOptions.inviteFriends:
-                    final emailController = TextEditingController();
-                    final formKey = GlobalKey<FormState>();
-                    Get.dialog(
-                      Dialog(
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Form(
-                              key: formKey,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(height: Get.height * 0.02),
-                                  const Text(
-                                    "Invite Friends",
-                                    style: TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(height: Get.height * 0.02),
-                                  const Text(
-                                    'Write a Email address of your friends that you want to Invite.',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  SizedBox(height: Get.height * 0.02),
-                                  Container(
-                                    color: Colors.white,
-                                    child: commonTextField(
-                                        baseColor: Colors.black,
-                                        borderColor: Colors.black,
-                                        controller: emailController,
-                                        errorColor: Colors.white,
-                                        hint: "Email of your friends",
-                                        validator: (String? value) {
-                                          return (value == null ||
-                                                  value.isEmpty)
-                                              ? "Please enter valid email"
-                                              : null;
-                                        },
-                                        commentBox: true),
-                                  ),
-                                  SizedBox(height: Get.height * 0.01),
-                                  const Text(
-                                    'Note: Enter maximum 5 emails all separated by comma..',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  SizedBox(height: Get.height * 0.02),
-                                  ElevatedButton(
-                                    onPressed: () async {
-                                      if (formKey.currentState!.validate()) {
-                                        await profileController.inviteFriend(
-                                            email: emailController.text,
-                                            callBack: () {});
-                                      }
-                                    },
-                                    child: Text(
-                                      "Invite",
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.montserrat(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                      ),
+                  // pushTransitionedOnlyTo(widget: GroupsUI());
+                  break;
+                case PopUpOptions.inviteFriends:
+                  final emailController = TextEditingController();
+                  final formKey = GlobalKey<FormState>();
+                  Get.dialog(
+                    Dialog(
+                      child: Container(
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Form(
+                            key: formKey,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(height: Get.height * 0.02),
+                                const Text(
+                                  "Invite Friends",
+                                  style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                SizedBox(height: Get.height * 0.02),
+                                const Text(
+                                  'Write a Email address of your friends that you want to Invite.',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                SizedBox(height: Get.height * 0.02),
+                                Container(
+                                  color: Colors.white,
+                                  child: commonTextField(
+                                      baseColor: Colors.black,
+                                      borderColor: Colors.black,
+                                      controller: emailController,
+                                      errorColor: Colors.white,
+                                      hint: "Email of your friends",
+                                      validator: (String? value) {
+                                        return (value == null || value.isEmpty)
+                                            ? "Please enter valid email"
+                                            : null;
+                                      },
+                                      commentBox: true),
+                                ),
+                                SizedBox(height: Get.height * 0.01),
+                                const Text(
+                                  'Note: Enter maximum 5 emails all separated by comma..',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                SizedBox(height: Get.height * 0.02),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    if (formKey.currentState!.validate()) {
+                                      await profileController.inviteFriend(
+                                          email: emailController.text,
+                                          callBack: () {});
+                                    }
+                                  },
+                                  child: Text(
+                                    "Invite",
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.montserrat(
+                                      color: Colors.white,
+                                      fontSize: 16,
                                     ),
                                   ),
-                                  SizedBox(height: Get.height * 0.02),
-                                ],
-                              ),
+                                ),
+                                SizedBox(height: Get.height * 0.02),
+                              ],
                             ),
                           ),
                         ),
                       ),
-                    );
-                    // SessionManagement.logoutUser();
-                    break;
-                  case PopUpOptions.logout:
-                    Get.dialog(
-                      CupertinoAlertDialog(
-                        title: const Text("Confirm Logout"),
-                        content:
-                            const Text("Are you sure you want to logout.? "),
-                        actions: [
-                          MaterialButton(
-                              onPressed: () {
-                                Get.back();
-                              },
-                              child: const Text("No")),
-                          MaterialButton(
-                              onPressed: () {
-                                SessionManagement.logoutUser();
-                              },
-                              child: const Text("Yes")),
-                        ],
-                      ),
-                    );
-                    // SessionManagement.logoutUser();
-                    break;
-                }
-              },
-            )
-          ],
-          title: const Text(
-            'My Feed',
-            style: TextStyle(
-                color: AppColors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.w600),
-          ),
-          elevation: 0,
-          centerTitle: false,
-          iconTheme: Theme.of(context).iconTheme,
-          backgroundColor: Theme.of(context).backgroundColor,
-        ),
-        // drawer: buildDrawer(),
-        body: feedWithLoadMore(),
-        resizeToAvoidBottomInset: false,
-        // resizeToAvoidBottomInset: false,
-        floatingActionButton: StreamBuilder(
-          stream: DashBoardController.uploadingProcess.stream,
-          builder: (context, snapshot) => StreamBuilder(
-              stream: dashBoardController.postUploading.stream,
-              builder: (context, snapshot) {
-                if (dashBoardController.postUploading.value == false) {
-                  return FloatingActionButton.extended(
-                    key: addButtonKey,
-                    backgroundColor: const Color(0xff132ba2),
-                    onPressed: () {
-                      Get.to(() => const AddPost());
-                    },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    label: const Text(
-                      'Post',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
                     ),
-                    icon: Lottie.asset('assets/json/post.json',
-                        fit: BoxFit.fill,
-                        height: Get.height * 0.05,
-                        width: Get.width * 0.09),
                   );
-                } else {
-                  return StreamBuilder(
-                    stream: DashBoardController.uploadingProcess.stream,
-                    builder: (context, snapshot) {
-                      print(
-                          "------ PERCENTAGES ${DashBoardController.uploadingProcess.value}");
-                      double value = (double.tryParse(
-                                  DashBoardController.uploadingProcess.value) ??
-                              0.0) /
-                          100;
-                      print(" -- value is ${value}");
-                      return FloatingActionButton(
-                          backgroundColor: (value > 0 && value <= 0.95)
-                              ? Color(0xff132ba2)
-                              : Colors.grey.shade50,
-                          onPressed: () {},
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(1000000)),
-                          child: (value > 0 && value <= 0.95)
-                              ? Center(
-                                  child: CircularPercentIndicator(
-                                    radius: 25.0,
-                                    lineWidth: 5.0,
-                                    animation: false,
-                                    percent: value,
-                                    backgroundColor: Colors.white,
-                                    center: Text(
-                                      "${value.toStringAsFixed(2).split(".").last}%",
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white,
-                                          fontSize: 14.0),
-                                    ),
-                                    circularStrokeCap: CircularStrokeCap.round,
-                                    progressColor: Colors.amber,
-                                  ),
-                                )
-                              : Lottie.asset('assets/json/upload.json'));
-
-                      // return Column(
-                      //   mainAxisSize: MainAxisSize.min,
-                      //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      //   children: [
-                      //     Text(
-                      //       "${(value > 0 && value <= 0.95) ? 'Please wait, your media files are uploading' : 'Sit tight, we are processing your files to upload'}",
-                      //       // "${(value > 0 && value <= 0.95) ? 'Your post is Uploading Now' : 'Your post is Under Progress, you  will be notified soon'}",
-                      //       style: GoogleFonts.inter(
-                      //           fontSize: 13, fontWeight: FontWeight.w600),
-                      //     ),
-                      //     SizedBox(height: 5),
-                      //     if (value > 0 && value <= 0.95)
-                      //       ClipRRect(
-                      //         borderRadius:
-                      //             BorderRadius.all(Radius.circular(10)),
-                      //         child: LinearPercentIndicator(
-                      //           lineHeight: 13.0,
-                      //           percent: value,
-                      //           backgroundColor: Colors.grey,
-                      //           progressColor: Colors.blue,
-                      //           barRadius: Radius.circular(10),
-                      //         ),
-                      //       )
-                      //     else
-                      //       ClipRRect(
-                      //         borderRadius:
-                      //             BorderRadius.all(Radius.circular(10)),
-                      //         child: LinearProgressIndicator(
-                      //           backgroundColor: Colors.blue,
-                      //           minHeight: 13,
-                      //           valueColor:
-                      //               AlwaysStoppedAnimation<Color>(Colors.red),
-                      //         ),
-                      //       ),
-                      //   ],
-                      // );
-                      // return CircularPercentIndicator(
-                      //   radius: 25.0,
-                      //   lineWidth: 5.0,
-                      //   header: Text(
-                      //     (value > 0 && value <= 0.9) ? "Uploading" : "Getting Ready ",
-                      //     style: GoogleFonts.roboto(
-                      //       fontStyle: FontStyle.italic,
-                      //       fontWeight: FontWeight.bold,
-                      //       fontSize: 12,
-                      //     ),
-                      //   ),
-                      //   // fillColor: Colors.white,
-                      //   circularStrokeCap: CircularStrokeCap.round,
-                      //   percent: value,
-                      //   center: Text("${DashBoardController.uploadingProcess.value}%",
-                      //       style: GoogleFonts.roboto(
-                      //         fontStyle: FontStyle.italic,
-                      //         fontWeight: FontWeight.bold,
-                      //         fontSize: 10,
-                      //       )),
-                      //   progressColor: Colors.green,
-                      // );
-                    },
+                  // SessionManagement.logoutUser();
+                  break;
+                case PopUpOptions.logout:
+                  Get.dialog(
+                    CupertinoAlertDialog(
+                      title: const Text("Confirm Logout"),
+                      content: const Text("Are you sure you want to logout.? "),
+                      actions: [
+                        MaterialButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            child: const Text("No")),
+                        MaterialButton(
+                            onPressed: () {
+                              SessionManagement.logoutUser();
+                            },
+                            child: const Text("Yes")),
+                      ],
+                    ),
                   );
-                }
-              }),
+                  // SessionManagement.logoutUser();
+                  break;
+              }
+            },
+          )
+        ],
+        title: const Text(
+          'My Feed',
+          style: TextStyle(
+              color: AppColors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.w600),
         ),
+        elevation: 0,
+        centerTitle: false,
+        iconTheme: Theme.of(context).iconTheme,
+        backgroundColor: Theme.of(context).backgroundColor,
+      ),
+      // drawer: buildDrawer(),
+      body: feedWithLoadMore(),
+      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
+      floatingActionButton: StreamBuilder(
+        stream: DashBoardController.uploadingProcess.stream,
+        builder: (context, snapshot) => StreamBuilder(
+            stream: dashBoardController.postUploading.stream,
+            builder: (context, snapshot) {
+              if (dashBoardController.postUploading.value == false) {
+                return FloatingActionButton.extended(
+                  key: addButtonKey,
+                  backgroundColor: const Color(0xff132ba2),
+                  onPressed: () {
+                    Get.to(() => const AddPost());
+                  },
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  label: const Text(
+                    'Post',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  icon: Lottie.asset('assets/json/post.json',
+                      fit: BoxFit.fill,
+                      height: Get.height * 0.05,
+                      width: Get.width * 0.09),
+                );
+              } else {
+                return StreamBuilder(
+                  stream: DashBoardController.uploadingProcess.stream,
+                  builder: (context, snapshot) {
+                    print(
+                        "------ PERCENTAGES ${DashBoardController.uploadingProcess.value}");
+                    double value = (double.tryParse(
+                                DashBoardController.uploadingProcess.value) ??
+                            0.0) /
+                        100;
+                    print(" -- value is ${value}");
+                    return FloatingActionButton(
+                        backgroundColor: (value > 0 && value <= 0.95)
+                            ? Color(0xff132ba2)
+                            : Colors.grey.shade50,
+                        onPressed: () {},
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(1000000)),
+                        child: (value > 0 && value <= 0.95)
+                            ? Center(
+                                child: CircularPercentIndicator(
+                                  radius: 25.0,
+                                  lineWidth: 5.0,
+                                  animation: false,
+                                  percent: value,
+                                  backgroundColor: Colors.white,
+                                  center: Text(
+                                    "${value.toStringAsFixed(2).split(".").last}%",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                        fontSize: 14.0),
+                                  ),
+                                  circularStrokeCap: CircularStrokeCap.round,
+                                  progressColor: Colors.amber,
+                                ),
+                              )
+                            : Lottie.asset('assets/json/upload.json'));
+
+                    // return Column(
+                    //   mainAxisSize: MainAxisSize.min,
+                    //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //   children: [
+                    //     Text(
+                    //       "${(value > 0 && value <= 0.95) ? 'Please wait, your media files are uploading' : 'Sit tight, we are processing your files to upload'}",
+                    //       // "${(value > 0 && value <= 0.95) ? 'Your post is Uploading Now' : 'Your post is Under Progress, you  will be notified soon'}",
+                    //       style: GoogleFonts.inter(
+                    //           fontSize: 13, fontWeight: FontWeight.w600),
+                    //     ),
+                    //     SizedBox(height: 5),
+                    //     if (value > 0 && value <= 0.95)
+                    //       ClipRRect(
+                    //         borderRadius:
+                    //             BorderRadius.all(Radius.circular(10)),
+                    //         child: LinearPercentIndicator(
+                    //           lineHeight: 13.0,
+                    //           percent: value,
+                    //           backgroundColor: Colors.grey,
+                    //           progressColor: Colors.blue,
+                    //           barRadius: Radius.circular(10),
+                    //         ),
+                    //       )
+                    //     else
+                    //       ClipRRect(
+                    //         borderRadius:
+                    //             BorderRadius.all(Radius.circular(10)),
+                    //         child: LinearProgressIndicator(
+                    //           backgroundColor: Colors.blue,
+                    //           minHeight: 13,
+                    //           valueColor:
+                    //               AlwaysStoppedAnimation<Color>(Colors.red),
+                    //         ),
+                    //       ),
+                    //   ],
+                    // );
+                    // return CircularPercentIndicator(
+                    //   radius: 25.0,
+                    //   lineWidth: 5.0,
+                    //   header: Text(
+                    //     (value > 0 && value <= 0.9) ? "Uploading" : "Getting Ready ",
+                    //     style: GoogleFonts.roboto(
+                    //       fontStyle: FontStyle.italic,
+                    //       fontWeight: FontWeight.bold,
+                    //       fontSize: 12,
+                    //     ),
+                    //   ),
+                    //   // fillColor: Colors.white,
+                    //   circularStrokeCap: CircularStrokeCap.round,
+                    //   percent: value,
+                    //   center: Text("${DashBoardController.uploadingProcess.value}%",
+                    //       style: GoogleFonts.roboto(
+                    //         fontStyle: FontStyle.italic,
+                    //         fontWeight: FontWeight.bold,
+                    //         fontSize: 10,
+                    //       )),
+                    //   progressColor: Colors.green,
+                    // );
+                  },
+                );
+              }
+            }),
       ),
     );
   }

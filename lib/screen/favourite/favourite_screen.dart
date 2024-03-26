@@ -76,7 +76,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey.shade200,
+        backgroundColor: Colors.grey.shade50,
         appBar: AppBar(
           elevation: 0,
           title: const Text(
@@ -98,10 +98,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   }
 
   Widget newFavFeed() {
-    return Container(
-      // alignment: Alignment.center,
-      color: Colors.black,
-      padding: const EdgeInsets.all(10),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       child: StreamBuilder(
         stream: favouriteController.favFeeds?.stream,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
