@@ -597,7 +597,7 @@ class _AddPostState extends State<AddPost> {
                     return const Center(
                       child: Text(
                         'Please wait file is loading..',
-                        style: TextStyle(color: Colors.grey),
+                        style: TextStyle(color: Colors.grey,fontSize: 20),
                       ),
                     );
                   }),
