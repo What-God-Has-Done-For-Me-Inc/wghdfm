@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wghdfm_java/modules/profile_module/controller/profile_controller.dart';
 import 'package:wghdfm_java/screen/donate/donate_ui.dart';
 import 'package:wghdfm_java/services/prefrence_services.dart';
@@ -125,7 +126,10 @@ class _SettingScreenState extends State<SettingScreen> {
             ),
             setting_card(
               title: "Privacy & Security",
-              onTap: () {},
+              onTap: () {
+                launchUrlString(
+                    "https://whatgodhasdoneforme.com/terms-condition");
+              },
               icon: MingCute.safety_certificate_line,
               showarrow: false,
             ),

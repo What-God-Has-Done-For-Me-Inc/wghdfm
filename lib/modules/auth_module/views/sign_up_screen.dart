@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wghdfm_java/common/background_widget.dart';
 import 'package:wghdfm_java/common/common_snack.dart';
 import 'package:wghdfm_java/common/commons.dart';
@@ -216,9 +217,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           style: const TextStyle(
                                               color: Colors.blue,
                                               fontWeight: FontWeight.w700),
-                                          recognizer: new TapGestureRecognizer()
+                                          recognizer: TapGestureRecognizer()
                                             ..onTap = () {
-                                              launch(
+                                              launchUrlString(
                                                   "https://whatgodhasdoneforme.com/terms-condition");
                                             }),
                                     ]),
