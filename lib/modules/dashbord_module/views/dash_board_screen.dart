@@ -1982,7 +1982,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                           if (value ==
                                                               "Other") {
                                                             AppMethods().share(
-                                                                "${EndPoints.socialSharePostUrl}${dashBoardController.dashboardFeeds[index].id}");
+                                                                string:
+                                                                    "${EndPoints.socialSharePostUrl}${dashBoardController.dashboardFeeds[index].id}",
+                                                                context:
+                                                                    context);
                                                           }
                                                         },
                                                         shape: RoundedRectangleBorder(

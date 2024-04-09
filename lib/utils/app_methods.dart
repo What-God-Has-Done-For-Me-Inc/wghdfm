@@ -25,8 +25,15 @@ class AppMethods {
     log(text, name: name ?? "Mavani", level: 5);
   }
 
-  void share(var string) {
-     Share.share('$string', subject: '#WGHDFM #WHATGODHASDONEFORME');
+  void share({required String string, required BuildContext context}) {
+    // final box = context.findRenderObject() as RenderBox?;
+    Share.share(string,
+        subject: '#WGHDFM #WHATGODHASDONEFORME',
+        sharePositionOrigin: Rect.fromLTWH(
+            0,
+            0,
+            MediaQuery.of(context).size.width,
+            MediaQuery.of(context).size.height / 2));
   }
 
   void onCall(String contactNumber) {

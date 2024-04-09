@@ -142,83 +142,7 @@ class DonateUI extends StatelessWidget {
                         fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 5),
-                  // StreamBuilder(
-                  //   stream: selectedRecurring.stream,
-                  //   builder: (context, snapshot) {
-                  //     return Container(
-                  //       decoration: BoxDecoration(
-                  //         color: Colors.white,
-                  //         borderRadius: BorderRadius.circular(15)
-                  //       ),
-                  //       height: 60,
-                  //       child: ListView(
-                  //         physics: const BouncingScrollPhysics(),
-                  //         shrinkWrap: true,
-                  //         scrollDirection: Axis.horizontal,
-                  //         children: [
-                  //           Row(
-                  //             mainAxisSize: MainAxisSize.min,
-                  //             children: [
-                  //               Radio(
-                  //                   value: 5, groupValue: selectedRecurring.value, onChanged: (value) {
-                  //                 selectedRecurring.value =  value ?? 5;
-                  //               }),
-                  //               Text('\$5'),
-                  //             ],
-                  //           ),
-                  //           Row(
-                  //             mainAxisSize: MainAxisSize.min,
 
-                  //             children: [
-                  //               Radio(value: 10, groupValue: selectedRecurring.value, onChanged: (value) {
-                  //                 selectedRecurring.value =  value ?? 10;
-
-                  //               }),
-                  //               Text('\$10'),
-                  //             ],
-                  //           ),
-                  //           Row(
-                  //             mainAxisSize: MainAxisSize.min,
-
-                  //             children: [
-                  //               Radio(value: 25, groupValue: selectedRecurring.value, onChanged: (value) {
-                  //                 selectedRecurring.value =  value ?? 25;
-
-                  //               }),
-                  //               Text('\$25'),
-                  //             ],
-                  //           ),
-                  //           Row(
-                  //             mainAxisSize: MainAxisSize.min,
-
-                  //             children: [
-                  //               Radio(value: 50, groupValue: selectedRecurring.value, onChanged: (value) {
-                  //                 selectedRecurring.value =  value ?? 50;
-
-                  //               }),
-                  //               Text('\$50'),
-                  //             ],
-                  //           ),
-                  //           Row(
-                  //             mainAxisSize: MainAxisSize.min,
-
-                  //             children: [
-                  //               Radio(value: 100, groupValue: selectedRecurring.value, onChanged: (value) {
-                  //                 selectedRecurring.value =  value ?? 100;
-
-                  //               }),
-                  //               Text('\$100'),
-                  //             ],
-                  //           ),
-
-                  //         ],
-                  //       ),
-                  //     );
-                  //   }
-                  // ),
-                  // SizedBox(
-                  //   height: 10,
-                  // ),
                   // Container(
                   //   width: Get.width,
                   //   height: 50,
@@ -237,19 +161,11 @@ class DonateUI extends StatelessWidget {
                   //   ),
                   // ),
 
-                  // SizedBox(
-                  //   height: 20,
-                  // ),
-                  // Text(
-                  //   "One Time Contribution",
-                  //   style: GoogleFonts.openSans(
-                  //       color: Colors.white, fontSize: 16.0.sf),
-                  // ),
-                  customButton(
-                      title: 'DONATE',
-                      onTap: () {
-                        Get.to(const PaypalPayment());
-                      }),
+                  // customButton(
+                  //     title: 'DONATE',
+                  //     onTap: () {
+                  //       Get.to(const PaypalPayment());
+                  //     }),
                 ],
               ),
             ),

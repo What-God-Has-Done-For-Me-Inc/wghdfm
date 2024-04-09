@@ -58,7 +58,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       groupFeeds?.clear();
       fetchGroupDetails(groupId: widget.groupId);
-      groupController.getGrpFeed(groupId: widget.groupId, isFirstTimeLoading: true, page: currentPage);
+      groupController.getGrpFeed(
+          groupId: widget.groupId, isFirstTimeLoading: true, page: currentPage);
       pagination();
     });
     super.initState();
@@ -66,11 +67,17 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
 
   pagination() {
     grpScrollController.addListener(() async {
-      if (grpScrollController.position.pixels >= grpScrollController.position.maxScrollExtent * 0.70 && groupController.isLoading.value == false) {
+      if (grpScrollController.position.pixels >=
+              grpScrollController.position.maxScrollExtent * 0.70 &&
+          groupController.isLoading.value == false) {
         groupController.isLoading.value = true;
         isFirstTime = false;
         currentPage = currentPage + 1;
-        groupController.getGrpFeed(groupId: widget.groupId, isFirstTimeLoading: false, page: currentPage, showProcess: false);
+        groupController.getGrpFeed(
+            groupId: widget.groupId,
+            isFirstTimeLoading: false,
+            page: currentPage,
+            showProcess: false);
       }
     });
   }
@@ -96,15 +103,18 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
               PopupMenuButton(
                 icon: Icon(Icons.more_vert),
                 position: PopupMenuPosition.under,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 onSelected: (value) {
                   if (value == 0) {
                     showDialog(
                         context: context,
                         builder: (context) {
                           return CupertinoAlertDialog(
-                            title: const Text('Are you sure you want to delete this group?'),
-                            content: const Text('This will delete the Group permanently'),
+                            title: const Text(
+                                'Are you sure you want to delete this group?'),
+                            content: const Text(
+                                'This will delete the Group permanently'),
                             actions: <Widget>[
                               TextButton(
                                 onPressed: () {
@@ -115,7 +125,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                               TextButton(
                                   onPressed: () {
                                     Navigator.pop(context);
-                                    groupController.removeGroup(grpID: '${widget.groupId}');
+                                    groupController.removeGroup(
+                                        grpID: '${widget.groupId}');
                                     Get.back();
                                   },
                                   child: const Text(
@@ -127,23 +138,27 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                         });
                   }
                   if (value == 1) {
-                    if (groupDetailsModel.value.data?.name != null && widget.groupId != null) {
-                      groupController.promoteGroups(groupName: groupDetailsModel.value.data?.name ?? "", groupId: groupDetailsModel.value.data?.groupId ?? "");
+                    if (groupDetailsModel.value.data?.name != null &&
+                        widget.groupId != null) {
+                      groupController.promoteGroups(
+                          groupName: groupDetailsModel.value.data?.name ?? "",
+                          groupId: groupDetailsModel.value.data?.groupId ?? "");
                     }
                   }
                   if (value == 2) {
                     if (widget.groupId != null) {
-                      Get.to(() => GroupMembersUI(groupId: widget.groupId ?? ""));
+                      Get.to(
+                          () => GroupMembersUI(groupId: widget.groupId ?? ""));
                     }
                   }
                 },
                 itemBuilder: (context) {
                   return [
                     if (groupDetailsModel.value.data?.ownerId ==
-                        userId /*&&
+                            userId /*&&
                                                   groupDetail!.sendReqButton !=
                                               "N"*/
-                    )
+                        )
                       PopupMenuItem(value: 0, child: Text("Delete Group")),
                     PopupMenuItem(value: 1, child: Text("Promote Group")),
                     PopupMenuItem(value: 2, child: Text("Group Members")),
@@ -172,7 +187,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          const Text("Your Post is Uploading.. \nPlease don't close app."),
+                          const Text(
+                              "Your Post is Uploading.. \nPlease don't close app."),
                           Container(
                             // width: Get.width,
                             decoration: const BoxDecoration(
@@ -197,7 +213,10 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                       groupFeeds?.clear();
                       fetchGroupDetails(groupId: widget.groupId);
                       currentPage = 0;
-                      groupController.getGrpFeed(groupId: widget.groupId, isFirstTimeLoading: true, page: currentPage);
+                      groupController.getGrpFeed(
+                          groupId: widget.groupId,
+                          isFirstTimeLoading: true,
+                          page: currentPage);
                     }
                   },
                   child: SingleChildScrollView(
@@ -240,43 +259,71 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                                         //     side: const BorderSide(color: Colors.grey, width: 0.5),
                                         //     borderRadius: BorderRadius.circular(5))
                                         borderRadius: BorderRadius.circular(5),
-                                        border: Border.all(color: Colors.grey, width: 0.5),
+                                        border: Border.all(
+                                            color: Colors.grey, width: 0.5),
                                       ),
                                       child: CachedNetworkImage(
                                         alignment: Alignment.center,
                                         fit: BoxFit.cover,
-                                        imageUrl: "${groupDetailsModel.value.data?.coverPic}",
-                                        placeholder: (context, url) => Container(
+                                        imageUrl:
+                                            "${groupDetailsModel.value.data?.coverPic}",
+                                        placeholder: (context, url) =>
+                                            Container(
                                           width: 20,
                                           height: 20,
                                           padding: const EdgeInsets.all(3),
-                                          child: shimmerMeUp(CircularProgressIndicator(
-                                            valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.secondary),
+                                          child: shimmerMeUp(
+                                              CircularProgressIndicator(
+                                            valueColor:
+                                                AlwaysStoppedAnimation<Color>(
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .secondary),
                                           )),
                                         ),
-                                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
                                       ),
                                     ),
                                   ),
 
                                   ///Edit button
-                                  if (groupDetailsModel.value.data?.ownerId == userId)
+                                  if (groupDetailsModel.value.data?.ownerId ==
+                                      userId)
                                     Positioned(
                                       top: 5,
                                       right: 5,
                                       child: Container(
                                         // padding: const EdgeInsets.all(5),
-                                        decoration:
-                                            BoxDecoration(color: Colors.white.withOpacity(0.7), border: Border.all(color: Colors.black), borderRadius: BorderRadius.circular(5)),
+                                        decoration: BoxDecoration(
+                                            color:
+                                                Colors.white.withOpacity(0.7),
+                                            border:
+                                                Border.all(color: Colors.black),
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
                                         child: IconButton(
                                             onPressed: () async {
-                                              final image = await AppMethods().pickImage();
-                                              if (image != null && groupDetailsModel.value.data?.groupId != null) {
+                                              final image = await AppMethods()
+                                                  .pickImage();
+                                              if (image != null &&
+                                                  groupDetailsModel.value.data
+                                                          ?.groupId !=
+                                                      null) {
                                                 groupController.editGroupCover(
                                                     imagePath: image,
-                                                    groupID: groupDetailsModel.value.data?.groupId ?? "",
+                                                    groupID: groupDetailsModel
+                                                            .value
+                                                            .data
+                                                            ?.groupId ??
+                                                        "",
                                                     callBack: () {
-                                                      fetchGroupDetails(groupId: groupDetailsModel.value.data?.groupId);
+                                                      fetchGroupDetails(
+                                                          groupId:
+                                                              groupDetailsModel
+                                                                  .value
+                                                                  .data
+                                                                  ?.groupId);
                                                     });
                                               }
                                             },
@@ -290,11 +337,13 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                                       // width: Get.width,
                                       // height: 150,
                                       // color: Colors.black.withOpacity(0.5),
-                                      padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
+                                      padding: const EdgeInsets.only(
+                                          top: 5, left: 5, right: 5),
                                       // padding: const EdgeInsets.all(10),
                                       alignment: Alignment.centerLeft,
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           // Row(
@@ -552,10 +601,15 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                                               height: 90,
                                               width: 90,
                                               decoration: BoxDecoration(
-                                                color: Theme.of(Get.context!).iconTheme.color,
-                                                borderRadius: BorderRadius.circular(100),
+                                                color: Theme.of(Get.context!)
+                                                    .iconTheme
+                                                    .color,
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
                                                 border: Border.all(
-                                                  color: Theme.of(Get.context!).iconTheme.color!,
+                                                  color: Theme.of(Get.context!)
+                                                      .iconTheme
+                                                      .color!,
                                                   width: 1,
                                                 ),
                                               ),
@@ -565,14 +619,28 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                                                 child: CachedNetworkImage(
                                                   alignment: Alignment.center,
                                                   fit: BoxFit.fill,
-                                                  imageUrl: groupDetailsModel.value.data?.profilePic ?? "",
-                                                  placeholder: (context, url) => Container(
-                                                    padding: const EdgeInsets.all(3),
-                                                    child: shimmerMeUp(CircularProgressIndicator(
-                                                      valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.secondary),
+                                                  imageUrl: groupDetailsModel
+                                                          .value
+                                                          .data
+                                                          ?.profilePic ??
+                                                      "",
+                                                  placeholder: (context, url) =>
+                                                      Container(
+                                                    padding:
+                                                        const EdgeInsets.all(3),
+                                                    child: shimmerMeUp(
+                                                        CircularProgressIndicator(
+                                                      valueColor:
+                                                          AlwaysStoppedAnimation<
+                                                                  Color>(
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .secondary),
                                                     )),
                                                   ),
-                                                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                  errorWidget: (context, url,
+                                                          error) =>
+                                                      const Icon(Icons.error),
                                                 ),
                                               )),
                                           // Container(
@@ -699,71 +767,97 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                             color: Colors.white,
                           ),
                           // alignment: Alignment.center,
-                          child: Row(mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                            Expanded(
-                              child: RichText(
-                                text: TextSpan(
-                                    text: "${groupDetailsModel.value.data?.name.toString().capitalize}" ?? "",
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 15.0,
-                                      height: 1.5,
-                                      overflow: TextOverflow.ellipsis,
-                                      fontWeight: FontWeight.bold,
-                                      decoration: TextDecoration.none,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: "\n" + "${groupDetailsModel.value.data?.ownerName.toString().capitalize}",
+                          child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: RichText(
+                                    text: TextSpan(
+                                        text:
+                                            "${groupDetailsModel.value.data?.name.toString().capitalize}" ??
+                                                "",
                                         style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 15.0,
-                                          height: 1.8,
-                                          fontWeight: FontWeight.w300,
+                                          height: 1.5,
+                                          overflow: TextOverflow.ellipsis,
+                                          fontWeight: FontWeight.bold,
                                           decoration: TextDecoration.none,
                                         ),
-                                      ),
-                                      if (groupDetailsModel.value.data?.groupDescription != null)
-                                        TextSpan(
-                                          text: "\n" + "${groupDetailsModel.value.data?.groupDescription.toString().capitalize}",
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15.0,
-                                            height: 1.8,
-                                            fontWeight: FontWeight.w300,
-                                            decoration: TextDecoration.none,
+                                        children: [
+                                          TextSpan(
+                                            text: "\n" +
+                                                "${groupDetailsModel.value.data?.ownerName.toString().capitalize}",
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15.0,
+                                              height: 1.8,
+                                              fontWeight: FontWeight.w300,
+                                              decoration: TextDecoration.none,
+                                            ),
                                           ),
-                                        )
-                                    ]),
-                              ),
-                            ),
+                                          if (groupDetailsModel.value.data
+                                                  ?.groupDescription !=
+                                              null)
+                                            TextSpan(
+                                              text: "\n" +
+                                                  "${groupDetailsModel.value.data?.groupDescription.toString().capitalize}",
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 15.0,
+                                                height: 1.8,
+                                                fontWeight: FontWeight.w300,
+                                                decoration: TextDecoration.none,
+                                              ),
+                                            )
+                                        ]),
+                                  ),
+                                ),
 
-                            if (groupDetailsModel.value.data?.ownerId == userId)
-                              IconButton(
-                                  onPressed: () {
-                                    if (groupDetailsModel.value.data?.groupId != null) {
-                                      editGroupDetails(
-                                          name: groupDetailsModel.value.data?.name,
-                                          description: groupDetailsModel.value.data?.groupDescription,
-                                          groupId: groupDetailsModel.value.data?.groupId ?? '');
-                                    }
-                                  },
-                                  icon: Icon(Icons.edit)),
-                            // if (groupDetailsModel.value.data
-                            //         ?.groupDescription !=
-                            //     null)
-                            //   Text(
-                            //       "${groupDetailsModel.value.data?.groupDescription.toString().capitalize}"),
-                            if (groupDetailsModel.value.data?.ownerId != userId && groupDetailsModel.value.data?.sendReqButton != "N")
-                              ElevatedButton(
-                                onPressed: () {
-                                  if (groupDetailsModel.value.data?.sendReqButton != "N") {
-                                    sendJoinRequest();
-                                  }
-                                },
-                                child: groupDetailsModel.value.data?.sendReqButton == "N" ? const Text("Requested") : const Text("Join"),
-                              )
-                          ]),
+                                if (groupDetailsModel.value.data?.ownerId ==
+                                    userId)
+                                  IconButton(
+                                      onPressed: () {
+                                        if (groupDetailsModel
+                                                .value.data?.groupId !=
+                                            null) {
+                                          editGroupDetails(
+                                              name: groupDetailsModel
+                                                  .value.data?.name,
+                                              description: groupDetailsModel
+                                                  .value.data?.groupDescription,
+                                              groupId: groupDetailsModel
+                                                      .value.data?.groupId ??
+                                                  '');
+                                        }
+                                      },
+                                      icon: Icon(Icons.edit)),
+                                // if (groupDetailsModel.value.data
+                                //         ?.groupDescription !=
+                                //     null)
+                                //   Text(
+                                //       "${groupDetailsModel.value.data?.groupDescription.toString().capitalize}"),
+                                if (groupDetailsModel.value.data?.ownerId !=
+                                        userId &&
+                                    groupDetailsModel
+                                            .value.data?.sendReqButton !=
+                                        "N")
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      if (groupDetailsModel
+                                              .value.data?.sendReqButton !=
+                                          "N") {
+                                        sendJoinRequest();
+                                      }
+                                    },
+                                    child: groupDetailsModel
+                                                .value.data?.sendReqButton ==
+                                            "N"
+                                        ? const Text("Requested")
+                                        : const Text("Join"),
+                                  )
+                              ]),
                         ),
 
                         // Column(
@@ -847,7 +941,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                                   return Container(
                                     color: Colors.white,
                                     alignment: Alignment.center,
-                                    child: customText(title: "${snapshot.error}"),
+                                    child:
+                                        customText(title: "${snapshot.error}"),
                                   );
                                 }
                                 // if (groupFeeds?.isEmpty == true) {
@@ -864,16 +959,21 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                                         shrinkWrap: true,
                                         physics: NeverScrollableScrollPhysics(),
                                         itemCount: groupFeeds?.length ?? 0,
-                                        itemBuilder: (BuildContext context, int index) {
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
                                           //return SizedBox();
-                                          return listItem(index, onFavClick: () {
+                                          return listItem(index,
+                                              onFavClick: () {
                                             setStateCustom(() {});
                                           }, onLikeClick: () {
                                             setStateCustom(() {});
                                           });
                                         },
                                       )
-                                    : Center(child: customText(title: 'No Feeds', txtColor: Colors.white));
+                                    : Center(
+                                        child: customText(
+                                            title: 'No Feeds',
+                                            txtColor: Colors.white));
                               },
                             );
                           },
@@ -1008,7 +1108,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     );
   }
 
-  Widget listItem(int index, {VoidCallback? onFavClick, VoidCallback? onLikeClick}) {
+  Widget listItem(int index,
+      {VoidCallback? onFavClick, VoidCallback? onLikeClick}) {
     TextEditingController commentTextController = TextEditingController();
     RxBool emojiShowing = false.obs;
     return StatefulBuilder(
@@ -1048,8 +1149,10 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                                 alignment: Alignment.center,
                                 fit: BoxFit.fill,
                                 imageUrl: groupFeeds?[index].profilePic ?? "",
-                                placeholder: (context, url) => const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) => const Icon(Icons.error),
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
                               ),
                             ),
                           );
@@ -1062,10 +1165,12 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                             placeholder: (context, url) => Container(
                               padding: const EdgeInsets.all(3),
                               child: shimmerMeUp(CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.secondary),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    Theme.of(context).colorScheme.secondary),
                               )),
                             ),
-                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                           ),
                         ),
                       ),
@@ -1103,7 +1208,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                   ),
                   PopupMenuButton(
                     icon: Icon(Icons.more_vert),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
                     // position: PopupMenuPosition.under,
                     onSelected: (value) {
                       if (value == "Report" && groupFeeds?[index].id != null) {
@@ -1123,7 +1229,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
               ),
             ),
             customImageView(groupFeeds?[index]),
-            if (groupFeeds?[index].status != null && groupFeeds?[index].status != '')
+            if (groupFeeds?[index].status != null &&
+                groupFeeds?[index].status != '')
               Container(
                 margin: const EdgeInsets.all(10),
                 child: Row(
@@ -1176,7 +1283,10 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                               //       });
 
                               if (!isLoved) {
-                                setAsFav(postId: "${groupFeeds?[index].id}", isFrmGrp: true).then((value) {
+                                setAsFav(
+                                        postId: "${groupFeeds?[index].id}",
+                                        isFrmGrp: true)
+                                    .then((value) {
                                   if (groupFeeds?[index].isFav == 0) {
                                     groupFeeds?[index].isFav = 1;
                                   } else {
@@ -1185,7 +1295,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                                   setStateFav(() {});
                                 });
                               } else {
-                                setAsUnFav("${groupFeeds?[index].id}").then((value) {
+                                setAsUnFav("${groupFeeds?[index].id}")
+                                    .then((value) {
                                   if (groupFeeds?[index].isFav == 0) {
                                     groupFeeds?[index].isFav = 1;
                                   } else {
@@ -1197,7 +1308,9 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                             },
                             icon: Icon(
                               isLoved ? Icons.favorite : Icons.favorite_border,
-                              color: isLoved ? Colors.red : Theme.of(Get.context!).iconTheme.color,
+                              color: isLoved
+                                  ? Colors.red
+                                  : Theme.of(Get.context!).iconTheme.color,
                             )),
                       );
                     },
@@ -1220,12 +1333,14 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                                     } else {
                                       groupFeeds?[index].isLike = 0;
                                     }
-                                    groupFeeds?[index].countLike = "${commentCount}";
+                                    groupFeeds?[index].countLike =
+                                        "${commentCount}";
                                     setStateLike(() {});
                                   });
                             },
                             child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
                               height: 20,
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -1233,8 +1348,14 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Image.asset(
-                                    isLiked ? "assets/icon/liked_image.png" : "assets/icon/like_img.png",
-                                    color: isLiked ? Colors.blue : Theme.of(Get.context!).iconTheme.color,
+                                    isLiked
+                                        ? "assets/icon/liked_image.png"
+                                        : "assets/icon/like_img.png",
+                                    color: isLiked
+                                        ? Colors.blue
+                                        : Theme.of(Get.context!)
+                                            .iconTheme
+                                            .color,
                                   ),
                                   const SizedBox(
                                     width: 3,
@@ -1267,11 +1388,13 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                     flex: 1,
                     child: InkWell(
                       onTap: () async {
-                        LoginModel userDetails = await SessionManagement.getUserDetails();
+                        LoginModel userDetails =
+                            await SessionManagement.getUserDetails();
                         if (kDebugMode) {
                           print("user id: ${userDetails.id}");
                           print("post id: ${groupFeeds?[index].id}");
-                          print(">> > Before Comment Count ${groupFeeds?[index].countComment}");
+                          print(
+                              ">> > Before Comment Count ${groupFeeds?[index].countComment}");
                           print(":: CURRENT INDEX IS ${index}");
                           print("Before: ${groupFeeds?[index].id!}");
                         }
@@ -1284,7 +1407,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                               grpId: widget.groupId,
                             ))?.then((value) {
                           groupFeeds?.refresh();
-                          print(">> >> > After Comment Count ${groupFeeds?[index].countComment}");
+                          print(
+                              ">> >> > After Comment Count ${groupFeeds?[index].countComment}");
                         });
                       },
                       child: Container(
@@ -1323,16 +1447,24 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                   // ),
                   PopupMenuButton(
                     onSelected: (value) async {
-                      LoginModel userDetails = await SessionManagement.getUserDetails();
+                      LoginModel userDetails =
+                          await SessionManagement.getUserDetails();
                       userId = userDetails.id;
                       if (value == "Timeline") {
-                        groupController.sharePostToTimeline(postOwnerId: "${groupFeeds?[index].ownerId}", ownerId: "${userId}", wireId: "${groupFeeds?[index].id}");
+                        groupController.sharePostToTimeline(
+                            postOwnerId: "${groupFeeds?[index].ownerId}",
+                            ownerId: "${userId}",
+                            wireId: "${groupFeeds?[index].id}");
                       }
                       if (value == "Other") {
-                        AppMethods().share("https://whatgodhasdoneforme.com/profile/post/group/${groupDetailsModel.value.data?.groupId}/${groupFeeds?[index].id}");
+                        AppMethods().share(
+                            string:
+                                "https://whatgodhasdoneforme.com/profile/post/group/${groupDetailsModel.value.data?.groupId}/${groupFeeds?[index].id}",
+                            context: context);
                       }
                     },
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
                     position: PopupMenuPosition.under,
                     icon: Icon(Icons.share),
                     itemBuilder: (context) {
@@ -1382,7 +1514,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                 alignment: Alignment.bottomRight,
                 child: Container(
                   margin: const EdgeInsets.all(10),
-                  child: customText(title: groupFeeds?[index].timeStamp!, fs: 10),
+                  child:
+                      customText(title: groupFeeds?[index].timeStamp!, fs: 10),
                 )),
             if (groupFeeds?[index].latestComments?.isNotEmpty == true)
               Column(
@@ -1401,9 +1534,13 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                     shrinkWrap: true,
                     // reverse: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: (groupFeeds?[index].latestComments?.length ?? 0) > 3 ? 3 : groupFeeds?[index].latestComments?.length ?? 0,
+                    itemCount:
+                        (groupFeeds?[index].latestComments?.length ?? 0) > 3
+                            ? 3
+                            : groupFeeds?[index].latestComments?.length ?? 0,
                     itemBuilder: (context, indexOfComment) {
-                      int listLength = groupFeeds?[index].latestComments?.length ?? 0;
+                      int listLength =
+                          groupFeeds?[index].latestComments?.length ?? 0;
                       return Row(
                         children: [
                           Container(
@@ -1426,10 +1563,14 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                                 imageUrl:
                                     "https://wghdfm.s3.amazonaws.com/thumb/${groupFeeds?[index].latestComments?[listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 1) + indexOfComment]?.img}",
                                 // "https://wghdfm.s3.amazonaws.com/thumb/${dashBoardController.dashboardFeeds[index].latestComments?.last.img}",
-                                progressIndicatorBuilder: (BuildContext, String, DownloadProgress) {
-                                  return const Center(child: CupertinoActivityIndicator());
+                                progressIndicatorBuilder:
+                                    (BuildContext, String, DownloadProgress) {
+                                  return const Center(
+                                      child: CupertinoActivityIndicator());
                                 },
-                                errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.white),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error,
+                                        color: Colors.white),
                               ),
                             ),
                           ),
@@ -1441,7 +1582,9 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                               children: [
                                 Text(
                                     "${groupFeeds?[index].latestComments?[listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 1) + indexOfComment]?.firstname} ${groupFeeds?[index].latestComments?[listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 1) + indexOfComment]?.lastname}",
-                                    style: GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w500)),
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500)),
                                 Text(
                                     "${groupFeeds?[index].latestComments?[listLength - (listLength >= 3 ? 3 : listLength >= 2 ? 2 : 1) + indexOfComment]?.comment}",
                                     style: GoogleFonts.montserrat(
@@ -1472,7 +1615,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                     child: commonTextField(
                       readOnly: false,
                       leading: IconButton(
-                        icon: const Icon(Icons.emoji_emotions_outlined, size: 25),
+                        icon:
+                            const Icon(Icons.emoji_emotions_outlined, size: 25),
                         onPressed: () async {
                           emojiShowing.toggle();
                           // setState(() {});
@@ -1492,17 +1636,24 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                     onPressed: () async {
                       print(":: ${groupFeeds?[index].latestComments?.length}");
                       FocusScope.of(context).requestFocus(FocusNode());
-                      LoginModel userDetailss = await SessionManagement.getUserDetails();
+                      LoginModel userDetailss =
+                          await SessionManagement.getUserDetails();
                       String postId = "${groupFeeds?[index].id}";
 
                       if (commentTextController.text.trim().isNotEmpty) {
-                        LoginModel userDetails = await SessionManagement.getUserDetails();
+                        LoginModel userDetails =
+                            await SessionManagement.getUserDetails();
 
-                        Map<String, String> bodyData = {"post_id": postId, "user_id": "${userDetailss.id}", "comment": commentTextController.text};
+                        Map<String, String> bodyData = {
+                          "post_id": postId,
+                          "user_id": "${userDetailss.id}",
+                          "comment": commentTextController.text
+                        };
 
                         await APIService().callAPI(
                             params: {},
-                            serviceUrl: "${EndPoints.baseUrl}${EndPoints.insertCommentForGrpUrl}/${postId}/${userDetails.id}/G",
+                            serviceUrl:
+                                "${EndPoints.baseUrl}${EndPoints.insertCommentForGrpUrl}/${postId}/${userDetails.id}/G",
                             method: APIService.postMethod,
                             formDatas: dio.FormData.fromMap(bodyData),
                             success: (dio.Response response) async {
@@ -1522,38 +1673,52 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                                 //       userId: userDetails.id ?? "",
                                 //     ));
 
-                                final decodedesponse = jsonDecode(response.data);
+                                final decodedesponse =
+                                    jsonDecode(response.data);
                                 // print()
                                 groupFeeds?[index].latestComments?.clear();
                                 decodedesponse.forEach((element) {
                                   print(":: element $element");
-                                  print(":: element[comment] ${element["comment"]}");
-                                  groupFeeds?[index].latestComments?.add(PostModelFeedLatestComments(
-                                      comment: element["comment"] ?? "",
-                                      commentId: element["comment_id"] ?? "",
-                                      lastname: element["lastname"] ?? "",
-                                      firstname: element["firstname"] ?? "",
-                                      img: element["img"] ?? "",
-                                      userId: element["user_id"] ?? "",
-                                      date: ""));
+                                  print(
+                                      ":: element[comment] ${element["comment"]}");
+                                  groupFeeds?[index].latestComments?.add(
+                                      PostModelFeedLatestComments(
+                                          comment: element["comment"] ?? "",
+                                          commentId:
+                                              element["comment_id"] ?? "",
+                                          lastname: element["lastname"] ?? "",
+                                          firstname: element["firstname"] ?? "",
+                                          img: element["img"] ?? "",
+                                          userId: element["user_id"] ?? "",
+                                          date: ""));
                                 });
 
-                                groupFeeds?[index].countComment = (groupFeeds?[index].countComment ?? 0) + 1;
+                                groupFeeds?[index].countComment =
+                                    (groupFeeds?[index].countComment ?? 0) + 1;
                                 commentTextController.clear();
                                 groupFeeds?.refresh();
                               });
-                              print(">> < COMMENT COUNT ? ${groupFeeds?[index].countComment}");
-                              print(">> ::  COMMENT COUNT ? ${groupFeeds?[index].latestComments?.length}");
-                              if (groupFeeds?[index].ownerId != userDetails.id && groupFeeds?[index].ownerId != null) {
+                              print(
+                                  ">> < COMMENT COUNT ? ${groupFeeds?[index].countComment}");
+                              print(
+                                  ">> ::  COMMENT COUNT ? ${groupFeeds?[index].latestComments?.length}");
+                              if (groupFeeds?[index].ownerId !=
+                                      userDetails.id &&
+                                  groupFeeds?[index].ownerId != null) {
                                 NotificationHandler.to.sendNotificationToUserID(
                                     postId: groupFeeds?[index].id ?? "0",
                                     userId: groupFeeds?[index].ownerId ?? "0",
                                     title: "New Comments on Your Post",
-                                    body: "${userDetails.fname} ${userDetails.lname} Commented your post");
+                                    body:
+                                        "${userDetails.fname} ${userDetails.lname} Commented your post");
                               }
                             },
                             error: (dio.Response response) {
-                              snack(icon: Icons.report_problem, iconColor: Colors.yellow, msg: "Type something first...", title: "Alert!");
+                              snack(
+                                  icon: Icons.report_problem,
+                                  iconColor: Colors.yellow,
+                                  msg: "Type something first...",
+                                  title: "Alert!");
                             },
                             showProcess: true);
                       }
@@ -1953,11 +2118,16 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                         callBaack: () {
                           if (groupDetailsModel.value.data?.type == "P") {
                             NotificationHandler.to.sendNotificationToUserID(
-                                userId: groupDetailsModel.value.data?.ownerId ?? "",
+                                userId:
+                                    groupDetailsModel.value.data?.ownerId ?? "",
                                 title: "New Request Pending.. ",
-                                body: "Someone requested in ${groupDetailsModel.value.data?.name}",
+                                body:
+                                    "Someone requested in ${groupDetailsModel.value.data?.name}",
                                 postId: "",
-                                map: {"GroupID": "${groupDetailsModel.value.data?.groupId}"});
+                                map: {
+                                  "GroupID":
+                                      "${groupDetailsModel.value.data?.groupId}"
+                                });
                           }
                         });
                   },
@@ -1971,7 +2141,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     )));
   }
 
-  void editGroupDetails({String? name, String? description, required String groupId}) {
+  void editGroupDetails(
+      {String? name, String? description, required String groupId}) {
     TextEditingController nameController = TextEditingController();
     TextEditingController descriptionController = TextEditingController();
     nameController.text = name ?? "";
@@ -1997,7 +2168,9 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
               readOnly: false,
               hint: 'Group Name',
               validator: (String? value) {
-                return (value == null || value.isEmpty) ? "Please enter valid name" : null;
+                return (value == null || value.isEmpty)
+                    ? "Please enter valid name"
+                    : null;
               },
               isLabelFloating: false,
               controller: nameController,
@@ -2011,7 +2184,9 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
               isLastField: true,
               charLimit: 60,
               validator: (String? value) {
-                return (value == null || value.isEmpty) ? "Please enter valid description" : null;
+                return (value == null || value.isEmpty)
+                    ? "Please enter valid description"
+                    : null;
               },
               isLabelFloating: false,
               controller: descriptionController,

@@ -128,7 +128,7 @@ class _SettingScreenState extends State<SettingScreen> {
               title: "Privacy & Security",
               onTap: () {
                 launchUrlString(
-                    "https://whatgodhasdoneforme.com/terms-condition");
+                    "https://whatgodhasdoneforme.com/privacy-policy");
               },
               icon: MingCute.safety_certificate_line,
               showarrow: false,

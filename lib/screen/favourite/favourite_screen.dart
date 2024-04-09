@@ -761,7 +761,9 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                     child: IconButton(
                                                         onPressed: () {
                                                           AppMethods().share(
-                                                              "${EndPoints.socialSharePostUrl}${favouriteController.favFeeds?[index].id}");
+                                                              string:
+                                                                  "${EndPoints.socialSharePostUrl}${favouriteController.favFeeds?[index].id}",
+                                                              context: context);
                                                         },
                                                         icon: const Icon(
                                                             Icons.share)),

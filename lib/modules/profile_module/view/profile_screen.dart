@@ -1063,7 +1063,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: IconButton(
                           onPressed: () {
                             AppMethods().share(
-                                "${EndPoints.socialSharePostUrl}${profileController.profileFeeds?[index].id}");
+                                string:
+                                    "${EndPoints.socialSharePostUrl}${profileController.profileFeeds?[index].id}",
+                                context: context);
                           },
                           icon: const Icon(Icons.share)),
                     ),
