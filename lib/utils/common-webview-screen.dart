@@ -44,7 +44,7 @@ class _CommonWebScreenState extends State<CommonWebScreen> {
     print(widget.url);
     clearCookies();
 
-    contextMenu = ContextMenu(
+   /* contextMenu = ContextMenu(
         menuItems: [
           ContextMenuItem(
               androidId: 1,
@@ -70,7 +70,7 @@ class _CommonWebScreenState extends State<CommonWebScreen> {
           //     id.toString() +
           //     " " +
           //     contextMenuItemClicked.title);
-        });
+        });*/
 
     pullToRefreshController = kIsWeb ||
             ![TargetPlatform.iOS, TargetPlatform.android]
@@ -149,7 +149,7 @@ class _CommonWebScreenState extends State<CommonWebScreen> {
                           clearCache: true,
                           cacheEnabled: false,
                           clearSessionCache: true),
-                      contextMenu: contextMenu,
+                      //contextMenu: contextMenu,
                       pullToRefreshController: pullToRefreshController,
                       onWebViewCreated: (controller) async {
                         webViewController = controller;
