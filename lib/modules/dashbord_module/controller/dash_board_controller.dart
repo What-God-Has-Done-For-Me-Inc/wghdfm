@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:light_compressor/light_compressor.dart';
 import 'package:mime/mime.dart';
 
 import 'package:awesome_notifications/awesome_notifications.dart' as awesome;
 import 'package:dio/dio.dart' as dio;
-import 'package:file_picker/file_picker.dart';
 import 'package:http_parser/http_parser.dart';
 // import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
@@ -371,19 +371,20 @@ class DashBoardController extends GetxController {
   }
 
   Future<void> uploadImageFromGallery() async {
-    final images = (await FilePicker.platform.pickFiles(
-      type: FileType.media,
-      allowMultiple: true,
-      allowCompression: true,
-    ))
-        ?.files;
+    // final images = (await FilePicker.platform.pickFiles(
+    //   type: FileType.media,
+    //   allowMultiple: true,
+    //   allowCompression: true,
+    // ))
+    //     ?.files;
 
-    // final imagePicker = ImagePicker();
-    // final List<XFile> images = await imagePicker.pickMultiImage(imageQuality: 50);
+    final ImagePicker picker = ImagePicker();
+    final List<XFile> images =
+        await picker.pickMultipleMedia(requestFullMetadata: false);
     final List<File> imageFile = <File>[];
-    if (images != null) {
+    if (images.isNotEmpty) {
       for (var element in images) {
-        imageFile.add(File(element.path ?? ""));
+        imageFile.add(File(element.path));
       }
     }
     if (imageFile != null && imageFile.isNotEmpty) {
@@ -538,14 +539,13 @@ class DashBoardController extends GetxController {
   }
 
   Future<File?> fetchVideoFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.video,
-    );
+    final ImagePicker picker = ImagePicker();
+    final XFile? result = await picker.pickVideo(source: ImageSource.gallery);
 
     if (result == null) {
       return null;
     }
-    return File(result.files.single.path!);
+    return File(result.path);
   }
 
   Future<void> uploadImage({
@@ -586,35 +586,35 @@ class DashBoardController extends GetxController {
               contentType: MediaType.parse(lookupMimeType(fileName).toString()),
             );
             fileList.add(file);
-          // } else if (mb >= 200 && mb <= 700) {
-          //   final Result response = await _lightCompressor.compressVideo(
-          //     path: element.path,
-          //     videoQuality: VideoQuality.very_high,
-          //     isMinBitrateCheckEnabled: false,
-          //     video: Video(videoName: fileName.split('.').first.toString()),
-          //     android:
-          //         AndroidConfig(isSharedStorage: false, saveAt: SaveAt.Movies),
-          //     ios: IOSConfig(saveInGallery: false),
-          //   );
-          //   if (response is OnSuccess) {
-          //     print(
-          //         "=== === === === === === === === === === === === ${response.destinationPath}");
+            // } else if (mb >= 200 && mb <= 700) {
+            //   final Result response = await _lightCompressor.compressVideo(
+            //     path: element.path,
+            //     videoQuality: VideoQuality.very_high,
+            //     isMinBitrateCheckEnabled: false,
+            //     video: Video(videoName: fileName.split('.').first.toString()),
+            //     android:
+            //         AndroidConfig(isSharedStorage: false, saveAt: SaveAt.Movies),
+            //     ios: IOSConfig(saveInGallery: false),
+            //   );
+            //   if (response is OnSuccess) {
+            //     print(
+            //         "=== === === === === === === === === === === === ${response.destinationPath}");
 
-          //     dio.MultipartFile file = await dio.MultipartFile.fromFile(
-          //       response.destinationPath,
-          //       filename: fileName,
-          //       contentType:
-          //           MediaType.parse(lookupMimeType(fileName).toString()),
-          //     );
-          //     fileList.add(file);
-          //     print('file added');
-          //   } else if (response is OnFailure) {
-          //     snack(
-          //         title: "Failed",
-          //         msg: "Compress Fail => for (var element in imageFilePaths)",
-          //         iconColor: Colors.red,
-          //         icon: Icons.close);
-          //   }
+            //     dio.MultipartFile file = await dio.MultipartFile.fromFile(
+            //       response.destinationPath,
+            //       filename: fileName,
+            //       contentType:
+            //           MediaType.parse(lookupMimeType(fileName).toString()),
+            //     );
+            //     fileList.add(file);
+            //     print('file added');
+            //   } else if (response is OnFailure) {
+            //     snack(
+            //         title: "Failed",
+            //         msg: "Compress Fail => for (var element in imageFilePaths)",
+            //         iconColor: Colors.red,
+            //         icon: Icons.close);
+            //   }
           } else {
             final Result response = await _lightCompressor.compressVideo(
               path: element.path,

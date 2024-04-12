@@ -1,9 +1,8 @@
 import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:wghdfm_java/common/commons.dart';
 import 'package:wghdfm_java/model/feed_res_obj.dart';
 import 'package:wghdfm_java/utils/app_binding.dart';
@@ -161,16 +160,13 @@ class _MediaScreenState extends State<MediaScreen> {
   TextEditingController statusController = TextEditingController();
 
   pickImages() async {
-    final images = (await FilePicker.platform.pickFiles(
-      type: FileType.media,
-      allowMultiple: true,
-      allowCompression: true,
-    ))
-        ?.files;
+    final ImagePicker picker = ImagePicker();
+    final List<XFile> images =
+        await picker.pickMultiImage(requestFullMetadata: false);
     final RxList<File> imageFile = <File>[].obs;
-    if (images != null) {
+    if (images.isNotEmpty) {
       for (var element in images) {
-        imageFile.add(File(element.path ?? ""));
+        imageFile.add(File(element.path));
       }
     }
 

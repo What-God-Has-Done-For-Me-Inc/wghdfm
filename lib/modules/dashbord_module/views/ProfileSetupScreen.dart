@@ -1,18 +1,15 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:wghdfm_java/modules/auth_module/model/login_model.dart';
 import 'package:wghdfm_java/modules/dashbord_module/controller/dash_board_controller.dart';
 import 'package:wghdfm_java/modules/dashbord_module/views/take_picture_screen.dart';
 import 'package:wghdfm_java/modules/profile_module/controller/profile_controller.dart';
 import 'package:wghdfm_java/services/sesssion.dart';
 import 'package:wghdfm_java/utils/app_methods.dart';
-import 'package:wghdfm_java/utils/button.dart';
 
 class ProfileSetupPage extends StatefulWidget {
   @override
@@ -60,38 +57,25 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
   File? _coverImage;
 
   Future<void> _pickProfileImage() async {
-    // final picker = ImagePicker();
-    // final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-    final image = await FilePicker.platform.pickFiles(
-        allowCompression: false,
-        withReadStream: true,
-        allowMultiple: false,
-        withData: false,
-        dialogTitle: "Pick Profile Image",
-        type: FileType.media);
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(
+        source: ImageSource.gallery, requestFullMetadata: false);
 
     if (image != null) {
       setState(() {
-        _profileImage = File(image.files.first.path!);
+        _profileImage = File(image.path);
       });
     }
   }
 
   Future<void> _pickCoverImage() async {
-    // final picker = ImagePicker();
-    // final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    final image = await FilePicker.platform.pickFiles(
-        allowCompression: false,
-        withReadStream: true,
-        allowMultiple: false,
-        withData: false,
-        dialogTitle: "Pick Cover Image",
-        type: FileType.media);
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(
+        source: ImageSource.gallery, requestFullMetadata: false);
 
     if (image != null) {
       setState(() {
-        _coverImage = File(image.files.first.path!);
+        _coverImage = File(image.path);
       });
     }
   }

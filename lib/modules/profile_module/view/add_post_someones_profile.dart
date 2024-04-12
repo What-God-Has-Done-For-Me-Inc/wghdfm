@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:wghdfm_java/common/video_player.dart';
 import 'package:wghdfm_java/modules/dashbord_module/model/friends_model.dart';
 import 'package:wghdfm_java/modules/dashbord_module/views/take_picture_screen.dart';
@@ -663,15 +663,18 @@ class _SomeonesAddPostState extends State<SomeonesAddPost> {
     //     pickedFiles?.add(tempImage);
     //   });
     // });
+    final ImagePicker picker = ImagePicker();
+    final List<XFile> image =
+        await picker.pickMultiImage(requestFullMetadata: false);
 
-    final image = await FilePicker.platform.pickFiles(
-        allowCompression: true,
-        allowMultiple: true,
-        withData: false,
-        dialogTitle: "Pick Photo or Video",
-        type: FileType.media);
-    if (image == null) return;
-    image.files.forEach((element) {
+    // final image = await FilePicker.platform.pickFiles(
+    //     allowCompression: true,
+    //     allowMultiple: true,
+    //     withData: false,
+    //     dialogTitle: "Pick Photo or Video",
+    //     type: FileType.media);
+    if (image.isEmpty) return;
+    image.forEach((element) {
       final tempImage = File(element.path ?? "");
       setState(() {
         // pickedImage = tempImage;

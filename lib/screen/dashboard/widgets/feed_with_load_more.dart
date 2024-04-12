@@ -31,7 +31,7 @@ Widget customImageView(PostModelFeed? feed) {
   print(
       ">> Youtube iFrame 1 use this link >> ${feed?.url?.split("/").last.split('?').first}");
   print(">> Content Link >> ${listOfMedia}");
-
+  print(Get.width);
   return InkWell(
     onTap: () {
       feed?.media == ""
@@ -120,7 +120,8 @@ Widget customImageView(PostModelFeed? feed) {
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisSpacing: 3,
-                                    childAspectRatio: 1.0,
+                                    childAspectRatio:
+                                        Get.width < 550 ? 1.0 : 1.4,
                                     mainAxisSpacing: 3,
                                     // mainAxisExtent: 100,
                                     crossAxisCount:

@@ -1,18 +1,17 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:wghdfm_java/modules/ads_module/ads_screen.dart';
 import 'package:wghdfm_java/modules/dashbord_module/controller/dash_board_controller.dart';
 import 'package:wghdfm_java/screen/comment/comment_screen.dart';
 import 'package:wghdfm_java/services/sesssion.dart';
-import 'package:wghdfm_java/utils/app_binding.dart';
 import 'package:wghdfm_java/utils/app_texts.dart';
 import 'package:wghdfm_java/utils/lists.dart';
 
@@ -468,16 +467,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: TextButton.icon(
                               onPressed: () async {
                                 //todo:
-                                FilePickerResult? result =
-                                    await FilePicker.platform.pickFiles(
-                                  type: FileType.image,
-                                  allowMultiple: false,
-                                  allowCompression: true,
-                                );
+                                // FilePickerResult? result =
+                                //     await FilePicker.platform.pickFiles(
+                                //   type: FileType.image,
+                                //   allowMultiple: false,
+                                //   allowCompression: true,
+                                // );
+                                final ImagePicker picker = ImagePicker();
+                                final XFile? result = await picker.pickImage(
+                                    source: ImageSource.gallery,
+                                    requestFullMetadata: false);
 
                                 if (result != null) {
-                                  File file =
-                                      File("${result.files.first.path}");
+                                  File file = File(result.path);
                                   LoginModel userDetails =
                                       await SessionManagement.getUserDetails();
                                   userId = userDetails.id;
@@ -578,16 +580,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: InkWell(
                                       onTap: () async {
                                         ///Edit image here...
-                                        FilePickerResult? result =
-                                            await FilePicker.platform.pickFiles(
-                                          type: FileType.image,
-                                          allowMultiple: false,
-                                          allowCompression: true,
-                                        );
+                                        // FilePickerResult? result =
+                                        //     await FilePicker.platform.pickFiles(
+                                        //   type: FileType.image,
+                                        //   allowMultiple: false,
+                                        //   allowCompression: true,
+                                        // );
+                                        final ImagePicker picker =
+                                            ImagePicker();
+                                        final XFile? result =
+                                            await picker.pickImage(
+                                                source: ImageSource.gallery,
+                                                requestFullMetadata: false);
 
                                         if (result != null) {
-                                          File file = File(
-                                              "${result.files.first.path}");
+                                          File file = File(result.path);
                                           LoginModel userDetails =
                                               await SessionManagement
                                                   .getUserDetails();

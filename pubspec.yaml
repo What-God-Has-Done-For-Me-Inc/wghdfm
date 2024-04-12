@@ -27,7 +27,7 @@ dependencies:
   dio: ^5.4.1
   path_provider: ^2.1.1
   permission_handler: ^11.1.0
-  file_picker: 
+  # file_picker: 
   image_picker:
   video_compress_ds: ^3.1.6
   light_compressor: ^2.2.0
@@ -60,6 +60,8 @@ dependencies:
   upgrader:
   icons_plus: ^5.0.0
   wakelock: ^0.6.2
+  purchases_flutter: 6.15.0
+  purchases_ui_flutter: 6.15.0
 
  
 

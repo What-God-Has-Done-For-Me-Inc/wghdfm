@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -43,8 +41,7 @@ class _GroupAddNewPostState extends State<GroupAddNewPost> {
   addPhotoScreen() async {
     final cameras = await availableCameras();
     final firstCamera = cameras.first;
-    Get.to(() =>
-        TakePictureScreen(
+    Get.to(() => TakePictureScreen(
           camera: firstCamera,
         ))?.then((value) {
       pickedFiles?.add(value);
@@ -54,8 +51,7 @@ class _GroupAddNewPostState extends State<GroupAddNewPost> {
   addVideoScreen() async {
     final cameras = await availableCameras();
     final firstCamera = cameras.first;
-    Get.to(() =>
-        TakeVideoScreen(
+    Get.to(() => TakeVideoScreen(
           camera: firstCamera,
         ))?.then((value) {
       pickedFiles?.add(value);
@@ -80,14 +76,13 @@ class _GroupAddNewPostState extends State<GroupAddNewPost> {
   }
 
   Future getImage() async {
-    final image = await FilePicker.platform.pickFiles(allowCompression: true,
-        allowMultiple: true,
-        withData: false,
-        dialogTitle: "Pick Photo or Video",
-        type: FileType.media);
-    if (image == null) return;
-    image.files.forEach((element) {
-      final tempImage = File(element.path ?? "");
+    final ImagePicker picker = ImagePicker();
+    final List<XFile> image =
+        await picker.pickMultipleMedia(requestFullMetadata: false);
+
+    if (image.isEmpty) return;
+    image.forEach((element) {
+      final tempImage = File(element.path);
       setState(() {
         // pickedImage = tempImage;
         pickedFiles?.add(tempImage);
@@ -132,7 +127,11 @@ class _GroupAddNewPostState extends State<GroupAddNewPost> {
                       child: Container(
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12), color: selectedTab.value == "Status" ? Colors.grey : Colors.white, border: Border.all(color: Colors.black)),
+                              borderRadius: BorderRadius.circular(12),
+                              color: selectedTab.value == "Status"
+                                  ? Colors.grey
+                                  : Colors.white,
+                              border: Border.all(color: Colors.black)),
                           child: const Text("Status")),
                     ),
                     InkWell(
@@ -142,7 +141,11 @@ class _GroupAddNewPostState extends State<GroupAddNewPost> {
                       child: Container(
                           padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12), color: selectedTab.value == "Image" ? Colors.grey : Colors.white, border: Border.all(color: Colors.black)),
+                              borderRadius: BorderRadius.circular(12),
+                              color: selectedTab.value == "Image"
+                                  ? Colors.grey
+                                  : Colors.white,
+                              border: Border.all(color: Colors.black)),
                           child: Text("Image/Video")),
                     ),
                   ],
@@ -219,7 +222,8 @@ class _GroupAddNewPostState extends State<GroupAddNewPost> {
                     return ListView(
                       shrinkWrap: true,
                       physics: const ClampingScrollPhysics(),
-                      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 15),
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -380,119 +384,158 @@ class _GroupAddNewPostState extends State<GroupAddNewPost> {
                                 // child: pickedImage?.path == null && _video?.path == null || pickedImage?.path.isEmpty == true && _video?.path.isEmpty == true
                                 child: pickedFiles?.isEmpty == true
                                     ? Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    // Image.asset(
-                                    //   'assets/images/icons/cloud_upload.png',
-                                    //   height: 70,
-                                    // ),
-                                    Icon(
-                                      Icons.upload_file_outlined,
-                                      size: 70,
-                                    ),
-                                    Text(
-                                      'Upload JPG, PNG, Video',
-                                      style: TextStyle(color: Colors.grey),
-                                    ),
-                                    const SizedBox(
-                                      height: 15,
-                                    ),
-                                  ],
-                                )
-                                    : Stack(
-                                  // overflow: Overflow.visible,
-                                  clipBehavior: Clip.none,
-                                  children: [
-                                    Positioned.fill(
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(12),
-                                        child: SizedBox(
-                                          height: 350,
-                                          child: PageView.builder(
-                                            // shrinkWrap: true,
-                                            scrollDirection: Axis.horizontal,
-                                            physics: ClampingScrollPhysics(),
-                                            itemCount: pickedFiles?.length ?? 0,
-                                            itemBuilder: (context, index) {
-                                              print("______ ITM ${pickedFiles?[index].path}");
-
-                                              return Stack(
-                                                children: [
-                                                  Container(
-                                                      width: Get.mediaQuery.size.width,
-                                                      height: 350,
-                                                      child: pickedFiles?[index].path.contains("jpg") == true ||
-                                                          pickedFiles?[index].path.contains("jpeg") == true ||
-                                                          pickedFiles?[index].path.contains("png") == true
-                                                          ? Image.file(
-                                                        File(pickedFiles?[index].path ?? ""),
-                                                        fit: BoxFit.cover,
-                                                      )
-                                                          : Center(
-                                                          child: CommonVideoPlayer(
-                                                            videoLink: "${pickedFiles?[index].path}",
-                                                            isFile: true,
-                                                          ))),
-                                                  Positioned(
-                                                    top: 5,
-                                                    right: 5,
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        setState(() {
-                                                          _video = File("");
-                                                          pickedImage = File('');
-                                                          pickedFiles?.removeAt(index);
-                                                          pickedFiles?.refresh();
-                                                        });
-                                                      },
-                                                      child: const CircleAvatar(
-                                                        radius: 12,
-                                                        backgroundColor: Colors.black,
-                                                        child: Icon(Icons.close, color: Colors.white),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              );
-                                              return Container();
-                                            },
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          // Image.asset(
+                                          //   'assets/images/icons/cloud_upload.png',
+                                          //   height: 70,
+                                          // ),
+                                          Icon(
+                                            Icons.upload_file_outlined,
+                                            size: 70,
                                           ),
-                                        ),
-                                        // child: _video?.path.isNotEmpty == true
-                                        //     ? AspectRatio(
-                                        //   aspectRatio: _videoPlayerController!.value.aspectRatio,
-                                        //   child: VideoPlayer((_videoPlayerController!)),
-                                        // )
-                                        //     : pickedImage?.path.isNotEmpty == true
-                                        //     ? Image.file(
-                                        //   File(pickedImage?.path ?? ""),
-                                        //   fit: BoxFit.cover,
-                                        // )
-                                        //     : Icon(Icons.upload_file,size: 70),
+                                          Text(
+                                            'Upload JPG, PNG, Video',
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
+                                          const SizedBox(
+                                            height: 15,
+                                          ),
+                                        ],
+                                      )
+                                    : Stack(
+                                        // overflow: Overflow.visible,
+                                        clipBehavior: Clip.none,
+                                        children: [
+                                          Positioned.fill(
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              child: SizedBox(
+                                                height: 350,
+                                                child: PageView.builder(
+                                                  // shrinkWrap: true,
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  physics:
+                                                      ClampingScrollPhysics(),
+                                                  itemCount:
+                                                      pickedFiles?.length ?? 0,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    print(
+                                                        "______ ITM ${pickedFiles?[index].path}");
+
+                                                    return Stack(
+                                                      children: [
+                                                        Container(
+                                                            width:
+                                                                Get
+                                                                    .mediaQuery.size.width,
+                                                            height: 350,
+                                                            child: pickedFiles?[index]
+                                                                            .path
+                                                                            .contains(
+                                                                                "jpg") ==
+                                                                        true ||
+                                                                    pickedFiles?[index]
+                                                                            .path
+                                                                            .contains(
+                                                                                "jpeg") ==
+                                                                        true ||
+                                                                    pickedFiles?[index]
+                                                                            .path
+                                                                            .contains(
+                                                                                "png") ==
+                                                                        true
+                                                                ? Image.file(
+                                                                    File(pickedFiles?[index]
+                                                                            .path ??
+                                                                        ""),
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  )
+                                                                : Center(
+                                                                    child:
+                                                                        CommonVideoPlayer(
+                                                                    videoLink:
+                                                                        "${pickedFiles?[index].path}",
+                                                                    isFile:
+                                                                        true,
+                                                                  ))),
+                                                        Positioned(
+                                                          top: 5,
+                                                          right: 5,
+                                                          child:
+                                                              GestureDetector(
+                                                            onTap: () {
+                                                              setState(() {
+                                                                _video =
+                                                                    File("");
+                                                                pickedImage =
+                                                                    File('');
+                                                                pickedFiles
+                                                                    ?.removeAt(
+                                                                        index);
+                                                                pickedFiles
+                                                                    ?.refresh();
+                                                              });
+                                                            },
+                                                            child:
+                                                                const CircleAvatar(
+                                                              radius: 12,
+                                                              backgroundColor:
+                                                                  Colors.black,
+                                                              child: Icon(
+                                                                  Icons.close,
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                    return Container();
+                                                  },
+                                                ),
+                                              ),
+                                              // child: _video?.path.isNotEmpty == true
+                                              //     ? AspectRatio(
+                                              //   aspectRatio: _videoPlayerController!.value.aspectRatio,
+                                              //   child: VideoPlayer((_videoPlayerController!)),
+                                              // )
+                                              //     : pickedImage?.path.isNotEmpty == true
+                                              //     ? Image.file(
+                                              //   File(pickedImage?.path ?? ""),
+                                              //   fit: BoxFit.cover,
+                                              // )
+                                              //     : Icon(Icons.upload_file,size: 70),
+                                            ),
+                                          ),
+
+                                          //
+
+                                          // Positioned(
+                                          //   top: -6,
+                                          //   right: -6,
+                                          //   child: GestureDetector(
+                                          //     onTap: () {
+                                          //       setState(() {
+                                          //         _video = File("");
+                                          //         pickedImage = File('');
+                                          //       });
+                                          //     },
+                                          //     child: const CircleAvatar(
+                                          //       radius: 12,
+                                          //       backgroundColor: Colors.black,
+                                          //       child: Icon(Icons.close, color: Colors.blue),
+                                          //     ),
+                                          //   ),
+                                          // )
+                                        ],
                                       ),
-                                    ),
-
-                                    //
-
-                                    // Positioned(
-                                    //   top: -6,
-                                    //   right: -6,
-                                    //   child: GestureDetector(
-                                    //     onTap: () {
-                                    //       setState(() {
-                                    //         _video = File("");
-                                    //         pickedImage = File('');
-                                    //       });
-                                    //     },
-                                    //     child: const CircleAvatar(
-                                    //       radius: 12,
-                                    //       backgroundColor: Colors.black,
-                                    //       child: Icon(Icons.close, color: Colors.blue),
-                                    //     ),
-                                    //   ),
-                                    // )
-                                  ],
-                                ),
                               );
                             }),
                         SizedBox(
@@ -518,7 +561,8 @@ class _GroupAddNewPostState extends State<GroupAddNewPost> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
                               child: Icon(Icons.perm_media),
                               // child: Text(
                               //   'Upload image or video',
@@ -544,7 +588,8 @@ class _GroupAddNewPostState extends State<GroupAddNewPost> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
                               child: Icon(Icons.camera_alt),
                               // child: Text(
                               //   'Take Pictures',
@@ -570,7 +615,8 @@ class _GroupAddNewPostState extends State<GroupAddNewPost> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
                               child: Icon(Icons.videocam),
                               // child: Text(
                               //   'Take Videos',
@@ -638,7 +684,8 @@ class _GroupAddNewPostState extends State<GroupAddNewPost> {
               top: Radius.circular(15),
             ),
             color: Colors.grey.withOpacity(0.5)),
-        padding: EdgeInsets.only(bottom: Get.height * 0.02, left: 10.0, right: 10.0, top: 10.0),
+        padding: EdgeInsets.only(
+            bottom: Get.height * 0.02, left: 10.0, right: 10.0, top: 10.0),
         child: StreamBuilder(
           stream: AppMethods.eulaAccepted.stream,
           builder: (context, snapshot) {
@@ -661,17 +708,20 @@ class _GroupAddNewPostState extends State<GroupAddNewPost> {
                               },
                             ),
                             RichText(
-                              text: TextSpan(style: TextStyle(color: Colors.black), text: "By posting, I agree to the user", children: [
-                                TextSpan(
-                                    text: " agreement",
-                                    style: TextStyle(
-                                      color: Colors.blue,
-                                    ),
-                                    recognizer: new TapGestureRecognizer()
-                                      ..onTap = () {
-                                        launch(AppTexts.eulaLink);
-                                      }),
-                              ]),
+                              text: TextSpan(
+                                  style: TextStyle(color: Colors.black),
+                                  text: "By posting, I agree to the user",
+                                  children: [
+                                    TextSpan(
+                                        text: " agreement",
+                                        style: TextStyle(
+                                          color: Colors.blue,
+                                        ),
+                                        recognizer: new TapGestureRecognizer()
+                                          ..onTap = () {
+                                            launch(AppTexts.eulaLink);
+                                          }),
+                                  ]),
                             )
                           ],
                         ),
@@ -680,14 +730,14 @@ class _GroupAddNewPostState extends State<GroupAddNewPost> {
                         children: [
                           Expanded(
                               child: ElevatedButton(
-                                onPressed: () {
-                                  Get.back();
-                                },
-                                child: Text("Cancel"),
-                                // borderRadius: 12,
-                                // backGroundColor: AppColors.colorE6E6E7,
-                                // textStyle: black16w600,
-                              )),
+                            onPressed: () {
+                              Get.back();
+                            },
+                            child: Text("Cancel"),
+                            // borderRadius: 12,
+                            // backGroundColor: AppColors.colorE6E6E7,
+                            // textStyle: black16w600,
+                          )),
                           if (agree.isTrue)
                             const SizedBox(
                               width: 20,
@@ -699,10 +749,14 @@ class _GroupAddNewPostState extends State<GroupAddNewPost> {
                                   AppMethods().acceptEULA();
                                   if (selectedTab.value == "Image") {
                                     if (pickedFiles?.isNotEmpty == true) {
-                                      snack(title: "Success", msg: "Your post is uploading in background..");
+                                      snack(
+                                          title: "Success",
+                                          msg:
+                                              "Your post is uploading in background..");
                                       // Get.back();
                                       groupController.uploadImage(
-                                          imageFilePaths: pickedFiles?.value ?? [],
+                                          imageFilePaths:
+                                              pickedFiles?.value ?? [],
                                           status: desImgController.text,
                                           groupID: "${widget.groupId}",
                                           callBack: () {
@@ -735,10 +789,13 @@ class _GroupAddNewPostState extends State<GroupAddNewPost> {
                                       //           () => const DashBoardScreen());
                                       //     });
                                     } else {
-                                      snack(title: "Ohh", msg: "Please upload photo or video");
+                                      snack(
+                                          title: "Ohh",
+                                          msg: "Please upload photo or video");
                                     }
                                   } else {
-                                    if (urlYTController.text.isNotEmpty || desStatusController.text.isNotEmpty) {
+                                    if (urlYTController.text.isNotEmpty ||
+                                        desStatusController.text.isNotEmpty) {
                                       groupController.uploadText(
                                           groupID: "${widget.groupId}",
                                           url: urlYTController.text,
@@ -765,14 +822,20 @@ class _GroupAddNewPostState extends State<GroupAddNewPost> {
                                               );
                                             }
                                           },
-                                          textStatus: "${desStatusController.text}");
+                                          textStatus:
+                                              "${desStatusController.text}");
                                       // postStatus(desStatusController.text,
                                       //     urlYTController.text, "", callBack: () {
                                       //   Get.offAll(() => const DashBoardScreen());
                                       // });
                                       Get.close(1);
                                     } else {
-                                      snack(title: "Ohh", msg: "Please write description or YT Video Link.", iconColor: Colors.yellow, icon: Icons.warning);
+                                      snack(
+                                          title: "Ohh",
+                                          msg:
+                                              "Please write description or YT Video Link.",
+                                          iconColor: Colors.yellow,
+                                          icon: Icons.warning);
                                     }
                                   }
                                 },

@@ -1,16 +1,11 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as path;
-import 'package:permission_handler/permission_handler.dart';
-import 'package:video_player/video_player.dart';
 import 'package:wghdfm_java/common/video_compressor.dart';
 import 'package:wghdfm_java/common/video_player.dart';
 import 'package:wghdfm_java/modules/dashbord_module/model/friends_model.dart';
@@ -597,7 +592,7 @@ class _AddPostState extends State<AddPost> {
                     return const Center(
                       child: Text(
                         'Please wait file is loading..',
-                        style: TextStyle(color: Colors.grey,fontSize: 20),
+                        style: TextStyle(color: Colors.grey, fontSize: 20),
                       ),
                     );
                   }),
@@ -953,7 +948,7 @@ class _AddPostState extends State<AddPost> {
         withData: false,
         dialogTitle: "Pick Photo or Video",
         type: FileType.media);*/
-    if (image == null) {
+    if (image.isEmpty) {
       isLoading.value = false;
       return;
     }

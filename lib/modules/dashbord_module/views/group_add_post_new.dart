@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:wghdfm_java/common/video_player.dart';
 import 'package:wghdfm_java/modules/dashbord_module/views/take_picture_screen.dart';
 import 'package:wghdfm_java/modules/dashbord_module/views/take_video_screen.dart';
@@ -743,15 +743,13 @@ class _GroupAddPostState extends State<GroupAddPost> {
   }
 
   Future getImage() async {
-    final image = await FilePicker.platform.pickFiles(
-        allowCompression: true,
-        allowMultiple: true,
-        withData: false,
-        dialogTitle: "Pick Photo or Video",
-        type: FileType.media);
-    if (image == null) return;
-    image.files.forEach((element) {
-      final tempImage = File(element.path ?? "");
+    final ImagePicker picker = ImagePicker();
+    final List<XFile> image =
+        await picker.pickMultipleMedia(requestFullMetadata: false);
+
+    if (image.isEmpty) return;
+    image.forEach((element) {
+      final tempImage = File(element.path);
       setState(() {
         // pickedImage = tempImage;
         pickedFiles?.add(tempImage);
