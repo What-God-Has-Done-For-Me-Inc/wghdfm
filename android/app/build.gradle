@@ -87,3 +87,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads'
     implementation 'com.github.AbedElazizShe:LightCompressor:1.3.2'
 }
+
+configurations.all {
+    exclude group: 'com.google.android.gms', module: 'play-services-safetynet'
+}
