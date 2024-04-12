@@ -60,8 +60,8 @@ dependencies:
   upgrader:
   icons_plus: ^5.0.0
   wakelock: ^0.6.2
-  purchases_flutter: ^6.26.0
-  purchases_ui_flutter: ^6.15.0
+  #purchases_flutter: 6.26.0
+  #purchases_ui_flutter: 6.15.0
 
  
 

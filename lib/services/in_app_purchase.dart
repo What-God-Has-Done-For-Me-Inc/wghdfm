@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
-
+/*
 class RevenueCateServices {
   static Future<void> configureSDK() async {
     await Purchases.setLogLevel(LogLevel.debug);
@@ -24,3 +24,4 @@ class RevenueCateServices {
     }
   }
 }
+*/
