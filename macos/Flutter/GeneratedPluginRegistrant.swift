@@ -18,6 +18,8 @@ import flutter_inappwebview_macos
 import light_compressor
 import package_info_plus
 import path_provider_foundation
+import purchases_flutter
+import purchases_ui_flutter
 import share_plus
 import shared_preferences_foundation
 import smart_auth
@@ -41,6 +43,8 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   LightCompressorPlugin.register(with: registry.registrar(forPlugin: "LightCompressorPlugin"))
   FLTPackageInfoPlusPlugin.register(with: registry.registrar(forPlugin: "FLTPackageInfoPlusPlugin"))
   PathProviderPlugin.register(with: registry.registrar(forPlugin: "PathProviderPlugin"))
+  PurchasesFlutterPlugin.register(with: registry.registrar(forPlugin: "PurchasesFlutterPlugin"))
+  PurchasesUiFlutterPlugin.register(with: registry.registrar(forPlugin: "PurchasesUiFlutterPlugin"))
   SharePlusMacosPlugin.register(with: registry.registrar(forPlugin: "SharePlusMacosPlugin"))
   SharedPreferencesPlugin.register(with: registry.registrar(forPlugin: "SharedPreferencesPlugin"))
   SmartAuthPlugin.register(with: registry.registrar(forPlugin: "SmartAuthPlugin"))

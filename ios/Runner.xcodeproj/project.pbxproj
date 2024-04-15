@@ -20,6 +20,7 @@
 		A2289435B0CBFCDA1882C3F1 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92AD995FA0AC9CED8DA50FFB /* Pods_Runner.framework */; };
 		DC74D0492B2A2057002604B2 /* Pods-Runner-frameworks.sh in Resources */ = {isa = PBXBuildFile; fileRef = DC74D0482B2A2057002604B2 /* Pods-Runner-frameworks.sh */; };
 		DC92ADB12BB4920200C38074 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = DC92ADB02BB4920200C38074 /* PrivacyInfo.xcprivacy */; };
+		DCE2AF0E2BCB934E00F43C7E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCE2AF0D2BCB934E00F43C7E /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		988511CA29E5E928008AD741 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		DC74D0482B2A2057002604B2 /* Pods-Runner-frameworks.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = "Pods-Runner-frameworks.sh"; path = "Pods/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh"; sourceTree = SOURCE_ROOT; };
 		DC92ADB02BB4920200C38074 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		DCE2AF0D2BCB934E00F43C7E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		F8C3AA19CD1F093A41C06756 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,6 +91,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2289435B0CBFCDA1882C3F1 /* Pods_Runner.framework in Frameworks */,
+				DCE2AF0E2BCB934E00F43C7E /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,6 +108,7 @@
 		3C9B84E5147DD647326EC9D3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DCE2AF0D2BCB934E00F43C7E /* StoreKit.framework */,
 				92AD995FA0AC9CED8DA50FFB /* Pods_Runner.framework */,
 			);
 			name = Frameworks;

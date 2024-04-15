@@ -8,6 +8,7 @@ import 'package:wghdfm_java/screen/donate/donate_controller.dart';
 import 'package:wghdfm_java/screen/donate/paypal_payment_.dart';
 import 'package:wghdfm_java/screen/donate/paypal_sdk_screen.dart';
 import 'package:wghdfm_java/screen/donate/paypal_web_recurring_screen.dart';
+import 'package:wghdfm_java/services/in_app_purchase.dart';
 import 'package:wghdfm_java/utils/app_colors.dart';
 import 'package:wghdfm_java/utils/button.dart';
 import 'package:wghdfm_java/utils/scale_ui_utils.dart';
@@ -161,11 +162,12 @@ class DonateUI extends StatelessWidget {
                   //   ),
                   // ),
 
-                  // customButton(
-                  //     title: 'DONATE',
-                  //     onTap: () {
-                  //       Get.to(const PaypalPayment());
-                  //     }),
+                   customButton(
+                       title: 'DONATE',
+                       onTap: () {
+                         RevenueCateServices().configureSDK();
+                        // Get.to(const PaypalPayment());
+                       }),
                 ],
               ),
             ),
