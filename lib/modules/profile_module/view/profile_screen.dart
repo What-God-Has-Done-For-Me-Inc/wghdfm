@@ -292,7 +292,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           elevation: 0,
-          automaticallyImplyLeading: false,
           centerTitle: true,
           iconTheme: Theme.of(context).iconTheme,
           backgroundColor: Theme.of(context).backgroundColor,
@@ -413,22 +412,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: AspectRatio(
               aspectRatio: 16 / 9,
               child: Builder(
-                // ignore: invalid_use_of_protected_member
                 builder: (context) {
-                  // if (snapshot.connectionState == ConnectionState.waiting) {
-                  //   return shimmerProfileLoading();
-                  // }
-
-                  // if (snapshot.hasError) {
-                  //   return Container(
-                  //     color: Colors.white,
-                  //     child: customText(title: "${snapshot.error}"),
-                  //   );
-                  // }
-
                   return Stack(
                     fit: StackFit.loose,
-                    // alignment: Alignment.center,
                     children: [
                       Center(
                         child: StreamBuilder(
@@ -466,13 +452,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: 30,
                           child: TextButton.icon(
                               onPressed: () async {
-                                //todo:
-                                // FilePickerResult? result =
-                                //     await FilePicker.platform.pickFiles(
-                                //   type: FileType.image,
-                                //   allowMultiple: false,
-                                //   allowCompression: true,
-                                // );
                                 final ImagePicker picker = ImagePicker();
                                 final XFile? result = await picker.pickImage(
                                     source: ImageSource.gallery,
@@ -489,17 +468,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       image: file,
                                       isProfile: false);
                                 }
-                                // dashBoardController.openImageCaptureOptions(fromGallery: () {
-                                //   dashBoardController.uploadImageFromGallery().then((_) {
-                                //     dashBoardController.update();
-                                //     profileController.update();
-                                //   });
-                                // }, fromCamera: () {
-                                //   dashBoardController.captureImage().then((_) {
-                                //     dashBoardController.update();
-                                //     dashBoardController.update();
-                                //   });
-                                // });
                               },
                               icon: const Icon(
                                 Icons.edit,
@@ -648,6 +616,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ],
                         ),
                       ),
+                      if (profileController.profileDetails!.value.badge
+                              .toString() !=
+                          'null')
+                        Positioned(
+                            right: 0,
+                            bottom: 0,
+                            child: Container(
+                              color: Colors.white.withOpacity(0.5),
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.all(4),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    profileController.getBadgeImage(
+                                        badge: profileController
+                                            .profileDetails!.value.badge
+                                            .toString()),
+                                    height: 25,
+                                    width: 25,
+                                  ),
+                                  SizedBox(width: Get.width * 0.02),
+                                  Text(
+                                    profileController
+                                            .profileDetails!.value.badge
+                                            .toString() +
+                                        " Level Partner",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: profileController.getBadgeColor(
+                                          badge: profileController
+                                              .profileDetails!.value.badge
+                                              .toString()),
+                                      fontSize: 15.0,
+                                      height: 1,
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ))
                     ],
                   );
                 },

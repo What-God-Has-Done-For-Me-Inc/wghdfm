@@ -355,16 +355,8 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                     return shimmerProfileLoading();
                   }
 
-                  // if (snapshot.hasError) {
-                  //   return Container(
-                  //     color: Colors.white,
-                  //     child: customText(title: "${snapshot.error}"),
-                  //   );
-                  // }
-
                   return Stack(
                     fit: StackFit.loose,
-                    // alignment: Alignment.center,
                     children: [
                       Center(
                         child: StreamBuilder(
@@ -591,6 +583,47 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
                           ),
                         ),
                       ),
+                      if (profileController.someonesProfileData.value.badge
+                              .toString() !=
+                          'null')
+                        Positioned(
+                            right: 0,
+                            top: 0,
+                            child: Container(
+                              color: Colors.white.withOpacity(0.5),
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.all(4),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    profileController.getBadgeImage(
+                                        badge: profileController
+                                            .someonesProfileData.value.badge
+                                            .toString()),
+                                    height: 25,
+                                    width: 25,
+                                  ),
+                                  SizedBox(width: Get.width * 0.02),
+                                  Text(
+                                    profileController
+                                            .someonesProfileData.value.badge
+                                            .toString() +
+                                        " Level Partner",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: profileController.getBadgeColor(
+                                          badge: profileController
+                                              .someonesProfileData.value.badge
+                                              .toString()),
+                                      fontSize: 15.0,
+                                      height: 1,
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ))
                     ],
                   );
                 },

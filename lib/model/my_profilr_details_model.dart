@@ -18,16 +18,23 @@ class MyProfileDetails {
         details: feed ?? this.details,
       );
 
-  factory MyProfileDetails.fromRawJson(String str) => MyProfileDetails.fromJson(json.decode(str));
+  factory MyProfileDetails.fromRawJson(String str) =>
+      MyProfileDetails.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory MyProfileDetails.fromJson(Map<String, dynamic> json) => MyProfileDetails(
-        details: json["feed"] == null ? null : List<MyProfile>.from(json["feed"].map((x) => MyProfile.fromJson(x))),
+  factory MyProfileDetails.fromJson(Map<String, dynamic> json) =>
+      MyProfileDetails(
+        details: json["feed"] == null
+            ? null
+            : List<MyProfile>.from(
+                json["feed"].map((x) => MyProfile.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "feed": details == null ? null : List<dynamic>.from(details!.map((x) => x.toJson())),
+        "feed": details == null
+            ? null
+            : List<dynamic>.from(details!.map((x) => x.toJson())),
       };
 }
 
@@ -38,6 +45,8 @@ class MyProfile {
   String? email;
   String? img;
   String? blockStatus;
+  String? badge;
+  String? badgeExpiry;
 
   MyProfile({
     this.firstname,
@@ -46,6 +55,8 @@ class MyProfile {
     this.email,
     this.img,
     this.blockStatus,
+    this.badge,
+    this.badgeExpiry,
   });
   MyProfile.fromJson(Map<String, dynamic> json) {
     firstname = json['firstname']?.toString();
@@ -54,6 +65,8 @@ class MyProfile {
     email = json['email']?.toString();
     img = json['img']?.toString();
     blockStatus = json['block_status']?.toString();
+    badge = json['badge']?.toString();
+    badgeExpiry = json['badge_expiry']?.toString();
   }
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
@@ -63,6 +76,8 @@ class MyProfile {
     data['email'] = email;
     data['img'] = img;
     data['block_status'] = blockStatus;
+    data['badge'] = badge;
+    data['badge_expiry'] = badgeExpiry;
     return data;
   }
 }

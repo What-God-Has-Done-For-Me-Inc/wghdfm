@@ -369,4 +369,46 @@ class ProfileController extends GetxController {
         },
         showProcess: true);
   }
+
+  Color getBadgeColor({required String badge}) {
+    switch (badge) {
+      case "Basic":
+        return Colors.grey.shade800;
+
+      case "Bronze":
+        return Color(0xffCD7F32);
+
+      case "Silver":
+        return Color(0xffC0C0C0);
+      case "Gold":
+        return Color(0xffFFD700);
+      case "Platinum":
+        return Color(0xffE5E4E2);
+      case "Diamond":
+        return Color(0xffb9f2ff);
+
+      default:
+        return Colors.blueGrey;
+    }
+  }
+
+  // badge image url
+  String getBadgeImage({required String badge}) {
+    switch (badge) {
+      case "Basic":
+        return "assets/1.png";
+      case "Bronze":
+        return "assets/2.png";
+      case "Silver":
+        return "assets/3.png";
+      case "Gold":
+        return "assets/4.png";
+      case "Platinum":
+        return "assets/5.png";
+      case "Diamond":
+        return "assets/6.png";
+      default:
+        return "assets/1.png";
+    }
+  }
 }

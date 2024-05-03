@@ -57,6 +57,13 @@ class _SplashScreenState extends State<SplashScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ShowUp(
+                    delay: 250,
+                    child: Text(
+                      "My ",
+                      style: GoogleFonts.montserrat(color: Colors.red, fontSize: 22.0.sf),
+                    ),
+                  ),
+                  ShowUp(
                     delay: 500,
                     child: Text(
                       "Christian ",

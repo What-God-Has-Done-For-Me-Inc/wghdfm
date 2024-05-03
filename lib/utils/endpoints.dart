@@ -33,6 +33,7 @@ class EndPoints {
   static const String inviteFriends = "user/invite";
   static const String getUnreadMsgCount = "user/unread_msg_count";
   static const String getAllMessages = "user/get_all_messages";
+  static const String donate = "donate/donate_success";
 
   static String uploadVideoUrl = "wire/video_post/";
   static String getAllGrpURL = "wire/get_all_groups/";
