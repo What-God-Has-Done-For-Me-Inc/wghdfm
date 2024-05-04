@@ -43,6 +43,28 @@ class RevenueCateServices {
     }
   }
 
+  void restorePurchases() async {
+    try {
+      CustomerInfo customerInfo = await Purchases.restorePurchases();
+      print("Restore Purchase");
+      print(customerInfo.toJson());
+      snack(
+        title: 'Success',
+        msg: 'Restore Purchases Success',
+        icon: Icons.check,
+        iconColor: Colors.green,
+        seconds: 1,
+      );
+    } catch (e) {
+      snack(
+        title: 'Failed',
+        msg: 'Restore purchases failed',
+        icon: Icons.close,
+        iconColor: Colors.red,
+      );
+    }
+  }
+
   subscriptionSuccess(
       {required String user_id,
       required String product_id,
