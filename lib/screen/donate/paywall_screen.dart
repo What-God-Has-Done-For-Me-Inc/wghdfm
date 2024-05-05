@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wghdfm_java/services/in_app_purchase.dart';
 
 import '../../common/common_snack.dart';
@@ -160,29 +161,57 @@ class _PaywallScreenState extends State<PaywallScreen> {
               ),
             ),
             SizedBox(height: Get.height * 0.02),
-            GestureDetector(
-              onTap: () {
-                RevenueCateServices().restorePurchases();
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    MingCute.refresh_2_line,
-                    color: Colors.blue,
-                    size: 20,
-                  ),
-                  SizedBox(width: Get.width * 0.01),
-                  const Text(
-                    "Restore Purchase",
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500),
-                  )
-                ],
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              GestureDetector(
+                onTap: () {
+                  launchUrlString(
+                      "https://whatgodhasdoneforme.com/privacy-policy");
+                },
+                child: const Text(
+                  "Privacy Policy",
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500),
+                ),
               ),
-            ),
+              GestureDetector(
+                onTap: () {
+                  RevenueCateServices().restorePurchases();
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      MingCute.refresh_2_line,
+                      color: Colors.blue,
+                      size: 20,
+                    ),
+                    SizedBox(width: Get.width * 0.01),
+                    const Text(
+                      "Restore Purchase",
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                    )
+                  ],
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  launchUrlString(
+                      "https://whatgodhasdoneforme.com/terms-condition");
+                },
+                child: const Text(
+                  "Terms & Conditon",
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500),
+                ),
+              ),
+            ]),
             SizedBox(height: Get.height * 0.05),
           ],
         ),
