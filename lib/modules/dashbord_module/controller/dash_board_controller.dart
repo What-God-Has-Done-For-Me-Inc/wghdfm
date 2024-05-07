@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wghdfm_java/common/common_snack.dart';
 import 'package:wghdfm_java/common/commons.dart';
 import 'package:wghdfm_java/custom_package/zoom_drawer/config.dart';
@@ -428,9 +429,7 @@ class DashBoardController extends GetxController {
               ),
               InkWell(
                   onTap: () async {
-                    await launch(
-                      AppTexts.eulaLink,
-                    );
+                    launchUrlString("https://whatgodhasdoneforme.com/eula");
                   },
                   child: const Text(
                     " EULA",
@@ -481,9 +480,7 @@ class DashBoardController extends GetxController {
               ),
               InkWell(
                   onTap: () async {
-                    await launch(
-                      AppTexts.eulaLink,
-                    );
+                    launchUrlString("https://whatgodhasdoneforme.com/eula");
                   },
                   child: const Text(
                     " EULA",

@@ -200,11 +200,10 @@ class _PaywallScreenState extends State<PaywallScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  launchUrlString(
-                      "https://whatgodhasdoneforme.com/terms-condition");
+                  launchUrlString("https://whatgodhasdoneforme.com/eula");
                 },
                 child: const Text(
-                  "Terms & Conditon",
+                  "Terms of Use (EULA)",
                   style: TextStyle(
                       color: Colors.blue,
                       fontSize: 16,

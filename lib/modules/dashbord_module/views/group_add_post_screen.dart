@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wghdfm_java/common/common_snack.dart';
 import 'package:wghdfm_java/common/commons.dart';
 import 'package:wghdfm_java/common/video_player.dart';
@@ -719,7 +720,8 @@ class _GroupAddNewPostState extends State<GroupAddNewPost> {
                                         ),
                                         recognizer: new TapGestureRecognizer()
                                           ..onTap = () {
-                                            launch(AppTexts.eulaLink);
+                                            launchUrlString(
+                                                "https://whatgodhasdoneforme.com/eula");
                                           }),
                                   ]),
                             )

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wghdfm_java/common/common_snack.dart';
 import 'package:wghdfm_java/common/commons.dart';
 import 'package:wghdfm_java/modules/dashbord_module/controller/dash_board_controller.dart';
@@ -120,10 +121,9 @@ void postStatusBottomSheet(
                               style: TextStyle(color: Colors.red),
                             ),
                             InkWell(
-                                onTap: () async {
-                                  await launch(
-                                    AppTexts.eulaLink,
-                                  );
+                                onTap: () {
+                                  launchUrlString(
+                                      "https://whatgodhasdoneforme.com/eula");
                                 },
                                 child: const Text(
                                   " EULA",

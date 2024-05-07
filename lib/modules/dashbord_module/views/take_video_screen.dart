@@ -6,6 +6,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../utils/app_texts.dart';
 
@@ -115,7 +116,8 @@ class TakeVideoScreenState extends State<TakeVideoScreen> {
                     if (dragIntensity < 1) {
                       // 1 is the minimum zoom level required by the camController's method, hence setting 1 if the user zooms out (less than one is given to details when you zoom-out/pinch-in).
                       _controller.setZoomLevel(1);
-                    } else if (dragIntensity > 1 && dragIntensity < maxZoomLevel) {
+                    } else if (dragIntensity > 1 &&
+                        dragIntensity < maxZoomLevel) {
                       // self-explanatory, that if the maxZoomLevel exceeds, you will get an error (greater than one is given to details when you zoom-in/pinch-out).
                       _controller.setZoomLevel(dragIntensity);
                     }
@@ -155,14 +157,19 @@ class TakeVideoScreenState extends State<TakeVideoScreen> {
                   bottom: 10,
                   right: 10,
                   child: Container(
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
                     width: 35,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         InkWell(
                             onTap: () async {
-                              _scale = (_scale >= await _controller.getMaxZoomLevel()) ? _scale : _scale + 1;
+                              _scale = (_scale >=
+                                      await _controller.getMaxZoomLevel())
+                                  ? _scale
+                                  : _scale + 1;
                               print(" SCALE IS ${_scale}");
                               _controller.setZoomLevel(_scale);
                             },
@@ -205,13 +212,13 @@ class TakeVideoScreenState extends State<TakeVideoScreen> {
               ),
               InkWell(
                   onTap: () async {
-                    await launch(
-                      AppTexts.eulaLink,
-                    );
+                    launchUrlString("https://whatgodhasdoneforme.com/eula");
                   },
                   child: const Text(
                     " EULA",
-                    style: TextStyle(color: Colors.red, decoration: TextDecoration.underline),
+                    style: TextStyle(
+                        color: Colors.red,
+                        decoration: TextDecoration.underline),
                   )),
             ],
           ),
@@ -221,7 +228,8 @@ class TakeVideoScreenState extends State<TakeVideoScreen> {
               _recordVideo();
             },
             // child: const Icon(Icons.camera_alt),
-            child: Icon(_isRecording.value ? Icons.stop : Icons.circle, color: _isRecording.value ? Colors.red : Colors.blue),
+            child: Icon(_isRecording.value ? Icons.stop : Icons.circle,
+                color: _isRecording.value ? Colors.red : Colors.blue),
           ),
         ],
       ),
@@ -275,7 +283,8 @@ class DisplayVideoScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Display the Picture')),
       body: Image.file(File(videoPath)),
-      floatingActionButton: FloatingActionButton.extended(onPressed: () {}, label: const Icon(Icons.upload)),
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {}, label: const Icon(Icons.upload)),
     );
   }
 }

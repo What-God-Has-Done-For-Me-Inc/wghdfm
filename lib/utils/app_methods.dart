@@ -16,6 +16,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wghdfm_java/modules/dashbord_module/views/ProfileSetupScreen.dart';
 import 'package:wghdfm_java/utils/app_colors.dart';
 import 'package:wghdfm_java/utils/app_texts.dart';
@@ -500,7 +501,8 @@ class AppMethods {
                               ),
                               recognizer: new TapGestureRecognizer()
                                 ..onTap = () {
-                                  launch(AppTexts.eulaLink);
+                                  launchUrlString(
+                                      "https://whatgodhasdoneforme.com/eula");
                                 }),
                         ]),
                   ),
