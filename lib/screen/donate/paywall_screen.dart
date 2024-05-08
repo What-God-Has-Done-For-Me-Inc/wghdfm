@@ -161,7 +161,31 @@ class _PaywallScreenState extends State<PaywallScreen> {
               ),
             ),
             SizedBox(height: Get.height * 0.02),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            GestureDetector(
+              onTap: () {
+                RevenueCateServices().restorePurchases();
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    MingCute.refresh_2_line,
+                    color: Colors.blue,
+                    size: 20,
+                  ),
+                  SizedBox(width: Get.width * 0.01),
+                  const Text(
+                    "Restore Purchase",
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: Get.height * 0.03),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
               GestureDetector(
                 onTap: () {
                   launchUrlString(
@@ -173,29 +197,6 @@ class _PaywallScreenState extends State<PaywallScreen> {
                       color: Colors.blue,
                       fontSize: 16,
                       fontWeight: FontWeight.w500),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  RevenueCateServices().restorePurchases();
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      MingCute.refresh_2_line,
-                      color: Colors.blue,
-                      size: 20,
-                    ),
-                    SizedBox(width: Get.width * 0.01),
-                    const Text(
-                      "Restore Purchase",
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500),
-                    )
-                  ],
                 ),
               ),
               GestureDetector(

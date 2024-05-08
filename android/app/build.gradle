@@ -22,15 +22,15 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
+// apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 apply plugin: 'com.google.gms.google-services'
 
-// def keystoreProperties = new Properties()
-// def keystorePropertiesFile = rootProject.file('key.properties')
-// if (keystorePropertiesFile.exists()) {
-//     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-// }
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 
 android {
@@ -40,17 +40,17 @@ android {
     lintOptions {
         disable 'InvalidPackage'
     }
-     kotlinOptions {
-        jvmTarget = '1.8'
-    }
+    // kotlinOptions {
+    //     jvmTarget = '17'
+    // }
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     dexOptions {
      javaMaxHeapSize "4g"
@@ -69,17 +69,17 @@ android {
     }
 
     signingConfigs {
-        // release {
-        //     keyAlias keystoreProperties['keyAlias']
-        //     keyPassword keystoreProperties['keyPassword']
-        //     storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-        //     storePassword keystoreProperties['storePassword']
-        // }
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
     }
      buildTypes {
             release {
-                //signingConfig signingConfigs.release
-                signingConfig signingConfigs.debug
+                signingConfig signingConfigs.release
+               // signingConfig signingConfigs.debug
             }
         }
 }
