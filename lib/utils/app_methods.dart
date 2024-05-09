@@ -492,7 +492,7 @@ class AppMethods {
                     text: TextSpan(
                         style: const TextStyle(color: Colors.black),
                         text:
-                            "For use of What God Has Done For Me, you need to allow to the user",
+                            "For use of My Christian Social Network, you need to allow to the user",
                         children: [
                           TextSpan(
                               text: " agreement",

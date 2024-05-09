@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       initialBinding: AppBinding(),
       debugShowCheckedModeBanner: false,
-      title: "What God Has Done For me",
+      title: "My Christian Social Network",
       theme: ThemeData(
           pageTransitionsTheme: const PageTransitionsTheme(
             builders: {

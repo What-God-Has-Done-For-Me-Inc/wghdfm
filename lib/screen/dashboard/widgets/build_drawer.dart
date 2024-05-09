@@ -40,7 +40,7 @@ Widget buildDrawer() {
                       height: 5,
                     ),
                     const Text(
-                      "What God Has Done For Me",
+                      "My Christian Social Network",
                       style: TextStyle(
                           color: Colors.blue, fontWeight: FontWeight.w800),
                     ),

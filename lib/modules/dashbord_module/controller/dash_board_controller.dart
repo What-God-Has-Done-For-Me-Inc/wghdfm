@@ -724,7 +724,7 @@ class DashBoardController extends GetxController {
                             channelKey: 'basic_channel',
                             title: "Uploaded..",
                             body:
-                                "Your Post is uploaded on What God Has Done For Me, Please refresh to see..",
+                                "Your Post is uploaded on My Christian Social Network, Please refresh to see..",
                             actionType: awesome.ActionType.Default));
 
                     if (callBack != null) {

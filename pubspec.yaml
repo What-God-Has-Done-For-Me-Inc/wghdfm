@@ -8,7 +8,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 #android version: 1.0.9+15
 #ios version: 1.1.1+15
-version: 1.1.9+24
+version: 1.1.10+25
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
@@ -63,14 +63,6 @@ dependencies:
   purchases_flutter: ^6.24.0
   purchases_ui_flutter: ^6.24.0
 
- 
-
-  
-  # paypal sdk
-  #  paypal_sdk: ^1.0.7
-  #  flutter_paypal: ^0.0.8
-  #  paypal_sdk: ^1.0.7
-  #  flutter_braintree: ^3.0.0
 
 
   #Firebase

@@ -1,4 +1,4 @@
-# What God Has Done For Me (WGHDFM)
+# My Christian Social Network (WGHDFM)
 
 ```
 Flutter Version: 3.7.0

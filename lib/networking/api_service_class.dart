@@ -218,7 +218,7 @@ class APIService {
             return Future.value(false);
           },
           child: CupertinoAlertDialog(
-              title: const Text("What God Has Done For Me..."),
+              title: const Text("My Christian Social Network..."),
               // content: Text(message),
               content: Column(
                 children: [
