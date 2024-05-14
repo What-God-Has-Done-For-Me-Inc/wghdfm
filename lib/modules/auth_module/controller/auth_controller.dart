@@ -125,6 +125,14 @@ class AuthController extends GetxController {
         serviceUrl: EndPoints.baseUrl + EndPoints.registrationApi,
         method: APIService.postMethod,
         success: (dio.Response response) {
+          if (response.data.contains('error')) {
+            snack(
+              title: 'Signup failed!',
+              msg: 'First & Last Name cannot be same!',
+              icon: Icons.close,
+              iconColor: Colors.red,
+            );
+          }
           if (response.data.contains('success')) {
             snack(
               title: 'Signup successful!',
@@ -138,17 +146,17 @@ class AuthController extends GetxController {
                 email: email,
                 password: password,
                 cPasssword: cPassword));
-          } else {
-            snack(
-              title: 'Signup failed!',
-              msg: '${response.data['text']}',
-              icon: Icons.close,
-              iconColor: Colors.red,
-            );
           }
         },
-        error: (dio.Response response) {},
-        showProcess: true);
+        error: (dio.Response response) {
+          snack(
+            title: 'Signup failed!',
+            msg: '${response.data['text']}',
+            icon: Icons.close,
+            iconColor: Colors.red,
+          );
+        },
+        showProcess: false);
   }
 
   signUp(

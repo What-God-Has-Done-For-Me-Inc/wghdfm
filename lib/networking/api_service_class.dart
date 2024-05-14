@@ -132,6 +132,7 @@ class APIService {
           if (showProcess == true) {
             hideProgressDialog();
           }
+
           AppMethods.showLog(":::: ERROR API CALL ::::");
           await error(response);
         }
