@@ -27,7 +27,7 @@
         android:name="android.hardware.camera"
         android:required="true"/>
    <application
-       android:label="My Christian Social Network"
+       android:label="MCSN"
        android:name="${applicationName}"
        android:requestLegacyExternalStorage="true"
        android:allowBackup="false"
