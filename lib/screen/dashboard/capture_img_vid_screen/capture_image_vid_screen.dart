@@ -66,7 +66,7 @@
 //             elevation: 0,
 //             centerTitle: true,
 //             iconTheme: Theme.of(context).iconTheme,
-//             backgroundColor: Theme.of(context).backgroundColor,
+//             backgroundColor: Theme.of(context).colorScheme.surface,
 //           ),
 //           // Wait until the controller is initialized before displaying the
 //           // camera preview. Use a FutureBuilder to display a loading spinner

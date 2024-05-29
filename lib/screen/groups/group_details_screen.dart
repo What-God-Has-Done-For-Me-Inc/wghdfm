@@ -170,7 +170,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             elevation: 0,
             centerTitle: true,
             iconTheme: Theme.of(context).iconTheme,
-            backgroundColor: Theme.of(context).backgroundColor,
+            backgroundColor: Theme.of(context).colorScheme.surface,
           ),
           body: Column(
             children: [

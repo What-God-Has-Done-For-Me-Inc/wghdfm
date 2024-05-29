@@ -48,7 +48,7 @@ class _GroupScreenState extends State<GroupScreen> {
         elevation: 0,
         centerTitle: true,
         iconTheme: Theme.of(context).iconTheme,
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.surface,
       ),
       body: StatefulBuilder(
         builder: (context, setState) {
@@ -60,7 +60,7 @@ class _GroupScreenState extends State<GroupScreen> {
                   right: 10,
                 ),
                 height: 60,
-                color: Theme.of(Get.context!).backgroundColor,
+                color: Theme.of(context).colorScheme.surface,
                 child: Row(
                   children: [
                     Expanded(
@@ -71,7 +71,8 @@ class _GroupScreenState extends State<GroupScreen> {
                           isLabelFloating: false,
                           controller: groupController.searchTEC,
                           borderColor: Theme.of(Get.context!).primaryColor,
-                          baseColor: Theme.of(Get.context!).colorScheme.secondary,
+                          baseColor:
+                              Theme.of(Get.context!).colorScheme.secondary,
                           isLastField: true,
                           obscureText: false,
                           onChanged: (searchInput) {

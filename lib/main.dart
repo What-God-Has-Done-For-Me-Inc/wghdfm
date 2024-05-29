@@ -49,12 +49,14 @@ class _MyAppState extends State<MyApp> {
           iconTheme: const IconThemeData(color: Color(0xff4b4b4b)),
           elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(
-                  primary: const Color(0xff1742cb).withOpacity(0.7))),
+                  backgroundColor: const Color(0xff1742cb).withOpacity(0.7))),
           fontFamily: 'Gilroy',
           visualDensity: VisualDensity.adaptivePlatformDensity,
-          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
+          colorScheme: ColorScheme.fromSwatch(
+                  primarySwatch: Colors.blue,
+                  backgroundColor: const Color(0xffF3FCFB))
               .copyWith(secondary: const Color(0xff1742cb).withOpacity(0.7))
-              .copyWith(background: const Color(0xffF3FCFB))),
+              .copyWith(surface: const Color(0xffF3FCFB))),
       home: SplashScreen(),
       getPages: [
         GetPage(name: PageRes.introScreen, page: () => IntroducationScreen()),

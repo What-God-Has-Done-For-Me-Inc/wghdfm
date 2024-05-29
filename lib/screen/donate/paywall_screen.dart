@@ -22,6 +22,13 @@ class _PaywallScreenState extends State<PaywallScreen> {
   Package? _selectedPackage;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    RevenueCateServices().getCustomerInfo();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -33,7 +40,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
         elevation: 0,
         centerTitle: true,
         iconTheme: Theme.of(context).iconTheme,
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.surface,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),

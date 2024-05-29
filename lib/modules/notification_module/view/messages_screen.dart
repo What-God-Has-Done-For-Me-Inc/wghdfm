@@ -51,7 +51,7 @@ class _MessageScreensState extends State<MessageScreens> {
         elevation: 0,
         centerTitle: true,
         iconTheme: Theme.of(context).iconTheme,
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.surface,
       ),
       body: Column(
         children: [
@@ -59,9 +59,14 @@ class _MessageScreensState extends State<MessageScreens> {
             child: StreamBuilder(
               stream: dashBoardController.messagesModel.stream,
               builder: (context, snapshot) => ListView.builder(
-                itemCount: dashBoardController.messagesModel.value.messagesData?.length ?? 0,
+                itemCount: dashBoardController
+                        .messagesModel.value.messagesData?.length ??
+                    0,
                 itemBuilder: (context, index) {
-                  return listItem(messagesData: dashBoardController.messagesModel.value.messagesData?[index] ?? AllMessagesModelMessagesData());
+                  return listItem(
+                      messagesData: dashBoardController
+                              .messagesModel.value.messagesData?[index] ??
+                          AllMessagesModelMessagesData());
                 },
               ),
             ),
@@ -125,10 +130,12 @@ class _MessageScreensState extends State<MessageScreens> {
                           placeholder: (context, url) => Container(
                             padding: const EdgeInsets.all(3),
                             child: shimmerMeUp(CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.secondary),
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  Theme.of(context).colorScheme.secondary),
                             )),
                           ),
-                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
                         ),
                       ),
                     ),
@@ -219,10 +226,13 @@ class _MessageScreensState extends State<MessageScreens> {
                               controller: messageController,
                               decoration: InputDecoration(
                                 hintText: "Enter reply here...",
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(100)),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(100)),
                               ),
                               validator: (value) {
-                                return (value?.isNotEmpty ?? false) ? null : "Please enter a reply";
+                                return (value?.isNotEmpty ?? false)
+                                    ? null
+                                    : "Please enter a reply";
                               },
                             ),
                           ),
@@ -236,17 +246,27 @@ class _MessageScreensState extends State<MessageScreens> {
                                       userID: messagesData.id,
                                       message: messageController.text,
                                       callBack: () async {
-                                        snack(title: "Success", msg: "Reply Sent Successfully");
+                                        snack(
+                                            title: "Success",
+                                            msg: "Reply Sent Successfully");
                                         dashBoardController.getMessages();
 
-                                        LoginModel userDetails = await SessionManagement.getUserDetails();
+                                        LoginModel userDetails =
+                                            await SessionManagement
+                                                .getUserDetails();
 
-                                        NotificationHandler.to.sendNotificationToUserID(
-                                            map: {'notificationId': messagesData.userId},
-                                            postId: '',
-                                            userId: messagesData.userId ?? "",
-                                            title: "You have new message",
-                                            body: "${userDetails.fname} ${userDetails.lname} messaged you");
+                                        NotificationHandler.to
+                                            .sendNotificationToUserID(
+                                                map: {
+                                              'notificationId':
+                                                  messagesData.userId
+                                            },
+                                                postId: '',
+                                                userId:
+                                                    messagesData.userId ?? "",
+                                                title: "You have new message",
+                                                body:
+                                                    "${userDetails.fname} ${userDetails.lname} messaged you");
                                       });
                                 }
                               },

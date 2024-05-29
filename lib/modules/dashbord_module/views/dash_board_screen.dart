@@ -20,6 +20,7 @@ import 'package:wghdfm_java/common/commons.dart';
 import 'package:wghdfm_java/custom_package/percentage_indicator/linear_percent_indicator.dart';
 import 'package:wghdfm_java/model/feed_res_obj.dart';
 import 'package:wghdfm_java/modules/ads_module/ads_screen.dart';
+import 'package:wghdfm_java/modules/agora_module/views/call_screen.dart';
 import 'package:wghdfm_java/modules/auth_module/model/login_model.dart';
 import 'package:wghdfm_java/modules/dashbord_module/controller/dash_board_controller.dart';
 import 'package:wghdfm_java/modules/dashbord_module/views/add_post.dart';
@@ -697,6 +698,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               },
               icon: const Icon(MingCute.search_3_line)),
           IconButton(
+              onPressed: () {
+                Get.to(() => const CallScreen());
+              },
+              icon: const Icon(MingCute.phone_line)),
+          IconButton(
               key: notificationButtonKey,
               onPressed: () {
                 Get.to(() => const MessageScreens())?.then((value) {
@@ -873,7 +879,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         elevation: 0,
         centerTitle: false,
         iconTheme: Theme.of(context).iconTheme,
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.surface,
       ),
       // drawer: buildDrawer(),
       body: feedWithLoadMore(),

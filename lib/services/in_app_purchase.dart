@@ -65,6 +65,16 @@ class RevenueCateServices {
     }
   }
 
+  void getCustomerInfo() async {
+    try {
+      CustomerInfo customerInfo = await Purchases.getCustomerInfo();
+      print("Restore Purchase");
+      print(customerInfo.entitlements.toJson());
+    } catch (e) {
+      print(e);
+    }
+  }
+
   subscriptionSuccess(
       {required String user_id,
       required String product_id,

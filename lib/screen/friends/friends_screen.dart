@@ -29,7 +29,7 @@ class FriendScreen extends StatelessWidget {
           elevation: 0,
           centerTitle: true,
           iconTheme: Theme.of(context).iconTheme,
-          backgroundColor: Theme.of(context).backgroundColor,
+          backgroundColor: Theme.of(context).colorScheme.surface,
         ),
         body: StatefulBuilder(
           builder: (context, setState) {
@@ -41,7 +41,7 @@ class FriendScreen extends StatelessWidget {
                     right: 10,
                   ),
                   height: 60,
-                  color: Theme.of(Get.context!).backgroundColor,
+                  color: Theme.of(context).colorScheme.surface,
                   child: Row(
                     children: [
                       Expanded(
@@ -52,7 +52,8 @@ class FriendScreen extends StatelessWidget {
                             isLabelFloating: false,
                             controller: f.searchTEC,
                             borderColor: Theme.of(Get.context!).primaryColor,
-                            baseColor: Theme.of(Get.context!).colorScheme.secondary,
+                            baseColor:
+                                Theme.of(Get.context!).colorScheme.secondary,
                             isLastField: true,
                             obscureText: false,
                             onChanged: (searchInput) {
@@ -72,7 +73,12 @@ class FriendScreen extends StatelessWidget {
                                 isSearching = false;
                               });
                             } else {
-                              snack(icon: Icons.report_problem, iconColor: Colors.yellow, msg: "Type someone's name first... in order to search...", title: "Alert!");
+                              snack(
+                                  icon: Icons.report_problem,
+                                  iconColor: Colors.yellow,
+                                  msg:
+                                      "Type someone's name first... in order to search...",
+                                  title: "Alert!");
                             }
                           },
                         ),
@@ -85,7 +91,8 @@ class FriendScreen extends StatelessWidget {
                     // future: reloadFriends(f),
                     initialData: f.friends?.value,
                     stream: f.friends?.stream,
-                    builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                    builder: (BuildContext context,
+                        AsyncSnapshot<dynamic> snapshot) {
                       // if (snapshot.connectionState == ConnectionState.waiting) {
                       //   return shimmerFeedLoading();
                       // }
@@ -103,17 +110,24 @@ class FriendScreen extends StatelessWidget {
                           alignment: Alignment.center,
                           child: Container(
                             alignment: Alignment.center,
-                            child: customText(title: isSearching ? "No friend(s) found by this name" : "You don't have any friends"),
+                            child: customText(
+                                title: isSearching
+                                    ? "No friend(s) found by this name"
+                                    : "You don't have any friends"),
                           ),
                         );
                       }
 
-                      if ((isSearching ? f.searchedFriends : f.friends)!.isEmpty) {
+                      if ((isSearching ? f.searchedFriends : f.friends)!
+                          .isEmpty) {
                         return Align(
                           alignment: Alignment.center,
                           child: Container(
                             alignment: Alignment.center,
-                            child: customText(title: isSearching ? "No friend(s) found by this name" : "You don't have any friends"),
+                            child: customText(
+                                title: isSearching
+                                    ? "No friend(s) found by this name"
+                                    : "You don't have any friends"),
                           ),
                         );
                       }

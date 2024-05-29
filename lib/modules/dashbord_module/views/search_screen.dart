@@ -47,7 +47,7 @@ class _SearchScreenState extends State<SearchScreen> {
           elevation: 0,
           centerTitle: true,
           iconTheme: Theme.of(context).iconTheme,
-          backgroundColor: Theme.of(context).backgroundColor,
+          backgroundColor: Theme.of(context).colorScheme.surface,
         ),
         body: Column(
           children: [
@@ -83,8 +83,11 @@ class _SearchScreenState extends State<SearchScreen> {
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
-                              if ("${dashBoardController.usersList[index].userId}" != userId) {
-                                Get.to(() => SomeoneProfileScreen(profileID: "${dashBoardController.usersList[index].userId}"));
+                              if ("${dashBoardController.usersList[index].userId}" !=
+                                  userId) {
+                                Get.to(() => SomeoneProfileScreen(
+                                    profileID:
+                                        "${dashBoardController.usersList[index].userId}"));
                               } else {
                                 Get.to(() => const ProfileScreen());
                               }
@@ -100,10 +103,15 @@ class _SearchScreenState extends State<SearchScreen> {
                                         height: 50,
                                         width: 50,
                                         decoration: BoxDecoration(
-                                          color: Theme.of(Get.context!).iconTheme.color,
-                                          borderRadius: BorderRadius.circular(100),
+                                          color: Theme.of(Get.context!)
+                                              .iconTheme
+                                              .color,
+                                          borderRadius:
+                                              BorderRadius.circular(100),
                                           border: Border.all(
-                                            color: Theme.of(Get.context!).iconTheme.color!,
+                                            color: Theme.of(Get.context!)
+                                                .iconTheme
+                                                .color!,
                                             width: 1,
                                           ),
                                         ),
@@ -113,17 +121,25 @@ class _SearchScreenState extends State<SearchScreen> {
                                           child: CachedNetworkImage(
                                             alignment: Alignment.center,
                                             fit: BoxFit.fill,
-                                            imageUrl: "${dashBoardController.usersList[index].profileImg}",
+                                            imageUrl:
+                                                "${dashBoardController.usersList[index].profileImg}",
                                             // placeholder: (context, url) {
                                             //   return Image.asset(
                                             //     "assets/logo.png",
                                             //     scale: 5.0,
                                             //   );
                                             // },
-                                            progressIndicatorBuilder: (BuildContext, String, DownloadProgress) {
-                                              return const Center(child: CupertinoActivityIndicator());
+                                            progressIndicatorBuilder:
+                                                (BuildContext, String,
+                                                    DownloadProgress) {
+                                              return const Center(
+                                                  child:
+                                                      CupertinoActivityIndicator());
                                             },
-                                            errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.white),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(Icons.error,
+                                                        color: Colors.white),
                                           ),
                                         ),
                                       ),
@@ -135,7 +151,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                       flex: 8,
                                       child: RichText(
                                         text: TextSpan(
-                                          text: "${dashBoardController.usersList[index].firstname}",
+                                          text:
+                                              "${dashBoardController.usersList[index].firstname}",
                                           style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 15.0,
@@ -145,7 +162,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                           ),
                                           children: <TextSpan>[
                                             TextSpan(
-                                              text: " ${dashBoardController.usersList[index].lastname} ",
+                                              text:
+                                                  " ${dashBoardController.usersList[index].lastname} ",
                                               style: const TextStyle(
                                                 color: Colors.black45,
                                                 fontSize: 15.0,

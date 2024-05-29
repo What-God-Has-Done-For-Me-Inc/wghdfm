@@ -51,10 +51,10 @@ class _GroupMembersUIState extends State<GroupMembersUI> {
         ),
         actions: [
           if (groupDetailsModel.value.data?.ownerId ==
-              userId /*&&
+                  userId /*&&
                                                 groupDetail!.sendReqButton !=
                                             "N"*/
-          )
+              )
             PopupMenuButton(
               icon: const Icon(Icons.more_vert),
               position: PopupMenuPosition.under,
@@ -63,7 +63,8 @@ class _GroupMembersUIState extends State<GroupMembersUI> {
                 isRemoveMember.toggle();
                 makeAdmin.toggle();
               },
-              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
               itemBuilder: (context) {
                 return [
                   const PopupMenuItem(value: 0, child: Text("Remove Member")),
@@ -74,7 +75,7 @@ class _GroupMembersUIState extends State<GroupMembersUI> {
         elevation: 0,
         centerTitle: true,
         iconTheme: Theme.of(context).iconTheme,
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.surface,
       ),
       body: StatefulBuilder(
         builder: (context, setState) {
@@ -86,7 +87,7 @@ class _GroupMembersUIState extends State<GroupMembersUI> {
                   right: 10,
                 ),
                 height: 60,
-                color: Theme.of(Get.context!).backgroundColor,
+                color: Theme.of(context).colorScheme.surface,
                 child: Row(
                   children: [
                     Expanded(
@@ -97,7 +98,8 @@ class _GroupMembersUIState extends State<GroupMembersUI> {
                           isLabelFloating: false,
                           controller: groupController.searchTEC,
                           borderColor: Theme.of(Get.context!).primaryColor,
-                          baseColor: Theme.of(Get.context!).colorScheme.secondary,
+                          baseColor:
+                              Theme.of(Get.context!).colorScheme.secondary,
                           isLastField: true,
                           obscureText: false,
                           onChanged: (searchInput) {
@@ -111,13 +113,20 @@ class _GroupMembersUIState extends State<GroupMembersUI> {
                       child: IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
-                          if (groupController.searchTEC.text.trim().isNotEmpty) {
+                          if (groupController.searchTEC.text
+                              .trim()
+                              .isNotEmpty) {
                             // setState(() {
                             //   groupController.searchTEC.text = '';
                             //   isSearching = false;
                             // });
                           } else {
-                            snack(icon: Icons.report_problem, iconColor: Colors.yellow, msg: "Type someone's name first... in order to search...", title: "Alert!");
+                            snack(
+                                icon: Icons.report_problem,
+                                iconColor: Colors.yellow,
+                                msg:
+                                    "Type someone's name first... in order to search...",
+                                title: "Alert!");
                           }
                         },
                       ),
@@ -148,7 +157,10 @@ class _GroupMembersUIState extends State<GroupMembersUI> {
                         alignment: Alignment.center,
                         child: Container(
                           alignment: Alignment.center,
-                          child: customText(title: isSearching ? "No member(s) found by this name" : "You don't have any members"),
+                          child: customText(
+                              title: isSearching
+                                  ? "No member(s) found by this name"
+                                  : "You don't have any members"),
                         ),
                       );
                     }
@@ -169,7 +181,12 @@ class _GroupMembersUIState extends State<GroupMembersUI> {
                           delegate: SliverChildBuilderDelegate(
                             (BuildContext context, int index) {
                               if (groupController.searchTEC.text.isNotEmpty) {
-                                if (groupMembers?[index].firstname?.toLowerCase().contains(groupController.searchTEC.text.toLowerCase()) == true) {
+                                if (groupMembers?[index]
+                                        .firstname
+                                        ?.toLowerCase()
+                                        .contains(groupController.searchTEC.text
+                                            .toLowerCase()) ==
+                                    true) {
                                   return listItem(index, setState);
                                 } else {
                                   return const SizedBox();
@@ -178,7 +195,8 @@ class _GroupMembersUIState extends State<GroupMembersUI> {
                                 return listItem(index, setState);
                               }
                             },
-                            childCount: /* isSearching ? searchedMembers?.length : */ groupMembers?.length ?? 0, // 1000 list items
+                            childCount: /* isSearching ? searchedMembers?.length : */
+                                groupMembers?.length ?? 0, // 1000 list items
                           ),
                         ),
                       ],
@@ -283,14 +301,17 @@ class _GroupMembersUIState extends State<GroupMembersUI> {
                         child: CachedNetworkImage(
                           alignment: Alignment.center,
                           fit: BoxFit.fill,
-                          imageUrl: "https://wghdfm.s3.amazonaws.com/thumb/${groupMembers?[index].img}",
+                          imageUrl:
+                              "https://wghdfm.s3.amazonaws.com/thumb/${groupMembers?[index].img}",
                           placeholder: (context, url) => Container(
                             padding: const EdgeInsets.all(3),
                             child: shimmerMeUp(CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.secondary),
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  Theme.of(context).colorScheme.secondary),
                             )),
                           ),
-                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
                         ),
                       ),
                     ),
@@ -303,7 +324,10 @@ class _GroupMembersUIState extends State<GroupMembersUI> {
                     child: RichText(
                       text: TextSpan(
                         // text: (isSearching ? searchedMembers : groupMembers)![index].firstname!.toUpperCase().trim(),
-                        text: "${groupMembers?[index].firstname} ${groupMembers?[index].lastname}".toUpperCase().trim(),
+                        text:
+                            "${groupMembers?[index].firstname} ${groupMembers?[index].lastname}"
+                                .toUpperCase()
+                                .trim(),
                         style: GoogleFonts.montserrat(
                           color: Colors.black,
                           fontSize: 15.0,
@@ -314,7 +338,8 @@ class _GroupMembersUIState extends State<GroupMembersUI> {
                         children: <TextSpan>[
                           TextSpan(
                             // text: "\n${(isSearching ? searchedMembers : groupMembers)![index].isAdmin == "A" ? "Group Admin" : "Normal Member"}",
-                            text: "\n ${groupMembers?[index].isAdmin == "A" ? "Group Admin" : "Normal Member"}",
+                            text:
+                                "\n ${groupMembers?[index].isAdmin == "A" ? "Group Admin" : "Normal Member"}",
                             style: GoogleFonts.montserrat(
                               color: Colors.grey,
                               fontSize: 12,
@@ -324,7 +349,8 @@ class _GroupMembersUIState extends State<GroupMembersUI> {
                           if (groupMembers?[index].isActive == "P")
                             TextSpan(
                               // text: "\n${(isSearching ? searchedMembers : groupMembers)![index].isActive == "P" ? "(Pending Request)" : ""}",
-                              text: "\n${groupMembers?[index].isActive == "P" ? "(Pending Request)" : ""}",
+                              text:
+                                  "\n${groupMembers?[index].isActive == "P" ? "(Pending Request)" : ""}",
                               style: GoogleFonts.montserrat(
                                 color: Colors.grey,
                                 fontSize: 12,
@@ -400,7 +426,8 @@ class _GroupMembersUIState extends State<GroupMembersUI> {
                             onPressed: () async {
                               if (widget.groupId != null) {
                                 groupController.removeMember(
-                                  grpMemberID: "${groupMembers?[index].groupMembersId}",
+                                  grpMemberID:
+                                      "${groupMembers?[index].groupMembersId}",
                                   grpID: "${widget.groupId}",
                                 );
                               }
@@ -426,20 +453,28 @@ class _GroupMembersUIState extends State<GroupMembersUI> {
                   StreamBuilder(
                     stream: isRemoveMember.stream,
                     builder: (context, snapshot) {
-                      if (!isRemoveMember.value && groupMembers?[index].isActive == "P") {
+                      if (!isRemoveMember.value &&
+                          groupMembers?[index].isActive == "P") {
                         return TextButton(
                             onPressed: () async {
                               if (widget.groupId != null) {
                                 groupController.acceptMember(
-                                    grpMemberID: "${groupMembers?[index].groupMembersId}",
+                                    grpMemberID:
+                                        "${groupMembers?[index].groupMembersId}",
                                     grpID: "${widget.groupId}",
                                     callBack: () {
                                       NotificationHandler.to.sendNotificationToUserID(
-                                          userId: "${groupMembers?[index].userId}",
-                                          title: "Your request has been accepted",
-                                          body: "Now you are member of ${groupDetailsModel.value.data?.name}",
+                                          userId:
+                                              "${groupMembers?[index].userId}",
+                                          title:
+                                              "Your request has been accepted",
+                                          body:
+                                              "Now you are member of ${groupDetailsModel.value.data?.name}",
                                           postId: "",
-                                          map: {"GroupID": "${groupDetailsModel.value.data?.groupId}"});
+                                          map: {
+                                            "GroupID":
+                                                "${groupDetailsModel.value.data?.groupId}"
+                                          });
                                     });
                               }
                             },
@@ -460,20 +495,26 @@ class _GroupMembersUIState extends State<GroupMembersUI> {
                     builder: (context, snapshot) => StreamBuilder(
                       stream: makeAdmin.stream,
                       builder: (context, snapshot) {
-                        if (makeAdmin.isTrue && groupMembers?[index].isAdmin != "A") {
+                        if (makeAdmin.isTrue &&
+                            groupMembers?[index].isAdmin != "A") {
                           return TextButton(
                               onPressed: () async {
                                 if (widget.groupId != null) {
                                   groupController.makeAdmin(
-                                      grpMemberID: "${groupMembers?[index].groupMembersId}",
+                                      grpMemberID:
+                                          "${groupMembers?[index].groupMembersId}",
                                       grpID: "${widget.groupId}",
                                       callBack: () {
                                         NotificationHandler.to.sendNotificationToUserID(
-                                            userId: "${groupMembers?[index].userId}",
+                                            userId:
+                                                "${groupMembers?[index].userId}",
                                             title: "You are now admin. ",
                                             body: "You are now admin of ${groupDetailsModel.value.data?.name}.",
                                             postId: "",
-                                            map: {"GroupID": "${groupDetailsModel.value.data?.groupId}"});
+                                            map: {
+                                              "GroupID":
+                                                  "${groupDetailsModel.value.data?.groupId}"
+                                            });
                                       });
                                 }
                               },

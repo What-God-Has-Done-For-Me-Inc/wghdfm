@@ -168,7 +168,7 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
             elevation: 0,
             centerTitle: true,
             iconTheme: Theme.of(context).iconTheme,
-            backgroundColor: Theme.of(context).backgroundColor,
+            backgroundColor: Theme.of(context).colorScheme.surface,
           ),
           body: feedsWithLoadMore(),
           floatingActionButton: StreamBuilder(

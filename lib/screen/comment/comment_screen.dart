@@ -372,7 +372,7 @@ class _CommentScreenState extends State<CommentScreen> {
           //     right: 10,
           //   ),
           //   height: 60,
-          //   color: Theme.of(Get.context!).backgroundColor,
+          //   color: Theme.of(context).colorScheme.surface,
           //   child: Row(
           //     children: [
           //       Expanded(

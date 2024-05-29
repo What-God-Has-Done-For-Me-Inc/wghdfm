@@ -214,14 +214,13 @@ class AppMethods {
   // }
 
   Future<bool> checkPermission({Permission? extraPermission}) async {
-    // await Permission.locationWhenInUse.request();
-    // await Permission.location.request();
-    // await Permission.locationAlways.request();
     await Permission.camera.request();
     await Permission.microphone.request();
+    await Permission.storage.request();
     showLog(" Permission of camera >> ${await Permission.camera.status}");
     showLog(
         " Permission of microphone >> ${await Permission.microphone.status}");
+    showLog(" Permission of storage >> ${await Permission.storage.status}");
 
     ///For Location..
     if (Platform.isAndroid) {
@@ -252,6 +251,7 @@ class AppMethods {
     } else {
       await Permission.camera.request();
       await Permission.microphone.request();
+      await Permission.storage.request();
       return true;
     }
   }
@@ -259,16 +259,18 @@ class AppMethods {
   Future<bool> getPermission() async {
     var cameraPermission = await Permission.camera.status;
     var microphonePermission = await Permission.microphone.status;
+    var storagePermission = await Permission.storage.status;
 
     if (cameraPermission == PermissionStatus.permanentlyDenied ||
-        microphonePermission == PermissionStatus.permanentlyDenied) {
+        microphonePermission == PermissionStatus.permanentlyDenied ||
+        storagePermission == PermissionStatus.permanentlyDenied) {
       // Handle permanently denied permissions
       showDialog(
         context: Get.context!,
         builder: (context) => AlertDialog(
           title: Text('Permissions Required'),
           content: Text(
-              'Camera and microphone access are permanently denied. Please enable them in app settings.'),
+              'Camera, microphone and storage access are permanently denied. Please enable them in app settings.'),
           actions: [
             TextButton(
               onPressed: () => openAppSettings(),
@@ -283,18 +285,21 @@ class AppMethods {
       );
       return false;
     } else if (cameraPermission == PermissionStatus.denied ||
-        microphonePermission == PermissionStatus.denied) {
+        microphonePermission == PermissionStatus.denied ||
+        storagePermission == PermissionStatus.denied) {
       await Permission.camera.request();
       await Permission.microphone.request();
+      await Permission.storage.request();
       return false;
     } else if (cameraPermission == PermissionStatus.granted ||
-        microphonePermission == PermissionStatus.granted) {
+        microphonePermission == PermissionStatus.granted ||
+        storagePermission == PermissionStatus.granted) {
       return true;
     }
     // Permissions are already granted, proceed with your logic
-    print('Both camera and microphone permissions granted!');
+    print('Camera, storage and microphone permissions granted!');
     return true;
-    // ...
+  
   }
 
   Future<bool> checkStoragePermission() async {

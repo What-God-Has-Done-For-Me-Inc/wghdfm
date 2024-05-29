@@ -34,7 +34,7 @@ class MessageThreadUI extends StatelessWidget {
           elevation: 0,
           centerTitle: true,
           iconTheme: Theme.of(context).iconTheme,
-          backgroundColor: Theme.of(context).backgroundColor,
+          backgroundColor: Theme.of(context).colorScheme.surface,
         ),
         body: StatefulBuilder(
           builder: (context, setState) {
@@ -44,7 +44,8 @@ class MessageThreadUI extends StatelessWidget {
               children: [
                 FutureBuilder(
                   future: loadConversation(msgObj.id),
-                  builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  builder:
+                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return shimmerFeedLoading();
                     }
@@ -62,7 +63,8 @@ class MessageThreadUI extends StatelessWidget {
                         alignment: Alignment.center,
                         child: Container(
                           alignment: Alignment.center,
-                          child: customText(title: "Be the first to start conversation"),
+                          child: customText(
+                              title: "Be the first to start conversation"),
                         ),
                       );
                     }
@@ -76,7 +78,8 @@ class MessageThreadUI extends StatelessWidget {
                               (BuildContext context, int index) {
                                 return listItem(index, setState);
                               },
-                              childCount: conversations!.length, // 1000 list items
+                              childCount:
+                                  conversations!.length, // 1000 list items
                             ),
                           ),
                         ],
@@ -94,7 +97,7 @@ class MessageThreadUI extends StatelessWidget {
                       right: 10,
                     ),
                     height: 60,
-                    color: Theme.of(Get.context!).backgroundColor,
+                    color: Theme.of(context).colorScheme.surface,
                     child: Row(
                       children: [
                         Expanded(
@@ -105,7 +108,8 @@ class MessageThreadUI extends StatelessWidget {
                             isLabelFloating: false,
                             controller: c.commentTEC,
                             borderColor: Theme.of(Get.context!).primaryColor,
-                            baseColor: Theme.of(Get.context!).colorScheme.secondary,
+                            baseColor:
+                                Theme.of(Get.context!).colorScheme.secondary,
                             isLastField: true,
                             obscureText: false,
                           ),
@@ -116,14 +120,19 @@ class MessageThreadUI extends StatelessWidget {
                             icon: const Icon(Icons.send),
                             onPressed: () {
                               if (c.commentTEC.text.trim().isNotEmpty) {
-                                addMessage(msgObj, c.commentTEC.text.trim()).then((_) {
+                                addMessage(msgObj, c.commentTEC.text.trim())
+                                    .then((_) {
                                   setState(() {
                                     c.commentTEC.text = "";
                                     loadConversation(msgObj.id);
                                   });
                                 });
                               } else {
-                                snack(icon: Icons.report_problem, iconColor: Colors.yellow, msg: "Type something first...", title: "Alert!");
+                                snack(
+                                    icon: Icons.report_problem,
+                                    iconColor: Colors.yellow,
+                                    msg: "Type something first...",
+                                    title: "Alert!");
                               }
                             },
                           ),
@@ -242,8 +251,10 @@ class MessageThreadUI extends StatelessWidget {
                               alignment: Alignment.center,
                               fit: BoxFit.fill,
                               imageUrl: conversations![index].profilePic!,
-                              placeholder: (context, url) => const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) => const Icon(Icons.error),
+                              placeholder: (context, url) =>
+                                  const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
                             ),
                           ),
                         );
@@ -256,10 +267,12 @@ class MessageThreadUI extends StatelessWidget {
                           placeholder: (context, url) => Container(
                             padding: const EdgeInsets.all(3),
                             child: shimmerMeUp(CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.secondary),
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  Theme.of(context).colorScheme.secondary),
                             )),
                           ),
-                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
                         ),
                       ),
                     ),

@@ -88,7 +88,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           ),
           centerTitle: true,
           iconTheme: Theme.of(context).iconTheme,
-          backgroundColor: Theme.of(context).backgroundColor,
+          backgroundColor: Theme.of(context).colorScheme.surface,
         ),
         // drawer: DrawerScreen(screen: FavouriteScreen()),
         // drawer: buildDrawer(),

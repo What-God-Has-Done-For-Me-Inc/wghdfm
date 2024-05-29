@@ -46,7 +46,7 @@ class _MessageThreadsUIState extends State<MessageThreadsUI> {
         elevation: 0,
         centerTitle: true,
         iconTheme: Theme.of(context).iconTheme,
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.surface,
       ),
       body: StatefulBuilder(
         builder: (context, setState) {
@@ -84,7 +84,8 @@ class _MessageThreadsUIState extends State<MessageThreadsUI> {
                         return listItem(index, setState);
                         //return SizedBox();
                       },
-                      childCount: messageController.messages?.length ?? 0, // 1000 list items
+                      childCount: messageController.messages?.length ??
+                          0, // 1000 list items
                     ),
                   ),
                 ],
@@ -170,7 +171,9 @@ class _MessageThreadsUIState extends State<MessageThreadsUI> {
       },
       child: InkWell(
         onTap: () {
-          pushOnlyTo(widget: MessageThreadUI(messageController.messages?[index] ?? MessageObj()));
+          pushOnlyTo(
+              widget: MessageThreadUI(
+                  messageController.messages?[index] ?? MessageObj()));
         },
         child: Card(
           color: Colors.white,
@@ -204,14 +207,17 @@ class _MessageThreadsUIState extends State<MessageThreadsUI> {
                           child: CachedNetworkImage(
                             alignment: Alignment.center,
                             fit: BoxFit.fill,
-                            imageUrl: "${messageController.messages?[index].profilePic}",
+                            imageUrl:
+                                "${messageController.messages?[index].profilePic}",
                             placeholder: (context, url) => Container(
                               padding: const EdgeInsets.all(3),
                               child: shimmerMeUp(CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.secondary),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    Theme.of(context).colorScheme.secondary),
                               )),
                             ),
-                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                           ),
                         ),
                       ),
@@ -225,7 +231,12 @@ class _MessageThreadsUIState extends State<MessageThreadsUI> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         text: TextSpan(
-                          text: (messageController.messages?[index].userId == userId) ? "ME" : messageController.messages?[index].name!.toUpperCase().trim(),
+                          text: (messageController.messages?[index].userId ==
+                                  userId)
+                              ? "ME"
+                              : messageController.messages?[index].name!
+                                  .toUpperCase()
+                                  .trim(),
                           style: GoogleFonts.montserrat(
                             color: Colors.black,
                             fontSize: 15.0,
@@ -235,7 +246,8 @@ class _MessageThreadsUIState extends State<MessageThreadsUI> {
                           ),
                           children: <TextSpan>[
                             TextSpan(
-                              text: "\n" + "${messageController.messages?[index].message}",
+                              text: "\n" +
+                                  "${messageController.messages?[index].message}",
                               style: GoogleFonts.montserrat(
                                 color: Colors.grey,
                                 fontSize: 12,
