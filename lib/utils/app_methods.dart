@@ -285,15 +285,13 @@ class AppMethods {
       );
       return false;
     } else if (cameraPermission == PermissionStatus.denied ||
-        microphonePermission == PermissionStatus.denied ||
-        storagePermission == PermissionStatus.denied) {
+        microphonePermission == PermissionStatus.denied ) {
       await Permission.camera.request();
       await Permission.microphone.request();
       await Permission.storage.request();
       return false;
     } else if (cameraPermission == PermissionStatus.granted ||
-        microphonePermission == PermissionStatus.granted ||
-        storagePermission == PermissionStatus.granted) {
+        microphonePermission == PermissionStatus.granted ) {
       return true;
     }
     // Permissions are already granted, proceed with your logic

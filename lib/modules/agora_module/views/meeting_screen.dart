@@ -20,7 +20,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
         channelName: Get.arguments['channelName'],
         username: Get.arguments['userName'],
         tempToken:
-            "007eJxTYEj++uRs784PO531iy0mHpd5X5gYeXu2ynmVyz9VjAK+axxSYDBKTjFISzJJNk4zTTQxNLNIskg1M7dINDdPS0tJSzExXl0UmtYQyMiwbRY7IyMDBIL4bAzl6RkpabkMDABXjCJ9"),
+            "007eJxTYChu8v4T4xdw9/LHdQ49vXu/zU5Ndb3FMtWjxfP36bbVc9MUGIySUwzSkkySjdNME00MzSySLFLNzC0Szc3T0lLSUkyM2Wwi0xoCGRlm/vzIysgAgSA+G0N5ekZKWi4DAwBaxiMQ"),
     enabledPermission: [
       Permission.camera,
       Permission.microphone,
