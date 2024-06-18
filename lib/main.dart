@@ -1,9 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:wghdfm_java/modules/auth_module/views/Introduction_Screen.dart';
-import 'package:wghdfm_java/modules/notification_module/controller/notification_handler.dart';
 import 'package:wghdfm_java/screen/dashboard/post_details/post_details_screen.dart';
 import 'package:wghdfm_java/screen/favourite/favourite_screen.dart';
 import 'package:wghdfm_java/screen/friends/friends_screen.dart';
@@ -13,14 +13,35 @@ import 'modules/auth_module/views/login_screen.dart';
 import 'modules/auth_module/views/sign_up_screen.dart';
 import 'modules/auth_module/views/splash_screen.dart';
 import 'modules/dashbord_module/views/dash_board_screen.dart';
+import 'modules/notification_module/controller/notification_handler.dart';
 import 'modules/profile_module/view/profile_screen.dart';
 import 'modules/recover_password/views/recover_password_screen.dart';
+import 'services/call_services.dart';
+
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+
+  NotificationHandler().initializeHandler();
+  NotificationHandler().createNotification(message);
+
+  // callbackTask();
+  // Map<String, String> stringQueryParameters =
+  //     message.data.map((key, value) => MapEntry(key, value.toString()));
+  // makeCallInComing(
+  //     title: message.notification!.title.toString(),
+  //     body: message.notification!.body.toString(),
+  //     data: stringQueryParameters);
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   MobileAds.instance.initialize();
-  NotificationHandler.initializeHandler();
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  NotificationHandler().initializeHandler();
+  // callbackTask();
   runApp(const MyApp());
 }
 
@@ -62,6 +83,7 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: PageRes.introScreen, page: () => IntroducationScreen()),
         GetPage(name: PageRes.loginScreen, page: () => LoginScreen()),
         GetPage(name: PageRes.signUpScreen, page: () => const SignUpScreen()),
+
         GetPage(
             name: PageRes.dashBoardScreen, page: () => const DashBoardScreen()),
         GetPage(

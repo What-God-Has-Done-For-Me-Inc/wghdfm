@@ -35,7 +35,6 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     compileSdkVersion 34
-    // ndkVersion flutter.ndkVersion
     ndkVersion "23.1.7779620" //23.1.7779620
 
     lintOptions {

@@ -31,6 +31,7 @@ class EndPoints {
   static const String changePassword = "user/change_password";
   static const String deleteProfile = "user/delete_profile";
   static const String inviteFriends = "user/invite";
+  static const String callNotify = "user/call_notify";
   static const String getUnreadMsgCount = "user/unread_msg_count";
   static const String getAllMessages = "user/get_all_messages";
   static const String donate = "donate/donate_success";

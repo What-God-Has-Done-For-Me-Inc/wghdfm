@@ -3,35 +3,40 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MeetingScreen extends StatefulWidget {
-  const MeetingScreen({super.key});
+  const MeetingScreen(
+      {super.key,
+      required this.channelName,
+      required this.token,
+      required this.userName});
+  final String channelName;
+  final String token;
+  final String userName;
 
   @override
   State<MeetingScreen> createState() => _MeetingScreenState();
 }
 
 class _MeetingScreenState extends State<MeetingScreen> {
-  // String roomId = "";
-  // String userId = "";
-  // String userName = "";
-  // Instantiate the client
-  final AgoraClient client = AgoraClient(
-    agoraConnectionData: AgoraConnectionData(
-        appId: "2cd0fb4c3f5a4168b8e678a77ffdfd43",
-        channelName: Get.arguments['channelName'],
-        username: Get.arguments['userName'],
-        tempToken:
-            "007eJxTYChu8v4T4xdw9/LHdQ49vXu/zU5Ndb3FMtWjxfP36bbVc9MUGIySUwzSkkySjdNME00MzSySLFLNzC0Szc3T0lLSUkyM2Wwi0xoCGRlm/vzIysgAgSA+G0N5ekZKWi4DAwBaxiMQ"),
-    enabledPermission: [
-      Permission.camera,
-      Permission.microphone,
-    ],
-  );
+  late AgoraClient client;
 // Initialize the Agora Engine
   @override
   void initState() {
     super.initState();
-    // roomId = Get.arguments['channelName'] as String;
-    // print(roomId);
+    client = AgoraClient(
+      agoraConnectionData: AgoraConnectionData(
+        appId: "2cd0fb4c3f5a4168b8e678a77ffdfd43",
+        channelName: widget.channelName,
+        username: widget.userName,
+        tempToken: widget.token,
+        // channelName: Get.arguments['channelName'],
+        // username: Get.arguments['userName'],
+        // tempToken: Get.arguments['token'],
+      ),
+      enabledPermission: [
+        Permission.camera,
+        Permission.microphone,
+      ],
+    );
     initAgora();
   }
 
@@ -42,10 +47,6 @@ class _MeetingScreenState extends State<MeetingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Video Call'),
-      //   centerTitle: true,
-      // ),
       body: SafeArea(
         child: Stack(
           children: [

@@ -53,17 +53,17 @@ class _CreateRoomDialogState extends State<CreateRoomDialog> {
               customButton(
                 title: "Join",
                 onTap: () async {
-                  bool isPermissionGranted = await AppMethods().getPermission();
-                  if (isPermissionGranted == true) {
-                    Get.to(const MeetingScreen(),
-                        arguments: {"channelName": roomId});
-                  } else {
-                    Get.snackbar("Failed",
-                        "Microphone Permission Required for Video Call.",
-                        backgroundColor: Colors.white,
-                        colorText: Color(0xFF1A1E78),
-                        snackPosition: SnackPosition.BOTTOM);
-                  }
+                  // bool isPermissionGranted = await AppMethods().getPermission();
+                  // if (isPermissionGranted == true) {
+                  //   Get.to( MeetingScreen(channelName: roomId,userName: ,token: "",),
+                  //       arguments: {"channelName": roomId});
+                  // } else {
+                  //   Get.snackbar("Failed",
+                  //       "Microphone Permission Required for Video Call.",
+                  //       backgroundColor: Colors.white,
+                  //       colorText: Color(0xFF1A1E78),
+                  //       snackPosition: SnackPosition.BOTTOM);
+                  // }
                 },
               ),
             ],

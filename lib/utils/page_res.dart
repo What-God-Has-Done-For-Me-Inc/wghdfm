@@ -2,6 +2,7 @@ class PageRes {
   static const String introScreen = "/introScreen";
   static const String loginScreen = "/loginScreen";
   static const String signUpScreen = "/signUpScreen";
+   static const String videoCallScreen = "/videoScreen";
   static const String dashBoardScreen = "/DashBoardScreen";
   static const String postDetailScreen = "/postDetailScreen";
   static const String profileScreen = "/profileScreen";

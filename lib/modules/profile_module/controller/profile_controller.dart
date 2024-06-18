@@ -14,6 +14,9 @@ import 'package:wghdfm_java/utils/endpoints.dart';
 import '../../../../model/my_profilr_details_model.dart';
 import '../../../../networking/api_service_class.dart';
 import '../../../../services/sesssion.dart';
+import '../../../utils/app_methods.dart';
+import '../../agora_module/helper/utils.dart';
+import '../../agora_module/views/meeting_screen.dart';
 import '../../dashbord_module/controller/dash_board_controller.dart';
 
 class ProfileController extends GetxController {
@@ -180,6 +183,49 @@ class ProfileController extends GetxController {
         },
         error: (dio.Response response) {},
         showProcess: true);
+  }
+
+  Future makeVideoCAll({required String profileID}) async {
+    dynamic userDetails = await SessionManagement.getUserDetails();
+    var channel_name = generateRandomString(8);
+    String userID = userDetails.id;
+    await APIService().callAPI(
+        params: {},
+        formDatas: dio.FormData.fromMap({
+          "user_id": userId,
+          "profile_id": profileID,
+          "call_type": "video_call",
+          "channel_name": channel_name,
+        }),
+        serviceUrl: EndPoints.baseUrl + EndPoints.callNotify,
+        method: APIService.postMethod,
+        success: (dio.Response response) async {
+          dynamic jsonData = jsonDecode(response.data);
+
+          print(jsonData);
+          if (jsonData["type"] == "success") {
+            bool isPermissionGranted = await AppMethods().getPermission();
+
+            if (isPermissionGranted == true) {
+              Get.to(
+                  MeetingScreen(
+                    token: jsonData["token"].toString(),
+                    channelName: channel_name,
+                    userName:
+                        "${jsonData["caller_firstname"]} ${jsonData["caller_lastname"]}",
+                  ),
+                  arguments: {
+                    "userId": userId,
+                    "userName":
+                        "${jsonData["caller_firstname"]} ${jsonData["caller_lastname"]}",
+                    "channelName": channel_name,
+                    "token": jsonData["token"].toString()
+                  });
+            }
+          }
+        },
+        error: (dio.Response response) {},
+        showProcess: false);
   }
 
   Future blockUser({required userID, required Function callBack}) async {

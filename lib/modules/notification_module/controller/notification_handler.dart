@@ -15,6 +15,8 @@ import 'package:wghdfm_java/services/prefrence_services.dart';
 import 'package:wghdfm_java/services/sesssion.dart';
 import 'package:wghdfm_java/utils/endpoints.dart';
 
+import '../../../services/call_services.dart';
+import '../../agora_module/views/meeting_screen.dart';
 import '../view/messages_screen.dart';
 import '../view/notification_post_details_screen.dart';
 
@@ -66,7 +68,17 @@ class NotificationHandler extends GetxController {
       print(":::: >>>>>> android ${event.notification?.android?.toMap()}");
       print(":::: >>>>>> data ${event.data}");
       if (!Platform.isIOS) {
+        // if (event.data.keys.contains("agora_token")) {
+        //   createNotification(event);
+        // Map<String, String> stringQueryParameters =
+        //     event.data.map((key, value) => MapEntry(key, value.toString()));
+        // makeCallInComing(
+        //     title: event.notification!.title.toString(),
+        //     body: event.notification!.body.toString(),
+        //     data: stringQueryParameters);
+        // } else {
         createNotification(event);
+        //  }
       }
     });
 
@@ -78,6 +90,11 @@ class NotificationHandler extends GetxController {
     });
   }
 
+//   Video Call
+// Mofijul is calling you..
+// android {channelId: null, clickAction: null, color: null, count: null, imageUrl: null, link: null, priority: 0, smallIcon: https%3A%2F%2Fwhatgodhasdoneforme.com%2Fimages%2Ffavicon%2Ffavicon.png, sound: Tri-tone, ticker: null, tag: null, visibility: 0}
+//  data {notify_type: video_call, agora_token: 006b244cfdf7c4f43d897eff4bd406b87b7IADIHXl2BUaD8jL+zE8KxLhXOs+IT2b5rq/plUqcdVAHfBW/NfEAAAAAIgDsKAAAx8JiZgQAAQBXf2FmAwBXf2FmAgBXf2FmBABXf2Fm, agora_channel: test_123, caller_firstname: Mofijul, caller_lastname: Hasan, caller_img: 1705479582.jpg}
+
   createNotification(RemoteMessage event) {
     int i = 1;
     Map<String, String> payLoadData = {};
@@ -85,45 +102,61 @@ class NotificationHandler extends GetxController {
     event.data.forEach((key, value) {
       payLoadData.addAll({key: value.toString()});
     });
-    AwesomeNotifications()
-        .createNotification(
-            content: NotificationContent(
-                id: i,
-                channelKey: 'basic_channel',
-                title: "${event.notification?.title}",
-                body: "${event.notification?.body}",
-                actionType: ActionType.Default,
-                roundedBigPicture: true,
-                notificationLayout: NotificationLayout.BigPicture,
-                bigPicture: "${event.notification?.android?.imageUrl}",
-                payload: payLoadData))
-        .then((value) {
-      handleLocalNotification();
-      i++;
-    });
-  }
-
-  handleLocalNotification() {
-    AwesomeNotifications().setListeners(
-      onActionReceivedMethod: (receivedAction) {
-        if (receivedAction.payload != null) {
-          print(" Local Notification Payload is ${receivedAction.payload}");
-          if (receivedAction.payload?.containsKey("postId") == true) {
-            Get.to(() => NotificationPostDetailsScreen(
-                postId: "${receivedAction.payload?['postId']}"));
-          }
-          if (receivedAction.payload?.containsKey("notificationId") == true) {
-            Get.to(() => MessageScreens());
-          }
-        }
-
-        return Future.value(true);
-      },
-    );
+    if (event.data.keys.contains("notify_type")) {
+      AwesomeNotifications().createNotification(
+        content: NotificationContent(
+            id: i,
+            channelKey: 'firebase',
+            title: "${event.notification?.title}",
+            body: "${event.notification?.body}",
+            wakeUpScreen: true,
+            fullScreenIntent: true,
+            locked: true,
+            actionType: ActionType.Default,
+            roundedBigPicture: true,
+            notificationLayout: NotificationLayout.Default,
+            // bigPicture: "${event.notification?.android?.imageUrl}",
+            payload: payLoadData),
+        actionButtons: [
+          NotificationActionButton(
+              key: 'decline', label: 'Decline', enabled: true),
+          NotificationActionButton(
+              key: 'answer', label: 'Answer', enabled: true),
+        ],
+      ).then((value) {
+        i++;
+      });
+    } else {
+      AwesomeNotifications()
+          .createNotification(
+              content: NotificationContent(
+                  id: i,
+                  channelKey: 'basic_channel',
+                  title: "${event.notification?.title}",
+                  body: "${event.notification?.body}",
+                  actionType: ActionType.Default,
+                  roundedBigPicture: true,
+                  notificationLayout: NotificationLayout.BigPicture,
+                  bigPicture: "${event.notification?.android?.imageUrl}",
+                  payload: payLoadData))
+          .then((value) {
+        i++;
+      });
+    }
   }
 
   handleMessage(RemoteMessage message) {
     print("Payload:::::${message.data}");
+    if (message.data.keys.contains("notify_type")) {
+      Get.to(
+        () => MeetingScreen(
+          userName:
+              "${message.data["caller_firstname"]} ${message.data["caller_lastname"]}",
+          token: message.data["agora_token"],
+          channelName: message.data["agora_channel"],
+        ),
+      );
+    }
     if (message.data.keys.contains("GroupID")) {
       Get.to(() => GroupDetailsScreen(groupId: "${message.data["GroupID"]}"));
       return;
@@ -138,7 +171,12 @@ class NotificationHandler extends GetxController {
     }
   }
 
-  static initializeHandler() {
+  initializeHandler() {
+    AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+      if (!isAllowed) {
+        AwesomeNotifications().requestPermissionToSendNotifications();
+      }
+    });
     AwesomeNotifications().initialize(
         'resource://drawable/ic_launcher',
         [
@@ -147,7 +185,20 @@ class NotificationHandler extends GetxController {
               channelKey: 'basic_channel',
               channelName: 'Basic notifications',
               channelDescription: 'Notification channel for basic tests',
-              ledColor: Colors.white)
+              ledColor: Colors.white),
+          NotificationChannel(
+            channelGroupKey: 'firebase',
+            channelKey: 'firebase',
+            channelName: 'firebase notifications',
+            channelDescription: 'Notification channel for call services',
+            ledColor: Colors.white,
+            defaultRingtoneType: DefaultRingtoneType.Ringtone,
+            channelShowBadge: true,
+            playSound: true,
+            enableVibration: true,
+            locked: true,
+            importance: NotificationImportance.Max,
+          ),
         ],
         // Channel groups are only visual and are not required
         channelGroups: [
@@ -156,39 +207,13 @@ class NotificationHandler extends GetxController {
               channelGroupName: 'Basic group')
         ],
         debug: true);
+    AwesomeNotifications().setListeners(
+      onActionReceivedMethod: (ReceivedAction receivedAction) {
+        return onActionReceivedMethod(receivedAction);
+      },
+    );
+    //setListener();
   }
-
-  // static setListener() {
-  //   AwesomeNotifications().setListeners(
-  //     onActionReceivedMethod: (receivedAction) {
-  //       print("receivedAction is ${receivedAction.title}");
-  //       print("receivedAction is ${receivedAction.body}");
-  //       print("receivedAction is ${receivedAction.buttonKeyPressed}");
-  //       return Future.value(true);
-  //     },
-  //     onNotificationCreatedMethod: (receivedNotification) {
-  //       print("receivedNotification onNotificationCreatedMethod ${receivedNotification.title}");
-  //       print("receivedNotification onNotificationCreatedMethod ${receivedNotification.actionType}");
-  //       print("receivedNotification onNotificationCreatedMethod ${receivedNotification.bigPicturePath}");
-  //       print("receivedNotification onNotificationCreatedMethod ${receivedNotification.largeIcon}");
-  //       return Future.value(true);
-  //     },
-  //     onNotificationDisplayedMethod: (receivedNotification) {
-  //       print("receivedNotification onNotificationDisplayedMethod ${receivedNotification.title}");
-  //       print("receivedNotification onNotificationDisplayedMethod ${receivedNotification.actionType}");
-  //       print("receivedNotification onNotificationDisplayedMethod ${receivedNotification.bigPicturePath}");
-  //       print("receivedNotification onNotificationDisplayedMethod ${receivedNotification.largeIcon}");
-  //       return Future.value(true);
-  //     },
-  //     onDismissActionReceivedMethod: (receivedAction) {
-  //       print("receivedAction is onDismissActionReceivedMethod ${receivedAction.title}");
-  //       print("receivedAction is onDismissActionReceivedMethod ${receivedAction.body}");
-  //       print("receivedAction is onDismissActionReceivedMethod ${receivedAction.buttonKeyPressed}");
-  //       print("object");
-  //       return Future.value(true);
-  //     },
-  //   );
-  // }
 
   sendNotification({
     required String fcmToken,
@@ -295,6 +320,33 @@ class NotificationHandler extends GetxController {
     }).onError((err) {
       // Error getting token.
     });
+  }
+
+  @pragma("vm:entry-point")
+  static Future<void> onActionReceivedMethod(
+      ReceivedAction receivedAction) async {
+    debugPrint(receivedAction.buttonKeyPressed.toString());
+    if (receivedAction.payload != null) {
+      print(" Local Notification Payload is ${receivedAction.payload}");
+      if (receivedAction.channelKey == 'firebase' &&
+          receivedAction.buttonKeyPressed == "answer") {
+        Get.to(
+          () => MeetingScreen(
+            userName:
+                "${receivedAction.payload!["caller_firstname"]} ${receivedAction.payload?["caller_lastname"]}",
+            token: receivedAction.payload!["agora_token"].toString(),
+            channelName: receivedAction.payload!["agora_channel"].toString(),
+          ),
+        );
+      }
+      if (receivedAction.payload?.containsKey("postId") == true) {
+        Get.to(() => NotificationPostDetailsScreen(
+            postId: "${receivedAction.payload?['postId']}"));
+      }
+      if (receivedAction.payload?.containsKey("notificationId") == true) {
+        Get.to(() => MessageScreens());
+      }
+    }
   }
 
   Rx<NotificationPostModel> notificationPostModel = NotificationPostModel().obs;

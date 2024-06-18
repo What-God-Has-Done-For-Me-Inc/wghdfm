@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:wghdfm_java/common/common_snack.dart';
 import 'package:wghdfm_java/modules/ads_module/ads_screen.dart';
@@ -96,6 +97,13 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
               ),
             ),
             actions: [
+              IconButton(
+                  onPressed: () {
+                    profileController.makeVideoCAll(
+                        profileID: widget.profileID);
+                    // Get.to(() => const CallScreen());
+                  },
+                  icon: const Icon(MingCute.phone_line)),
               StreamBuilder(
                   stream: profileController.someonesProfileData.stream,
                   builder: (context, snapshot) {

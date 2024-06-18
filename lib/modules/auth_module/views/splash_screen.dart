@@ -18,13 +18,10 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
-  AppConfigController appConfigController  = Get.put(AppConfigController());
+  AppConfigController appConfigController = Get.put(AppConfigController());
 
   @override
   void initState() {
-    // init();
-    // TODO: implement initState
     AdsController.initGoogleMobileAds();
     appConfigController.getConfig();
     Future.delayed(
@@ -60,28 +57,32 @@ class _SplashScreenState extends State<SplashScreen> {
                     delay: 250,
                     child: Text(
                       "My ",
-                      style: GoogleFonts.montserrat(color: Colors.red, fontSize: 22.0.sf),
+                      style: GoogleFonts.montserrat(
+                          color: Colors.red, fontSize: 22.0.sf),
                     ),
                   ),
                   ShowUp(
                     delay: 500,
                     child: Text(
                       "Christian ",
-                      style: GoogleFonts.montserrat(color: Colors.red, fontSize: 22.0.sf),
+                      style: GoogleFonts.montserrat(
+                          color: Colors.red, fontSize: 22.0.sf),
                     ),
                   ),
                   ShowUp(
                     delay: 1500,
                     child: Text(
                       "Social ",
-                      style: GoogleFonts.montserrat(color: Colors.red, fontSize: 22.0.sf),
+                      style: GoogleFonts.montserrat(
+                          color: Colors.red, fontSize: 22.0.sf),
                     ),
                   ),
                   ShowUp(
                     delay: 2000,
                     child: Text(
                       "Network ",
-                      style: GoogleFonts.montserrat(color: Colors.red, fontSize: 22.0.sf),
+                      style: GoogleFonts.montserrat(
+                          color: Colors.red, fontSize: 22.0.sf),
                     ),
                   ),
                 ],
@@ -105,42 +106,48 @@ class _SplashScreenState extends State<SplashScreen> {
                         delay: 500,
                         child: Text(
                           "What ",
-                          style: GoogleFonts.montserrat(color: Colors.blue, fontSize: 22.0.sf),
+                          style: GoogleFonts.montserrat(
+                              color: Colors.blue, fontSize: 22.0.sf),
                         ),
                       ),
                       ShowUp(
                         delay: 1500,
                         child: Text(
                           "God ",
-                          style: GoogleFonts.montserrat(color: Colors.red, fontSize: 22.0.sf),
+                          style: GoogleFonts.montserrat(
+                              color: Colors.red, fontSize: 22.0.sf),
                         ),
                       ),
                       ShowUp(
                         delay: 2000,
                         child: Text(
                           "Has ",
-                          style: GoogleFonts.montserrat(color: Colors.blue, fontSize: 22.0.sf),
+                          style: GoogleFonts.montserrat(
+                              color: Colors.blue, fontSize: 22.0.sf),
                         ),
                       ),
                       ShowUp(
                         delay: 2500,
                         child: Text(
                           "Done ",
-                          style: GoogleFonts.montserrat(color: Colors.blue, fontSize: 22.0.sf),
+                          style: GoogleFonts.montserrat(
+                              color: Colors.blue, fontSize: 22.0.sf),
                         ),
                       ),
                       ShowUp(
                         delay: 3000,
                         child: Text(
                           "For ",
-                          style: GoogleFonts.montserrat(color: Colors.blue, fontSize: 22.0.sf),
+                          style: GoogleFonts.montserrat(
+                              color: Colors.blue, fontSize: 22.0.sf),
                         ),
                       ),
                       ShowUp(
                         delay: 3500,
                         child: Text(
                           "Me",
-                          style: GoogleFonts.montserrat(color: Colors.blue, fontSize: 22.0.sf),
+                          style: GoogleFonts.montserrat(
+                              color: Colors.blue, fontSize: 22.0.sf),
                         ),
                       ),
                     ],
@@ -161,21 +168,24 @@ class _SplashScreenState extends State<SplashScreen> {
                         delay: 500,
                         child: Text(
                           "Share ",
-                          style: GoogleFonts.montserrat(color: Colors.red, fontSize: 22.0.sf),
+                          style: GoogleFonts.montserrat(
+                              color: Colors.red, fontSize: 22.0.sf),
                         ),
                       ),
                       ShowUp(
                         delay: 1000,
                         child: Text(
                           "Your ",
-                          style: GoogleFonts.montserrat(color: Colors.red, fontSize: 22.0.sf),
+                          style: GoogleFonts.montserrat(
+                              color: Colors.red, fontSize: 22.0.sf),
                         ),
                       ),
                       ShowUp(
                         delay: 1500,
                         child: Text(
                           "Story ",
-                          style: GoogleFonts.montserrat(color: Colors.red, fontSize: 22.0.sf),
+                          style: GoogleFonts.montserrat(
+                              color: Colors.red, fontSize: 22.0.sf),
                         ),
                       ),
                     ],
@@ -214,9 +224,13 @@ class _ShowUpState extends State<ShowUp> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    _animController = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
-    final curve = CurvedAnimation(curve: Curves.decelerate, parent: _animController);
-    _animOffset = Tween<Offset>(begin: const Offset(0.0, 0.35), end: Offset.zero).animate(curve);
+    _animController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
+    final curve =
+        CurvedAnimation(curve: Curves.decelerate, parent: _animController);
+    _animOffset =
+        Tween<Offset>(begin: const Offset(0.0, 0.35), end: Offset.zero)
+            .animate(curve);
 
 /*
       ///The argument type 'int?' can't be assigned to the parameter type 'int'

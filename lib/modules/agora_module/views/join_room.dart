@@ -47,30 +47,34 @@ class JoinRoomDialog extends StatelessWidget {
                 LoginModel userDetails =
                     await SessionManagement.getUserDetails();
                 var userId = userDetails.id;
-                 bool isPermissionGranted = await AppMethods().getPermission();
-                  
-                  if (isPermissionGranted == true) {
-                     if (roomTxtController.text.isNotEmpty) {
-                 Get.to(const MeetingScreen(), arguments: {
-                      "userId": userId,
-                      "userName": "${userDetails.fname} ${userDetails.lname}",
-                      "channelName": roomTxtController.text.trim()
-                    });
-                } else {
-                  Get.snackbar("Failed", "Enter Room-Id to Join.",
-                      backgroundColor: Colors.white,
-                      colorText: Color(0xFF1A1E78),
-                      snackPosition: SnackPosition.BOTTOM);
-                }
-                   
+                bool isPermissionGranted = await AppMethods().getPermission();
+
+                if (isPermissionGranted == true) {
+                  if (roomTxtController.text.isNotEmpty) {
+                    Get.to(
+                      MeetingScreen(
+                        userName: "${userDetails.fname} ${userDetails.lname}",
+                        token: "",
+                        channelName: roomTxtController.text.trim(),
+                      ),
+                      // arguments: {
+                      //   "userId": userId,
+                      //   "userName": "${userDetails.fname} ${userDetails.lname}",
+                      //   "channelName": roomTxtController.text.trim()
+                      // },
+                    );
                   } else {
-                    Get.snackbar(
-                        "Failed", "Permissions Required for Video Call.",
+                    Get.snackbar("Failed", "Enter Room-Id to Join.",
                         backgroundColor: Colors.white,
                         colorText: Color(0xFF1A1E78),
                         snackPosition: SnackPosition.BOTTOM);
                   }
-               
+                } else {
+                  Get.snackbar("Failed", "Permissions Required for Video Call.",
+                      backgroundColor: Colors.white,
+                      colorText: Color(0xFF1A1E78),
+                      snackPosition: SnackPosition.BOTTOM);
+                }
               })
         ],
       ),
