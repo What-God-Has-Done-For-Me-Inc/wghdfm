@@ -697,11 +697,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                 Get.to(() => const SearchScreen());
               },
               icon: const Icon(MingCute.search_3_line)),
-          // IconButton(
-          //     onPressed: () {
-          //       Get.to(() => const CallScreen());
-          //     },
-          //     icon: const Icon(MingCute.phone_line)),
+          IconButton(
+              onPressed: () {
+                Get.to(() => const CallScreen());
+              },
+              icon: const Icon(MingCute.phone_line)),
           IconButton(
               key: notificationButtonKey,
               onPressed: () {

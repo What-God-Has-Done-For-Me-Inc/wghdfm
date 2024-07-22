@@ -211,6 +211,7 @@ class ProfileController extends GetxController {
                   MeetingScreen(
                     token: jsonData["token"].toString(),
                     channelName: channel_name,
+                    uid: userId,
                     userName:
                         "${jsonData["caller_firstname"]} ${jsonData["caller_lastname"]}",
                   ),

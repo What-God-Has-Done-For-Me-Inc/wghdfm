@@ -1,5 +1,4 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -16,30 +15,29 @@ import 'modules/dashbord_module/views/dash_board_screen.dart';
 import 'modules/notification_module/controller/notification_handler.dart';
 import 'modules/profile_module/view/profile_screen.dart';
 import 'modules/recover_password/views/recover_password_screen.dart';
-import 'services/call_services.dart';
 
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+// @pragma('vm:entry-point')
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   await Firebase.initializeApp();
 
-  NotificationHandler().initializeHandler();
-  NotificationHandler().createNotification(message);
+//   NotificationHandler().initializeHandler();
+//   NotificationHandler().createNotification(message);
 
-  // callbackTask();
-  // Map<String, String> stringQueryParameters =
-  //     message.data.map((key, value) => MapEntry(key, value.toString()));
-  // makeCallInComing(
-  //     title: message.notification!.title.toString(),
-  //     body: message.notification!.body.toString(),
-  //     data: stringQueryParameters);
-}
+//   // callbackTask();
+//   // Map<String, String> stringQueryParameters =
+//   //     message.data.map((key, value) => MapEntry(key, value.toString()));
+//   // makeCallInComing(
+//   //     title: message.notification!.title.toString(),
+//   //     body: message.notification!.body.toString(),
+//   //     data: stringQueryParameters);
+// }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   MobileAds.instance.initialize();
 
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   NotificationHandler().initializeHandler();
   // callbackTask();
   runApp(const MyApp());

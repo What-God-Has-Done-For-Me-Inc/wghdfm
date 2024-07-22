@@ -37,6 +37,7 @@ Future<void> _onCallAccepted(CallEvent callEvent) async {
     () => MeetingScreen(
       userName:
           "${callEvent.userInfo!["caller_firstname"]} ${callEvent.userInfo!["caller_lastname"]}",
+      uid: callEvent.userInfo!["profile_id"].toString(),
       token: callEvent.userInfo!["agora_token"].toString(),
       channelName: callEvent.userInfo!["agora_channel"].toString(),
     ),
@@ -75,6 +76,7 @@ Future<void> onCallAcceptedWhenTerminated(CallEvent callEventHandler) async {
     () => MeetingScreen(
       userName:
           "${callEventHandler.userInfo!["caller_firstname"]} ${callEventHandler.userInfo!["caller_lastname"]}",
+      uid: callEventHandler.userInfo!["profile_id"].toString(),
       token: callEventHandler.userInfo!["agora_token"].toString(),
       channelName: callEventHandler.userInfo!["agora_channel"].toString(),
     ),

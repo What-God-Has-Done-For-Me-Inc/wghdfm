@@ -152,6 +152,7 @@ class NotificationHandler extends GetxController {
         () => MeetingScreen(
           userName:
               "${message.data["caller_firstname"]} ${message.data["caller_lastname"]}",
+          uid: userId,
           token: message.data["agora_token"],
           channelName: message.data["agora_channel"],
         ),
@@ -334,6 +335,7 @@ class NotificationHandler extends GetxController {
           () => MeetingScreen(
             userName:
                 "${receivedAction.payload!["caller_firstname"]} ${receivedAction.payload?["caller_lastname"]}",
+            uid: userId,
             token: receivedAction.payload!["agora_token"].toString(),
             channelName: receivedAction.payload!["agora_channel"].toString(),
           ),

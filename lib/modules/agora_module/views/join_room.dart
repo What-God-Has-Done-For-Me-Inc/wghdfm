@@ -5,10 +5,12 @@ import 'package:wghdfm_java/utils/button.dart';
 import '../../../services/sesssion.dart';
 import '../../../utils/app_methods.dart';
 import '../../auth_module/model/login_model.dart';
+import '../controller/agora_controller.dart';
 import 'meeting_screen.dart';
 
 class JoinRoomDialog extends StatelessWidget {
   final TextEditingController roomTxtController = TextEditingController();
+  final agora_controller = Get.put(AgoraController());
 
   @override
   Widget build(BuildContext context) {
@@ -51,18 +53,16 @@ class JoinRoomDialog extends StatelessWidget {
 
                 if (isPermissionGranted == true) {
                   if (roomTxtController.text.isNotEmpty) {
-                    Get.to(
-                      MeetingScreen(
-                        userName: "${userDetails.fname} ${userDetails.lname}",
-                        token: "",
-                        channelName: roomTxtController.text.trim(),
-                      ),
-                      // arguments: {
-                      //   "userId": userId,
-                      //   "userName": "${userDetails.fname} ${userDetails.lname}",
-                      //   "channelName": roomTxtController.text.trim()
-                      // },
-                    );
+                    agora_controller.makeVideoCAll(
+                        channelName: roomTxtController.text.trim());
+                    // Get.to(
+                    //   MeetingScreen(
+                    //     userName: "${userDetails.fname} ${userDetails.lname}",
+                    //     token: "",
+                    //     channelName: roomTxtController.text.trim(),
+                    //   ),
+
+                    // );
                   } else {
                     Get.snackbar("Failed", "Enter Room-Id to Join.",
                         backgroundColor: Colors.white,

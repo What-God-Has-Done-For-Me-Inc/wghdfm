@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wghdfm_java/utils/button.dart';
 
+import '../../../services/sesssion.dart';
 import '../../../utils/app_methods.dart';
+import '../../auth_module/model/login_model.dart';
+import '../controller/agora_controller.dart';
 import '../helper/utils.dart';
 import 'meeting_screen.dart';
 
@@ -12,6 +15,7 @@ class CreateRoomDialog extends StatefulWidget {
 }
 
 class _CreateRoomDialogState extends State<CreateRoomDialog> {
+  final agora_controller = Get.put(AgoraController());
   String roomId = "";
   @override
   void initState() {
@@ -46,24 +50,34 @@ class _CreateRoomDialogState extends State<CreateRoomDialog> {
             children: [
               customButton(
                   title: "Share",
-                  onTap: () {
-                    AppMethods().share(string: roomId, context: context);
+                  onTap: () async {
+                    LoginModel userDetails =
+                        await SessionManagement.getUserDetails();
+                    String username =
+                        "${userDetails.fname} ${userDetails.lname}";
+                    AppMethods().share(
+                        string:
+                            "$username invite you to join video meeting\nRoom ID: $roomId",
+                        context: context);
                   }),
               SizedBox(height: Get.height * 0.02),
               customButton(
                 title: "Join",
                 onTap: () async {
-                  // bool isPermissionGranted = await AppMethods().getPermission();
-                  // if (isPermissionGranted == true) {
-                  //   Get.to( MeetingScreen(channelName: roomId,userName: ,token: "",),
-                  //       arguments: {"channelName": roomId});
-                  // } else {
-                  //   Get.snackbar("Failed",
-                  //       "Microphone Permission Required for Video Call.",
-                  //       backgroundColor: Colors.white,
-                  //       colorText: Color(0xFF1A1E78),
-                  //       snackPosition: SnackPosition.BOTTOM);
-                  // }
+                  LoginModel userDetails =
+                      await SessionManagement.getUserDetails();
+                  var userId = userDetails.id;
+                  bool isPermissionGranted = await AppMethods().getPermission();
+
+                  if (isPermissionGranted == true) {
+                    agora_controller.makeVideoCAll(channelName: roomId);
+                  } else {
+                    Get.snackbar(
+                        "Failed", "Permissions Required for Video Call.",
+                        backgroundColor: Colors.white,
+                        colorText: Color(0xFF1A1E78),
+                        snackPosition: SnackPosition.BOTTOM);
+                  }
                 },
               ),
             ],

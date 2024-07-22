@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
-
+import 'package:path_provider/path_provider.dart';
 //import 'package:intent/action.dart' as android_action;
 //import 'package:intent/intent.dart' as android_intent;
 import 'package:share_plus/share_plus.dart';
@@ -539,4 +539,17 @@ class AppMethods {
       );
     }
   }
+
+   deleteCacheDir() async {
+    final cacheDir = await getTemporaryDirectory();
+    final appDir = await getApplicationSupportDirectory();
+    print("Clear the cache");
+    if (cacheDir.existsSync()) {
+      cacheDir.deleteSync(recursive: true);
+    }
+
+  if (appDir.existsSync()) {
+  appDir.deleteSync(recursive: true);
+  }
+}
 }

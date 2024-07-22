@@ -97,13 +97,13 @@ class _SomeoneProfileScreenState extends State<SomeoneProfileScreen> {
               ),
             ),
             actions: [
-              IconButton(
-                  onPressed: () {
-                    profileController.makeVideoCAll(
-                        profileID: widget.profileID);
-                    // Get.to(() => const CallScreen());
-                  },
-                  icon: const Icon(MingCute.phone_line)),
+              // IconButton(
+              //     onPressed: () {
+              //       profileController.makeVideoCAll(
+              //           profileID: widget.profileID);
+              //       // Get.to(() => const CallScreen());
+              //     },
+              //     icon: const Icon(MingCute.phone_line)),
               StreamBuilder(
                   stream: profileController.someonesProfileData.stream,
                   builder: (context, snapshot) {

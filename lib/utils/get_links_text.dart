@@ -1,24 +1,35 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:readmore/readmore.dart';
+import 'package:read_more_text/read_more_text.dart';
+// import 'package:readmore/readmore.dart';
 import 'package:wghdfm_java/services/open_in_web_service.dart';
 
 getLinkText({required String text}) {
-  return ReadMoreText(
+  return ReadMoreText.selectable(
     text,
-    trimLines: 3,
-    colorClickableText: Colors.pink,
-    trimMode: TrimMode.Line,
-    trimCollapsedText: 'Read more',
-    trimExpandedText: '  Read less',
-    lessStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-    moreStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    numLines: 3,
+    readLessText: '  Read less',
+    readMoreText: 'Read more',
+    readMoreIcon: const SizedBox(),
+    readLessIcon: const SizedBox(),
+    readMoreTextStyle:
+        const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    locale: const Locale('en'),
+    toolbarOptions: const ToolbarOptions(
+      copy: true,
+      selectAll: true,
+    ),
+    showCursor: false,
   );
-  // return RichText(
-  //   text: TextSpan(
-  //       children: getTextSpan(
-  //     textWithLink: text,
-  //   )),
+  // return ReadMoreText(
+  //   text,
+  //   trimLines: 3,
+  //   colorClickableText: Colors.pink,
+  //   trimMode: TrimMode.Line,
+  //   trimCollapsedText: 'Read more',
+  //   trimExpandedText: '  Read less',
+  //   lessStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+  //   moreStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
   // );
 }
 
