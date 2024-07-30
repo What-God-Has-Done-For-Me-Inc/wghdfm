@@ -15,6 +15,7 @@ import 'package:wghdfm_java/utils/page_res.dart';
 
 // import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
+import '../../../common/pdf_thumbnail.dart';
 import '../../../modules/dashbord_module/controller/dash_board_controller.dart';
 
 bool isOwnPost(var ownerId) {
@@ -430,7 +431,7 @@ Widget mediaView({required List listOfMedia, index, feed, BoxFit? imgFit}) {
                 ),
               ),
             )
-          : feed?.url?.contains("youtube.com/watch?v") == true
+          : ["pdf"].contains(listOfMedia[index].split(".").last)
               ? Container(
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey, width: 0.5),
@@ -438,11 +439,11 @@ Widget mediaView({required List listOfMedia, index, feed, BoxFit? imgFit}) {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(5),
-                    child: CommonYTPlayer(
-                      videoId: feed?.url ?? "",
-                    ),
-                  ))
-              : (feed?.url?.contains("www.youtube.com/live/") == true)
+                    child: PdfThumbnail(
+                        pdfPath: listOfMedia[index] ?? "", networkPdf: true),
+                  ),
+                )
+              : feed?.url?.contains("youtube.com/watch?v") == true
                   ? Container(
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey, width: 0.5),
@@ -450,14 +451,11 @@ Widget mediaView({required List listOfMedia, index, feed, BoxFit? imgFit}) {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(5),
-
-                        child: CommonYTPlayer(videoId: feed?.url ?? ""),
-                        // videoId:
-                        // feed?.url?.split("/").last.split('?').first ??
-                        //     ""
-                      ),
-                    )
-                  : feed?.url?.contains("youtu.be") == true
+                        child: CommonYTPlayer(
+                          videoId: feed?.url ?? "",
+                        ),
+                      ))
+                  : (feed?.url?.contains("www.youtube.com/live/") == true)
                       ? Container(
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey, width: 0.5),
@@ -465,16 +463,14 @@ Widget mediaView({required List listOfMedia, index, feed, BoxFit? imgFit}) {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(5),
+
                             child: CommonYTPlayer(videoId: feed?.url ?? ""),
-                            /* videoId: feed?.url
-                                        ?.split("/")
-                                        .last
-                                        .split('?')
-                                        .first ??
-                                    ""*/
+                            // videoId:
+                            // feed?.url?.split("/").last.split('?').first ??
+                            //     ""
                           ),
                         )
-                      : (feed?.url?.contains("youtube.com/shorts/") == true)
+                      : feed?.url?.contains("youtu.be") == true
                           ? Container(
                               decoration: BoxDecoration(
                                 border:
@@ -483,12 +479,25 @@ Widget mediaView({required List listOfMedia, index, feed, BoxFit? imgFit}) {
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
-
                                 child: CommonYTPlayer(videoId: feed?.url ?? ""),
-                                // videoId:
-                                // feed?.url?.split("/").last.split('?').first ??
-                                //     ""
                               ),
                             )
-                          : const SizedBox();
+                          : (feed?.url?.contains("youtube.com/shorts/") == true)
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.grey, width: 0.5),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+
+                                    child: CommonYTPlayer(
+                                        videoId: feed?.url ?? ""),
+                                    // videoId:
+                                    // feed?.url?.split("/").last.split('?').first ??
+                                    //     ""
+                                  ),
+                                )
+                              : const SizedBox();
 }

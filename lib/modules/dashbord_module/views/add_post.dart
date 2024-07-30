@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wghdfm_java/common/video_compressor.dart';
 import 'package:wghdfm_java/common/video_player.dart';
@@ -18,6 +20,7 @@ import 'package:wghdfm_java/utils/app_colors.dart';
 import '../../../common/commonYoutubePlayer.dart';
 import '../../../common/common_snack.dart';
 import '../../../common/commons.dart';
+import '../../../common/pdf_thumbnail.dart';
 import '../../../screen/dashboard/dashboard_api/post_status_api.dart';
 import '../../../utils/app_methods.dart';
 import 'dash_board_screen.dart';
@@ -73,142 +76,7 @@ class _AddPostState extends State<AddPost> {
           elevation: 1,
           //backgroundColor: Colors.black,
           actions: [
-            /*  StreamBuilder(
-              stream: VideoCompressor.percentage.stream,
-              builder: (context, snapshot) {
-                if (VideoCompressor.percentage != null &&
-                    VideoCompressor.percentage.value > 0 &&
-                    VideoCompressor.percentage.value < 99) {
-                  // --> use snapshot.data
-                  return SizedBox();
-                }
-                return InkWell(
-                  onTap: () async {
-                    if (isPost.value) {
-                      if (pickedFiles?.isNotEmpty == true) {
-                        Get.back();
-                        snack(
-                            title: "Success",
-                            msg: "Your post is uploading in background..");
-                        // Get.back();
-                        // Get.offAll(() => const DashBoardScreen());
 
-                        ///----START--
-
-                        String taggedUser = "";
-                        try {
-                          kDashboardController.friendsModel.value.data
-                              ?.forEach((element) {
-                            if (element?.isSelected.value == true) {
-                              taggedUser = "${taggedUser}|${element?.userId}";
-                            }
-                          });
-                        } catch (e) {
-                          snack(
-                              title:
-                                  " Catch Error => kDashboardController.friendsModel.value.data",
-                              msg: "Code:- 001",
-                              icon: Icons.close,
-                              textColor: Colors.red.withOpacity(0.5));
-                        }
-
-                        print("------ taggedUser ${taggedUser}");
-                        try {
-                          // final List<File> compressedFiles = [];
-                          //
-                          // ///Compressing Files.
-                          // pickedFiles?.forEach((element) async {
-                          //   ///Checking is Photo or Video.
-                          //   if (isVideo(filePath: element.path)) {
-                          //     final compressedFile = await videoCompressor.compressVideo(originalFile: element);
-                          //     if (compressedFile != null) {
-                          //       compressedFiles.add(compressedFile);
-                          //     }
-                          //   } else {
-                          //     compressedFiles.add(element);
-                          //   }
-                          //
-                          //   ///Compressing Videos..
-                          // });
-
-                          await kDashboardController.uploadImage(
-                              imageFilePaths: pickedFiles?.value ?? [],
-                              description: desImgController.text,
-                              showProngress: false,
-                              taggedUsers: taggedUser,
-                              callBack: () {
-                                kDashboardController.currentPage = 0;
-                                // Get.offAll(
-                                //     () => const DashBoardScreen());
-                              });
-                        } catch (e) {
-                          snack(
-                              title: "Catch Error => Upload Image",
-                              msg: "Code:- 001",
-                              icon: Icons.close,
-                              textColor: Colors.red.withOpacity(0.5));
-                        }
-                        // await kDashboardController.uploadImage(
-                        //     imageFilePaths: pickedFiles?.value ?? [],
-                        //     description: desImgController.text,
-                        //     showProngress: false,
-                        //     taggedUsers: taggedUser,
-                        //     callBack: () {
-                        //       kDashboardController.currentPage = 0;
-                        //       // Get.offAll(
-                        //       //     () => const DashBoardScreen());
-                        //     });
-
-                        ///----END
-                      } else {
-                        snack(
-                            title: "Ohh No.",
-                            msg: "Please upload photo or video",
-                            icon: Icons.close,
-                            textColor: Colors.red.withOpacity(0.5));
-                      }
-                    } else {
-                      String taggedUser = "";
-                      kDashboardController.friendsModel.value.data
-                          ?.forEach((element) {
-                        if (element?.isSelected.value == true) {
-                          taggedUser = "${taggedUser}|${element?.userId}";
-                        }
-                      });
-                      print("------ taggedUser ${taggedUser}");
-                      if (urlYTController.text.isNotEmpty ||
-                          desImgController.text.isNotEmpty) {
-                        postStatus(desImgController.text, urlYTController.text,
-                            taggedUser, callBack: () {
-                          Get.offAll(() => const DashBoardScreen());
-                        });
-                      } else {
-                        snack(
-                            title: "Ohh",
-                            msg: "Please write description or YT Video Link.",
-                            iconColor: Colors.yellow,
-                            icon: Icons.warning);
-                      }
-                    }
-                  },
-                  child: Container(
-                    height: 25,
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    // width: MediaQuery.of(context).size.width,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                    decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(30)),
-                    child: const Center(
-                        child: Text(
-                      "Post",
-                      style: TextStyle(color: Colors.white),
-                    )),
-                  ),
-                );
-              },
-            ),*/
             Padding(
               padding: const EdgeInsets.only(right: 15),
               child: InkWell(
@@ -241,22 +109,8 @@ class _AddPostState extends State<AddPost> {
 
                       print("------ taggedUser ${taggedUser}");
                       try {
-                        // final List<File> compressedFiles = [];
-                        //
-                        // ///Compressing Files.
-                        // pickedFiles?.forEach((element) async {
-                        //   ///Checking is Photo or Video.
-                        //   if (isVideo(filePath: element.path)) {
-                        //     final compressedFile = await videoCompressor.compressVideo(originalFile: element);
-                        //     if (compressedFile != null) {
-                        //       compressedFiles.add(compressedFile);
-                        //     }
-                        //   } else {
-                        //     compressedFiles.add(element);
-                        //   }
-                        //
-                        //   ///Compressing Videos..
-                        // });
+
+
 
                         await kDashboardController.uploadImage(
                             imageFilePaths: pickedFiles?.value ?? [],
@@ -564,7 +418,7 @@ class _AddPostState extends State<AddPost> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'Image/Video',
+                      'Image/Video/PDF',
                       style: TextStyle(
                         color: Colors.black,
                       ),
@@ -646,6 +500,8 @@ class _AddPostState extends State<AddPost> {
                                           itemBuilder: (context, index) {
                                             print(
                                                 "______ ITM ${pickedFiles?[index].path}");
+                                            final pickedFile =
+                                                pickedFiles?[index];
 
                                             return Stack(
                                               children: [
@@ -680,13 +536,24 @@ class _AddPostState extends State<AddPost> {
                                                                 ""),
                                                             fit: BoxFit.cover,
                                                           )
-                                                        : Center(
-                                                            child:
-                                                                CommonVideoPlayer(
-                                                            videoLink:
-                                                                "${pickedFiles?[index].path}",
-                                                            isFile: true,
-                                                          ))),
+                                                        : pickedFiles?[index]
+                                                                    .path
+                                                                    .contains(
+                                                                        ".pdf") ==
+                                                                true
+                                                            ? Center(
+                                                                child: PdfThumbnail(
+                                                                    pdfPath:
+                                                                        pickedFile!
+                                                                            .path,networkPdf: false,),
+                                                              )
+                                                            : Center(
+                                                                child:
+                                                                    CommonVideoPlayer(
+                                                                videoLink:
+                                                                    "${pickedFiles?[index].path}",
+                                                                isFile: true,
+                                                              ))),
                                                 Positioned(
                                                   top: 5,
                                                   right: 5,
@@ -729,143 +596,149 @@ class _AddPostState extends State<AddPost> {
         floatingActionButton: StreamBuilder<double>(
           stream: VideoCompressor.percentage.stream,
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            // print("===== VideoCompressor.lightCompressor.onProgressUpdated ${VideoCompressor.percentage.value}");
-            // if (VideoCompressor.percentage != null && VideoCompressor.percentage.value > 0 && VideoCompressor.percentage.value < 99) {
-            //   //   // --> use snapshot.data
-            //   return Text("Compressing:-  ${VideoCompressor.percentage.toStringAsFixed(2)}");
-            // }
-            // else {
-            //   // if (Get.isDialogOpen ?? false) {
-            //   //   Get.back(result: true);
-            //   // }
-            // }
-
             return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                InkWell(
-                  onTap: () {
-                    isPost.value = true;
-                    showModalBottomSheet(
-                      context: context,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(15))),
-                      builder: (context) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            MaterialButton(
-                              onPressed: () async {
-                                if (await AppMethods()
-                                    .checkStoragePermission()) {
-                                  getImage();
-                                  Get.back();
-                                }
-                              },
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
-                                  Icon(Icons.perm_media),
-                                  SizedBox(width: 10),
-                                  Text(
-                                    'Pick from files or gallery',
-                                    style: TextStyle(color: Colors.black),
-                                  )
-                                ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: InkWell(
+                    onTap: () {
+                      isPost.value = true;
+                      showModalBottomSheet(
+                        context: context,
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(15))),
+                        builder: (context) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              MaterialButton(
+                                onPressed: () async {
+                                  if (await AppMethods()
+                                      .checkStoragePermission()) {
+                                    getImage();
+                                    Get.back();
+                                  }
+                                },
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: const [
+                                    Icon(MingCute.photo_album_2_line),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Pick from files or gallery',
+                                      style: TextStyle(color: Colors.black),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 5),
-                            const Divider(color: Colors.grey, height: 2),
-                            const SizedBox(height: 5),
-                            MaterialButton(
-                              onPressed: () async {
-                                if (await AppMethods().checkPermission()) {
-                                  addPhotoScreen();
-                                  Get.back();
-                                }
-                              },
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
-                                  Icon(Icons.camera_alt),
-                                  SizedBox(width: 10),
-                                  Text(
-                                    'Take Pictures',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ],
+                              const SizedBox(height: 5),
+                              const Divider(color: Colors.grey, height: 2),
+                              const SizedBox(height: 5),
+                              MaterialButton(
+                                onPressed: () async {
+                                  if (await AppMethods().checkPermission()) {
+                                    addPhotoScreen();
+                                    Get.back();
+                                  }
+                                },
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: const [
+                                    Icon(MingCute.camera_line),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Take Pictures',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 5),
-                            const Divider(color: Colors.grey, height: 2),
-                            const SizedBox(height: 5),
-                            MaterialButton(
-                              onPressed: () async {
-                                if (await AppMethods().checkPermission()) {
-                                  // takeVideo();
-                                  addVideoScreen();
-                                  Get.back();
-                                }
-                              },
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
-                                  Icon(Icons.videocam),
-                                  SizedBox(width: 10),
-                                  Text(
-                                    'Take Videos',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ],
+                              const SizedBox(height: 5),
+                              const Divider(color: Colors.grey, height: 2),
+                              const SizedBox(height: 5),
+                              MaterialButton(
+                                onPressed: () async {
+                                  if (await AppMethods().checkPermission()) {
+                                    // takeVideo();
+                                    addVideoScreen();
+                                    Get.back();
+                                  }
+                                },
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: const [
+                                    Icon(MingCute.camcorder_line),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Take Videos',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 40),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.7),
-                            spreadRadius: 1,
-                            blurRadius: 20)
-                      ],
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset(
-                          'assets/icon/image_upload_logo.png',
-                          height: 40,
-                          width: 40,
-                        ),
-                        Text("Photos and Videos"),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15),
-                InkWell(
-                  onTap: () {
-                    isPost.value = false;
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
+                              const SizedBox(height: 5),
+                              const Divider(color: Colors.grey, height: 2),
+                              const SizedBox(height: 5),
+                              MaterialButton(
+                                onPressed: () async {
+                                  isPost.value = false;
+                                },
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: const [
+                                    Icon(MingCute.youtube_line),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Youtube Video',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              const Divider(color: Colors.grey, height: 2),
+                              const SizedBox(height: 5),
+                              MaterialButton(
+                                onPressed: () async {
+                                  if (await AppMethods()
+                                      .checkStoragePermission()) {
+                                    getPdf();
+                                    Get.back();
+                                  }
+                                },
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: const [
+                                    Icon(MingCute.pdf_line),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Post PDF',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 40),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
                         color: Colors.white,
                         boxShadow: [
                           BoxShadow(
@@ -873,20 +746,51 @@ class _AddPostState extends State<AddPost> {
                               spreadRadius: 1,
                               blurRadius: 20)
                         ],
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset(
-                          'assets/icon/youtube_logo.png',
-                          height: 40,
-                          width: 40,
-                        ),
-                        Text("Youtube Video"),
-                      ],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset(
+                            'assets/icon/image_upload_logo.png',
+                            height: 40,
+                            width: 40,
+                          ),
+                          Text("Select Media"),
+                        ],
+                      ),
                     ),
                   ),
                 ),
+                // const SizedBox(height: 15),
+                // InkWell(
+                //   onTap: () {
+                //     isPost.value = false;
+                //   },
+                //   child: Container(
+                //     padding: EdgeInsets.all(10),
+                //     decoration: BoxDecoration(
+                //         color: Colors.white,
+                //         boxShadow: [
+                //           BoxShadow(
+                //               color: Colors.grey.withOpacity(0.7),
+                //               spreadRadius: 1,
+                //               blurRadius: 20)
+                //         ],
+                //         borderRadius: BorderRadius.circular(12)),
+                //     child: Column(
+                //       mainAxisSize: MainAxisSize.min,
+                //       children: [
+                //         Image.asset(
+                //           'assets/icon/youtube_logo.png',
+                //           height: 40,
+                //           width: 40,
+                //         ),
+                //         Text("Youtube Video"),
+                //       ],
+                //     ),
+                //   ),
+                // ),
               ],
             );
           },
@@ -941,13 +845,6 @@ class _AddPostState extends State<AddPost> {
     final List<XFile> image =
         await picker.pickMultipleMedia(requestFullMetadata: false);
 
-    /*final image = await FilePicker.platform.pickFiles(
-        allowCompression: false,
-        withReadStream: false,
-        allowMultiple: true,
-        withData: false,
-        dialogTitle: "Pick Photo or Video",
-        type: FileType.media);*/
     if (image.isEmpty) {
       isLoading.value = false;
       return;
@@ -974,6 +871,32 @@ class _AddPostState extends State<AddPost> {
             isLoading.value = false;
           });
         }
+      }
+    }
+  }
+
+  Future getPdf() async {
+    isLoading.value = true;
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        allowCompression: false,
+        type: FileType.custom,
+        allowedExtensions: ['pdf']);
+
+    if (result == null) {
+      isLoading.value = false;
+      return;
+    }
+    var selectedPostPDF = result.paths.map((path) => File(path!)).toList();
+    print("Pdf is selected");
+    for (var element in selectedPostPDF) {
+      final tempImage = File(element.path ?? "");
+      print("========= FILE PATH  ========${tempImage.path}");
+      if (isPdf(filePath: tempImage.path)) {
+        setState(() {
+          pickedFiles?.add(tempImage);
+          isLoading.value = false;
+          // VideoCompressor.percentage.value = 0.0;
+        });
       }
     }
   }

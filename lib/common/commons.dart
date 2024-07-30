@@ -1201,3 +1201,8 @@ bool isVideo({required String filePath}) {
       extension == '.mov' ||
       extension == '.mkv';
 }
+bool isPdf({required String filePath}) {
+  String extension = path.extension(filePath).toLowerCase();
+  // Check for common video extensions (you can add more as needed)
+  return extension == '.pdf';
+}
