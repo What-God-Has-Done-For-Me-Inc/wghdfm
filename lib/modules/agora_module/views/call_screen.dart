@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:wghdfm_java/utils/button.dart';
 
 import '../../../utils/app_methods.dart';
+import '../helper/utils.dart';
 import 'create_room.dart';
 import 'join_room.dart';
 
@@ -14,8 +15,10 @@ class CallScreen extends StatefulWidget {
 }
 
 class _CallScreenState extends State<CallScreen> {
+  String roomId = "";
   @override
   void initState() {
+    roomId = generateRandomString(8);
     AppMethods().getPermission();
     super.initState();
   }
@@ -42,15 +45,16 @@ class _CallScreenState extends State<CallScreen> {
           children: [
             customButton(
                 title: "Create Room",
-                onTap: () async{
-                   bool isPermissionGranted = await AppMethods().getPermission();
-                   if(isPermissionGranted == true){
-                  showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (_) {
-                        return CreateRoomDialog();
-                      });}
+                onTap: () async {
+                  bool isPermissionGranted = await AppMethods().getPermission();
+                  if (isPermissionGranted == true) {
+                    showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (_) {
+                          return CreateRoomDialog(roomId: roomId.toUpperCase());
+                        });
+                  }
                 }),
             SizedBox(height: Get.height * 0.02),
             const Text(
@@ -63,15 +67,16 @@ class _CallScreenState extends State<CallScreen> {
             SizedBox(height: Get.height * 0.04),
             customButton(
                 title: "Join Room",
-                onTap: () async{
-                     bool isPermissionGranted = await AppMethods().getPermission();
-                   if(isPermissionGranted == true){
-                  showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (_) {
-                        return JoinRoomDialog();
-                      });}
+                onTap: () async {
+                  bool isPermissionGranted = await AppMethods().getPermission();
+                  if (isPermissionGranted == true) {
+                    showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (_) {
+                          return JoinRoomDialog();
+                        });
+                  }
                 }),
             SizedBox(height: Get.height * 0.02),
             const Text(

@@ -81,7 +81,6 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: PageRes.introScreen, page: () => IntroducationScreen()),
         GetPage(name: PageRes.loginScreen, page: () => LoginScreen()),
         GetPage(name: PageRes.signUpScreen, page: () => const SignUpScreen()),
-
         GetPage(
             name: PageRes.dashBoardScreen, page: () => const DashBoardScreen()),
         GetPage(

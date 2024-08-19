@@ -11,7 +11,9 @@ import '../views/meeting_screen.dart';
 
 class AgoraController extends GetxController {
   List<Map<String, dynamic>> activeUsers = [];
-  String? activeUserName ;
+  String? activeUserName;
+  bool changeName = true;
+
   Future makeVideoCAll({required String channelName}) async {
     dynamic userDetails = await SessionManagement.getUserDetails();
 
@@ -40,7 +42,7 @@ class AgoraController extends GetxController {
                     channelName: channelName,
                     uid: userID,
                     userName:
-                        "${jsonData["caller_firstname"]}${jsonData["caller_lastname"]}",
+                        "${jsonData["caller_firstname"]} ${jsonData["caller_lastname"]}",
                   ),
                   arguments: {
                     "userId": userID,
@@ -62,6 +64,7 @@ class AgoraController extends GetxController {
       required String uid,
       required String userName,
       required String userImage}) async {
+    print(userName);
     await APIService().callAPI(
         params: {},
         formDatas: dio.FormData.fromMap({
@@ -93,29 +96,38 @@ class AgoraController extends GetxController {
         success: (dio.Response response) async {
           String jsonData = jsonDecode(response.data);
           var ab = json.decode(jsonData);
-           activeUsers = List.from(ab);
+          activeUsers = List.from(ab);
 
-          print("Users Data List" +ab.toString());
+          print("Users Data List" + ab.toString());
           update();
-
         },
         error: (dio.Response response) {},
         showProcess: false);
   }
-  void setActiveUserName({required int uid, required String currentUserId}) {
+
+  void setActiveUserName({
+    required int uid,
+    required bool change_name,
+  }) {
     print("Speacker is ");
     print(uid);
-
-
-  activeUsers.forEach((userData) {
-    print(userData);
-      if (userData["uid"] == uid.toString()) {
-        print("data is");
+    if(changeName == true){
+      activeUsers.forEach((userData) {
         print(userData);
-       activeUserName = userData["user_name"].toString();
-   update();
 
-      }
-    });
-   }
+        if (userData["uid"] == uid.toString()) {
+          activeUserName = userData["user_name"].toString();
+          changeName = change_name;
+          update();
+        }
+      });
+      changeName = change_name;
+      update();
+
+    }
+
+
+  }
+
+
 }

@@ -1,10 +1,12 @@
-import 'package:agora_uikit/agora_uikit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wakelock/wakelock.dart';
 import 'package:wghdfm_java/utils/app_methods.dart';
 
+import '../../../custom_package/agora_ui_kit/agora_uikit.dart';
 import '../controller/agora_controller.dart';
 import '../helper/count_down_timer.dart';
+import 'call_screen.dart';
 
 class MeetingScreen extends StatefulWidget {
   const MeetingScreen(
@@ -30,7 +32,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
   @override
   void initState() {
     super.initState();
-    print(widget.userName);
+    Wakelock.enable();
     controller.agoraSaveUser(
         channelName: widget.channelName,
         userId: widget.uid,
@@ -45,8 +47,8 @@ class _MeetingScreenState extends State<MeetingScreen> {
           tempToken: widget.token,
           screenSharingEnabled: true,
           rtmUid: widget.uid,
-         uid:int.parse(widget.uid),
-         // uid: DateTime.now().microsecond,
+          uid: int.parse(widget.uid),
+          // uid: DateTime.now().microsecond,
           // channelName: Get.arguments['channelName'],
           // username: Get.arguments['userName'],
           // tempToken: Get.arguments['token'],
@@ -61,31 +63,28 @@ class _MeetingScreenState extends State<MeetingScreen> {
         ),
         agoraEventHandlers: AgoraRtcEventHandlers(
           onUserJoined: (connection, remoteUid, elapsed) {
-            
             print("Remote Id >>>>>>");
             print(remoteUid);
+
             // controller.userNames[remoteUid] = 'User $remoteUid';
 
-             controller.agoraGetData(channelName: widget.channelName);
-
+            controller.agoraGetData(channelName: widget.channelName);
           },
-
-
           onActiveSpeaker: (connection, uid) {
             print("active speaker");
-            controller.setActiveUserName(uid:uid,currentUserId: widget.uid);
-
+            controller.setActiveUserName(uid: uid, change_name: true);
           },
-
-
+          onVideoSubscribeStateChanged:
+              (channel, uid, oldState, newState, elapseSinceLastState) {
+            print(uid);
+            controller.setActiveUserName(uid: uid, change_name: true);
+          },
         ),
         agoraRtmChannelEventHandler: AgoraRtmChannelEventHandler(
-
           onMemberJoined: (member) {
             print("Member ====>>>>");
             print(member.userId);
             controller.agoraGetData(channelName: widget.channelName);
-
           },
         ),
         agoraRtmClientEventHandler: AgoraRtmClientEventHandler(
@@ -93,18 +92,21 @@ class _MeetingScreenState extends State<MeetingScreen> {
             print("Message ====>>>");
             print(message);
           },
-        ));
+        ),
+        controller: controller);
 
     controller.agoraGetData(channelName: widget.channelName);
+
     initAgora();
   }
 
-@override
+  @override
   void dispose() {
     // TODO: implement dispose
-  controller.activeUsers.clear();
-  controller.activeUserName = null;
-  AppMethods().deleteCacheDir();
+    Wakelock.disable();
+    controller.activeUsers.clear();
+    controller.activeUserName = null;
+    AppMethods().deleteCacheDir();
     super.dispose();
   }
 
@@ -114,17 +116,14 @@ class _MeetingScreenState extends State<MeetingScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      body: GetBuilder<AgoraController>(
-        builder: (api) {
-          print(api.activeUsers);
-         // print(client.engine.getUserInfoByUid(int.parse(widget.uid)));
+        body: GetBuilder<AgoraController>(builder: (api) {
           return SafeArea(
             child: Stack(
               children: [
                 AgoraVideoViewer(
                   client: client,
+                  controller: api,
                   layoutType: Layout.floating,
                   enableHostControls: true, // Add this to enable host controls
                   showNumberOfUsers: true,
@@ -145,13 +144,16 @@ class _MeetingScreenState extends State<MeetingScreen> {
                       ? Get.height * 0.05
                       : Get.height * 0.25,
                   left: 10,
-                  child: Text(api.activeUserName ?? widget.userName.toString()),
+                  child: Text(
+                    api.activeUserName ?? widget.userName.toString(),
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w500),
+                  ),
                 ),
               ],
             ),
           );
-        }
-      ),
-    );
+        }),
+      );
   }
 }

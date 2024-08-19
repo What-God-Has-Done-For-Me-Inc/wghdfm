@@ -45,7 +45,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
       TextSpan(children: <InlineSpan>[
         TextSpan(
           text: ' $hours: $minutes: $seconds',
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600,color: Colors.white),
         )
       ]),
       textAlign: TextAlign.center,
