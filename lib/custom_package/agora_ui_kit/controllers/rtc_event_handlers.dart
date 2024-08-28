@@ -80,7 +80,6 @@ Future<RtcEngineEventHandler> rtcEngineEventHandler(
         name: tag, error: Level.info.value);
     if (remoteUid != sessionController.value.localUid) {
       sessionController.updateUserVideo(uid: remoteUid, videoDisabled: muted);
-      
     }
 
     agoraEventHandlers.onUserMuteVideo?.call(connection, remoteUid, muted);
@@ -204,7 +203,8 @@ Future<RtcEngineEventHandler> rtcEngineEventHandler(
         uid: remoteUid,
       ),
     );
-    sessionController.getUserName(uid: remoteUid, activeUsers: controller.activeUsers);
+    sessionController.getUserName(
+        uid: remoteUid, activeUsers: controller.activeUsers);
 
     agoraEventHandlers.onUserJoined?.call(connection, remoteUid, elapsed);
   }, onUserOffline: (connection, remoteUid, reason) {
@@ -272,9 +272,10 @@ Future<RtcEngineEventHandler> rtcEngineEventHandler(
         state == LocalVideoStreamState.localVideoStreamStateCapturing) {
       sessionController.value =
           sessionController.value.copyWith(isScreenShared: true);
-    } else {
-      sessionController.value =
-          sessionController.value.copyWith(isScreenShared: false);
+    } else if (state == LocalVideoStreamState.localVideoStreamStateStopped ||
+        state == LocalVideoStreamState.localVideoStreamStateFailed) {
+      sessionController.value = sessionController.value
+          .copyWith(isScreenShared: false, turnOnScreenSharing: false);
     }
 
     agoraEventHandlers.onLocalVideoStateChanged?.call(source, state, error);

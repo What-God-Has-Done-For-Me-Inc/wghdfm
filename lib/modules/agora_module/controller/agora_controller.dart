@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
 import '../../../networking/api_service_class.dart';
+import '../../../services/prefrence_services.dart';
 import '../../../services/sesssion.dart';
 import '../../../utils/app_methods.dart';
 import '../../../utils/endpoints.dart';
@@ -13,6 +15,35 @@ class AgoraController extends GetxController {
   List<Map<String, dynamic>> activeUsers = [];
   String? activeUserName;
   bool changeName = true;
+  String? channelName;
+  String? token;
+  String? userName;
+  String? uid;
+
+  final duration = Duration(seconds: 0).obs; // Observable Duration for timer
+  Timer? _timer;
+  String twoDigits(int n) => n.toString().padLeft(2, '0');
+
+  String formatTime(Duration duration) {
+    final hours = twoDigits(duration.inHours.remainder(60));
+
+    final minutes = twoDigits(duration.inMinutes.remainder(60));
+    final seconds = twoDigits(duration.inSeconds.remainder(60));
+    return '$hours:$minutes:$seconds';
+  }
+
+  void startTimer() {
+    _timer?.cancel(); // Cancel any existing timer
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      duration.value = duration.value + const Duration(seconds: 1);
+    });
+  }
+
+  void stopTimer() {
+    _timer?.cancel();
+    _timer = null;
+    duration.value = Duration(seconds: 0); // Reset duration
+  }
 
   Future makeVideoCAll({required String channelName}) async {
     dynamic userDetails = await SessionManagement.getUserDetails();
@@ -111,7 +142,7 @@ class AgoraController extends GetxController {
   }) {
     print("Speacker is ");
     print(uid);
-    if(changeName == true){
+    if (changeName == true) {
       activeUsers.forEach((userData) {
         print(userData);
 
@@ -123,11 +154,17 @@ class AgoraController extends GetxController {
       });
       changeName = change_name;
       update();
-
     }
-
-
   }
 
-
+  getData() async {
+    channelName = await fetchStringValuesSF("channelName");
+    token = await fetchStringValuesSF("token");
+    userName = await fetchStringValuesSF("userName");
+    uid = await fetchStringValuesSF("uid");
+    print("========>>> Data");
+    print(channelName);
+    print(uid);
+    update();
+  }
 }

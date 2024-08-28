@@ -35,6 +35,9 @@ class FloatingLayout extends StatefulWidget {
   /// Display the camera and microphone status of a user. This feature is only available in the [Layout.floating]
   final bool? showAVState;
 
+  /// Display the pin icon of a user. This feature is only available in the [Layout.floating]
+  final bool? showPin;
+
   /// Display the host controls. This feature is only available in the [Layout.floating]
   final bool? enableHostControl;
 
@@ -57,6 +60,7 @@ class FloatingLayout extends StatefulWidget {
     this.floatingLayoutSubViewPadding = const EdgeInsets.fromLTRB(3, 3, 0, 3),
     this.disabledVideoWidget = const DisabledVideoWidget(),
     this.showAVState = false,
+    this.showPin = false,
     this.enableHostControl = false,
     this.showNumberOfUsers,
     this.renderModeType = RenderModeType.renderModeHidden,
@@ -169,56 +173,62 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                       )
                                                     : widget
                                                         .disabledVideoWidget,
-                                                Positioned.fill(
-                                                  child: Align(
-                                                    alignment:
-                                                        Alignment.topLeft,
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8),
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          widget.client
-                                                              .sessionController
-                                                              .setActiveSpeakerDisabled(
-                                                                  false);
+                                                widget.showPin!
+                                                    ? Positioned.fill(
+                                                        child: Align(
+                                                          alignment:
+                                                              Alignment.topLeft,
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8),
+                                                            child:
+                                                                GestureDetector(
+                                                              onTap: () {
+                                                                widget.client
+                                                                    .sessionController
+                                                                    .setActiveSpeakerDisabled(
+                                                                        false);
 
-                                                          widget.client
-                                                              .sessionController
-                                                              .swapUser(
-                                                                  index: index);
-                                                          widget.controller
-                                                              .setActiveUserName(
-                                                                  uid: widget
-                                                                      .client
-                                                                      .sessionController
-                                                                      .value
-                                                                      .users[
-                                                                          index]
-                                                                      .uid,
-                                                                  change_name:
-                                                                      false);
-                                                        },
-                                                        child: Container(
-                                                          height: 24,
-                                                          decoration:
-                                                              const BoxDecoration(
-                                                            color: Colors.blue,
-                                                            shape:
-                                                                BoxShape.circle,
-                                                          ),
-                                                          child: const Icon(
-                                                            Icons
-                                                                .push_pin_rounded,
-                                                            color: Colors.white,
-                                                            size: 20,
+                                                                widget.client
+                                                                    .sessionController
+                                                                    .swapUser(
+                                                                        index:
+                                                                            index);
+                                                                widget.controller.setActiveUserName(
+                                                                    uid: widget
+                                                                        .client
+                                                                        .sessionController
+                                                                        .value
+                                                                        .users[
+                                                                            index]
+                                                                        .uid,
+                                                                    change_name:
+                                                                        false);
+                                                              },
+                                                              child: Container(
+                                                                height: 24,
+                                                                decoration:
+                                                                    const BoxDecoration(
+                                                                  color: Colors
+                                                                      .blue,
+                                                                  shape: BoxShape
+                                                                      .circle,
+                                                                ),
+                                                                child:
+                                                                    const Icon(
+                                                                  Icons
+                                                                      .push_pin_rounded,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  size: 20,
+                                                                ),
+                                                              ),
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
+                                                      )
+                                                    : Container(),
                                                 widget.showAVState!
                                                     ? UserAVStateWidget(
                                                         videoDisabled: widget
@@ -245,52 +255,58 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                   Container(
                                                       color: Colors.black),
                                                   widget.disabledVideoWidget,
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.bottomLeft,
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        widget.client
-                                                            .sessionController
-                                                            .setActiveSpeakerDisabled(
-                                                                true);
-                                                        widget.client
-                                                            .sessionController
-                                                            .swapUser(
-                                                                index: index);
-                                                        widget.controller
-                                                            .setActiveUserName(
-                                                                uid: widget
-                                                                    .client
-                                                                    .sessionController
-                                                                    .value
-                                                                    .users[
-                                                                        index]
-                                                                    .uid,
-                                                                change_name:
-                                                                    false);
-                                                      },
-                                                      child: Container(
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                          color: Colors.white,
-                                                          shape:
-                                                              BoxShape.circle,
-                                                        ),
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(4.0),
-                                                        margin: const EdgeInsets
-                                                            .all(6),
-                                                        child: const Icon(
-                                                          Icons
-                                                              .push_pin_rounded,
-                                                          color: Colors.blue,
-                                                          size: 18,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
+                                                  widget.showPin!
+                                                      ? Align(
+                                                          alignment: Alignment
+                                                              .bottomLeft,
+                                                          child:
+                                                              GestureDetector(
+                                                            onTap: () {
+                                                              widget.client
+                                                                  .sessionController
+                                                                  .setActiveSpeakerDisabled(
+                                                                      true);
+                                                              widget.client
+                                                                  .sessionController
+                                                                  .swapUser(
+                                                                      index:
+                                                                          index);
+                                                              widget.controller.setActiveUserName(
+                                                                  uid: widget
+                                                                      .client
+                                                                      .sessionController
+                                                                      .value
+                                                                      .users[
+                                                                          index]
+                                                                      .uid,
+                                                                  change_name:
+                                                                      false);
+                                                            },
+                                                            child: Container(
+                                                              decoration:
+                                                                  const BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                              ),
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(4.0),
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                      .all(6),
+                                                              child: const Icon(
+                                                                Icons
+                                                                    .push_pin_rounded,
+                                                                color:
+                                                                    Colors.blue,
+                                                                size: 18,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : Container(),
                                                   Align(
                                                     alignment:
                                                         Alignment.topRight,
@@ -382,52 +398,57 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                       ),
                                                     ],
                                                   ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.bottomLeft,
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        widget.client
-                                                            .sessionController
-                                                            .setActiveSpeakerDisabled(
-                                                                true);
-                                                        widget.client
-                                                            .sessionController
-                                                            .swapUser(
-                                                                index: index);
-                                                        widget.controller
-                                                            .setActiveUserName(
-                                                                uid: widget
-                                                                    .client
-                                                                    .sessionController
-                                                                    .value
-                                                                    .users[
-                                                                        index]
-                                                                    .uid,
-                                                                change_name:
-                                                                    false);
-                                                      },
-                                                      child: Container(
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                          color: Colors.white,
-                                                          shape:
-                                                              BoxShape.circle,
-                                                        ),
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(4.0),
-                                                        margin:
-                                                            EdgeInsets.all(6),
-                                                        child: const Icon(
-                                                          Icons
-                                                              .push_pin_rounded,
-                                                          color: Colors.blue,
-                                                          size: 18,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
+                                                  widget.showPin!
+                                                      ? Align(
+                                                          alignment: Alignment
+                                                              .bottomLeft,
+                                                          child:
+                                                              GestureDetector(
+                                                            onTap: () {
+                                                              widget.client
+                                                                  .sessionController
+                                                                  .setActiveSpeakerDisabled(
+                                                                      true);
+                                                              widget.client
+                                                                  .sessionController
+                                                                  .swapUser(
+                                                                      index:
+                                                                          index);
+                                                              widget.controller.setActiveUserName(
+                                                                  uid: widget
+                                                                      .client
+                                                                      .sessionController
+                                                                      .value
+                                                                      .users[
+                                                                          index]
+                                                                      .uid,
+                                                                  change_name:
+                                                                      false);
+                                                            },
+                                                            child: Container(
+                                                              decoration:
+                                                                  const BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                              ),
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(4.0),
+                                                              margin: EdgeInsets
+                                                                  .all(6),
+                                                              child: const Icon(
+                                                                Icons
+                                                                    .push_pin_rounded,
+                                                                color:
+                                                                    Colors.blue,
+                                                                size: 18,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : Container(),
                                                   Align(
                                                     alignment:
                                                         Alignment.topRight,

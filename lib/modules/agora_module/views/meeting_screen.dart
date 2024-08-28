@@ -1,12 +1,12 @@
+import 'package:fl_pip/fl_pip.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wakelock/wakelock.dart';
+import 'package:wghdfm_java/services/prefrence_services.dart';
 import 'package:wghdfm_java/utils/app_methods.dart';
 
 import '../../../custom_package/agora_ui_kit/agora_uikit.dart';
 import '../controller/agora_controller.dart';
-import '../helper/count_down_timer.dart';
-import 'call_screen.dart';
 
 class MeetingScreen extends StatefulWidget {
   const MeetingScreen(
@@ -33,6 +33,11 @@ class _MeetingScreenState extends State<MeetingScreen> {
   void initState() {
     super.initState();
     Wakelock.enable();
+    storeStringToSF("channelName", widget.channelName);
+    storeStringToSF("token", widget.token);
+    storeStringToSF("uid", widget.uid);
+    storeStringToSF("userName", widget.userName);
+    controller.startTimer();
     controller.agoraSaveUser(
         channelName: widget.channelName,
         userId: widget.uid,
@@ -48,10 +53,6 @@ class _MeetingScreenState extends State<MeetingScreen> {
           screenSharingEnabled: true,
           rtmUid: widget.uid,
           uid: int.parse(widget.uid),
-          // uid: DateTime.now().microsecond,
-          // channelName: Get.arguments['channelName'],
-          // username: Get.arguments['userName'],
-          // tempToken: Get.arguments['token'],
         ),
         enabledPermission: [
           Permission.camera,
@@ -104,8 +105,11 @@ class _MeetingScreenState extends State<MeetingScreen> {
   void dispose() {
     // TODO: implement dispose
     Wakelock.disable();
+    controller.stopTimer();
+    FlPiP().disable();
     controller.activeUsers.clear();
     controller.activeUserName = null;
+
     AppMethods().deleteCacheDir();
     super.dispose();
   }
@@ -116,44 +120,84 @@ class _MeetingScreenState extends State<MeetingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop == false) {
+          FlPiP().toggle(AppState.background);
+          FlPiP().enable(
+              ios: const FlPiPiOSConfig(packageName: null),
+              android: const FlPiPAndroidConfig(
+                  aspectRatio: Rational.vertical(),
+                  packageName: "com.wghdfmapp"));
+        }
+      },
+      child: Scaffold(
         body: GetBuilder<AgoraController>(builder: (api) {
-          return SafeArea(
-            child: Stack(
-              children: [
-                AgoraVideoViewer(
-                  client: client,
-                  controller: api,
-                  layoutType: Layout.floating,
-                  enableHostControls: true, // Add this to enable host controls
-                  showNumberOfUsers: true,
-                  showAVState: true,
-                ),
-                AgoraVideoButtons(
-                  client: client,
-                  addScreenSharing: true, // Add this to enable screen sharing
-                ),
-                Positioned(
-                    top: api.activeUsers.isEmpty
-                        ? Get.height * 0.03
-                        : Get.height * 0.21,
-                    left: 10,
-                    child: const CountDownTimer(startTimer: true)),
-                Positioned(
-                  top: api.activeUsers.isEmpty
-                      ? Get.height * 0.05
-                      : Get.height * 0.25,
-                  left: 10,
-                  child: Text(
-                    api.activeUserName ?? widget.userName.toString(),
-                    style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w500),
+          return PiPBuilder(builder: (PiPStatusInfo? statusInfo) {
+            return SafeArea(
+              child: Stack(
+                children: [
+                  AgoraVideoViewer(
+                    client: client,
+                    controller: api,
+                    layoutType: Layout.floating,
+                    enableHostControls:
+                        statusInfo!.status == PiPStatus.disabled ? true : false,
+                    showNumberOfUsers:
+                        statusInfo.status == PiPStatus.disabled ? true : false,
+                    showAVState:
+                        statusInfo.status == PiPStatus.disabled ? true : false,
+                    showPin:
+                        statusInfo.status == PiPStatus.disabled ? true : false,
                   ),
-                ),
-              ],
-            ),
-          );
+                  if (statusInfo.status == PiPStatus.disabled)
+                    AgoraVideoButtons(
+                      client: client,
+                      addScreenSharing:
+                          true, // Add this to enable screen sharing
+                    ),
+                  if (statusInfo.status == PiPStatus.disabled)
+                    Positioned(
+                        top: api.activeUsers.isEmpty
+                            ? Get.height * 0.03
+                            : Get.height * 0.21,
+                        left: 10,
+                        child: Text(api.formatTime(api.duration.value),
+                            style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white))),
+                  if (statusInfo.status == PiPStatus.disabled)
+                    Positioned(
+                      top: api.activeUsers.isEmpty
+                          ? Get.height * 0.05
+                          : Get.height * 0.25,
+                      left: 10,
+                      child: Text(
+                        api.activeUserName ?? widget.userName.toString(),
+                        style: const TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  if (statusInfo.status == PiPStatus.enabled)
+                    Positioned(
+                      bottom: Get.height * 0.02,
+                      left: 10,
+                      child: Text(
+                        api.activeUserName ?? widget.userName.toString(),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 10),
+                      ),
+                    ),
+                ],
+              ),
+            );
+          });
         }),
-      );
+      ),
+    );
   }
 }

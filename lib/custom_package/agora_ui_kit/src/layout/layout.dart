@@ -37,6 +37,8 @@ class AgoraVideoViewer extends StatefulWidget {
   /// Display the camera and microphone status of a user. This feature is only available in the [Layout.floating]
   final bool showAVState;
 
+  final bool showPin;
+
   final bool enableHostControls;
 
   /// Display the total number of users in a channel.
@@ -56,6 +58,7 @@ class AgoraVideoViewer extends StatefulWidget {
     this.floatingLayoutSubViewPadding = const EdgeInsets.fromLTRB(3, 3, 0, 3),
     this.disabledVideoWidget = const DisabledVideoWidget(),
     this.showAVState = false,
+    this.showPin = false,
     this.enableHostControls = false,
     this.showNumberOfUsers = false,
     this.renderModeType = RenderModeType.renderModeHidden,
@@ -85,6 +88,7 @@ class _AgoraVideoViewerState extends State<AgoraVideoViewer> {
           floatingLayoutMainViewPadding: widget.floatingLayoutMainViewPadding,
           floatingLayoutSubViewPadding: widget.floatingLayoutSubViewPadding,
           showAVState: widget.showAVState,
+          showPin: widget.showPin,
           enableHostControl: widget.enableHostControls,
           showNumberOfUsers: widget.showNumberOfUsers,
           renderModeType: widget.renderModeType,
@@ -112,6 +116,7 @@ class _AgoraVideoViewerState extends State<AgoraVideoViewer> {
           floatingLayoutMainViewPadding: widget.floatingLayoutMainViewPadding,
           floatingLayoutSubViewPadding: widget.floatingLayoutSubViewPadding,
           showAVState: widget.showAVState,
+          showPin: widget.showPin,
           enableHostControl: widget.enableHostControls,
           showNumberOfUsers: widget.showNumberOfUsers,
           renderModeType: widget.renderModeType,

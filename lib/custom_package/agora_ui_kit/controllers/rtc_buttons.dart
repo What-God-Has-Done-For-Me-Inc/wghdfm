@@ -79,41 +79,50 @@ void toggleVisible({
 
 Future<void> shareScreen({required SessionController sessionController}) async {
   sessionController.value = sessionController.value.copyWith(
-      turnOnScreenSharing: !(sessionController.value.turnOnScreenSharing));
+    isLocalVideoDisabled: true,
+    turnOnScreenSharing: !(sessionController.value.turnOnScreenSharing),
+  );
+  await sessionController.value.engine?.muteLocalVideoStream(true);
 
   if (sessionController.value.turnOnScreenSharing) {
-    await sessionController.value.engine?.startScreenCapture(
-      const ScreenCaptureParameters2(
-        captureAudio: false,
-        audioParams: ScreenAudioParameters(
-          sampleRate: 16000,
-          channels: 2,
-          captureSignalVolume: 100,
-        ),
-        captureVideo: true,
-        videoParams: ScreenVideoParameters(
-          dimensions: VideoDimensions(height: 1280, width: 720),
-          frameRate: 15,
-          bitrate: 600,
-        ),
+    ScreenCaptureParameters2 parameters = const ScreenCaptureParameters2(
+      captureAudio: false,
+      audioParams: ScreenAudioParameters(
+        sampleRate: 16000,
+        channels: 2,
+        captureSignalVolume: 100,
+      ),
+      captureVideo: true,
+      videoParams: ScreenVideoParameters(
+        dimensions: VideoDimensions(height: 1280, width: 720),
+        frameRate: 15,
+        bitrate: 600,
+        contentHint: VideoContentHint.contentHintMotion,
       ),
     );
+
+    await sessionController.value.engine?.startScreenCapture(parameters);
     await _showRPSystemBroadcastPickerViewIfNeed();
   } else {
     await sessionController.value.engine?.stopScreenCapture();
+    await sessionController.value.engine?.muteLocalVideoStream(false);
   }
+  try {
+    // Update channel media options to publish camera or screen capture streams
+    ChannelMediaOptions options = ChannelMediaOptions(
+      publishCameraTrack: !(sessionController.value.isScreenShared),
+      publishMicrophoneTrack: !(sessionController.value.isScreenShared),
+      publishScreenTrack: sessionController.value.isScreenShared,
+      publishScreenCaptureAudio: sessionController.value.isScreenShared,
+      publishScreenCaptureVideo: sessionController.value.isScreenShared,
+      clientRoleType: ClientRoleType.clientRoleBroadcaster,
+    );
 
-  // Update channel media options to publish camera or screen capture streams
-  ChannelMediaOptions options = ChannelMediaOptions(
-    publishCameraTrack: !(sessionController.value.isScreenShared),
-    publishMicrophoneTrack: !(sessionController.value.isScreenShared),
-    publishScreenTrack: sessionController.value.isScreenShared,
-    publishScreenCaptureAudio: sessionController.value.isScreenShared,
-    publishScreenCaptureVideo: sessionController.value.isScreenShared,
-    clientRoleType: ClientRoleType.clientRoleBroadcaster,
-  );
-
-  await sessionController.value.engine?.updateChannelMediaOptions(options);
+    await sessionController.value.engine?.updateChannelMediaOptions(options);
+  } catch (e, s) {
+    print("e.toString()");
+    print(s.toString());
+  }
 }
 
 Future<void> _showRPSystemBroadcastPickerViewIfNeed() async {

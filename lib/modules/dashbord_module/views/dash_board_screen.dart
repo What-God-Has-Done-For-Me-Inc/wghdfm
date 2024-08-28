@@ -58,6 +58,7 @@ import '../../../services/sesssion.dart';
 import '../../../utils/app_texts.dart';
 import '../../../utils/pref_keys.dart';
 import '../../../utils/shimmer_utils.dart';
+import '../../agora_module/views/main_app.dart';
 import '../../profile_module/controller/profile_controller.dart';
 import '../../profile_module/view/someones_profile_screen.dart';
 
@@ -700,6 +701,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
           IconButton(
               onPressed: () {
                 Get.to(() => const CallScreen());
+                // Get.to(() => const MainApp());
               },
               icon: const Icon(MingCute.phone_line)),
           IconButton(
