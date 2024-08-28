@@ -161,21 +161,21 @@ class _MeetingScreenState extends State<MeetingScreen> {
                           onPressed: () {
                             FlPiP().toggle(AppState.background);
                             FlPiP().enable(
-                                ios: const FlPiPiOSConfig(packageName: "com.wghdfmapp",path: ""),
+                                ios: const FlPiPiOSConfig(
+                                  
+                                    packageName: "com.wghdfmapp"),
                                 android: const FlPiPAndroidConfig(
                                     aspectRatio: Rational.vertical(),
                                     packageName: "com.wghdfmapp"));
                           },
                           child: Icon(
-                             MingCute.expand_player_line,
-                            color: Colors.blueAccent
-                               ,
+                            MingCute.expand_player_line,
+                            color: Colors.blueAccent,
                             size: 20.0,
                           ),
                           shape: CircleBorder(),
                           elevation: 2.0,
-                          fillColor:Colors.white,
-
+                          fillColor: Colors.white,
                           padding: const EdgeInsets.all(12.0),
                         )
                       ],
