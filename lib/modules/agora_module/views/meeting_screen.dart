@@ -1,6 +1,7 @@
 import 'package:fl_pip/fl_pip.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:wghdfm_java/services/prefrence_services.dart';
 import 'package:wghdfm_java/utils/app_methods.dart';
@@ -126,7 +127,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
         if (didPop == false) {
           FlPiP().toggle(AppState.background);
           FlPiP().enable(
-              ios: const FlPiPiOSConfig(packageName: null),
+              ios: const FlPiPiOSConfig(packageName: "com.wghdfmapp"),
               android: const FlPiPAndroidConfig(
                   aspectRatio: Rational.vertical(),
                   packageName: "com.wghdfmapp"));
@@ -154,6 +155,30 @@ class _MeetingScreenState extends State<MeetingScreen> {
                   if (statusInfo.status == PiPStatus.disabled)
                     AgoraVideoButtons(
                       client: client,
+                      autoHideButtons: true,
+                      extraButtons: [
+                        RawMaterialButton(
+                          onPressed: () {
+                            FlPiP().toggle(AppState.background);
+                            FlPiP().enable(
+                                ios: const FlPiPiOSConfig(packageName: "com.wghdfmapp",path: ""),
+                                android: const FlPiPAndroidConfig(
+                                    aspectRatio: Rational.vertical(),
+                                    packageName: "com.wghdfmapp"));
+                          },
+                          child: Icon(
+                             MingCute.expand_player_line,
+                            color: Colors.blueAccent
+                               ,
+                            size: 20.0,
+                          ),
+                          shape: CircleBorder(),
+                          elevation: 2.0,
+                          fillColor:Colors.white,
+
+                          padding: const EdgeInsets.all(12.0),
+                        )
+                      ],
                       addScreenSharing:
                           true, // Add this to enable screen sharing
                     ),
